@@ -9,7 +9,7 @@ Nona is an extensible Excel-like programming language.
 
 Nona's Maven group ID is `com.computablefacts` and its artifact ID is `nona`.
 
-To add a dependency on Nona (stable) using Maven, use the following:
+To add a dependency on Nona (STABLE) using Maven, use the following:
 
 ```xml
 <dependency>
@@ -30,3 +30,20 @@ To add a dependency on Nona (SNAPSHOT) using Maven, use the following:
 ```
 
 SNAPSHOT artifacts are pushed to Sonatype on each master commit.
+
+## Publishing a new version
+
+Deploy a release to Maven Central with these commands:
+
+```bash
+$ git tag <version_number>
+$ git push origin <version_number>
+```
+
+To update and publish the next SNAPSHOT version, just change and push the version:
+
+```bash
+$ mvn versions:set -DnewVersion=<version_number>-SNAPSHOT
+$ git commit -am "Update to version <version_number>-SNAPSHOT"
+$ git push origin master
+```
