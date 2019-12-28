@@ -1,0 +1,30 @@
+dist: trusty
+language: java
+sudo: false
+jdk:
+  - oraclejdk8
+  - openjdk8
+install: "/bin/true"
+script:
+  - echo "Running custom test script" && mvn clean install -q -B
+env:
+  global:
+    - secure: s8OwO+BVaGJ/YVVMIHin3FDwOdh5vcGKqKMhgRDx24QkWeFI3du0GwZgYZ5+CZ+Nu5OpSdnj15ktaAL6hY9piegAaa5oxvY8NN4aB9kytfN2I7Z+B1G7FyEwkMm4MdP17jHVEsvUnA9T59ozxcdYBfZxSBVVrvoRwEActPFVxlJXNQmjULHJmFR4G2BbHJY9qbxifceQ4ZF06hqkucE8NSTKrb68sI6OZ/LzTRCAjH6am0RvWjsbc835kUiiTZ6oH3gSHVi72ddqpLgBCH2kKeqjqtRG3P9hX42U2lFHOJCSrW3FTQ8OV6O1gQlHi9sYEKBV0r0I4NrTaJOFwtNR5U+zEfbpCf19xyN8dx75k0kN6ASI5d4JarX/CEPZW7d6yn4MSiP2xTgZjDe/r29zKWiNZGHWzi2ATgF5mXU4jklLvTkVUNhBhx8d7GBSh+PXr9iynCr7+AQLYjmi6Igb12GCLUy47PUwoIArtVn4KkJmcdx0CSvdr41DtXAGZDw2Wd0wAxfppio2Lw9IGsNVqc3bHg0WYnNZnMkilMzDI3KzFsFk6eu/FcZ9wszfVLXDOG4rdcuBELhS0mcqvqeKotX7CAVRacbsbRvSpAt9AwoM9siy4Wgz/207u8+1cjYITKFtOwCpFfSJauuzhQ6SLWJ9aiAESKBOFWgdXtqd8b4=
+    - secure: PzCI7K4mxU5wy15nzdJN6lgyruy8cY6zVnNGW+ekUa1+qvIShDhmoMT+hbWQgh/KqJPUzLkBUL09ZZ9DvMWsjfrMMNp9SqJq6GflyZb6T+o8d2jS8CVIUjfBN8tuyQgpgBEjKzPSO7cKwC2V2CRkNyI4wTS3l5NkMgNtaNtKwwtiic/6JZZ0wnRXzdXmGaU2PoFX0sfiFtVxoVsO5Cb+juTxvyMMEny4z0AtUFj3H3UBy1fbkVEB0RytQzBf6hakDmMAg56CNthG4sP2gIxXgDoj35QYB2Yx1VPc+MxRZk5R9ZNObi5Ngpe59K+4SX/JyFGg3+ZIBEcT0pkXCME/RZXHnj2uf59l+VJedPM6v7TeUFQCJvRqMzn3Qs0eSPsrJG93HzttcnbfxVHoWdsNQYYNOzMr46P/J0604AiGYHKTaf18DKNJhFTL8KZuMTpJ2Iqe4s/lu/IXQjpoR7qM0fCxRaNjMy8HUZDvsfKHAr2z+/bXxqBbst3QPed4nWKWkfy2iad5MNnDfPs/tKIDTDB/GaxPsyuTD85IkUz9CG9PmNXTCuW9vJkyE8hceZObzvRQsPPS9UuWAWkPlU8kDkahr8hDvVLkVvETAPGvHHJuzWDSwSfs9YYG4NLeKzhNYkoAWmoSkpDOImfXZHMYZuysrryxbf/EOGwZHDseSC4=
+    - secure: CW2xMQxY6vReTnpsHczXZuSAamxi+0Uus791VCEPSxUIxq8AbtdnMuq27mUgv9i1AaHvdYilHerIEAn09Vu7N4a0ej/IOdNakKQ2w8ditZNxPnIuiR0rc/a36GCqvKVl55pXoFkgIV8oLB0rM0X8HaglOh3a0Nj3JnIlY+YwOA1LQtYAYSTogttSYw796SWyIGnqsf1NCEOCIGfxNPVUfMGbCjDAWB3XDiuOrccWtMP2odMFtlI/b3rJ3LBV2QsEoEM9C8NNZTZKvkYBGwUNa5tNuYvqMyR9x5zhpLlcgNF/GKz0eUSbXz8iYa2mjYkRYN7U+byDIiyy1ZSt7t6a5IjXMGPPp3tygZQqJF4qSbeodjMuSFt4sEPFAwU5lALn0lyyaLZAJWXrFii9q0XrN4U9vA5OkpNnVzgb8Ky0aeCB8X0QxhKnpyNrdmzanb1EqhPnayvOQ3L1Z8j393VQBN1fp+eXtMAL4xMX7qsBqGhE7dxlCAIw2kEC0L+Ug31Mcs+vvAi7IMl1C6TDx3Pl/HNyl5enGRl8IQ5k8fcqELUdGlMBvrNozzurCxd3K7qZxkK2RrZJrKsfq8/hEENQOuXvyAD3DENTb9FPu6+fJ+lfppIGJLJUtN9qeqc1OB5Qyig5NLEe30zq59UD5sLWdeSlQAc6DVSfBvg8xOZNuLg=
+    - secure: pEjIqLQ0gVUrZ9ETjlT021J27OyjqZFCFkhyOItJoyTVQhuyQhsLgjpXkFU3cD4EkTHILYVi9JswyDsUEqawN9qJ5ab6zotCu9IGWAhTl86TkdqfMfzpzjCSIdXeNRCLeAYdNXYcgLWGKPTy3ebJZpyM5OXJqRhWY0KRx0ermOok9Mp71WBFZCCBMCg/8vaAjfYblPRMKZVxXxQfISUY9S0YPGultMmLt0ljCrdTL4m2GOHA8W+CmF1V/cZDKsS7NrQx2pXn5yrb/4zYdLWAI+5dRyzm4AJt+OXlbr/BnWElfkmXlBhbNgjYQG6FcLFCoCMYFSwwkoR5VO8qUnyjH7sszriVB+D2SW3kx71nIv374EzKqTkkIcRd9gmN7ikoOo5hbBbDKAPJxxcm3NSK58ALDk4QPg0B18Ke9sP+CVWD7+w52ySH5+XsJs4u5qOCXzQaFd1/gH/AB7hZ6kokVUV8+PLU8jjolIF0TK6Gyzs7nrirutxyzK07ed3VwhBOsCjjjFWfogPe02pVJN50K/mwcUnL0wpIX/kbca4/mC+jpjaxUby/Wbct7U6+1JKn4zaqsaJLLpLVLft3xItvMS4aYYlvMMLT/knmzMOFe2gHvmPy5YISilpA2s9EpWMQ0R2hxqfwot5JlpioQMs/iCM8NuB6j1K5kVmC1k4PKlw=
+before_deploy:
+  - openssl aes-256-cbc -k "$GPG_PASSPHRASE" -in .travis/gpg.asc.enc -out .travis/gpg.asc -d
+deploy:
+  - skip_cleanup: true
+    provider: script
+    script: chmod +x ./deploy.sh && ./deploy.sh
+    on:
+      branch: master
+  - skip_cleanup: true
+    provider: script
+    script: chmod +x ./deploy.sh && ./deploy.sh
+    on:
+      tags: true
+after_success:
+  - bash <(curl -s https://codecov.io/bash) -t 2fa60e56-1f4a-490c-92f7-080c61ca2b1c
