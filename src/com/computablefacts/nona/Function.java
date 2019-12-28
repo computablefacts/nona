@@ -115,11 +115,11 @@ public class Function {
   }
 
   /**
-   * Override this method if the value computed by {@link Function#evaluate(List<BoxedType>)} will
-   * always be the same for a fixed set of parameters.
+   * Override this method if the value computed by {@link Function#evaluate(List)} will always be
+   * the same for a fixed set of parameters.
    *
-   * @return true iif the value returned by {@link Function#evaluate(List<BoxedType>)} is cacheable,
-   *         false otherwise.
+   * @return true iif the value returned by {@link Function#evaluate(List)} is cacheable, false
+   *         otherwise.
    */
   protected boolean isCacheable() {
     return true;
