@@ -35,7 +35,7 @@ public class RegexExtract extends Function {
   }
 
   @Override
-  protected BoxedType evaluate(List<BoxedType> parameters) {
+  public BoxedType evaluate(List<BoxedType> parameters) {
 
     Preconditions.checkArgument(parameters.size() == 2,
         "REGEXEXTRACT takes exactly two parameters : %s", parameters);
