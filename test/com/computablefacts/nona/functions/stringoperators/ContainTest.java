@@ -12,15 +12,22 @@ import com.computablefacts.nona.types.BoxedType;
 public class ContainTest {
 
   @Test
-  public void testContain() {
+  public void testContainWithOneMatch() {
 
     Map<String, Function> functions = new HashMap<>();
     functions.put("CONTAIN", new Contain());
 
     Function fn = new Function("CONTAIN(john doe, john)");
     Assert.assertEquals(BoxedType.create(true), fn.evaluate(functions));
+  }
 
-    Function fn2 = new Function("CONTAIN(john, john doe)");
-    Assert.assertEquals(BoxedType.create(false), fn2.evaluate(functions));
+  @Test
+  public void testContainWithNoMatch() {
+
+    Map<String, Function> functions = new HashMap<>();
+    functions.put("CONTAIN", new Contain());
+
+    Function fn = new Function("CONTAIN(john, john doe)");
+    Assert.assertEquals(BoxedType.create(false), fn.evaluate(functions));
   }
 }
