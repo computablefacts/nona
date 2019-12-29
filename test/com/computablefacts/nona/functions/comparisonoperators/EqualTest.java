@@ -3,8 +3,6 @@ package com.computablefacts.nona.functions.comparisonoperators;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.computablefacts.nona.functions.booleanlogicoperators.And;
-import com.computablefacts.nona.functions.booleanlogicoperators.Or;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -17,8 +15,6 @@ public class EqualTest {
   public void testEqualTrueFalse() {
 
     Map<String, Function> functions = new HashMap<>();
-    functions.put("AND", new And());
-    functions.put("OR", new Or());
     functions.put("EQUAL", new Equal());
 
     Function fn = new Function("EQUAL(true, false)");
@@ -29,8 +25,6 @@ public class EqualTest {
   public void testEqualFalseTrue() {
 
     Map<String, Function> functions = new HashMap<>();
-    functions.put("AND", new And());
-    functions.put("OR", new Or());
     functions.put("EQUAL", new Equal());
 
     Function fn = new Function("EQUAL(false, true)");
@@ -41,8 +35,6 @@ public class EqualTest {
   public void testEqualTrueTrue() {
 
     Map<String, Function> functions = new HashMap<>();
-    functions.put("AND", new And());
-    functions.put("OR", new Or());
     functions.put("EQUAL", new Equal());
 
     Function fn = new Function("EQUAL(true, true)");
@@ -53,8 +45,6 @@ public class EqualTest {
   public void testEqualFalseFalse() {
 
     Map<String, Function> functions = new HashMap<>();
-    functions.put("AND", new And());
-    functions.put("OR", new Or());
     functions.put("EQUAL", new Equal());
 
     Function fn = new Function("EQUAL(false, false)");
@@ -65,8 +55,6 @@ public class EqualTest {
   public void testEqualNumeric() {
 
     Map<String, Function> functions = new HashMap<>();
-    functions.put("AND", new And());
-    functions.put("OR", new Or());
     functions.put("EQUAL", new Equal());
 
     Function fn = new Function("EQUAL(1, 1)");
