@@ -12,7 +12,7 @@ import com.computablefacts.nona.types.BoxedType;
 public class FunctionTest {
 
   @Test
-  public void testFunctionWithNoParameter() {
+  public void testEvaluateFunctionWithNoParameter1() {
 
     Map<String, Function> functions = new HashMap<>();
     functions.put("ZERO", new Function("ZERO", true) {
@@ -28,14 +28,110 @@ public class FunctionTest {
   }
 
   @Test
-  public void testIsValidForLiterals() {
+  public void testEvaluateFunctionWithNoParameter2() {
+
+    Map<String, Function> functions = new HashMap<>();
+    functions.put("ZERO", new Function("ZERO", true) {
+
+      @Override
+      protected BoxedType evaluate(List<BoxedType> parameters) {
+        return BoxedType.create(parameters.isEmpty() ? 0 : 1);
+      }
+    });
+
+    Function fn = new Function("ZERO");
+    Assert.assertEquals(BoxedType.create(0), fn.evaluate(functions));
+  }
+
+  @Test
+  public void testEvaluateFunctionWithoutDefinition() {
+    Function fn = new Function("NO_DEFINITION");
+    Assert.assertEquals(BoxedType.create("NO_DEFINITION"), fn.evaluate());
+  }
+
+  @Test
+  public void testIsValid() {
     Function fn = new Function("test");
     Assert.assertTrue(fn.isValid());
   }
 
   @Test
-  public void testEvaluateForLiterals() {
-    Function fn = new Function("test");
-    Assert.assertEquals(BoxedType.create("test"), fn.evaluate());
+  public void testParseFunctionWithIntegerParameter() {
+
+    Map<String, Function> functions = new HashMap<>();
+    functions.put("FN", new Function("FN", true) {
+
+      @Override
+      protected BoxedType evaluate(List<BoxedType> parameters) {
+        return parameters.get(0);
+      }
+    });
+
+    Function fn = new Function("FN(666)");
+    Assert.assertEquals(BoxedType.create(666), fn.evaluate(functions));
+  }
+
+  @Test
+  public void testParseFunctionWithDoubleParameter() {
+
+    Map<String, Function> functions = new HashMap<>();
+    functions.put("FN", new Function("FN", true) {
+
+      @Override
+      protected BoxedType evaluate(List<BoxedType> parameters) {
+        return parameters.get(0);
+      }
+    });
+
+    Function fn = new Function("FN(6.66)");
+    Assert.assertEquals(BoxedType.create(6.66), fn.evaluate(functions));
+  }
+
+  @Test
+  public void testParseFunctionWithStringParameter() {
+
+    Map<String, Function> functions = new HashMap<>();
+    functions.put("FN", new Function("FN", true) {
+
+      @Override
+      protected BoxedType evaluate(List<BoxedType> parameters) {
+        return parameters.get(0);
+      }
+    });
+
+    Function fn = new Function("FN(string)");
+    Assert.assertEquals(BoxedType.create("string"), fn.evaluate(functions));
+  }
+
+  @Test
+  public void testParseFunctionWithDoubleQuotedStringParameter() {
+
+    Map<String, Function> functions = new HashMap<>();
+    functions.put("FN", new Function("FN", true) {
+
+      @Override
+      protected BoxedType evaluate(List<BoxedType> parameters) {
+        return parameters.get(0);
+      }
+    });
+
+    Function fn = new Function("FN(\"string\")");
+    Assert.assertEquals(BoxedType.create("\"string\""), fn.evaluate(functions));
+  }
+
+  @Test
+  public void testParseFunctionWithParenthesisedStringParameter() {
+
+    Map<String, Function> functions = new HashMap<>();
+    functions.put("FN", new Function("FN", true) {
+
+      @Override
+      protected BoxedType evaluate(List<BoxedType> parameters) {
+        return parameters.get(0);
+      }
+    });
+
+    Function fn = new Function("FN(_(str()ing))");
+    Assert.assertEquals(BoxedType.create("str()ing"), fn.evaluate(functions));
   }
 }
