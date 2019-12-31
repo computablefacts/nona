@@ -8,6 +8,7 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import com.computablefacts.nona.types.BoxedType;
+import com.google.common.util.concurrent.UncheckedExecutionException;
 
 public class FunctionTest {
 
@@ -133,5 +134,69 @@ public class FunctionTest {
 
     Function fn = new Function("FN(_(str()ing))");
     Assert.assertEquals(BoxedType.create("str()ing"), fn.evaluate(functions));
+  }
+
+  @Test
+  public void testParseFunctionWithACommaInStringParameter() {
+
+    Map<String, Function> functions = new HashMap<>();
+    functions.put("FN", new Function("FN", true) {
+
+      @Override
+      protected BoxedType evaluate(List<BoxedType> parameters) {
+        return parameters.get(0);
+      }
+    });
+
+    Function fn = new Function("FN(_(str,ing))");
+    Assert.assertEquals(BoxedType.create("str,ing"), fn.evaluate(functions));
+  }
+
+  @Test(expected = UncheckedExecutionException.class) // TODO : bugfix
+  public void testParseFunctionWithASingleDoubleQuoteInStringParameter() {
+
+    Map<String, Function> functions = new HashMap<>();
+    functions.put("FN", new Function("FN", true) {
+
+      @Override
+      protected BoxedType evaluate(List<BoxedType> parameters) {
+        return parameters.get(0);
+      }
+    });
+
+    Function fn = new Function("FN(_(str\"ing))");
+    Assert.assertEquals(BoxedType.create("str\"ing"), fn.evaluate(functions));
+  }
+
+  @Test(expected = UncheckedExecutionException.class) // TODO : bugfix
+  public void testParseFunctionWithASingleBeginningParenthesisInStringParameter() {
+
+    Map<String, Function> functions = new HashMap<>();
+    functions.put("FN", new Function("FN", true) {
+
+      @Override
+      protected BoxedType evaluate(List<BoxedType> parameters) {
+        return parameters.get(0);
+      }
+    });
+
+    Function fn = new Function("FN(_(str(ing))");
+    Assert.assertEquals(BoxedType.create("str(ing"), fn.evaluate(functions));
+  }
+
+  @Test(expected = UncheckedExecutionException.class) // TODO : bugfix
+  public void testParseFunctionWithASingleEndingParenthesisInStringParameter() {
+
+    Map<String, Function> functions = new HashMap<>();
+    functions.put("FN", new Function("FN", true) {
+
+      @Override
+      protected BoxedType evaluate(List<BoxedType> parameters) {
+        return parameters.get(0);
+      }
+    });
+
+    Function fn = new Function("FN(_(str)ing))");
+    Assert.assertEquals(BoxedType.create("str)ing"), fn.evaluate(functions));
   }
 }
