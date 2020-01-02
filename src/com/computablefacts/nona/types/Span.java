@@ -2,7 +2,9 @@ package com.computablefacts.nona.types;
 
 import java.util.HashMap;
 import java.util.Map;
+
 import javax.validation.constraints.NotNull;
+
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Objects;
 import com.google.common.base.Preconditions;
@@ -15,6 +17,10 @@ final public class Span implements Comparable<Span> {
   private final int begin_;
   private final int end_;
   private final Map<String, String> features_ = new HashMap<>();
+
+  public Span(String text) {
+    this(text, 0, text.length());
+  }
 
   public Span(String text, int begin, int end) {
 
