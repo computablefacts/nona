@@ -1,4 +1,4 @@
-package com.computablefacts.nona.functions.assignmentoperator;
+package com.computablefacts.nona.functions.assignmentoperators;
 
 import java.util.HashMap;
 import java.util.Map;
