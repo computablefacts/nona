@@ -18,6 +18,8 @@ public class IndexOf extends Function {
   protected BoxedType evaluate(List<BoxedType> parameters) {
 
     Preconditions.checkArgument(parameters.size() == 2, "INDEXOF takes exactly two parameters.");
+    Preconditions.checkArgument(parameters.get(0).isString(), "%s should be a string",
+        parameters.get(0));
 
     return BoxedType.create(parameters.get(0).asString().indexOf(parameters.get(1).asString()));
   }
