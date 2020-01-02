@@ -23,7 +23,7 @@ To add a dependency on Nona using Maven, use the following:
 ## Snapshots 
 
 Snapshots of Nona built from the `master` branch are available through Sonatype 
-using the following:
+using the following dependency:
 
 ```xml
 <dependency>
