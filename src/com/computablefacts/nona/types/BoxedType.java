@@ -4,7 +4,9 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.Objects;
 import java.util.concurrent.TimeUnit;
+
 import javax.validation.constraints.NotNull;
+
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
@@ -33,7 +35,13 @@ final public class BoxedType<T extends Comparable> implements Comparable<BoxedTy
               }
 
               try {
-                return new BoxedType<>(new BigDecimal(text));
+
+                BoxedType bt = new BoxedType<>(new BigDecimal(text));
+
+                // text matching \d+[.] should be interpreted as string
+                if (!text.trim().endsWith(".")) {
+                  return bt;
+                }
               } catch (NumberFormatException ex) {
               }
 

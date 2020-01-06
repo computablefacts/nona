@@ -3,7 +3,6 @@ package com.computablefacts.nona.types;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 
-import com.computablefacts.nona.types.BoxedType;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -47,6 +46,15 @@ public class BoxedTypeTest {
   }
 
   @Test
+  public void testNumberStringEndingWithDotEquals() {
+
+    BoxedType bt1 = BoxedType.create("1.");
+
+    Assert.assertEquals(BoxedType.create("1."), bt1);
+    Assert.assertNotEquals(BoxedType.create(1), bt1);
+  }
+
+  @Test
   public void testBooleanHashcode() {
 
     BoxedType btTrue = BoxedType.create(true);
@@ -84,6 +92,15 @@ public class BoxedTypeTest {
   }
 
   @Test
+  public void testNumberStringEndingWithDotHashcode() {
+
+    BoxedType bt1 = BoxedType.create("1.");
+
+    Assert.assertEquals(BoxedType.create("1.").hashCode(), bt1.hashCode());
+    Assert.assertNotEquals(BoxedType.create(1).hashCode(), bt1.hashCode());
+  }
+
+  @Test
   public void testBooleanCompareTo() {
 
     BoxedType btTrue = BoxedType.create(true);
@@ -118,5 +135,13 @@ public class BoxedTypeTest {
     Assert.assertTrue(BoxedType.create("1.1").compareTo(bt11) == 0);
     Assert.assertTrue(BoxedType.create(1.1).compareTo(bt11) == 0);
     Assert.assertTrue(BoxedType.create(BigDecimal.valueOf(1.1)).compareTo(bt11) == 0);
+  }
+
+  @Test
+  public void testNumberStringEndingWithDotCompareTo() {
+
+    BoxedType bt1 = BoxedType.create("1.");
+
+    Assert.assertTrue(BoxedType.create("1.").compareTo(bt1) == 0);
   }
 }
