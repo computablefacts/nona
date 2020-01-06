@@ -143,7 +143,8 @@ public class Function {
     name_ = expression.substring(0, indexArgsBegin).trim().toUpperCase();
 
     if ("_".equals(name_)) {
-      name_ = expression.substring(indexArgsBegin + 1, indexArgsEnd);
+      name_ = expression.substring(indexArgsBegin + 1, indexArgsEnd).replace("\\u0028", "(")
+          .replace("\\u0029", ")");
       return;
     }
 

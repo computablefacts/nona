@@ -168,7 +168,7 @@ public class FunctionTest {
     Assert.assertEquals(BoxedType.create("str\"ing"), fn.evaluate(functions));
   }
 
-  @Test(expected = UncheckedExecutionException.class) // TODO : bugfix
+  @Test
   public void testParseFunctionWithASingleBeginningParenthesisInStringParameter() {
 
     Map<String, Function> functions = new HashMap<>();
@@ -180,11 +180,11 @@ public class FunctionTest {
       }
     });
 
-    Function fn = new Function("FN(_(str(ing))");
+    Function fn = new Function("FN(_(str\\u0028ing))");
     Assert.assertEquals(BoxedType.create("str(ing"), fn.evaluate(functions));
   }
 
-  @Test(expected = UncheckedExecutionException.class) // TODO : bugfix
+  @Test
   public void testParseFunctionWithASingleEndingParenthesisInStringParameter() {
 
     Map<String, Function> functions = new HashMap<>();
@@ -196,7 +196,7 @@ public class FunctionTest {
       }
     });
 
-    Function fn = new Function("FN(_(str)ing))");
+    Function fn = new Function("FN(_(str\\u0029ing))");
     Assert.assertEquals(BoxedType.create("str)ing"), fn.evaluate(functions));
   }
 }
