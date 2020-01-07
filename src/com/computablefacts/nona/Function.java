@@ -37,7 +37,7 @@ public class Function {
   }
 
   /**
-   * Wrap a text inside the special function _(<text>). This function ensures that whatever
+   * Wrap a text inside the special function _(&lt;text&gt;). This function ensures that whatever
    * characters the text contain, it will be interpreted as a {@link String}. Useful to escape
    * {@link String} with parentheses.
    * 
