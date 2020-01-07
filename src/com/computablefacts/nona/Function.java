@@ -36,6 +36,40 @@ public class Function {
     }
   }
 
+  /**
+   * Wrap a text inside the special function _(<text>). This function ensures that whatever
+   * characters the text contain, it will be interpreted as a {@link String}. Useful to escape
+   * {@link String} with parentheses.
+   * 
+   * @param text Text to wrap.
+   * @return Wrapped text.
+   */
+  public static String wrap(String text) {
+    return "_(" + encode(text) + ")";
+  }
+
+  /**
+   * Replace left and right parentheses by their unicode equivalent \u0028 and \u0029.
+   *
+   * @param text Text to encode.
+   * @return Encoded text.
+   */
+  public static String encode(String text) {
+    return Preconditions.checkNotNull(text, "text should not be null").replace("(", "\\u0028")
+        .replace(")", "\\u0029");
+  }
+
+  /**
+   * Replace unicode values \u0028 and \u0029 by the left and right parentheses characters.
+   *
+   * @param text Text to decode.
+   * @return Decoded text.
+   */
+  public static String decode(String text) {
+    return Preconditions.checkNotNull(text, "text should not be null").replace("\\u0028", "(")
+        .replace("\\u0029", ")");
+  }
+
   public String name() {
     return name_;
   }
@@ -143,8 +177,7 @@ public class Function {
     name_ = expression.substring(0, indexArgsBegin).trim().toUpperCase();
 
     if ("_".equals(name_)) {
-      name_ = expression.substring(indexArgsBegin + 1, indexArgsEnd).replace("\\u0028", "(")
-          .replace("\\u0029", ")");
+      name_ = decode(expression.substring(indexArgsBegin + 1, indexArgsEnd));
       return;
     }
 

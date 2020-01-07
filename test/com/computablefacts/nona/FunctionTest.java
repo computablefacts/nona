@@ -13,6 +13,22 @@ import com.google.common.util.concurrent.UncheckedExecutionException;
 public class FunctionTest {
 
   @Test
+  public void testWrap() {
+    Assert.assertEquals("_(\\u0028,\\u0029)", Function.wrap("(,)"));
+    Assert.assertEquals("_(\\u0028,\\u0029)", Function.wrap("\\u0028,\\u0029"));
+  }
+
+  @Test
+  public void testEncode() {
+    Assert.assertEquals("\\u0028,\\u0029", Function.encode("(,)"));
+  }
+
+  @Test
+  public void testDecode() {
+    Assert.assertEquals("(,)", Function.decode("\\u0028,\\u0029"));
+  }
+
+  @Test
   public void testEvaluateFunctionWithNoParameter1() {
 
     Map<String, Function> functions = new HashMap<>();
@@ -132,7 +148,7 @@ public class FunctionTest {
       }
     });
 
-    Function fn = new Function("FN(_(str()ing))");
+    Function fn = new Function("FN(" + Function.wrap("str()ing") + ")");
     Assert.assertEquals(BoxedType.create("str()ing"), fn.evaluate(functions));
   }
 
@@ -148,7 +164,7 @@ public class FunctionTest {
       }
     });
 
-    Function fn = new Function("FN(_(str,ing))");
+    Function fn = new Function("FN(" + Function.wrap("str,ing") + ")");
     Assert.assertEquals(BoxedType.create("str,ing"), fn.evaluate(functions));
   }
 
@@ -180,7 +196,7 @@ public class FunctionTest {
       }
     });
 
-    Function fn = new Function("FN(_(str\\u0028ing))");
+    Function fn = new Function("FN(" + Function.wrap("str(ing") + ")");
     Assert.assertEquals(BoxedType.create("str(ing"), fn.evaluate(functions));
   }
 
@@ -196,7 +212,7 @@ public class FunctionTest {
       }
     });
 
-    Function fn = new Function("FN(_(str\\u0029ing))");
+    Function fn = new Function("FN(" + Function.wrap("str)ing") + ")");
     Assert.assertEquals(BoxedType.create("str)ing"), fn.evaluate(functions));
   }
 }
