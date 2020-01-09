@@ -110,6 +110,15 @@ public class BoxedTypeTest {
   }
 
   @Test
+  public void testNumberStringStartingWithDotHashcode() {
+
+    BoxedType bt1 = BoxedType.create(".1");
+
+    Assert.assertEquals(BoxedType.create(".1").hashCode(), bt1.hashCode());
+    Assert.assertNotEquals(BoxedType.create(0.1).hashCode(), bt1.hashCode());
+  }
+
+  @Test
   public void testBooleanCompareTo() {
 
     BoxedType btTrue = BoxedType.create(true);
@@ -152,5 +161,13 @@ public class BoxedTypeTest {
     BoxedType bt1 = BoxedType.create("1.");
 
     Assert.assertTrue(BoxedType.create("1.").compareTo(bt1) == 0);
+  }
+
+  @Test
+  public void testNumberStringStartingWithDotCompareTo() {
+
+    BoxedType bt1 = BoxedType.create(".1");
+
+    Assert.assertTrue(BoxedType.create(".1").compareTo(bt1) == 0);
   }
 }
