@@ -39,7 +39,8 @@ final public class BoxedType<T extends Comparable> implements Comparable<BoxedTy
                 BoxedType bt = new BoxedType<>(new BigDecimal(text));
 
                 // text matching \d+[.] should be interpreted as string
-                if (!text.trim().endsWith(".")) {
+                // text matching [.]\d+ should be interpreted as string
+                if (!text.trim().endsWith(".") && !text.trim().startsWith(".")) {
                   return bt;
                 }
               } catch (NumberFormatException ex) {

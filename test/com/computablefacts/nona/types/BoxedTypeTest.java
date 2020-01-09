@@ -55,6 +55,15 @@ public class BoxedTypeTest {
   }
 
   @Test
+  public void testNumberStringStartingWithDotEquals() {
+
+    BoxedType bt1 = BoxedType.create(".1");
+
+    Assert.assertEquals(BoxedType.create(".1"), bt1);
+    Assert.assertNotEquals(BoxedType.create(0.1), bt1);
+  }
+
+  @Test
   public void testBooleanHashcode() {
 
     BoxedType btTrue = BoxedType.create(true);
