@@ -39,7 +39,7 @@ public class Function {
   /**
    * Wrap a text inside the special function _(&lt;text&gt;). This function ensures that whatever
    * characters the text contain, it will be interpreted as a {@link String}. Useful to escape
-   * {@link String} with parentheses.
+   * {@link String} with parentheses and quotation marks.
    * 
    * @param text Text to wrap.
    * @return Wrapped text.
@@ -49,29 +49,35 @@ public class Function {
   }
 
   /**
-   * Replace left and right parentheses by their unicode equivalent \u0028 and \u0029.
+   * Replace left and right parentheses by their unicode equivalent \u0028 and \u0029. Replace
+   * quotation marks with their unicode equivalent \u0022.
    *
    * @param text Text to encode.
    * @return Encoded text.
    */
   public static String encode(String text) {
     return Preconditions.checkNotNull(text, "text should not be null").replace("(", "\\u0028")
-        .replace(")", "\\u0029");
+        .replace(")", "\\u0029").replace("\"", "\\u0022");
   }
 
   /**
-   * Replace unicode values \u0028 and \u0029 by the left and right parentheses characters.
+   * Replace unicode values \u0028 and \u0029 by the left and right parentheses characters. Replace
+   * unicode values \u0022 by quotation marks.
    *
    * @param text Text to decode.
    * @return Decoded text.
    */
   public static String decode(String text) {
     return Preconditions.checkNotNull(text, "text should not be null").replace("\\u0028", "(")
-        .replace("\\u0029", ")");
+        .replace("\\u0029", ")").replace("\\u0022", "\"");
   }
 
   public String name() {
     return name_;
+  }
+
+  public int arity() {
+    return parameters_.size();
   }
 
   public boolean isValid() {
@@ -83,7 +89,7 @@ public class Function {
       }
       return true;
     }
-    return false;
+    return parameters_.isEmpty();
   }
 
   public boolean hasReferenceTo(String function) {
@@ -196,6 +202,8 @@ public class Function {
     int myIndex = 0;
     @Var
     int myIndexPrev = myIndex;
+    @Var
+    boolean hasOneMoreParameter = false;
 
     while (myIndex < parameters.length()) {
       if (parameters.charAt(myIndex) == '(') {
@@ -209,17 +217,16 @@ public class Function {
         }
       } else if (parameters.charAt(myIndex) == ',' && nbParenthesis == 0) {
         String parameter = parameters.substring(myIndexPrev, myIndex).trim();
-        if (!parameter.isEmpty()) {
-          functions.add(parameter);
-        }
+        functions.add(parameter);
         myIndexPrev = myIndex + 1;
+        hasOneMoreParameter = true;
       }
       myIndex++;
     }
 
     if (nbParenthesis == 0) { // Do not forget the last parameter!
       String parameter = parameters.substring(myIndexPrev, myIndex).trim();
-      if (!parameter.isEmpty()) {
+      if (hasOneMoreParameter || !parameter.isEmpty()) {
         functions.add(parameter);
       }
     }

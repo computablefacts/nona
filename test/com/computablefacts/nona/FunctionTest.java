@@ -8,7 +8,6 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import com.computablefacts.nona.types.BoxedType;
-import com.google.common.util.concurrent.UncheckedExecutionException;
 
 public class FunctionTest {
 
@@ -16,16 +15,19 @@ public class FunctionTest {
   public void testWrap() {
     Assert.assertEquals("_(\\u0028,\\u0029)", Function.wrap("(,)"));
     Assert.assertEquals("_(\\u0028,\\u0029)", Function.wrap("\\u0028,\\u0029"));
+    Assert.assertEquals("_(\\u0022,\\u0022)", Function.wrap("\",\""));
   }
 
   @Test
   public void testEncode() {
     Assert.assertEquals("\\u0028,\\u0029", Function.encode("(,)"));
+    Assert.assertEquals("\\u0022,\\u0022", Function.encode("\",\""));
   }
 
   @Test
   public void testDecode() {
     Assert.assertEquals("(,)", Function.decode("\\u0028,\\u0029"));
+    Assert.assertEquals("\",\"", Function.decode("\\u0022,\\u0022"));
   }
 
   @Test
@@ -41,6 +43,9 @@ public class FunctionTest {
     });
 
     Function fn = new Function("ZERO()");
+
+    Assert.assertEquals("ZERO", fn.name());
+    Assert.assertEquals(0, fn.arity());
     Assert.assertEquals(BoxedType.create(0), fn.evaluate(functions));
   }
 
@@ -57,18 +62,104 @@ public class FunctionTest {
     });
 
     Function fn = new Function("ZERO");
+
+    Assert.assertEquals("ZERO", fn.name());
+    Assert.assertEquals(0, fn.arity());
     Assert.assertEquals(BoxedType.create(0), fn.evaluate(functions));
   }
 
   @Test
   public void testEvaluateFunctionWithoutDefinition() {
-    Function fn = new Function("NO_DEFINITION");
-    Assert.assertEquals(BoxedType.create("NO_DEFINITION"), fn.evaluate());
+    Function fn = new Function("FN");
+    Assert.assertEquals(BoxedType.create("FN"), fn.evaluate());
   }
 
   @Test
   public void testIsValid() {
     Function fn = new Function("test");
+    Assert.assertEquals(0, fn.arity());
+    Assert.assertTrue(fn.isValid());
+  }
+
+  @Test(expected = IllegalStateException.class)
+  public void testFunctionWithoutParametersAndName() {
+    Function fn = new Function("()");
+    Assert.assertFalse(fn.isValid());
+  }
+
+  @Test(expected = IllegalStateException.class)
+  public void testFunctionWithOneParameterButNoName() {
+    Function fn = new Function("(anonymous)");
+    Assert.assertFalse(fn.isValid());
+  }
+
+  @Test
+  public void testFunctionWithoutParameters() {
+
+    Function fn = new Function("FN()");
+
+    Assert.assertEquals("FN", fn.name());
+    Assert.assertEquals(0, fn.arity());
+    Assert.assertTrue(fn.isValid());
+  }
+
+  @Test
+  public void testFunctionWithTwoEmptyParameters() {
+
+    Function fn = new Function("FN(_(), _())");
+
+    Assert.assertEquals("FN", fn.name());
+    Assert.assertEquals(2, fn.arity());
+    Assert.assertTrue(fn.isValid());
+  }
+
+  @Test
+  public void testFunctionWithTwoEmptyParameters2() {
+
+    Function fn = new Function("FN(_(), )");
+
+    Assert.assertEquals("FN", fn.name());
+    Assert.assertEquals(2, fn.arity());
+    Assert.assertTrue(fn.isValid());
+  }
+
+  @Test
+  public void testFunctionWithTwoEmptyParameters3() {
+
+    Function fn = new Function("FN(, _())");
+
+    Assert.assertEquals("FN", fn.name());
+    Assert.assertEquals(2, fn.arity());
+    Assert.assertTrue(fn.isValid());
+  }
+
+  @Test
+  public void testFunctionWithTwoEmptyParameters4() {
+
+    Function fn = new Function("FN(, )");
+
+    Assert.assertEquals("FN", fn.name());
+    Assert.assertEquals(2, fn.arity());
+    Assert.assertTrue(fn.isValid());
+  }
+
+  @Test
+  public void testEmptyStringAsFunction() {
+
+    Function fn = new Function("");
+
+    Assert.assertEquals("", fn.name());
+    Assert.assertEquals(0, fn.arity());
+    Assert.assertTrue(fn.isValid());
+  }
+
+  @Test
+  public void testEmptyStringAsFunction2() {
+
+    Function fn = new Function("_()");
+
+    Assert.assertEquals("", fn.name());
+    Assert.assertEquals(0, fn.arity());
     Assert.assertTrue(fn.isValid());
   }
 
@@ -85,6 +176,9 @@ public class FunctionTest {
     });
 
     Function fn = new Function("FN(666)");
+
+    Assert.assertEquals("FN", fn.name());
+    Assert.assertEquals(1, fn.arity());
     Assert.assertEquals(BoxedType.create(666), fn.evaluate(functions));
   }
 
@@ -101,6 +195,9 @@ public class FunctionTest {
     });
 
     Function fn = new Function("FN(6.66)");
+
+    Assert.assertEquals("FN", fn.name());
+    Assert.assertEquals(1, fn.arity());
     Assert.assertEquals(BoxedType.create(6.66), fn.evaluate(functions));
   }
 
@@ -117,6 +214,9 @@ public class FunctionTest {
     });
 
     Function fn = new Function("FN(string)");
+
+    Assert.assertEquals("FN", fn.name());
+    Assert.assertEquals(1, fn.arity());
     Assert.assertEquals(BoxedType.create("string"), fn.evaluate(functions));
   }
 
@@ -133,6 +233,9 @@ public class FunctionTest {
     });
 
     Function fn = new Function("FN(\"string\")");
+
+    Assert.assertEquals("FN", fn.name());
+    Assert.assertEquals(1, fn.arity());
     Assert.assertEquals(BoxedType.create("\"string\""), fn.evaluate(functions));
   }
 
@@ -149,6 +252,9 @@ public class FunctionTest {
     });
 
     Function fn = new Function("FN(" + Function.wrap("str()ing") + ")");
+
+    Assert.assertEquals("FN", fn.name());
+    Assert.assertEquals(1, fn.arity());
     Assert.assertEquals(BoxedType.create("str()ing"), fn.evaluate(functions));
   }
 
@@ -165,10 +271,13 @@ public class FunctionTest {
     });
 
     Function fn = new Function("FN(" + Function.wrap("str,ing") + ")");
+
+    Assert.assertEquals("FN", fn.name());
+    Assert.assertEquals(1, fn.arity());
     Assert.assertEquals(BoxedType.create("str,ing"), fn.evaluate(functions));
   }
 
-  @Test(expected = UncheckedExecutionException.class) // TODO : bugfix
+  @Test
   public void testParseFunctionWithASingleDoubleQuoteInStringParameter() {
 
     Map<String, Function> functions = new HashMap<>();
@@ -180,7 +289,10 @@ public class FunctionTest {
       }
     });
 
-    Function fn = new Function("FN(_(str\"ing))");
+    Function fn = new Function("FN(" + Function.wrap("str\"ing") + ")");
+
+    Assert.assertEquals("FN", fn.name());
+    Assert.assertEquals(1, fn.arity());
     Assert.assertEquals(BoxedType.create("str\"ing"), fn.evaluate(functions));
   }
 
@@ -197,6 +309,9 @@ public class FunctionTest {
     });
 
     Function fn = new Function("FN(" + Function.wrap("str(ing") + ")");
+
+    Assert.assertEquals("FN", fn.name());
+    Assert.assertEquals(1, fn.arity());
     Assert.assertEquals(BoxedType.create("str(ing"), fn.evaluate(functions));
   }
 
@@ -213,6 +328,9 @@ public class FunctionTest {
     });
 
     Function fn = new Function("FN(" + Function.wrap("str)ing") + ")");
+
+    Assert.assertEquals("FN", fn.name());
+    Assert.assertEquals(1, fn.arity());
     Assert.assertEquals(BoxedType.create("str)ing"), fn.evaluate(functions));
   }
 }
