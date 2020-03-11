@@ -44,6 +44,7 @@
         <junit.version>4.12</junit.version>
         <re2j.version>1.2</re2j.version>
         <fuzzywuzzy.version>1.2.0</fuzzywuzzy.version>
+        <jackson-dataformat-csv.version>2.10.2</jackson-dataformat-csv.version>
         <javax-validation.version>2.0.1.Final</javax-validation.version>
         <maven-shade-plugin.version>3.1.1</maven-shade-plugin.version>
         <maven-gpg-plugin.version>1.6</maven-gpg-plugin.version>
@@ -86,6 +87,11 @@
             <artifactId>junit</artifactId>
             <version>${junit.version}</version>
             <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.dataformat</groupId>
+            <artifactId>jackson-dataformat-csv</artifactId>
+            <version>${jackson-dataformat-csv.version}</version>
         </dependency>
     </dependencies>
 
