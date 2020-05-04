@@ -85,4 +85,8 @@ final public class Span implements Comparable<Span> {
   public String getFeature(String key) {
     return features_.get(Preconditions.checkNotNull(key, "key is null"));
   }
+
+  public void removeFeature(String key) {
+    features_.remove(Preconditions.checkNotNull(key, "key is null"));
+  }
 }

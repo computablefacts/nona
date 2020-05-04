@@ -34,6 +34,10 @@ public class RegexExtract extends Function {
     super("REGEXEXTRACT", true);
   }
 
+  protected RegexExtract(String expression) {
+    super(expression, true);
+  }
+
   @Override
   public BoxedType evaluate(List<BoxedType> parameters) {
 
