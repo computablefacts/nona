@@ -15,7 +15,7 @@ import com.google.common.base.Splitter;
 public class ExtractIbanTest {
 
   /**
-   * See https://fr.iban.com/testibans for details.
+   * Extracted from https://fr.iban.com/testibans
    */
   @Test
   public void testIban1() {
@@ -30,7 +30,7 @@ public class ExtractIbanTest {
   }
 
   /**
-   * See https://fr.iban.com/testibans for details.
+   * Extracted from https://fr.iban.com/testibans
    */
   @Test
   public void testIban2() {
@@ -45,7 +45,7 @@ public class ExtractIbanTest {
   }
 
   /**
-   * See https://fr.iban.com/testibans for details.
+   * Extracted from https://fr.iban.com/testibans
    */
   @Test
   public void testIban3() {
@@ -60,7 +60,7 @@ public class ExtractIbanTest {
   }
 
   /**
-   * See https://fr.iban.com/testibans for details.
+   * Extracted from https://fr.iban.com/testibans
    */
   @Test
   public void testIban4() {
@@ -74,8 +74,11 @@ public class ExtractIbanTest {
     Assert.assertEquals(0, spans.size());
   }
 
+  /**
+   * Extracted from https://bank-code.net/iban/country-list
+   */
   @Test
-  public void testDictionary() {
+  public void testDictionaryIbans() {
 
     Map<String, Function> functions = new HashMap<>();
     functions.put("EIBAN", new ExtractIban());

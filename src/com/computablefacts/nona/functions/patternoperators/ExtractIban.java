@@ -16,8 +16,9 @@ import com.google.common.base.Splitter;
 public class ExtractIban extends RegexExtract {
 
   /*
-   * See https://bank-code.net/iban/country-list for details. Includes a fix for Sao Tome and
-   * Principe which was wrong.
+   * Extracted from https://bank-code.net/iban/country-list
+   *
+   * Includes a fix for Sao Tome and Principe whose IBAN was wrong.
    */
   static String[] DICTIONARY = {"Albania,AL,FALSE,28,AL47 2121 1009 0000 0002 3569 8741",
       "Andorra,AD,FALSE,24,AD12 0001 2030 2003 5910 0100",
