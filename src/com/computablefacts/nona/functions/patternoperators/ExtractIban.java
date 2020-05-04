@@ -12,6 +12,7 @@ import com.computablefacts.nona.types.Span;
 import com.computablefacts.nona.types.SpanSequence;
 import com.google.common.base.Preconditions;
 import com.google.common.base.Splitter;
+import com.google.errorprone.annotations.Var;
 
 public class ExtractIban extends RegexExtract {
 
@@ -130,47 +131,57 @@ public class ExtractIban extends RegexExtract {
         BoxedType.create(parameters.get(0).asString().toUpperCase().replaceAll("[^A-Z0-9]", "")));
 
     // Match and capture (1) the country code, (2) the check digits, and (3) the rest
-    newParameters
-        .add(BoxedType.create("(?:^|\\p{Zs}|\\b)([A-Z]{2})(\\d{2})([A-Z\\d]+)(?:$|\\p{Zs}|\\b)"));
+    newParameters.add(BoxedType.create("([A-Z]{2})(\\d{2})([A-Z\\d]+)"));
 
     BoxedType boxedType = super.evaluate(newParameters);
     SpanSequence sequence = (SpanSequence) boxedType.value();
     SpanSequence newSequence = new SpanSequence();
 
-    for (Span span : sequence.sequence()) {
+    for (@Var
+    Span span : sequence.sequence()) {
 
+      @Var
       String iban = span.text();
       String countryCode = span.getFeature("GROUP_1");
+      int length = IBAN_LENGTHS.getOrDefault(countryCode, -1);
 
-      if (iban.length() == IBAN_LENGTHS.getOrDefault(countryCode, -1)) {
+      // Matchis too short? ignore!
+      if (iban.length() < length) {
+        continue;
+      }
 
-        // Rearrange country code and check digits
-        String digits = iban.substring(4) + iban.substring(0, 4);
+      // Match is too long? resize!
+      if (iban.length() > length) {
+        span = new Span(newParameters.get(0).asString(), span.begin(), span.begin() + length);
+        iban = span.text();
+      }
 
-        // Convert chars to ints
-        StringBuilder builder = new StringBuilder(digits.length());
+      // Rearrange country code and check digits
+      String digits = iban.substring(4) + iban.substring(0, 4);
 
-        for (int i = 0; i < digits.length(); i++) {
-          builder.append(Character.digit(digits.charAt(i), 36));
-        }
+      // Convert chars to ints
+      StringBuilder builder = new StringBuilder(digits.length());
 
-        // Compute checksum
-        int checksum = new BigInteger(builder.toString()).mod(BigInteger.valueOf(97)).intValue();
+      for (int i = 0; i < digits.length(); i++) {
+        builder.append(Character.digit(digits.charAt(i), 36));
+      }
 
-        if (checksum == 1) {
+      // Compute checksum
+      int checksum = new BigInteger(builder.toString()).mod(BigInteger.valueOf(97)).intValue();
 
-          span.removeFeature("GROUP_COUNT");
-          span.removeFeature("GROUP_1");
-          span.removeFeature("GROUP_2");
-          span.removeFeature("GROUP_3");
+      if (checksum == 1) {
 
-          span.setFeature("BBAN", iban.substring(4));
-          span.setFeature("COUNTRY_CODE", countryCode);
-          span.setFeature("COUNTRY_NAME", COUNTRY_NAMES.get(countryCode));
-          span.setFeature("IS_SEPA_MEMBER", Boolean.toString(SEPA_MEMBERS.get(countryCode)));
+        span.removeFeature("GROUP_COUNT");
+        span.removeFeature("GROUP_1");
+        span.removeFeature("GROUP_2");
+        span.removeFeature("GROUP_3");
 
-          newSequence.add(span);
-        }
+        span.setFeature("BBAN", iban.substring(4));
+        span.setFeature("COUNTRY_CODE", countryCode);
+        span.setFeature("COUNTRY_NAME", COUNTRY_NAMES.get(countryCode));
+        span.setFeature("IS_SEPA_MEMBER", Boolean.toString(SEPA_MEMBERS.get(countryCode)));
+
+        newSequence.add(span);
       }
     }
     return BoxedType.create(newSequence);

@@ -18,7 +18,7 @@ public class ExtractIbanTest {
    * Extracted from https://fr.iban.com/testibans
    */
   @Test
-  public void testIban1() {
+  public void testMatchExact1() {
 
     Map<String, Function> functions = new HashMap<>();
     functions.put("EIBAN", new ExtractIban());
@@ -26,6 +26,7 @@ public class ExtractIbanTest {
     Function fn = new Function("EIBAN(GB33BUKB20201555555555)");
     List<Span> spans = ((SpanSequence) fn.evaluate(functions).value()).sequence();
 
+    Assert.assertEquals(1, spans.size());
     Assert.assertEquals("GB33BUKB20201555555555", spans.get(0).text());
   }
 
@@ -33,7 +34,7 @@ public class ExtractIbanTest {
    * Extracted from https://fr.iban.com/testibans
    */
   @Test
-  public void testIban2() {
+  public void testMatchExact2() {
 
     Map<String, Function> functions = new HashMap<>();
     functions.put("EIBAN", new ExtractIban());
@@ -41,6 +42,7 @@ public class ExtractIbanTest {
     Function fn = new Function("EIBAN(GB94BARC10201530093459)");
     List<Span> spans = ((SpanSequence) fn.evaluate(functions).value()).sequence();
 
+    Assert.assertEquals(1, spans.size());
     Assert.assertEquals("GB94BARC10201530093459", spans.get(0).text());
   }
 
@@ -48,7 +50,7 @@ public class ExtractIbanTest {
    * Extracted from https://fr.iban.com/testibans
    */
   @Test
-  public void testIban3() {
+  public void testNoMatch1() {
 
     Map<String, Function> functions = new HashMap<>();
     functions.put("EIBAN", new ExtractIban());
@@ -63,7 +65,7 @@ public class ExtractIbanTest {
    * Extracted from https://fr.iban.com/testibans
    */
   @Test
-  public void testIban4() {
+  public void testNoMatch2() {
 
     Map<String, Function> functions = new HashMap<>();
     functions.put("EIBAN", new ExtractIban());
@@ -78,7 +80,7 @@ public class ExtractIbanTest {
    * Extracted from https://bank-code.net/iban/country-list
    */
   @Test
-  public void testDictionaryIbans() {
+  public void testDictionary() {
 
     Map<String, Function> functions = new HashMap<>();
     functions.put("EIBAN", new ExtractIban());
@@ -90,7 +92,21 @@ public class ExtractIbanTest {
       List<Span> spans = ((SpanSequence) fn.evaluate(functions).value()).sequence();
 
       Assert.assertEquals(1, spans.size());
-      Assert.assertEquals(cols.get(4).replaceAll("[^\\p{L}\\p{N}]", ""), spans.get(0).text());
+      Assert.assertEquals(cols.get(4).replaceAll("[^A-Z0-9]", ""), spans.get(0).text());
     }
+  }
+
+  @Test
+  public void testExtractFromNoisyText() {
+
+    Map<String, Function> functions = new HashMap<>();
+    functions.put("EIBAN", new ExtractIban());
+
+    Function fn = new Function(
+        "EIBAN(Beneficiary Bank: BARCLAYS\nBeneficiary IBAN: GB 94 BARC10201530093459\nSwift Code: BUKBGB22)");
+    List<Span> spans = ((SpanSequence) fn.evaluate(functions).value()).sequence();
+
+    Assert.assertEquals(1, spans.size());
+    Assert.assertEquals("GB94BARC10201530093459", spans.get(0).text());
   }
 }
