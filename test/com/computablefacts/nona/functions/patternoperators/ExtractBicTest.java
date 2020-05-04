@@ -44,18 +44,4 @@ public class ExtractBicTest {
 
     Assert.assertEquals("AFTRFRPPCDP", spans.get(0).text());
   }
-
-  @Test
-  public void testExtractFromNoisyText() {
-
-    Map<String, Function> functions = new HashMap<>();
-    functions.put("EBIC", new ExtractBic());
-
-    Function fn = new Function(
-        "EBIC(Beneficiary Bank: BARCLAYS\nBeneficiary IBAN: GB 94 BARC10201530093459\nSwift Code: BUKBGB22)");
-    List<Span> spans = ((SpanSequence) fn.evaluate(functions).value()).sequence();
-
-    Assert.assertEquals(1, spans.size());
-    Assert.assertEquals("BUKBGB22", spans.get(0).text());
-  }
 }
