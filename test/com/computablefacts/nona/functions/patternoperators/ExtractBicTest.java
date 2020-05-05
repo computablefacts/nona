@@ -13,10 +13,6 @@ import com.computablefacts.nona.types.SpanSequence;
 
 public class ExtractBicTest {
 
-  /**
-   * Extracted from
-   * https://github.com/franckverrot/codes-bic-france/blob/master/codes-bic-france.csv
-   */
   @Test
   public void testAleInternational() {
 
@@ -25,14 +21,20 @@ public class ExtractBicTest {
 
     Function fn = new Function("EBIC(AALE FR 22)");
     List<Span> spans = ((SpanSequence) fn.evaluate(functions).value()).sequence();
+    Span span = spans.get(0);
 
-    Assert.assertEquals("AALEFR22", spans.get(0).text());
+    Assert.assertEquals(1, spans.size());
+    Assert.assertEquals("AALEFR22", span.text());
+    Assert.assertEquals("22", span.getFeature("LOCATION_CODE"));
+    Assert.assertEquals("true", span.getFeature("IS_FRENCH_BANK"));
+    Assert.assertEquals("France", span.getFeature("COUNTRY_NAME"));
+    Assert.assertEquals("", span.getFeature("BRANCH_CODE"));
+    Assert.assertEquals("AALE", span.getFeature("INSTITUTION_CODE"));
+    Assert.assertEquals("false", span.getFeature("IS_TEST_BIC"));
+    Assert.assertEquals("FR", span.getFeature("COUNTRY_CODE"));
+    Assert.assertEquals("ALE INTERNATIONAL", span.getFeature("BANK_NAME"));
   }
 
-  /**
-   * Extracted from
-   * https://github.com/franckverrot/codes-bic-france/blob/master/codes-bic-france.csv
-   */
   @Test
   public void testAgenceFranceTresor() {
 
@@ -41,7 +43,17 @@ public class ExtractBicTest {
 
     Function fn = new Function("EBIC(AFTR-FR-PP-CDP)");
     List<Span> spans = ((SpanSequence) fn.evaluate(functions).value()).sequence();
+    Span span = spans.get(0);
 
-    Assert.assertEquals("AFTRFRPPCDP", spans.get(0).text());
+    Assert.assertEquals(1, spans.size());
+    Assert.assertEquals("AFTRFRPPCDP", span.text());
+    Assert.assertEquals("PP", span.getFeature("LOCATION_CODE"));
+    Assert.assertEquals("true", span.getFeature("IS_FRENCH_BANK"));
+    Assert.assertEquals("France", span.getFeature("COUNTRY_NAME"));
+    Assert.assertEquals("CDP", span.getFeature("BRANCH_CODE"));
+    Assert.assertEquals("AFTR", span.getFeature("INSTITUTION_CODE"));
+    Assert.assertEquals("false", span.getFeature("IS_TEST_BIC"));
+    Assert.assertEquals("FR", span.getFeature("COUNTRY_CODE"));
+    Assert.assertEquals("AGENCE FRANCE TRESOR (AFT)", span.getFeature("BANK_NAME"));
   }
 }

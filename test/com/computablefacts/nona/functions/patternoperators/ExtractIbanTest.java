@@ -8,9 +8,9 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import com.computablefacts.nona.Function;
+import com.computablefacts.nona.dictionaries.Iban;
 import com.computablefacts.nona.types.Span;
 import com.computablefacts.nona.types.SpanSequence;
-import com.google.common.base.Splitter;
 
 public class ExtractIbanTest {
 
@@ -76,28 +76,25 @@ public class ExtractIbanTest {
     Assert.assertEquals(0, spans.size());
   }
 
-  /**
-   * Extracted from https://bank-code.net/iban/country-list
-   */
   @Test
-  public void testDictionary() {
+  public void testIbansDictionary() {
 
+    Map<String, Iban> ibans = Iban.load();
     Map<String, Function> functions = new HashMap<>();
     functions.put("EIBAN", new ExtractIban());
 
-    for (String row : ExtractIban.DICTIONARY) {
+    for (Iban iban : ibans.values()) {
 
-      List<String> cols = Splitter.on(',').splitToList(row);
-      Function fn = new Function("EIBAN(" + cols.get(4) + ")");
+      Function fn = new Function("EIBAN(" + iban.ibanExample() + ")");
       List<Span> spans = ((SpanSequence) fn.evaluate(functions).value()).sequence();
 
       Assert.assertEquals(1, spans.size());
-      Assert.assertEquals(cols.get(4).replaceAll("[^A-Z0-9]", ""), spans.get(0).text());
+      Assert.assertEquals(iban.ibanExample().replaceAll("[^A-Z0-9]", ""), spans.get(0).text());
     }
   }
 
   @Test
-  public void testExtractFromNoisyText() {
+  public void testExtractIbanFromNoisyText() {
 
     Map<String, Function> functions = new HashMap<>();
     functions.put("EIBAN", new ExtractIban());
