@@ -73,7 +73,7 @@ public class ExtractBic extends RegexExtract {
             Boolean.toString(locationCode.charAt(locationCode.length() - 1) == '0'));
 
         // Additional feature if it is a French BIC
-        String bic = span.text().replaceAll("[^A-Z0-9]", "");
+        String bic = span.text().replaceAll("[^A-Za-z0-9]", "");
 
         if (!FRENCH_BIC_DICTIONARY.containsKey(bic)) {
           span.setFeature("IS_FRENCH_BANK", "false");
