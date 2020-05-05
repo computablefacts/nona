@@ -13,21 +13,21 @@ public class FunctionTest {
 
   @Test
   public void testWrap() {
-    Assert.assertEquals("_(\\u0028,\\u0029)", Function.wrap("(,)"));
-    Assert.assertEquals("_(\\u0028,\\u0029)", Function.wrap("\\u0028,\\u0029"));
-    Assert.assertEquals("_(\\u0022,\\u0022)", Function.wrap("\",\""));
+    Assert.assertEquals("_(\\u0028\\u002c\\u0029)", Function.wrap("(,)"));
+    Assert.assertEquals("_(\\u0028\\u002c\\u0029)", Function.wrap("\\u0028\\u002c\\u0029"));
+    Assert.assertEquals("_(\\u0022\\u002c\\u0022)", Function.wrap("\",\""));
   }
 
   @Test
   public void testEncode() {
-    Assert.assertEquals("\\u0028,\\u0029", Function.encode("(,)"));
-    Assert.assertEquals("\\u0022,\\u0022", Function.encode("\",\""));
+    Assert.assertEquals("\\u0028\\u002c\\u0029", Function.encode("(,)"));
+    Assert.assertEquals("\\u0022\\u002c\\u0022", Function.encode("\",\""));
   }
 
   @Test
   public void testDecode() {
-    Assert.assertEquals("(,)", Function.decode("\\u0028,\\u0029"));
-    Assert.assertEquals("\",\"", Function.decode("\\u0022,\\u0022"));
+    Assert.assertEquals("(,)", Function.decode("\\u0028\\u002c\\u0029"));
+    Assert.assertEquals("\",\"", Function.decode("\\u0022\\u002c\\u0022"));
   }
 
   @Test

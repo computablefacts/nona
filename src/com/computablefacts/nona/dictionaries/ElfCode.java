@@ -4,7 +4,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import com.computablefacts.nona.dictionaries.deserializers.WhiteSpaceRemovalDeserializer;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -12,6 +14,7 @@ import com.fasterxml.jackson.databind.MappingIterator;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.dataformat.csv.CsvMapper;
 import com.fasterxml.jackson.dataformat.csv.CsvSchema;
+import com.google.common.base.Splitter;
 
 final public class ElfCode {
 
@@ -141,12 +144,12 @@ final public class ElfCode {
     return legalFormNameTransliterated_;
   }
 
-  public String abbreviationLocal() {
-    return abbreviationLocal_;
+  public Set<String> abbreviationLocal() {
+    return new HashSet<>(Splitter.on(';').splitToList(abbreviationLocal_));
   }
 
-  public String abbreviationTransliterated() {
-    return abbreviationTransliterated_;
+  public Set<String> abbreviationTransliterated() {
+    return new HashSet<>(Splitter.on(';').splitToList(abbreviationTransliterated_));
   }
 
   public Date dateCreated() {

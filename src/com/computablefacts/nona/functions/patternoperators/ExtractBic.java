@@ -31,8 +31,6 @@ public class ExtractBic extends RegexExtract {
         parameters.get(0));
 
     List<BoxedType> newParameters = new ArrayList<>();
-
-    // Keep only alphanumeric characters
     newParameters.add(parameters.get(0));
 
     // Match and capture (1) the institution code, (2) the country code, (3) the location code, and
