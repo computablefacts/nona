@@ -10,3 +10,6 @@
 * [tlds.csv](tlds.csv)
     * **Source :** https://data.iana.org/TLD/tlds-alpha-by-domain.txt
     * **Updated :** 2020-05-05
+* [elf-codes.csv](elf-codes.csv)
+    * **Source :** https://www.gleif.org/en/about-lei/code-lists/iso-20275-entity-legal-forms-code-list
+    * **Updated :** 2020-05-05
