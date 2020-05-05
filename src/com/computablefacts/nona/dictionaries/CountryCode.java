@@ -11,6 +11,8 @@ import com.fasterxml.jackson.databind.MappingIterator;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.dataformat.csv.CsvMapper;
 import com.fasterxml.jackson.dataformat.csv.CsvSchema;
+import com.google.common.base.MoreObjects;
+import com.google.common.base.Objects;
 
 final public class CountryCode {
 
@@ -55,6 +57,30 @@ final public class CountryCode {
       // TODO
     }
     return map;
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (obj == this) {
+      return true;
+    }
+    if (obj == null || getClass() != obj.getClass()) {
+      return false;
+    }
+    CountryCode other = (CountryCode) obj;
+    return name_.equals(other.name_) && alpha2_.equals(other.alpha2_)
+        && alpha3_.equals(other.alpha3_) && numeric_ == other.numeric_;
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hashCode(name_, alpha2_, alpha3_, numeric_);
+  }
+
+  @Override
+  public String toString() {
+    return MoreObjects.toStringHelper(this).add("name", name_).add("alpha2", alpha2_)
+        .add("alpha3", alpha3_).add("numeric", numeric_).omitNullValues().toString();
   }
 
   public String name() {

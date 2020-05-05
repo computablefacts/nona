@@ -11,6 +11,8 @@ import com.fasterxml.jackson.databind.MappingIterator;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.dataformat.csv.CsvMapper;
 import com.fasterxml.jackson.dataformat.csv.CsvSchema;
+import com.google.common.base.MoreObjects;
+import com.google.common.base.Objects;
 
 final public class FrenchBic {
 
@@ -52,6 +54,30 @@ final public class FrenchBic {
       // TODO
     }
     return map;
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (obj == this) {
+      return true;
+    }
+    if (obj == null || getClass() != obj.getClass()) {
+      return false;
+    }
+    FrenchBic other = (FrenchBic) obj;
+    return name_.equals(other.name_) && city_.equals(other.city_)
+        && swiftCode_.equals(other.swiftCode_);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hashCode(name_, city_, swiftCode_);
+  }
+
+  @Override
+  public String toString() {
+    return MoreObjects.toStringHelper(this).add("name", name_).add("city", city_)
+        .add("swiftCode", swiftCode_).omitNullValues().toString();
   }
 
   public String name() {

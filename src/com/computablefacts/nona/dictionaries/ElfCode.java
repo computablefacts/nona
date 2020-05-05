@@ -14,6 +14,8 @@ import com.fasterxml.jackson.databind.MappingIterator;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.dataformat.csv.CsvMapper;
 import com.fasterxml.jackson.dataformat.csv.CsvSchema;
+import com.google.common.base.MoreObjects;
+import com.google.common.base.Objects;
 import com.google.common.base.Splitter;
 
 final public class ElfCode {
@@ -106,6 +108,53 @@ final public class ElfCode {
       // TODO
     }
     return list;
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (obj == this) {
+      return true;
+    }
+    if (obj == null || getClass() != obj.getClass()) {
+      return false;
+    }
+    ElfCode other = (ElfCode) obj;
+    return elfCode_.equals(other.elfCode_) && countryName_.equals(other.countryName_)
+        && countryCode_.equals(other.countryCode_)
+        && jurisdictionOfFormation_.equals(other.jurisdictionOfFormation_)
+        && countrySubdivisionCode_.equals(other.countrySubdivisionCode_)
+        && legalFormNameLocal_.equals(other.legalFormNameLocal_)
+        && language_.equals(other.language_) && languageCode_.equals(other.languageCode_)
+        && legalFormNameTransliterated_.equals(other.legalFormNameTransliterated_)
+        && abbreviationLocal_.equals(other.abbreviationLocal_)
+        && abbreviationTransliterated_.equals(other.abbreviationTransliterated_)
+        && dateCreated_.equals(other.dateCreated_) && elfStatus_.equals(other.elfStatus_)
+        && modification_.equals(other.modification_)
+        && modificationDate_.equals(other.modificationDate_) && reason_.equals(other.reason_);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hashCode(elfCode_, countryName_, countryCode_, jurisdictionOfFormation_,
+        countrySubdivisionCode_, legalFormNameLocal_, language_, languageCode_,
+        legalFormNameTransliterated_, abbreviationLocal_, abbreviationTransliterated_, dateCreated_,
+        elfStatus_, modification_, modificationDate_, reason_);
+  }
+
+  @Override
+  public String toString() {
+    return MoreObjects.toStringHelper(this).add("elfCode", elfCode_)
+        .add("countryName", countryName_).add("countryCode", countryCode_)
+        .add("jurisdictionOfFormation", jurisdictionOfFormation_)
+        .add("countrySubdivisionCode", countrySubdivisionCode_)
+        .add("legalFormNameLocal", legalFormNameLocal_).add("language", language_)
+        .add("languageCode", languageCode_)
+        .add("legalFormNameTransliterated", legalFormNameTransliterated_)
+        .add("abbreviationLocal", abbreviationLocal_)
+        .add("abbreviationTransliterated", abbreviationTransliterated_)
+        .add("dateCreated", dateCreated_).add("elfStatus", elfStatus_)
+        .add("modification", modification_).add("modificationDate", modificationDate_)
+        .add("reason", reason_).omitNullValues().toString();
   }
 
   public String elfCode() {

@@ -12,6 +12,8 @@ import com.fasterxml.jackson.databind.MappingIterator;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.dataformat.csv.CsvMapper;
 import com.fasterxml.jackson.dataformat.csv.CsvSchema;
+import com.google.common.base.MoreObjects;
+import com.google.common.base.Objects;
 
 final public class Iban {
 
@@ -60,6 +62,33 @@ final public class Iban {
       // TODO
     }
     return map;
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (obj == this) {
+      return true;
+    }
+    if (obj == null || getClass() != obj.getClass()) {
+      return false;
+    }
+    Iban other = (Iban) obj;
+    return countryName_.equals(other.countryName_) && countryCode_.equals(other.countryCode_)
+        && isSepaMember_ == other.isSepaMember_ && ibanLength_ == other.ibanLength_
+        && ibanExample_.equals(other.ibanExample_);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hashCode(countryName_, countryCode_, isSepaMember_, ibanLength_, ibanExample_);
+  }
+
+  @Override
+  public String toString() {
+    return MoreObjects.toStringHelper(this).add("countryName", countryName_)
+        .add("countryCode", countryCode_).add("isSepaMember", isSepaMember_)
+        .add("ibanLength", ibanLength_).add("ibanExample", ibanExample_).omitNullValues()
+        .toString();
   }
 
   public String countryName() {
