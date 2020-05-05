@@ -33,12 +33,12 @@ public class ExtractBic extends RegexExtract {
     List<BoxedType> newParameters = new ArrayList<>();
 
     // Keep only alphanumeric characters
-    newParameters.add(
-        BoxedType.create(parameters.get(0).asString().toUpperCase().replaceAll("[^A-Z0-9]", "")));
+    newParameters.add(parameters.get(0));
 
     // Match and capture (1) the institution code, (2) the country code, (3) the location code, and
     // (4) the branch code (optional)
-    newParameters.add(BoxedType.create("([A-Z]{4})([A-Z]{2})([A-Z0-9]{2})([A-Z0-9]{3})?"));
+    newParameters.add(BoxedType.create(
+        "(?:^|\\p{Zs}|\\b)([A-Za-z]{4})[-#\\p{Zs}]*([A-Za-z]{2})[-#\\p{Zs}]*([A-Za-z0-9]{2})(?:[-#\\p{Zs}]*([A-Za-z0-9]{3}))?(?:$|\\p{Zs}|\\b)"));
 
     BoxedType boxedType = super.evaluate(newParameters);
     SpanSequence sequence = (SpanSequence) boxedType.value();
@@ -73,14 +73,13 @@ public class ExtractBic extends RegexExtract {
             Boolean.toString(locationCode.charAt(locationCode.length() - 1) == '0'));
 
         // Additional feature if it is a French BIC
-        if (!FRENCH_BIC_DICTIONARY.containsKey(span.text())) {
+        String bic = span.text().replaceAll("[^A-Z0-9]", "");
+
+        if (!FRENCH_BIC_DICTIONARY.containsKey(bic)) {
           span.setFeature("IS_FRENCH_BANK", "false");
         } else {
-
-          FrenchBic bic = FRENCH_BIC_DICTIONARY.get(span.text());
-
           span.setFeature("IS_FRENCH_BANK", "true");
-          span.setFeature("BANK_NAME", bic.name());
+          span.setFeature("BANK_NAME", FRENCH_BIC_DICTIONARY.get(bic).name());
         }
 
         newSequence.add(span);

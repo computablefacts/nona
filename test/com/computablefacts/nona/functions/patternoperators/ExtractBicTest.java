@@ -24,7 +24,7 @@ public class ExtractBicTest {
     Span span = spans.get(0);
 
     Assert.assertEquals(1, spans.size());
-    Assert.assertEquals("AALEFR22", span.text());
+    Assert.assertEquals("AALE FR 22", span.text());
     Assert.assertEquals("22", span.getFeature("LOCATION_CODE"));
     Assert.assertEquals("true", span.getFeature("IS_FRENCH_BANK"));
     Assert.assertEquals("France", span.getFeature("COUNTRY_NAME"));
@@ -46,7 +46,7 @@ public class ExtractBicTest {
     Span span = spans.get(0);
 
     Assert.assertEquals(1, spans.size());
-    Assert.assertEquals("AFTRFRPPCDP", span.text());
+    Assert.assertEquals("AFTR-FR-PP-CDP", span.text());
     Assert.assertEquals("PP", span.getFeature("LOCATION_CODE"));
     Assert.assertEquals("true", span.getFeature("IS_FRENCH_BANK"));
     Assert.assertEquals("France", span.getFeature("COUNTRY_NAME"));
