@@ -46,6 +46,7 @@
         <fuzzywuzzy.version>1.2.0</fuzzywuzzy.version>
         <jackson-dataformat-csv.version>2.10.2</jackson-dataformat-csv.version>
         <javax-validation.version>2.0.1.Final</javax-validation.version>
+        <ahocorasick.version>0.4.0</ahocorasick.version>
         <maven-shade-plugin.version>3.1.1</maven-shade-plugin.version>
         <maven-gpg-plugin.version>1.6</maven-gpg-plugin.version>
         <maven-source-plugin.version>2.2.1</maven-source-plugin.version>
@@ -92,6 +93,11 @@
             <groupId>com.fasterxml.jackson.dataformat</groupId>
             <artifactId>jackson-dataformat-csv</artifactId>
             <version>${jackson-dataformat-csv.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.ahocorasick</groupId>
+            <artifactId>ahocorasick</artifactId>
+            <version>${ahocorasick.version}</version>
         </dependency>
     </dependencies>
 
