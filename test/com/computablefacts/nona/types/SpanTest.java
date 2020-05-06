@@ -121,4 +121,18 @@ public class SpanTest {
 
     Assert.assertEquals("value2", span.getFeature("key"));
   }
+
+  @Test
+  public void testSize() {
+
+    Span span1 = new Span("Hello world!", 0, "Hello world!".length());
+
+    Assert.assertEquals("Hello world!", span1.text());
+    Assert.assertEquals(12, span1.length());
+
+    Span span2 = new Span("Hello world!", 0, 5);
+
+    Assert.assertEquals("Hello", span2.text());
+    Assert.assertEquals(5, span2.length());
+  }
 }

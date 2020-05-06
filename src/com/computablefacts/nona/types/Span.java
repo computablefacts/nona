@@ -82,20 +82,72 @@ final public class Span implements Comparable<Span> {
     return text_.compareTo(span.text_);
   }
 
+  /**
+   * The raw text.
+   *
+   * @return raw text.
+   */
   public String rawText() {
     return text_;
   }
 
+  /**
+   * The span extracted from the raw text.
+   *
+   * @return span.
+   */
   public String text() {
     return text_.substring(begin_, end_);
   }
 
+  /**
+   * Beginning of the span.
+   *
+   * @return position.
+   */
   public int begin() {
     return begin_;
   }
 
+  /**
+   * End of the span.
+   *
+   * @return position.
+   */
   public int end() {
     return end_;
+  }
+
+  /**
+   * Returns the length of the span.
+   *
+   * @return The end position less the start position, plus one.
+   */
+  public int length() {
+    return end_ - begin_;
+  }
+
+  /**
+   * Checks whether the given span overlaps this span.
+   *
+   * @param span span.
+   * @return true if the spans overlap, false otherwise.
+   */
+  public boolean overlaps(Span span) {
+
+    Preconditions.checkNotNull(span, "span should not be null");
+
+    return begin_ <= span.end() && end_ >= span.begin();
+  }
+
+  /**
+   * Checks whether a position falls into this span range.
+   * 
+   * @param position position.
+   * @return true if the position falls into this span, false otherwise.
+   */
+  public boolean overlaps(int position) {
+    return begin_ <= position && position <= end_;
   }
 
   public void setGroupCount(int count) {
