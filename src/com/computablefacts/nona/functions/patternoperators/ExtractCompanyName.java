@@ -1,7 +1,6 @@
 package com.computablefacts.nona.functions.patternoperators;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -14,6 +13,7 @@ import com.computablefacts.nona.types.SpanSequence;
 import com.google.common.base.Joiner;
 import com.google.common.base.Preconditions;
 import com.google.common.base.Strings;
+import com.google.common.collect.Sets;
 import com.google.re2j.Pattern;
 
 public class ExtractCompanyName extends RegexExtract {
@@ -27,15 +27,10 @@ public class ExtractCompanyName extends RegexExtract {
         Set<String> abbr2 = elf.abbreviationTransliterated().stream().map(String::toUpperCase)
             .collect(Collectors.toSet());
 
-        Set<String> set = new HashSet<>();
-        set.addAll(abbr1);
-        set.addAll(abbr2);
-        set.addAll(abbr1.stream().map(abbr -> abbr.replace(".", "")).collect(Collectors.toSet()));
-        set.addAll(abbr2.stream().map(abbr -> abbr.replace(".", "")).collect(Collectors.toSet()));
-
-        return set.stream();
-      }).filter(abbr -> !Strings.isNullOrEmpty(abbr)).map(abbr -> Pattern
-          .quote(new StringBuilder(abbr).reverse().toString()).replaceAll("\\p{Zs}+", "\\\\p{Zs}+"))
+        return Sets.union(abbr1, abbr2).stream();
+      }).filter(abbr -> !Strings.isNullOrEmpty(abbr))
+          .map(abbr -> Pattern.quote(new StringBuilder(abbr).reverse().toString())
+              .replace("\\.", "\\.?").replaceAll("\\p{Zs}+", "\\\\p{Zs}+"))
           .collect(Collectors.toSet()));
 
   public ExtractCompanyName() {
