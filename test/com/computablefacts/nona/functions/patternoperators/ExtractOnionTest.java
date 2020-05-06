@@ -31,6 +31,25 @@ public class ExtractOnionTest {
   private static final Set<String> INVALID_URLS_THAT_SHOULD_NOT_MATCH = Sets.newHashSet();
 
   @Test
+  public void testOnion() {
+
+    Map<String, Function> functions = new HashMap<>();
+    functions.put("EONION", new ExtractOnion());
+
+    Function fn = new Function(
+        "EONION(" + Function.wrap("http://torwikignoueupfm.onion/index.php?title=Main_Page") + ")");
+    List<Span> spans = ((SpanSequence) fn.evaluate(functions).value()).sequence();
+    Span span = spans.get(0);
+
+    Assert.assertEquals(1, spans.size());
+    Assert.assertEquals("http://torwikignoueupfm.onion/index.php?title=Main_Page", span.text());
+    Assert.assertEquals("http", span.getFeature("PROTOCOL"));
+    Assert.assertEquals("torwikignoueupfm.onion", span.getFeature("HOSTNAME"));
+    Assert.assertEquals("", span.getFeature("PORT"));
+    Assert.assertEquals("/index.php?title=Main_Page", span.getFeature("PATH"));
+  }
+
+  @Test
   public void testValidOnions() {
 
     Map<String, Function> functions = new HashMap<>();

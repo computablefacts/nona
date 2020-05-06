@@ -9,6 +9,8 @@ import java.util.List;
 
 import com.computablefacts.nona.functions.stringoperators.RegexExtract;
 import com.computablefacts.nona.types.BoxedType;
+import com.computablefacts.nona.types.Span;
+import com.computablefacts.nona.types.SpanSequence;
 import com.google.common.base.Preconditions;
 
 public class ExtractOnion extends RegexExtract {
@@ -30,6 +32,25 @@ public class ExtractOnion extends RegexExtract {
     newParameters
         .add(BoxedType.create(leftBoundary() + "(?i)" + onion() + "(?-i)" + rightBoundary()));
 
-    return super.evaluate(newParameters);
+    BoxedType boxedType = super.evaluate(newParameters);
+    SpanSequence sequence = (SpanSequence) boxedType.value();
+    SpanSequence newSequence = new SpanSequence();
+
+    for (Span span : sequence.sequence()) {
+
+      span.setFeature("PROTOCOL", span.getFeature("GROUP_1"));
+      span.setFeature("HOSTNAME", span.getFeature("GROUP_2"));
+      span.setFeature("PORT", span.getFeature("GROUP_3"));
+      span.setFeature("PATH", span.getFeature("GROUP_4"));
+
+      span.removeFeature("GROUP_COUNT");
+      span.removeFeature("GROUP_1");
+      span.removeFeature("GROUP_2");
+      span.removeFeature("GROUP_3");
+      span.removeFeature("GROUP_4");
+
+      newSequence.add(span);
+    }
+    return BoxedType.create(newSequence);
   }
 }
