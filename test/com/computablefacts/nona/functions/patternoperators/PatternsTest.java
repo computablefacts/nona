@@ -1,5 +1,7 @@
 package com.computablefacts.nona.functions.patternoperators;
 
+import static com.computablefacts.nona.functions.patternoperators.PatternsForward.date;
+import static com.computablefacts.nona.functions.patternoperators.PatternsForward.dateTime;
 import static com.computablefacts.nona.functions.patternoperators.PatternsForward.email;
 import static com.computablefacts.nona.functions.patternoperators.PatternsForward.emoticon;
 import static com.computablefacts.nona.functions.patternoperators.PatternsForward.iplocal;
@@ -7,6 +9,7 @@ import static com.computablefacts.nona.functions.patternoperators.PatternsForwar
 import static com.computablefacts.nona.functions.patternoperators.PatternsForward.ipv6;
 import static com.computablefacts.nona.functions.patternoperators.PatternsForward.macAddress;
 import static com.computablefacts.nona.functions.patternoperators.PatternsForward.onion;
+import static com.computablefacts.nona.functions.patternoperators.PatternsForward.time;
 import static com.computablefacts.nona.functions.patternoperators.PatternsForward.unixPath;
 import static com.computablefacts.nona.functions.patternoperators.PatternsForward.url;
 import static com.computablefacts.nona.functions.patternoperators.PatternsForward.winPath;
@@ -466,5 +469,43 @@ public class PatternsTest {
     Pattern pattern = Pattern.compile("^" + macAddress() + "$", Pattern.CASE_INSENSITIVE);
 
     assertTrue(pattern.matches("00:0a:95:9d:68:16"));
+  }
+
+  @Test
+  public void testDate() {
+
+    Pattern pattern = Pattern.compile("^" + date() + "$", Pattern.CASE_INSENSITIVE);
+
+    assertTrue(pattern.matches("15/09/1984"));
+    assertTrue(pattern.matches("15.09.1984"));
+    assertTrue(pattern.matches("1984-09-15"));
+    assertTrue(pattern.matches("15/9/1984"));
+    assertTrue(pattern.matches("15.9.1984"));
+    assertTrue(pattern.matches("1984-9-15"));
+  }
+
+  @Test
+  public void testTime() {
+
+    Pattern pattern = Pattern.compile("^" + time() + "$", Pattern.CASE_INSENSITIVE);
+
+    assertTrue(pattern.matches("15:30:59"));
+    assertTrue(pattern.matches("15h30"));
+  }
+
+  @Test
+  public void testDateTime() {
+
+    Pattern pattern = Pattern.compile("^" + dateTime() + "$", Pattern.CASE_INSENSITIVE);
+
+    assertTrue(pattern.matches("2017-07-11 16:28:55"));
+  }
+
+  @Test
+  public void testTimestamp() {
+
+    Pattern pattern = Pattern.compile("^" + dateTime() + "$", Pattern.CASE_INSENSITIVE);
+
+    assertTrue(pattern.matches("2017-10-30T16:18:00"));
   }
 }

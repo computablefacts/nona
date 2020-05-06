@@ -158,7 +158,7 @@ final public class PatternsForward {
    * @return regular expression.
    */
   public static String unixPath() {
-    return "((?:/[A-Z\\d.][A-Z\\d\\-._]{0,61})+)";
+    return "(?i)((?:/[A-Z\\d.][A-Z\\d\\-._]{0,61})+)(?-i)";
   }
 
   /**
@@ -190,7 +190,7 @@ final public class PatternsForward {
     String oneSevenTwo = "172\\.(?:1[6-9]|2\\d|3[01])\\.\\d{1,3}\\.\\d{1,3}";
     String oneTwoSeven = "127\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}";
 
-    return "(" + ten + "|" + oneNineTwo + "|" + oneSevenTwo + "|" + oneTwoSeven + ")";
+    return "(?i)(" + ten + "|" + oneNineTwo + "|" + oneSevenTwo + "|" + oneTwoSeven + ")(?-i)";
   }
 
   /**
@@ -227,7 +227,58 @@ final public class PatternsForward {
    * @return regular expression.
    */
   public static String macAddress() {
-    return "(?i)([A-F\\d]{2}(?:[:-][A-F\\d]{2}){5})(?i)";
+    return "(?i)([A-F\\d]{2}(?:[:-][A-F\\d]{2}){5})(?-i)";
+  }
+
+  /**
+   * Regex for DATE extraction. Match and capture 1 group :
+   *
+   * <ol>
+   * <li>Group 1 : date</li>
+   * </ol>
+   *
+   * @return regular expression.
+   */
+  public static String date() {
+
+    String yyyymmdd = "(?:19|20)\\d\\d[- /.](?:1[012]|0*[1-9])[- /.](?:3[01]|[12][0-9]|0*[1-9])";
+    String ddmmyyyy = "(?:3[01]|[12][0-9]|0*[1-9])[- /.](?:1[012]|0*[1-9])[- /.](?:19|20)\\d\\d";
+    String mmddyyyy = "(?:1[012]|0*[1-9])[- /.](?:3[01]|[12][0-9]|0*[1-9])[- /.](?:19|20)\\d\\d";
+
+    return "(?i)(" + yyyymmdd + "|" + ddmmyyyy + "|" + mmddyyyy + ")(?-i)";
+  }
+
+  /**
+   * Regex for TIME extraction. Match and capture 1 group :
+   *
+   * <ol>
+   * <li>Group 1 : time</li>
+   * </ol>
+   *
+   * @return regular expression.
+   */
+  public static String time() {
+
+    String hours = "(?:[0-1]?[0-9]|[2][0-3])";
+    String minutes = "(?:h|:)(?:[0-5]?[0-9])";
+    String seconds = "(?:(?:mn|:)[0-5]?[0-9]s*)?";
+
+    return "(?i)(" + hours + minutes + seconds + ")(?-i)";
+  }
+
+  /**
+   * Regex for DATETIME extraction. Match and capture 2 groups :
+   *
+   * <ol>
+   * <li>Group 1 : date</li>
+   * <li>Group 2 : time</li>
+   * <li>Group 3 : timezone</li>
+   * </ol>
+   *
+   * @return regular expression.
+   */
+  public static String dateTime() {
+    return date() + ".?" + time() + "(?i)(Z|[+-](?:2[0-3]|[01][0-9]):[0-5][0-9])?(?-i)";
   }
 
   private static String tld() {
