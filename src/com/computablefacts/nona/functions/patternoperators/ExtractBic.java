@@ -48,21 +48,16 @@ public class ExtractBic extends RegexExtract {
 
     for (Span span : sequence.sequence()) {
 
-      String institutionCode = span.getFeature("GROUP_1");
-      String countryCode = span.getFeature("GROUP_2");
-      String locationCode = span.getFeature("GROUP_3");
-      String branchCode = span.getFeature("GROUP_4");
+      String institutionCode = span.getGroup(1);
+      String countryCode = span.getGroup(2);
+      String locationCode = span.getGroup(3);
+      String branchCode = span.getGroup(4);
 
       // TODO : backport code related to institution validation
 
       if (COUNTRY_CODE_DICTIONARY.containsKey(countryCode)) {
 
-        span.removeFeature("GROUP_COUNT");
-        span.removeFeature("GROUP_1");
-        span.removeFeature("GROUP_2");
-        span.removeFeature("GROUP_3");
-        span.removeFeature("GROUP_4");
-
+        span.removeAllGroups();
         span.setFeature("INSTITUTION_CODE", institutionCode);
         span.setFeature("COUNTRY_CODE", countryCode);
         span.setFeature("COUNTRY_NAME", COUNTRY_CODE_DICTIONARY.get(countryCode).name());

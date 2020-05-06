@@ -42,13 +42,12 @@ public class ExtractEmail extends RegexExtract {
 
     for (Span span : sequence.sequence()) {
 
-      String username = span.getFeature("GROUP_1");
-      String domain = span.getFeature("GROUP_2");
+      String username = span.getGroup(1);
+      String domain = span.getGroup(2);
 
-      span.removeFeature("GROUP_COUNT");
-      span.removeFeature("GROUP_1");
-      span.removeFeature("GROUP_2");
+      span.removeAllGroups();
 
+      // TODO : use IPV4 regex
       if (domain.matches("^\\[?\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\]?$")) {
 
         span.setFeature("USERNAME", username.toLowerCase());

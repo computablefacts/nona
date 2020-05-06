@@ -2,12 +2,15 @@ package com.computablefacts.nona.types;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import javax.validation.constraints.NotNull;
 
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Objects;
 import com.google.common.base.Preconditions;
+import com.google.common.base.Strings;
 import com.google.errorprone.annotations.CheckReturnValue;
 
 @CheckReturnValue
@@ -31,6 +34,23 @@ final public class Span implements Comparable<Span> {
     begin_ = begin;
     end_ = end;
     text_ = text;
+  }
+
+  public Span(Span span) {
+    this(span, false);
+  }
+
+  public Span(Span span, boolean copyFeatures) {
+
+    Preconditions.checkNotNull(span, "span is null");
+
+    text_ = span.text_;
+    begin_ = span.begin_;
+    end_ = span.end_;
+
+    if (copyFeatures) {
+      features_.putAll(span.features_);
+    }
   }
 
   @Override
@@ -62,6 +82,10 @@ final public class Span implements Comparable<Span> {
     return text_.compareTo(span.text_);
   }
 
+  public String rawText() {
+    return text_;
+  }
+
   public String text() {
     return text_.substring(begin_, end_);
   }
@@ -72,6 +96,37 @@ final public class Span implements Comparable<Span> {
 
   public int end() {
     return end_;
+  }
+
+  public void setGroupCount(int count) {
+
+    Preconditions.checkArgument(count >= 0, "count should be >= 0 : %s", count);
+
+    setFeature("GROUP_COUNT", Integer.toString(count, 10));
+  }
+
+  public void removeAllGroups() {
+
+    Set<String> groups =
+        features_.keySet().stream().filter(f -> f.startsWith("GROUP_")).collect(Collectors.toSet());
+
+    for (String group : groups) {
+      features_.remove(group);
+    }
+  }
+
+  public void setGroup(int index, String value) {
+
+    Preconditions.checkArgument(index >= 0, "index should be >= 0 : %s", index);
+
+    setFeature("GROUP_" + index, Strings.nullToEmpty(value));
+  }
+
+  public String getGroup(int index) {
+
+    Preconditions.checkArgument(index >= 0, "index should be >= 0 : %s", index);
+
+    return getFeature("GROUP_" + index);
   }
 
   public void setFeature(String key, String value) {

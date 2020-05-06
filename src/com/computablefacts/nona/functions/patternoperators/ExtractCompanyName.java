@@ -42,9 +42,9 @@ public class ExtractCompanyName extends RegexExtract {
       Span newSpan = new Span(text, text.length() - span.end(), text.length() - span.begin());
 
       newSpan.setFeature("LEGAL_FORM",
-          new StringBuilder(span.getFeature("GROUP_1")).reverse().toString().trim());
+          new StringBuilder(span.getGroup(1)).reverse().toString().trim());
       newSpan.setFeature("COMPANY_NAME",
-          new StringBuilder(span.getFeature("GROUP_2")).reverse().toString().trim());
+          new StringBuilder(span.getGroup(2)).reverse().toString().trim());
 
       newSequence.add(newSpan);
     }

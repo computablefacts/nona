@@ -8,7 +8,6 @@ import com.computablefacts.nona.types.BoxedType;
 import com.computablefacts.nona.types.Span;
 import com.computablefacts.nona.types.SpanSequence;
 import com.google.common.base.Preconditions;
-import com.google.common.base.Strings;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
@@ -77,9 +76,9 @@ public class RegexExtract extends Function {
         Span span = new Span(text, start + i, end - (str.length() - j));
 
         for (int k = 1; k < matcher.groupCount() + 1; k++) {
-          span.setFeature("GROUP_" + k, Strings.nullToEmpty(matcher.group(k)));
+          span.setGroup(k, matcher.group(k));
         }
-        span.setFeature("GROUP_COUNT", Integer.toString(matcher.groupCount(), 10));
+        span.setGroupCount(matcher.groupCount());
 
         sequence.add(span);
       }

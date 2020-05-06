@@ -38,16 +38,11 @@ public class ExtractOnion extends RegexExtract {
 
     for (Span span : sequence.sequence()) {
 
-      span.setFeature("PROTOCOL", span.getFeature("GROUP_1"));
-      span.setFeature("HOSTNAME", span.getFeature("GROUP_2"));
-      span.setFeature("PORT", span.getFeature("GROUP_3"));
-      span.setFeature("PATH", span.getFeature("GROUP_4"));
-
-      span.removeFeature("GROUP_COUNT");
-      span.removeFeature("GROUP_1");
-      span.removeFeature("GROUP_2");
-      span.removeFeature("GROUP_3");
-      span.removeFeature("GROUP_4");
+      span.setFeature("PROTOCOL", span.getGroup(1));
+      span.setFeature("HOSTNAME", span.getGroup(2));
+      span.setFeature("PORT", span.getGroup(3));
+      span.setFeature("PATH", span.getGroup(4));
+      span.removeAllGroups();
 
       newSequence.add(span);
     }

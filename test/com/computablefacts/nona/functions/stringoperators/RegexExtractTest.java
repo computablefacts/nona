@@ -22,8 +22,8 @@ public class RegexExtractTest {
     String text = "THE GUATEMALA ARMY ATTACKED THE FARM 2 DAYS AGO";
 
     Span span = new Span(text, 37, 47);
-    span.setFeature("GROUP_COUNT", "1");
-    span.setFeature("GROUP_1", "2");
+    span.setGroupCount(1);
+    span.setGroup(1, "2");
 
     SpanSequence sequence = new SpanSequence();
     sequence.add(span);
@@ -41,10 +41,10 @@ public class RegexExtractTest {
 
     String text = "GUATEMALA CITY, 4 FEB 90 (ACAN-EFE)";
     Span span = new Span(text, 16, 24);
-    span.setFeature("GROUP_COUNT", "3");
-    span.setFeature("GROUP_1", "4");
-    span.setFeature("GROUP_2", "FEB");
-    span.setFeature("GROUP_3", "90");
+    span.setGroupCount(3);
+    span.setGroup(1, "4");
+    span.setGroup(2, "FEB");
+    span.setGroup(3, "90");
 
     SpanSequence sequence = new SpanSequence();
     sequence.add(span);

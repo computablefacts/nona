@@ -134,4 +134,35 @@ final public class PatternsForward {
 
     return "(" + protocol + ")://(" + hostname + ")(" + port + ")?(" + path + ")?";
   }
+
+  /**
+   * Match and capture 1 group :
+   *
+   * <ol>
+   * <li>Group 1 : full path</li>
+   * </ol>
+   * 
+   * @return regular expression.
+   */
+  public static String winPath() {
+
+    String drive = "[A-Z]:\\\\";
+    String name = "[A-Z\\d][A-Z\\d\\- '_\\(\\)]{0,61}";
+    String extension = "[A-Z\\d]{1,6}";
+
+    return "(" + drive + "(?:" + name + "\\\\?)*" + name + "(?:\\." + extension + ")?)";
+  }
+
+  /**
+   * Match and capture 1 group :
+   *
+   * <ol>
+   * <li>Group 1 : full path</li>
+   * </ol>
+   *
+   * @return regular expression.
+   */
+  public static String unixPath() {
+    return "((?:/[A-Z\\d.][A-Z\\d\\-._]{0,61})+)";
+  }
 }
