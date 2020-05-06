@@ -3,8 +3,11 @@ package com.computablefacts.nona.functions.patternoperators;
 import static com.computablefacts.nona.functions.patternoperators.PatternsForward.email;
 import static com.computablefacts.nona.functions.patternoperators.PatternsForward.emoticon;
 import static com.computablefacts.nona.functions.patternoperators.PatternsForward.onion;
+import static com.computablefacts.nona.functions.patternoperators.PatternsForward.unixPath;
 import static com.computablefacts.nona.functions.patternoperators.PatternsForward.url;
+import static com.computablefacts.nona.functions.patternoperators.PatternsForward.winPath;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
@@ -338,5 +341,25 @@ public class PatternsTest {
     assertEquals("lw4ipk5choakk5ze.onion", matcher.group(2));
     assertEquals(null, matcher.group(3));
     assertEquals("/raw/evbLewgkDSVkifzv8zAo/", matcher.group(4));
+  }
+
+  @Test
+  public void testWinPath() {
+
+    Pattern patternWin = Pattern.compile("^" + winPath() + "$", Pattern.CASE_INSENSITIVE);
+    Pattern patternUnix = Pattern.compile("^" + unixPath() + "$", Pattern.CASE_INSENSITIVE);
+
+    assertTrue(patternWin.matches("C:\\a_data\\logs"));
+    assertFalse(patternUnix.matches("C:\\a_data\\logs"));
+  }
+
+  @Test
+  public void testUnixPath() {
+
+    Pattern patternUnix = Pattern.compile("^" + unixPath() + "$", Pattern.CASE_INSENSITIVE);
+    Pattern patternWin = Pattern.compile("^" + winPath() + "$", Pattern.CASE_INSENSITIVE);
+
+    assertTrue(patternUnix.matches("/var/logs/tomcat8/catalina.out"));
+    assertFalse(patternWin.matches("/var/logs/tomcat8/catalina.out"));
   }
 }
