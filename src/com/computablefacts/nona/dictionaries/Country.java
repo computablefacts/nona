@@ -38,7 +38,7 @@ final public class Country {
     Map<String, Country> map = new HashMap<>();
 
     try (InputStream inputStream =
-        Country.class.getClassLoader().getResourceAsStream("./data/country-codes.csv")) {
+        Country.class.getClassLoader().getResourceAsStream("./data/countries.csv")) {
 
       CsvSchema schema = CsvSchema.emptySchema().withHeader().withColumnSeparator(',');
       CsvMapper mapper = new CsvMapper();

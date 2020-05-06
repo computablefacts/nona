@@ -92,7 +92,7 @@ final public class Elf {
     List<Elf> list = new ArrayList<>();
 
     try (InputStream inputStream =
-        Elf.class.getClassLoader().getResourceAsStream("./data/elf-codes.csv")) {
+        Elf.class.getClassLoader().getResourceAsStream("./data/elfs.csv")) {
 
       CsvSchema schema = CsvSchema.emptySchema().withHeader().withColumnSeparator(',');
       CsvMapper mapper = new CsvMapper();
