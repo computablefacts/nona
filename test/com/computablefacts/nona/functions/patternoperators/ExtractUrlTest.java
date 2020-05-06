@@ -50,6 +50,28 @@ public class ExtractUrlTest {
           "http://foo.bar/foo(bar)baz quux", "ftps://foo.bar/", "http://www.foo.bar./");
 
   @Test
+  public void testUrl() {
+
+    Map<String, Function> functions = new HashMap<>();
+    functions.put("EURL", new ExtractUrl());
+
+    Function fn =
+        new Function("EURL(" + Function.wrap("https://userid:password@example.com:8080/") + ")");
+    List<Span> spans = ((SpanSequence) fn.evaluate(functions).value()).sequence();
+    Span span = spans.get(0);
+
+    Assert.assertEquals(1, spans.size());
+    Assert.assertEquals("https://userid:password@example.com:8080/", span.text());
+    Assert.assertEquals("https", span.getFeature("PROTOCOL"));
+    Assert.assertEquals("userid", span.getFeature("USERNAME"));
+    Assert.assertEquals("password", span.getFeature("PASSWORD"));
+    Assert.assertEquals("example.com", span.getFeature("HOSTNAME"));
+    Assert.assertEquals("8080", span.getFeature("PORT"));
+    Assert.assertEquals("/", span.getFeature("PATH"));
+    Assert.assertEquals("", span.getFeature("QUERY_STRING"));
+  }
+
+  @Test
   public void testValidUrls() {
 
     Map<String, Function> functions = new HashMap<>();
