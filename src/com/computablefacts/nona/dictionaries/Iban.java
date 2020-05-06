@@ -15,6 +15,9 @@ import com.fasterxml.jackson.dataformat.csv.CsvSchema;
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Objects;
 
+/**
+ * IBAN - International Bank Account Number
+ */
 final public class Iban {
 
   @JsonProperty("country_name")

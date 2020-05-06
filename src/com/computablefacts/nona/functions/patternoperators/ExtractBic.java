@@ -3,9 +3,12 @@ package com.computablefacts.nona.functions.patternoperators;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
 
-import com.computablefacts.nona.dictionaries.Country;
 import com.computablefacts.nona.dictionaries.BicFr;
+import com.computablefacts.nona.dictionaries.Country;
+import com.computablefacts.nona.dictionaries.Lei;
 import com.computablefacts.nona.functions.stringoperators.RegexExtract;
 import com.computablefacts.nona.types.BoxedType;
 import com.computablefacts.nona.types.Span;
@@ -15,6 +18,8 @@ import com.google.errorprone.annotations.Var;
 
 public class ExtractBic extends RegexExtract {
 
+  private static final Map<String, Set<Lei>> BIC8_DICTIONARY = Lei.load().stream().collect(
+      Collectors.groupingBy(Lei::bic8, Collectors.mapping(lei -> lei, Collectors.toSet())));
   private static final Map<String, BicFr> FRENCH_BIC_DICTIONARY = BicFr.load();
   private static final Map<String, Country> COUNTRY_CODE_DICTIONARY = Country.load();
 
@@ -70,14 +75,23 @@ public class ExtractBic extends RegexExtract {
         span.setFeature("IS_TEST_BIC",
             Boolean.toString(locationCode.charAt(locationCode.length() - 1) == '0'));
 
-        // Additional feature if it is a French BIC
+        // Bic to legal name with additional precision if it is a French bank
         String bic = span.text().replaceAll("[^A-Za-z0-9]", "");
 
-        if (!FRENCH_BIC_DICTIONARY.containsKey(bic)) {
-          span.setFeature("IS_FRENCH_BANK", "false");
-        } else {
-          span.setFeature("IS_FRENCH_BANK", "true");
+        if (FRENCH_BIC_DICTIONARY.containsKey(bic)) {
           span.setFeature("BANK_NAME", FRENCH_BIC_DICTIONARY.get(bic).name());
+          span.setFeature("CITY", FRENCH_BIC_DICTIONARY.get(bic).city());
+        } else {
+
+          String bic8 = bic.substring(0, Math.min(bic.length(), 8));
+
+          if (BIC8_DICTIONARY.containsKey(bic8)) {
+            for (Lei lei : BIC8_DICTIONARY.get(bic8)) {
+              if (lei.countryCode().equals(countryCode)) {
+                span.setFeature("BANK_NAME", lei.legalName());
+              }
+            }
+          }
         }
 
         newSequence.add(span);

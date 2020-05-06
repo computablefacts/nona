@@ -18,6 +18,9 @@ import com.google.common.base.MoreObjects;
 import com.google.common.base.Objects;
 import com.google.common.base.Splitter;
 
+/**
+ * ELF - Entity Legal Form
+ */
 final public class Elf {
 
   @JsonProperty("ELF Code")

@@ -10,6 +10,9 @@ import com.fasterxml.jackson.databind.MappingIterator;
 import com.fasterxml.jackson.dataformat.csv.CsvMapper;
 import com.fasterxml.jackson.dataformat.csv.CsvSchema;
 
+/**
+ * TLD - Top-Level Domain
+ */
 final public class Tld {
 
   private Tld() {}

@@ -14,6 +14,9 @@ import com.fasterxml.jackson.dataformat.csv.CsvSchema;
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Objects;
 
+/**
+ * BIC - Bank Identifier Code
+ */
 final public class BicFr {
 
   @JsonProperty("name")

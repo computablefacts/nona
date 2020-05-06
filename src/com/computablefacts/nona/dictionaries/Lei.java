@@ -31,6 +31,9 @@ import com.google.common.base.Objects;
 import com.google.common.base.Strings;
 import com.google.errorprone.annotations.Var;
 
+/**
+ * LEI - Legal Entity Identifier
+ */
 final public class Lei {
 
   @JsonProperty("lei")
