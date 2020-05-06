@@ -1,5 +1,8 @@
 package com.computablefacts.nona.functions.patternoperators;
 
+import static com.computablefacts.nona.functions.patternoperators.PatternsCompact.compact;
+import static com.computablefacts.nona.functions.patternoperators.PatternsCompact.iban;
+
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
@@ -30,13 +33,8 @@ public class ExtractIban extends RegexExtract {
         parameters.get(0));
 
     List<BoxedType> newParameters = new ArrayList<>();
-
-    // Keep only alphanumeric characters
-    newParameters.add(
-        BoxedType.create(parameters.get(0).asString().toUpperCase().replaceAll("[^A-Z0-9]", "")));
-
-    // Match and capture (1) the country code, (2) the check digits, and (3) the rest
-    newParameters.add(BoxedType.create("([A-Z]{2})(\\d{2})([A-Z\\d]+)"));
+    newParameters.add(BoxedType.create(compact(parameters.get(0).asString())));
+    newParameters.add(BoxedType.create(iban()));
 
     BoxedType boxedType = super.evaluate(newParameters);
     SpanSequence sequence = (SpanSequence) boxedType.value();

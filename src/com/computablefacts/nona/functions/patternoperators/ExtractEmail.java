@@ -1,5 +1,9 @@
 package com.computablefacts.nona.functions.patternoperators;
 
+import static com.computablefacts.nona.functions.patternoperators.PatternsForward.email;
+import static com.computablefacts.nona.functions.patternoperators.PatternsForward.leftBoundary;
+import static com.computablefacts.nona.functions.patternoperators.PatternsForward.rightBoundary;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -29,10 +33,7 @@ public class ExtractEmail extends RegexExtract {
 
     List<BoxedType> newParameters = new ArrayList<>();
     newParameters.add(parameters.get(0));
-
-    // Match and capture (1) the username, and (2) the ip/domain
-    newParameters.add(BoxedType.create(
-        "(?:^|\\p{Zs}|\\b)(\"?\\w(?:[-.+]?\\w)*\"?)[@＠]((?:\\[?\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\]?)|(?:[-\\w]+(?:\\.[-\\w]+)*\\.[A-Za-z]{2,4}))(?:$|\\p{Zs}|\\b)"));
+    newParameters.add(BoxedType.create(leftBoundary() + email() + rightBoundary()));
 
     BoxedType boxedType = super.evaluate(newParameters);
     SpanSequence sequence = (SpanSequence) boxedType.value();

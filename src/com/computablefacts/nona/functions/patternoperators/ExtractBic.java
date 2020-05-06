@@ -1,5 +1,9 @@
 package com.computablefacts.nona.functions.patternoperators;
 
+import static com.computablefacts.nona.functions.patternoperators.PatternsForward.bic;
+import static com.computablefacts.nona.functions.patternoperators.PatternsForward.leftBoundary;
+import static com.computablefacts.nona.functions.patternoperators.PatternsForward.rightBoundary;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -14,7 +18,6 @@ import com.computablefacts.nona.types.BoxedType;
 import com.computablefacts.nona.types.Span;
 import com.computablefacts.nona.types.SpanSequence;
 import com.google.common.base.Preconditions;
-import com.google.errorprone.annotations.Var;
 
 public class ExtractBic extends RegexExtract {
 
@@ -37,18 +40,13 @@ public class ExtractBic extends RegexExtract {
 
     List<BoxedType> newParameters = new ArrayList<>();
     newParameters.add(parameters.get(0));
-
-    // Match and capture (1) the institution code, (2) the country code, (3) the location code, and
-    // (4) the branch code (optional)
-    newParameters.add(BoxedType.create(
-        "(?:^|\\p{Zs}|\\b)([A-Za-z]{4})[-#\\p{Zs}]*([A-Za-z]{2})[-#\\p{Zs}]*([A-Za-z0-9]{2})(?:[-#\\p{Zs}]*([A-Za-z0-9]{3}))?(?:$|\\p{Zs}|\\b)"));
+    newParameters.add(BoxedType.create(leftBoundary() + bic() + rightBoundary()));
 
     BoxedType boxedType = super.evaluate(newParameters);
     SpanSequence sequence = (SpanSequence) boxedType.value();
     SpanSequence newSequence = new SpanSequence();
 
-    for (@Var
-    Span span : sequence.sequence()) {
+    for (Span span : sequence.sequence()) {
 
       String institutionCode = span.getFeature("GROUP_1");
       String countryCode = span.getFeature("GROUP_2");
