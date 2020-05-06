@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import com.computablefacts.nona.dictionaries.CountryCode;
-import com.computablefacts.nona.dictionaries.FrenchBic;
+import com.computablefacts.nona.dictionaries.Country;
+import com.computablefacts.nona.dictionaries.BicFr;
 import com.computablefacts.nona.functions.stringoperators.RegexExtract;
 import com.computablefacts.nona.types.BoxedType;
 import com.computablefacts.nona.types.Span;
@@ -15,8 +15,8 @@ import com.google.errorprone.annotations.Var;
 
 public class ExtractBic extends RegexExtract {
 
-  private static final Map<String, FrenchBic> FRENCH_BIC_DICTIONARY = FrenchBic.load();
-  private static final Map<String, CountryCode> COUNTRY_CODE_DICTIONARY = CountryCode.load();
+  private static final Map<String, BicFr> FRENCH_BIC_DICTIONARY = BicFr.load();
+  private static final Map<String, Country> COUNTRY_CODE_DICTIONARY = Country.load();
 
   public ExtractBic() {
     super("EXTRACT_BIC");

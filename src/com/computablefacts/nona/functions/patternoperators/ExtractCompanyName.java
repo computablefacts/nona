@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import com.computablefacts.nona.dictionaries.ElfCode;
+import com.computablefacts.nona.dictionaries.Elf;
 import com.computablefacts.nona.functions.stringoperators.RegexExtract;
 import com.computablefacts.nona.types.BoxedType;
 import com.computablefacts.nona.types.Span;
@@ -18,7 +18,7 @@ import com.google.re2j.Pattern;
 
 public class ExtractCompanyName extends RegexExtract {
 
-  private static final List<ElfCode> ELF_DICTIONARY = ElfCode.load();
+  private static final List<Elf> ELF_DICTIONARY = Elf.load();
   private static final String ELF_ABBREVIATION_PATTERN =
       Joiner.on("|").join(ELF_DICTIONARY.stream().flatMap(elf -> {
 

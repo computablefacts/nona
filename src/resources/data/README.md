@@ -13,3 +13,10 @@
 * [elf-codes.csv](elf-codes.csv)
     * **Source :** https://www.gleif.org/en/about-lei/code-lists/iso-20275-entity-legal-forms-code-list
     * **Updated :** 2020-05-05
+* [mfis.csv](mfis.csv)
+    * LEI-CDF Records
+        * **Source :** https://www.gleif.org/en/lei-data/gleif-concatenated-file/download-the-concatenated-file
+        * **Updated :** 2020-05-05
+    * BIC to LEI Relationships
+        * **Source :** https://www.gleif.org/en/lei-data/lei-mapping/download-bic-to-lei-relationship-files
+        * **Updated :** 2020-05-05

@@ -14,41 +14,38 @@ import com.fasterxml.jackson.dataformat.csv.CsvSchema;
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Objects;
 
-final public class CountryCode {
+final public class BicFr {
 
-  @JsonProperty("country")
+  @JsonProperty("name")
   @JsonDeserialize(using = WhiteSpaceRemovalDeserializer.class)
   private String name_;
 
-  @JsonProperty("alpha2")
+  @JsonProperty("city")
   @JsonDeserialize(using = WhiteSpaceRemovalDeserializer.class)
-  private String alpha2_;
+  private String city_;
 
-  @JsonProperty("alpha3")
+  @JsonProperty("swift_code")
   @JsonDeserialize(using = WhiteSpaceRemovalDeserializer.class)
-  private String alpha3_;
+  private String swiftCode_;
 
-  @JsonProperty("numeric")
-  private int numeric_;
+  private BicFr() {}
 
-  private CountryCode() {}
+  public static Map<String, BicFr> load() {
 
-  public static Map<String, CountryCode> load() {
-
-    Map<String, CountryCode> map = new HashMap<>();
+    Map<String, BicFr> map = new HashMap<>();
 
     try (InputStream inputStream =
-        CountryCode.class.getClassLoader().getResourceAsStream("./data/country-codes.csv")) {
+        BicFr.class.getClassLoader().getResourceAsStream("./data/french-bics.csv")) {
 
       CsvSchema schema = CsvSchema.emptySchema().withHeader().withColumnSeparator(',');
       CsvMapper mapper = new CsvMapper();
 
-      try (MappingIterator<CountryCode> iterator =
-          mapper.readerFor(CountryCode.class).with(schema).readValues(inputStream)) {
+      try (MappingIterator<BicFr> iterator =
+          mapper.readerFor(BicFr.class).with(schema).readValues(inputStream)) {
 
         while (iterator.hasNext()) {
-          CountryCode cc = iterator.next();
-          map.put(cc.alpha2(), cc);
+          BicFr cbf = iterator.next();
+          map.put(cbf.swiftCode(), cbf);
         }
       } catch (IOException e) {
         // TODO
@@ -67,35 +64,31 @@ final public class CountryCode {
     if (obj == null || getClass() != obj.getClass()) {
       return false;
     }
-    CountryCode other = (CountryCode) obj;
-    return name_.equals(other.name_) && alpha2_.equals(other.alpha2_)
-        && alpha3_.equals(other.alpha3_) && numeric_ == other.numeric_;
+    BicFr other = (BicFr) obj;
+    return name_.equals(other.name_) && city_.equals(other.city_)
+        && swiftCode_.equals(other.swiftCode_);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hashCode(name_, alpha2_, alpha3_, numeric_);
+    return Objects.hashCode(name_, city_, swiftCode_);
   }
 
   @Override
   public String toString() {
-    return MoreObjects.toStringHelper(this).add("name", name_).add("alpha2", alpha2_)
-        .add("alpha3", alpha3_).add("numeric", numeric_).omitNullValues().toString();
+    return MoreObjects.toStringHelper(this).add("name", name_).add("city", city_)
+        .add("swiftCode", swiftCode_).omitNullValues().toString();
   }
 
   public String name() {
     return name_;
   }
 
-  public String alpha2() {
-    return alpha2_;
+  public String city() {
+    return city_;
   }
 
-  public String alpha3() {
-    return alpha3_;
-  }
-
-  public int numeric() {
-    return numeric_;
+  public String swiftCode() {
+    return swiftCode_;
   }
 }

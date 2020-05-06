@@ -18,7 +18,7 @@ import com.google.common.base.MoreObjects;
 import com.google.common.base.Objects;
 import com.google.common.base.Splitter;
 
-final public class ElfCode {
+final public class Elf {
 
   @JsonProperty("ELF Code")
   @JsonDeserialize(using = WhiteSpaceRemovalDeserializer.class)
@@ -82,23 +82,23 @@ final public class ElfCode {
   @JsonDeserialize(using = WhiteSpaceRemovalDeserializer.class)
   private String reason_;
 
-  private ElfCode() {}
+  private Elf() {}
 
-  public static List<ElfCode> load() {
+  public static List<Elf> load() {
 
-    List<ElfCode> list = new ArrayList<>();
+    List<Elf> list = new ArrayList<>();
 
     try (InputStream inputStream =
-        ElfCode.class.getClassLoader().getResourceAsStream("./data/elf-codes.csv")) {
+        Elf.class.getClassLoader().getResourceAsStream("./data/elf-codes.csv")) {
 
       CsvSchema schema = CsvSchema.emptySchema().withHeader().withColumnSeparator(',');
       CsvMapper mapper = new CsvMapper();
 
-      try (MappingIterator<ElfCode> iterator =
-          mapper.readerFor(ElfCode.class).with(schema).readValues(inputStream)) {
+      try (MappingIterator<Elf> iterator =
+          mapper.readerFor(Elf.class).with(schema).readValues(inputStream)) {
 
         while (iterator.hasNext()) {
-          ElfCode cc = iterator.next();
+          Elf cc = iterator.next();
           list.add(cc);
         }
       } catch (IOException e) {
@@ -118,7 +118,7 @@ final public class ElfCode {
     if (obj == null || getClass() != obj.getClass()) {
       return false;
     }
-    ElfCode other = (ElfCode) obj;
+    Elf other = (Elf) obj;
     return elfCode_.equals(other.elfCode_) && countryName_.equals(other.countryName_)
         && countryCode_.equals(other.countryCode_)
         && jurisdictionOfFormation_.equals(other.jurisdictionOfFormation_)
