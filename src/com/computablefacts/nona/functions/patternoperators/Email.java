@@ -15,26 +15,25 @@ import com.computablefacts.nona.types.Span;
 import com.computablefacts.nona.types.SpanSequence;
 import com.google.common.base.Preconditions;
 
-public class ExtractEmail extends RegexExtract {
+public class Email extends RegexExtract {
 
   private static final Set<String> TLD_DICTIONARY = Tld.load();
 
-  public ExtractEmail() {
-    super("EXTRACT_EMAIL");
+  public Email() {
+    super("EMAIL");
   }
 
   @Override
   public BoxedType evaluate(List<BoxedType> parameters) {
 
-    Preconditions.checkArgument(parameters.size() == 1,
-        "EXTRACT_EMAIL takes exactly one parameter : %s", parameters);
+    Preconditions.checkArgument(parameters.size() == 1, "EMAIL takes exactly one parameter : %s",
+        parameters);
     Preconditions.checkArgument(parameters.get(0).isString(), "%s should be a string",
         parameters.get(0));
 
     List<BoxedType> newParameters = new ArrayList<>();
     newParameters.add(parameters.get(0));
-    newParameters
-        .add(BoxedType.create(leftBoundary() + "(?i)" + email() + "(?-i)" + rightBoundary()));
+    newParameters.add(BoxedType.create(leftBoundary() + email() + rightBoundary()));
 
     BoxedType boxedType = super.evaluate(newParameters);
     SpanSequence sequence = (SpanSequence) boxedType.value();

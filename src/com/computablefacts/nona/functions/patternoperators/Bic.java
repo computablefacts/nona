@@ -19,22 +19,22 @@ import com.computablefacts.nona.types.Span;
 import com.computablefacts.nona.types.SpanSequence;
 import com.google.common.base.Preconditions;
 
-public class ExtractBic extends RegexExtract {
+public class Bic extends RegexExtract {
 
   private static final Map<String, Set<Lei>> BIC8_DICTIONARY = Lei.load().stream().collect(
       Collectors.groupingBy(Lei::bic8, Collectors.mapping(lei -> lei, Collectors.toSet())));
   private static final Map<String, BicFr> FRENCH_BIC_DICTIONARY = BicFr.load();
   private static final Map<String, Country> COUNTRY_CODE_DICTIONARY = Country.load();
 
-  public ExtractBic() {
-    super("EXTRACT_BIC");
+  public Bic() {
+    super("BIC");
   }
 
   @Override
   public BoxedType evaluate(List<BoxedType> parameters) {
 
-    Preconditions.checkArgument(parameters.size() == 1,
-        "EXTRACT_BIC takes exactly one parameter : %s", parameters);
+    Preconditions.checkArgument(parameters.size() == 1, "BIC takes exactly one parameter : %s",
+        parameters);
     Preconditions.checkArgument(parameters.get(0).isString(), "%s should be a string",
         parameters.get(0));
 

@@ -11,15 +11,15 @@ import com.computablefacts.nona.Function;
 import com.computablefacts.nona.types.Span;
 import com.computablefacts.nona.types.SpanSequence;
 
-public class ExtractBicTest {
+public class BicTest {
 
   @Test
   public void testAleInternational() {
 
     Map<String, Function> functions = new HashMap<>();
-    functions.put("EBIC", new ExtractBic());
+    functions.put("BIC", new Bic());
 
-    Function fn = new Function("EBIC(AALE FR 22)");
+    Function fn = new Function("BIC(AALE FR 22)");
     List<Span> spans = ((SpanSequence) fn.evaluate(functions).value()).sequence();
     Span span = spans.get(0);
 
@@ -39,9 +39,9 @@ public class ExtractBicTest {
   public void testAgenceFranceTresor() {
 
     Map<String, Function> functions = new HashMap<>();
-    functions.put("EBIC", new ExtractBic());
+    functions.put("BIC", new Bic());
 
-    Function fn = new Function("EBIC(AFTR-FR-PP-CDP)");
+    Function fn = new Function("BIC(AFTR-FR-PP-CDP)");
     List<Span> spans = ((SpanSequence) fn.evaluate(functions).value()).sequence();
     Span span = spans.get(0);
 

@@ -8,7 +8,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import com.computablefacts.nona.dictionaries.Iban;
 import com.computablefacts.nona.functions.stringoperators.RegexExtract;
 import com.computablefacts.nona.types.BoxedType;
 import com.computablefacts.nona.types.Span;
@@ -16,19 +15,20 @@ import com.computablefacts.nona.types.SpanSequence;
 import com.google.common.base.Preconditions;
 import com.google.errorprone.annotations.Var;
 
-public class ExtractIban extends RegexExtract {
+public class Iban extends RegexExtract {
 
-  private static final Map<String, Iban> IBAN_DICTIONARY = Iban.load();
+  private static final Map<String, com.computablefacts.nona.dictionaries.Iban> IBAN_DICTIONARY =
+      com.computablefacts.nona.dictionaries.Iban.load();
 
-  public ExtractIban() {
-    super("EXTRACT_IBAN");
+  public Iban() {
+    super("IBAN");
   }
 
   @Override
   public BoxedType evaluate(List<BoxedType> parameters) {
 
-    Preconditions.checkArgument(parameters.size() == 1,
-        "EXTRACT_IBAN takes exactly one parameter : %s", parameters);
+    Preconditions.checkArgument(parameters.size() == 1, "IBAN takes exactly one parameter : %s",
+        parameters);
     Preconditions.checkArgument(parameters.get(0).isString(), "%s should be a string",
         parameters.get(0));
 

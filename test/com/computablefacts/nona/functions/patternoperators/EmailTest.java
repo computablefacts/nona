@@ -13,7 +13,7 @@ import com.computablefacts.nona.types.Span;
 import com.computablefacts.nona.types.SpanSequence;
 import com.google.common.collect.Sets;
 
-public class ExtractEmailTest {
+public class EmailTest {
 
   private static final Set<String> VALID_EMAILS =
       Sets.newHashSet("email@example.com", "firstname.lastname@example.com",
@@ -38,11 +38,11 @@ public class ExtractEmailTest {
   public void testValidEmails() {
 
     Map<String, Function> functions = new HashMap<>();
-    functions.put("EEMAIL", new ExtractEmail());
+    functions.put("EMAIL", new Email());
 
     for (String email : VALID_EMAILS) {
 
-      Function fn = new Function("EEMAIL(" + email + ")");
+      Function fn = new Function("EMAIL(" + email + ")");
       List<Span> spans = ((SpanSequence) fn.evaluate(functions).value()).sequence();
       Span span = spans.get(0);
 
@@ -57,7 +57,7 @@ public class ExtractEmailTest {
   public void testValidEmailsInTexts() {
 
     Map<String, Function> functions = new HashMap<>();
-    functions.put("EEMAIL", new ExtractEmail());
+    functions.put("EEMAIL", new Email());
 
     for (String email : VALID_EMAILS_IN_TEXTS) {
 
@@ -77,11 +77,11 @@ public class ExtractEmailTest {
   public void testInvalidEmails() {
 
     Map<String, Function> functions = new HashMap<>();
-    functions.put("EEMAIL", new ExtractEmail());
+    functions.put("EMAIL", new Email());
 
     for (String email : INVALID_EMAILS) {
 
-      Function fn = new Function("EEMAIL(" + email + ")");
+      Function fn = new Function("EMAIL(" + email + ")");
       List<Span> spans = ((SpanSequence) fn.evaluate(functions).value()).sequence();
 
       Assert.assertEquals(0, spans.size());
@@ -92,11 +92,11 @@ public class ExtractEmailTest {
   public void testInvalidEmailsInTexts() {
 
     Map<String, Function> functions = new HashMap<>();
-    functions.put("EEMAIL", new ExtractEmail());
+    functions.put("EMAIL", new Email());
 
     for (String email : INVALID_EMAILS_IN_TEXTS) {
 
-      Function fn = new Function("EEMAIL(" + email + ")");
+      Function fn = new Function("EMAIL(" + email + ")");
       List<Span> spans = ((SpanSequence) fn.evaluate(functions).value()).sequence();
 
       Assert.assertEquals(1, spans.size());

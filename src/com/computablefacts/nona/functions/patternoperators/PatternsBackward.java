@@ -20,21 +20,8 @@ final public class PatternsBackward {
     return new StringBuilder(Strings.nullToEmpty(text)).reverse().toString();
   }
 
-  public static String elfs() {
-    return Joiner.on("|").join(Elf.load().stream().flatMap(elf -> {
-
-      Set<String> abbr1 =
-          elf.abbreviationLocal().stream().map(String::toUpperCase).collect(Collectors.toSet());
-      Set<String> abbr2 = elf.abbreviationTransliterated().stream().map(String::toUpperCase)
-          .collect(Collectors.toSet());
-
-      return Sets.union(abbr1, abbr2).stream();
-    }).filter(abbr -> !Strings.isNullOrEmpty(abbr)).map(abbr -> Pattern.quote(reverse(abbr))
-        .replace("\\.", "\\.?").replaceAll("\\p{Zs}+", "\\\\p{Zs}+")).collect(Collectors.toSet()));
-  }
-
   /**
-   * Match and capture 2 groups :
+   * Regex for company name with Legal Entity Form extraction. Match and capture 2 groups :
    *
    * <ol>
    * <li>Group 1 : the entity legal form</li>
@@ -54,5 +41,18 @@ final public class PatternsBackward {
     // TODO : can a company name starts with a number?
     return "(?i)(" + elf + ")(?-i)(?:" + connector1 + ")((?:(?:" + connector2 + ")*(?:" + word
         + "))+)";
+  }
+
+  private static String elfs() {
+    return Joiner.on("|").join(Elf.load().stream().flatMap(elf -> {
+
+      Set<String> abbr1 =
+          elf.abbreviationLocal().stream().map(String::toUpperCase).collect(Collectors.toSet());
+      Set<String> abbr2 = elf.abbreviationTransliterated().stream().map(String::toUpperCase)
+          .collect(Collectors.toSet());
+
+      return Sets.union(abbr1, abbr2).stream();
+    }).filter(abbr -> !Strings.isNullOrEmpty(abbr)).map(abbr -> Pattern.quote(reverse(abbr))
+        .replace("\\.", "\\.?").replaceAll("\\p{Zs}+", "\\\\p{Zs}+")).collect(Collectors.toSet()));
   }
 }

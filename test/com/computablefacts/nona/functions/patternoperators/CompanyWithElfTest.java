@@ -13,7 +13,7 @@ import com.computablefacts.nona.types.Span;
 import com.computablefacts.nona.types.SpanSequence;
 import com.google.common.collect.Sets;
 
-public class ExtractCompanyNameTest {
+public class CompanyWithElfTest {
 
   /* Extracted from https://www.sec.gov/divisions/corpfin/internatl/alpha2001.htm */
   private static final Set<String> COMPANY_NAMES = Sets.newHashSet("360Networks Inc.",
@@ -505,11 +505,11 @@ public class ExtractCompanyNameTest {
   public void testFullMatch() {
 
     Map<String, Function> functions = new HashMap<>();
-    functions.put("ECPYNAME", new ExtractCompanyName());
+    functions.put("CPYNAME", new CompanyWithElf());
 
     for (String cpy : COMPANY_FULL_MATCH) {
 
-      Function fn = new Function("ECPYNAME(" + Function.wrap(cpy) + ")");
+      Function fn = new Function("CPYNAME(" + Function.wrap(cpy) + ")");
       List<Span> spans = ((SpanSequence) fn.evaluate(functions).value()).sequence();
       Span span = spans.get(0);
 
@@ -523,11 +523,11 @@ public class ExtractCompanyNameTest {
   public void testPartialMatch() {
 
     Map<String, Function> functions = new HashMap<>();
-    functions.put("ECPYNAME", new ExtractCompanyName());
+    functions.put("CPYNAME", new CompanyWithElf());
 
     for (String cpy : COMPANY_PARTIAL_MATCH) {
 
-      Function fn = new Function("ECPYNAME(" + Function.wrap(cpy) + ")");
+      Function fn = new Function("CPYNAME(" + Function.wrap(cpy) + ")");
       List<Span> spans = ((SpanSequence) fn.evaluate(functions).value()).sequence();
 
       Assert.assertEquals(2, spans.size());
@@ -538,11 +538,11 @@ public class ExtractCompanyNameTest {
   public void testNoMatch() {
 
     Map<String, Function> functions = new HashMap<>();
-    functions.put("ECPYNAME", new ExtractCompanyName());
+    functions.put("CPYNAME", new CompanyWithElf());
 
     for (String cpy : COMPANY_NO_MATCH) {
 
-      Function fn = new Function("ECPYNAME(" + Function.wrap(cpy) + ")");
+      Function fn = new Function("CPYNAME(" + Function.wrap(cpy) + ")");
       List<Span> spans = ((SpanSequence) fn.evaluate(functions).value()).sequence();
 
       Assert.assertEquals(0, spans.size());
@@ -553,11 +553,11 @@ public class ExtractCompanyNameTest {
   public void testExtractValidCompanyNameFromText() {
 
     Map<String, Function> functions = new HashMap<>();
-    functions.put("ECPYNAME", new ExtractCompanyName());
+    functions.put("CPYNAME", new CompanyWithElf());
 
     for (String cpy : COMPANY_IN_TEXT) {
 
-      Function fn = new Function("ECPYNAME(" + Function.wrap(cpy) + ")");
+      Function fn = new Function("CPYNAME(" + Function.wrap(cpy) + ")");
       List<Span> spans = ((SpanSequence) fn.evaluate(functions).value()).sequence();
       Span span = spans.get(0);
 

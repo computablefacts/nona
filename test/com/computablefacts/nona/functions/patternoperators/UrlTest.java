@@ -13,7 +13,7 @@ import com.computablefacts.nona.types.Span;
 import com.computablefacts.nona.types.SpanSequence;
 import com.google.common.collect.Sets;
 
-public class ExtractUrlTest {
+public class UrlTest {
 
   private static final Set<String> VALID_URLS_THAT_MATCH =
       Sets.newHashSet("http://foo.com/blah_blah", "http://foo.com/blah_blah/",
@@ -53,10 +53,10 @@ public class ExtractUrlTest {
   public void testUrl() {
 
     Map<String, Function> functions = new HashMap<>();
-    functions.put("EURL", new ExtractUrl());
+    functions.put("URL", new Url());
 
     Function fn =
-        new Function("EURL(" + Function.wrap("https://userid:password@example.com:8080/") + ")");
+        new Function("URL(" + Function.wrap("https://userid:password@example.com:8080/") + ")");
     List<Span> spans = ((SpanSequence) fn.evaluate(functions).value()).sequence();
     Span span = spans.get(0);
 
@@ -75,11 +75,11 @@ public class ExtractUrlTest {
   public void testValidUrls() {
 
     Map<String, Function> functions = new HashMap<>();
-    functions.put("EURL", new ExtractUrl());
+    functions.put("URL", new Url());
 
     for (String url : VALID_URLS_THAT_MATCH) {
 
-      Function fn = new Function("EURL(" + Function.wrap(url) + ")");
+      Function fn = new Function("URL(" + Function.wrap(url) + ")");
       List<Span> spans = ((SpanSequence) fn.evaluate(functions).value()).sequence();
       Span span = spans.get(0);
 
@@ -92,11 +92,11 @@ public class ExtractUrlTest {
   public void testInvalidUrls() {
 
     Map<String, Function> functions = new HashMap<>();
-    functions.put("EURL", new ExtractUrl());
+    functions.put("URL", new Url());
 
     for (String url : INVALID_URLS) {
 
-      Function fn = new Function("EURL(" + Function.wrap(url) + ")");
+      Function fn = new Function("URL(" + Function.wrap(url) + ")");
       List<Span> spans = ((SpanSequence) fn.evaluate(functions).value()).sequence();
 
       Assert.assertEquals(0, spans.size());

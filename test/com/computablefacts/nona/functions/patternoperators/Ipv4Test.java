@@ -11,15 +11,15 @@ import com.computablefacts.nona.Function;
 import com.computablefacts.nona.types.Span;
 import com.computablefacts.nona.types.SpanSequence;
 
-public class ExtractIpv4Test {
+public class Ipv4Test {
 
   @Test
   public void testIpv4NonLocal() {
 
     Map<String, Function> functions = new HashMap<>();
-    functions.put("EIPV4", new ExtractIpV4());
+    functions.put("IPV4", new IpV4());
 
-    Function fn = new Function("EIPV4(100.1.2.3)");
+    Function fn = new Function("IPV4(100.1.2.3)");
     List<Span> spans = ((SpanSequence) fn.evaluate(functions).value()).sequence();
     Span span = spans.get(0);
 
@@ -32,9 +32,9 @@ public class ExtractIpv4Test {
   public void testIpv4Local() {
 
     Map<String, Function> functions = new HashMap<>();
-    functions.put("EIPV4", new ExtractIpV4());
+    functions.put("IPV4", new IpV4());
 
-    Function fn = new Function("EIPV4(127.0.0.1)");
+    Function fn = new Function("IPV4(127.0.0.1)");
     List<Span> spans = ((SpanSequence) fn.evaluate(functions).value()).sequence();
     Span span = spans.get(0);
 

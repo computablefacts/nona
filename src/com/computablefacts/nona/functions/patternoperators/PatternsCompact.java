@@ -14,7 +14,7 @@ final public class PatternsCompact {
   }
 
   /**
-   * Match and capture 3 groups :
+   * Regex for International Bank Account Number extraction. Match and capture 3 groups :
    *
    * <ol>
    * <li>Group 1 : the country code</li>

@@ -22,13 +22,8 @@ final public class PatternsForward {
     return "(?:$|\\p{Zs}|\\b)";
   }
 
-  public static String tld() {
-    return Joiner.on('|').join(Tld.load().stream().filter(tld -> !Strings.isNullOrEmpty(tld))
-        .map(tld -> Pattern.quote(tld.toUpperCase())).collect(Collectors.toSet()));
-  }
-
   /**
-   * Match and capture a single group :
+   * Regex for emoticons extraction. Match and capture a single group :
    *
    * <ol>
    * <li>Group 1 : the emoticon</li>
@@ -41,7 +36,7 @@ final public class PatternsForward {
   }
 
   /**
-   * Match and capture 4 groups :
+   * Regex for Bank Identifier Code extraction. Match and capture 4 groups :
    *
    * <ol>
    * <li>Group 1 : the institution code</li>
@@ -64,7 +59,7 @@ final public class PatternsForward {
   }
 
   /**
-   * Match and capture 2 groups :
+   * Regex for email extraction. Match and capture 2 groups :
    *
    * <ol>
    * <li>Group 1 : the username</li>
@@ -79,11 +74,11 @@ final public class PatternsForward {
     String ip = "\\[?\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\]?";
     String domain = "[-\\w]+(?:\\.[-\\w]+)*\\.[A-Za-z]{2,4}";
 
-    return "(" + username + ")[@＠]((?:" + ip + ")|(?:" + domain + "))";
+    return "(?i)(" + username + ")[@＠]((?:" + ip + ")|(?:" + domain + "))(?-i)";
   }
 
   /**
-   * Match and capture 7 groups :
+   * Regex for URL extraction. Match and capture 7 groups :
    *
    * <ol>
    * <li>Group 1 : the protocol (optional)</li>
@@ -108,12 +103,12 @@ final public class PatternsForward {
         "/[^.!,?;\"'<>\\[\\]{}\\s\\x7F-\\xFF]*(?:[.!,]+[^.!,?;\"'<>\\[\\]{}\\s\\x7F-\\xFF]+)*";
     String queryString = "[^.!,?;\"'<>\\[\\]{}\\s\\x7F-\\xFF]+";
 
-    return "(?:(" + protocol + ")://)(?:(" + username + ")(?::(" + password + "))?[@＠])?("
-        + hostname + ")(?::(" + port + "))?(" + path + ")?(?:\\?(" + queryString + "))?";
+    return "(?i)(?:(" + protocol + ")://)(?:(" + username + ")(?::(" + password + "))?[@＠])?("
+        + hostname + ")(?::(" + port + "))?(" + path + ")?(?:\\?(" + queryString + "))?(?-i)";
   }
 
   /**
-   * Match and capture 4 groups :
+   * Regex for TOR onions extraction. Match and capture 4 groups :
    *
    * <ol>
    * <li>Group 1 : the protocol (optional)</li>
@@ -132,11 +127,11 @@ final public class PatternsForward {
     String path =
         "/[^.!,?;\"'<>()\\[\\]{}\\s\\x7F-\\xFF]*(?:[.!,?]+[^.!,?;\"'<>()\\[\\]{}\\s\\x7F-\\xFF]+)*";
 
-    return "(" + protocol + ")://(" + hostname + ")(" + port + ")?(" + path + ")?";
+    return "(?i)(" + protocol + ")://(" + hostname + ")(" + port + ")?(" + path + ")?(?-i)";
   }
 
   /**
-   * Match and capture 1 group :
+   * Regex for Windows file path extraction. Match and capture 1 group :
    *
    * <ol>
    * <li>Group 1 : full path</li>
@@ -150,11 +145,11 @@ final public class PatternsForward {
     String name = "[A-Z\\d][A-Z\\d\\- '_\\(\\)]{0,61}";
     String extension = "[A-Z\\d]{1,6}";
 
-    return "(" + drive + "(?:" + name + "\\\\?)*" + name + "(?:\\." + extension + ")?)";
+    return "(?i)(" + drive + "(?:" + name + "\\\\?)*" + name + "(?:\\." + extension + ")?)(?-i)";
   }
 
   /**
-   * Match and capture 1 group :
+   * Regex for Unix file path extraction. Match and capture 1 group :
    *
    * <ol>
    * <li>Group 1 : full path</li>
@@ -167,7 +162,7 @@ final public class PatternsForward {
   }
 
   /**
-   * Match and capture 1 group :
+   * Regex for IPV4 addresses extraction. Match and capture 1 group :
    *
    * <ol>
    * <li>Group 1 : ip address</li>
@@ -175,12 +170,12 @@ final public class PatternsForward {
    *
    * @return regular expression.
    */
-  public static String ipV4() {
-    return "((?:(?:\\d|[01]?\\d\\d|2[0-4]\\d|25[0-5])\\.){3}(?:25[0-5]|2[0-4]\\d|[01]?\\d\\d|\\d)(?:\\/\\d{1,2})?)";
+  public static String ipv4() {
+    return "(?i)((?:(?:\\d|[01]?\\d\\d|2[0-4]\\d|25[0-5])\\.){3}(?:25[0-5]|2[0-4]\\d|[01]?\\d\\d|\\d)(?:\\/\\d{1,2})?)(?-i)";
   }
 
   /**
-   * Match and capture 1 group :
+   * Regex for local IP addresses extraction. Match and capture 1 group :
    *
    * <ol>
    * <li>Group 1 : ip address</li>
@@ -188,7 +183,7 @@ final public class PatternsForward {
    *
    * @return regular expression.
    */
-  public static String ipLocal() {
+  public static String iplocal() {
 
     String ten = "10\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}";
     String oneNineTwo = "192\\.168\\.\\d{1,3}\\.\\d{1,3}";
@@ -196,5 +191,47 @@ final public class PatternsForward {
     String oneTwoSeven = "127\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}";
 
     return "(" + ten + "|" + oneNineTwo + "|" + oneSevenTwo + "|" + oneTwoSeven + ")";
+  }
+
+  /**
+   * Regex for IPV6 addresses extraction. Only normal addresses are matched. Match and capture 1
+   * group :
+   *
+   * <ol>
+   * <li>Group 1 : ip address</li>
+   * </ol>
+   *
+   * @return regular expression.
+   */
+  public static String ipv6() {
+
+    String ipv6hex4deccompressed =
+        "(?:[0-9A-Fa-f]{1,4}(?::[0-9A-Fa-f]{1,4})*)?::(?:[0-9A-Fa-f]{1,4}:)*25[0-5]|2[0-4]\\d|[0-1]?\\d?\\d(?:\\.(?:25[0-5]|2[0-4]\\d|[0-1]?\\d?\\d)){3}";
+    String ipv66hex4dec =
+        "(?:[0-9A-Fa-f]{1,4}:){6,6}25[0-5]|2[0-4]\\d|[0-1]?\\d?\\d(?:\\.(?:25[0-5]|2[0-4]\\d|[0-1]?\\d?\\d)){3}";
+    String ipv6hexcompressed =
+        "(?:[0-9A-Fa-f]{1,4}(?::[0-9A-Fa-f]{1,4})*)?::(?:[0-9A-Fa-f]{1,4}(?::[0-9A-Fa-f]{1,4})*)?";
+    String ipv6regex = "(?:[0-9a-fA-F]{1,4}:){7}[0-9a-fA-F]{1,4}";
+
+    return "(?i)(" + ipv6hex4deccompressed + "|" + ipv66hex4dec + "|" + ipv6hexcompressed + "|"
+        + ipv6regex + ")(?-i)";
+  }
+
+  /**
+   * Regex for MAC addresses extraction. Match and capture 1 group :
+   *
+   * <ol>
+   * <li>Group 1 : mac address</li>
+   * </ol>
+   *
+   * @return regular expression.
+   */
+  public static String macAddress() {
+    return "(?i)([A-F\\d]{2}(?:[:-][A-F\\d]{2}){5})(?i)";
+  }
+
+  private static String tld() {
+    return Joiner.on('|').join(Tld.load().stream().filter(tld -> !Strings.isNullOrEmpty(tld))
+        .map(tld -> Pattern.quote(tld.toUpperCase())).collect(Collectors.toSet()));
   }
 }

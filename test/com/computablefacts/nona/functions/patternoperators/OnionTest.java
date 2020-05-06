@@ -13,7 +13,7 @@ import com.computablefacts.nona.types.Span;
 import com.computablefacts.nona.types.SpanSequence;
 import com.google.common.collect.Sets;
 
-public class ExtractOnionTest {
+public class OnionTest {
 
   private static final Set<String> VALID_URLS_THAT_MATCH = Sets.newHashSet(
       "http://wikitjerrta4qgz4.onion/", "http://zqktlwi4fecvo6ri.onion/wiki/index.php/Main_Page",
@@ -34,10 +34,10 @@ public class ExtractOnionTest {
   public void testOnion() {
 
     Map<String, Function> functions = new HashMap<>();
-    functions.put("EONION", new ExtractOnion());
+    functions.put("ONION", new Onion());
 
     Function fn = new Function(
-        "EONION(" + Function.wrap("http://torwikignoueupfm.onion/index.php?title=Main_Page") + ")");
+        "ONION(" + Function.wrap("http://torwikignoueupfm.onion/index.php?title=Main_Page") + ")");
     List<Span> spans = ((SpanSequence) fn.evaluate(functions).value()).sequence();
     Span span = spans.get(0);
 
@@ -53,11 +53,11 @@ public class ExtractOnionTest {
   public void testValidOnions() {
 
     Map<String, Function> functions = new HashMap<>();
-    functions.put("EONION", new ExtractOnion());
+    functions.put("ONION", new Onion());
 
     for (String onion : VALID_URLS_THAT_MATCH) {
 
-      Function fn = new Function("EONION(" + Function.wrap(onion) + ")");
+      Function fn = new Function("ONION(" + Function.wrap(onion) + ")");
       List<Span> spans = ((SpanSequence) fn.evaluate(functions).value()).sequence();
       Span span = spans.get(0);
 
@@ -70,7 +70,7 @@ public class ExtractOnionTest {
   public void testInvalidOnions() {
 
     Map<String, Function> functions = new HashMap<>();
-    functions.put("EONION", new ExtractOnion());
+    functions.put("EONION", new Onion());
 
     for (String onion : INVALID_URLS) {
 

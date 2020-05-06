@@ -2,8 +2,10 @@ package com.computablefacts.nona.functions.patternoperators;
 
 import static com.computablefacts.nona.functions.patternoperators.PatternsForward.email;
 import static com.computablefacts.nona.functions.patternoperators.PatternsForward.emoticon;
-import static com.computablefacts.nona.functions.patternoperators.PatternsForward.ipLocal;
-import static com.computablefacts.nona.functions.patternoperators.PatternsForward.ipV4;
+import static com.computablefacts.nona.functions.patternoperators.PatternsForward.iplocal;
+import static com.computablefacts.nona.functions.patternoperators.PatternsForward.ipv4;
+import static com.computablefacts.nona.functions.patternoperators.PatternsForward.ipv6;
+import static com.computablefacts.nona.functions.patternoperators.PatternsForward.macAddress;
 import static com.computablefacts.nona.functions.patternoperators.PatternsForward.onion;
 import static com.computablefacts.nona.functions.patternoperators.PatternsForward.unixPath;
 import static com.computablefacts.nona.functions.patternoperators.PatternsForward.url;
@@ -368,7 +370,7 @@ public class PatternsTest {
   @Test
   public void testIpV4() {
 
-    Pattern pattern = Pattern.compile("^" + ipV4() + "$", Pattern.CASE_INSENSITIVE);
+    Pattern pattern = Pattern.compile("^" + ipv4() + "$", Pattern.CASE_INSENSITIVE);
 
     assertTrue(pattern.matches("1.0.1.0")); // China
     assertTrue(pattern.matches("8.8.8.8")); // Google DNS in USA
@@ -400,7 +402,7 @@ public class PatternsTest {
   @Test
   public void testIpLocal() {
 
-    Pattern pattern = Pattern.compile("^" + ipLocal() + "$", Pattern.CASE_INSENSITIVE);
+    Pattern pattern = Pattern.compile("^" + iplocal() + "$", Pattern.CASE_INSENSITIVE);
 
     assertFalse(pattern.matches("1.0.1.0")); // China
     assertFalse(pattern.matches("8.8.8.8")); // Google DNS in USA
@@ -426,5 +428,43 @@ public class PatternsTest {
     assertFalse(pattern.matches("256.2.3.4"));
     assertFalse(pattern.matches("1.2.3.4.5"));
     assertFalse(pattern.matches("1..3.4"));
+  }
+
+  @Test
+  public void testIpV6() {
+
+    Pattern pattern = Pattern.compile("^" + ipv6() + "$", Pattern.CASE_INSENSITIVE);
+
+    assertTrue(pattern.matches("2002:4559:1FE2::4559:1FE2"));
+    assertTrue(pattern.matches("1080:0:0:0:8:800:200C:417A"));
+    assertTrue(pattern.matches("1080::8:800:200C:417A"));
+    assertTrue(pattern.matches("2001:db8:3333:4444:5555:6666:7777:8888"));
+    assertTrue(pattern.matches("2001:db8:3333:4444:CCCC:DDDD:EEEE:FFFF"));
+    assertTrue(pattern.matches("::")); // implies all 8 segments are zero
+    assertTrue(pattern.matches("2001:db8::")); // implies that the last six segments are zero
+    assertTrue(pattern.matches("::1234:5678")); // implies that the first six segments are zero
+    assertTrue(pattern.matches("2001:db8::1234:5678")); // implies that the middle four segments are
+                                                        // zero
+    assertTrue(pattern.matches("2001:0db8:0001:0000:0000:0ab9:C0A8:0102"));
+    assertTrue(pattern.matches("2001:db8:1::ab9:C0A8:102")); // same as above but compressed to
+                                                             // eliminate leading zeros
+    assertTrue(pattern.matches("::1")); // localhost
+    assertTrue(pattern.matches("fe80::")); // link-local prefix
+    assertTrue(pattern.matches("2001::")); // global unicast prefix
+
+    assertFalse(pattern.matches("|0000:|5678::"));
+    assertFalse(pattern.matches("1200::AB00:1234::2552:7777:1313")); // can only use :: once in an
+                                                                     // address
+    assertFalse(pattern.matches("1200:0000:AB00:1234:O000:2552:7777:1313")); // invalid character in
+                                                                             // field of what looks
+                                                                             // to be all 0's
+  }
+
+  @Test
+  public void testMacAddress() {
+
+    Pattern pattern = Pattern.compile("^" + macAddress() + "$", Pattern.CASE_INSENSITIVE);
+
+    assertTrue(pattern.matches("00:0a:95:9d:68:16"));
   }
 }
