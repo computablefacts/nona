@@ -165,4 +165,36 @@ final public class PatternsForward {
   public static String unixPath() {
     return "((?:/[A-Z\\d.][A-Z\\d\\-._]{0,61})+)";
   }
+
+  /**
+   * Match and capture 1 group :
+   *
+   * <ol>
+   * <li>Group 1 : ip address</li>
+   * </ol>
+   *
+   * @return regular expression.
+   */
+  public static String ipV4() {
+    return "((?:(?:\\d|[01]?\\d\\d|2[0-4]\\d|25[0-5])\\.){3}(?:25[0-5]|2[0-4]\\d|[01]?\\d\\d|\\d)(?:\\/\\d{1,2})?)";
+  }
+
+  /**
+   * Match and capture 1 group :
+   *
+   * <ol>
+   * <li>Group 1 : ip address</li>
+   * </ol>
+   *
+   * @return regular expression.
+   */
+  public static String ipLocal() {
+
+    String ten = "10\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}";
+    String oneNineTwo = "192\\.168\\.\\d{1,3}\\.\\d{1,3}";
+    String oneSevenTwo = "172\\.(?:1[6-9]|2\\d|3[01])\\.\\d{1,3}\\.\\d{1,3}";
+    String oneTwoSeven = "127\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}";
+
+    return "(" + ten + "|" + oneNineTwo + "|" + oneSevenTwo + "|" + oneTwoSeven + ")";
+  }
 }

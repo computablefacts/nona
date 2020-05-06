@@ -2,6 +2,8 @@ package com.computablefacts.nona.functions.patternoperators;
 
 import static com.computablefacts.nona.functions.patternoperators.PatternsForward.email;
 import static com.computablefacts.nona.functions.patternoperators.PatternsForward.emoticon;
+import static com.computablefacts.nona.functions.patternoperators.PatternsForward.ipLocal;
+import static com.computablefacts.nona.functions.patternoperators.PatternsForward.ipV4;
 import static com.computablefacts.nona.functions.patternoperators.PatternsForward.onion;
 import static com.computablefacts.nona.functions.patternoperators.PatternsForward.unixPath;
 import static com.computablefacts.nona.functions.patternoperators.PatternsForward.url;
@@ -361,5 +363,68 @@ public class PatternsTest {
 
     assertTrue(patternUnix.matches("/var/logs/tomcat8/catalina.out"));
     assertFalse(patternWin.matches("/var/logs/tomcat8/catalina.out"));
+  }
+
+  @Test
+  public void testIpV4() {
+
+    Pattern pattern = Pattern.compile("^" + ipV4() + "$", Pattern.CASE_INSENSITIVE);
+
+    assertTrue(pattern.matches("1.0.1.0")); // China
+    assertTrue(pattern.matches("8.8.8.8")); // Google DNS in USA
+    assertTrue(pattern.matches("100.1.2.3")); // USA
+    assertTrue(pattern.matches("172.15.1.2")); // USA
+    assertTrue(pattern.matches("172.32.1.2")); // USA
+    assertTrue(pattern.matches("192.167.1.2")); // Italy
+
+    assertTrue(pattern.matches("10.1.2.3")); // 10.0.0.0/8 is considered private
+    assertTrue(pattern.matches("127.0.0.1")); // localhost
+    assertTrue(pattern.matches("172.16.1.2")); // 172.16.0.0/12 is considered private
+    assertTrue(pattern.matches("172.31.1.2")); // same as previous, but near the end of that range
+    assertTrue(pattern.matches("192.168.1.2")); // 192.168.0.0/16 is considered private
+
+    // TODO : fix regex to disable these patterns?
+    assertTrue(pattern.matches("0.1.2.3")); // 0.0.0.0/8 is reserved for some broadcasts
+    assertTrue(pattern.matches("255.255.255.255")); // reserved broadcast is not an IP
+
+    assertFalse(pattern.matches(".2.3.4"));
+    assertFalse(pattern.matches("1.2.3."));
+    assertFalse(pattern.matches("1.2.3.256"));
+    assertFalse(pattern.matches("1.2.256.4"));
+    assertFalse(pattern.matches("1.256.3.4"));
+    assertFalse(pattern.matches("256.2.3.4"));
+    assertFalse(pattern.matches("1.2.3.4.5"));
+    assertFalse(pattern.matches("1..3.4"));
+  }
+
+  @Test
+  public void testIpLocal() {
+
+    Pattern pattern = Pattern.compile("^" + ipLocal() + "$", Pattern.CASE_INSENSITIVE);
+
+    assertFalse(pattern.matches("1.0.1.0")); // China
+    assertFalse(pattern.matches("8.8.8.8")); // Google DNS in USA
+    assertFalse(pattern.matches("100.1.2.3")); // USA
+    assertFalse(pattern.matches("172.15.1.2")); // USA
+    assertFalse(pattern.matches("172.32.1.2")); // USA
+    assertFalse(pattern.matches("192.167.1.2")); // Italy
+
+    assertTrue(pattern.matches("10.1.2.3")); // 10.0.0.0/8 is considered private
+    assertTrue(pattern.matches("127.0.0.1")); // localhost
+    assertTrue(pattern.matches("172.16.1.2")); // 172.16.0.0/12 is considered private
+    assertTrue(pattern.matches("172.31.1.2")); // same as previous, but near the end of that range
+    assertTrue(pattern.matches("192.168.1.2")); // 192.168.0.0/16 is considered private
+
+    assertFalse(pattern.matches("0.1.2.3")); // 0.0.0.0/8 is reserved for some broadcasts
+    assertFalse(pattern.matches("255.255.255.255")); // reserved broadcast is not an IP
+
+    assertFalse(pattern.matches(".2.3.4"));
+    assertFalse(pattern.matches("1.2.3."));
+    assertFalse(pattern.matches("1.2.3.256"));
+    assertFalse(pattern.matches("1.2.256.4"));
+    assertFalse(pattern.matches("1.256.3.4"));
+    assertFalse(pattern.matches("256.2.3.4"));
+    assertFalse(pattern.matches("1.2.3.4.5"));
+    assertFalse(pattern.matches("1..3.4"));
   }
 }
