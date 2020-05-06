@@ -4,6 +4,7 @@ import java.util.stream.Collectors;
 
 import com.computablefacts.nona.dictionaries.Tld;
 import com.google.common.base.Joiner;
+import com.google.common.base.Strings;
 import com.google.re2j.Pattern;
 
 /**
@@ -22,8 +23,8 @@ final public class PatternsForward {
   }
 
   public static String tld() {
-    return Joiner.on('|').join(Tld.load().stream().map(tld -> Pattern.quote(tld.toUpperCase()))
-        .collect(Collectors.toSet()));
+    return Joiner.on('|').join(Tld.load().stream().filter(tld -> !Strings.isNullOrEmpty(tld))
+        .map(tld -> Pattern.quote(tld.toUpperCase())).collect(Collectors.toSet()));
   }
 
   /**
@@ -101,7 +102,7 @@ final public class PatternsForward {
     String protocol = "[a-zA-Z]+";
     String username = "[\\p{L}\\p{N}]+";
     String password = "[\\p{L}\\p{N}]+";
-    String hostname = "[-\\w]+(?:\\.\\w[-\\w]*)*(?:\\.(?:" + tld() + "))";
+    String hostname = "\\w+(?:[-\\.]?\\w)*(?:\\.(?:" + tld() + "))";
     String port = "\\d{2,5}";
     String path =
         "/[^.!,?;\"'<>\\[\\]{}\\s\\x7F-\\xFF]*(?:[.!,]+[^.!,?;\"'<>\\[\\]{}\\s\\x7F-\\xFF]+)*";

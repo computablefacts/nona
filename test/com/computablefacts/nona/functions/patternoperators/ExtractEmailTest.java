@@ -44,7 +44,6 @@ public class ExtractEmailTest {
 
       Function fn = new Function("EEMAIL(" + email + ")");
       List<Span> spans = ((SpanSequence) fn.evaluate(functions).value()).sequence();
-
       Span span = spans.get(0);
 
       Assert.assertEquals(1, spans.size());

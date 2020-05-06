@@ -33,7 +33,8 @@ public class ExtractEmail extends RegexExtract {
 
     List<BoxedType> newParameters = new ArrayList<>();
     newParameters.add(parameters.get(0));
-    newParameters.add(BoxedType.create(leftBoundary() + email() + rightBoundary()));
+    newParameters
+        .add(BoxedType.create(leftBoundary() + "(?i)" + email() + "(?-i)" + rightBoundary()));
 
     BoxedType boxedType = super.evaluate(newParameters);
     SpanSequence sequence = (SpanSequence) boxedType.value();

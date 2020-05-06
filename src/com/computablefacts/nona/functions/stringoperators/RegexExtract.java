@@ -43,6 +43,10 @@ public class RegexExtract extends Function {
 
     Preconditions.checkArgument(parameters.size() == 2,
         "REGEXEXTRACT takes exactly two parameters : %s", parameters);
+    Preconditions.checkArgument(parameters.get(0).isString(), "%s should be a string",
+        parameters.get(0));
+    Preconditions.checkArgument(parameters.get(1).isString(), "%s should be a string",
+        parameters.get(1));
 
     SpanSequence sequence = new SpanSequence();
     String text = parameters.get(0).asString();
