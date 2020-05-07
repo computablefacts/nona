@@ -14,12 +14,13 @@ final public class PatternsCompact {
   }
 
   /**
-   * Regex for International Bank Account Number extraction. Match and capture 3 groups :
+   * Regex for International Bank Account Number extraction. Match and capture 4 groups :
    *
    * <ol>
-   * <li>Group 1 : the country code</li>
-   * <li>Group 2 : the check digits</li>
-   * <li>Group 3 : the rest</li>
+   * <li>Group 1 : whole match</li>
+   * <li>Group 2 : the country code</li>
+   * <li>Group 3 : the check digits</li>
+   * <li>Group 4 : the rest</li>
    * </ol>
    *
    * @return regular expression.
@@ -30,6 +31,6 @@ final public class PatternsCompact {
     String checksum = "\\d{2}";
     String rest = "[A-Za-z\\d]+";
 
-    return "(" + country + ")(" + checksum + ")(" + rest + ")";
+    return "((" + country + ")(" + checksum + ")(" + rest + "))";
   }
 }

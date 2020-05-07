@@ -24,6 +24,7 @@ public class DateTimeTest {
     Span span = spans.get(0);
 
     Assert.assertEquals(1, spans.size());
+    Assert.assertTrue(span.hasTag("DATE_TIME"));
     Assert.assertEquals("1997-07-16T19:20:30+01:00", span.text());
     Assert.assertEquals("1997-07-16", span.getFeature("DATE"));
     Assert.assertEquals("19:20:30", span.getFeature("TIME"));
@@ -41,6 +42,7 @@ public class DateTimeTest {
     Span span = spans.get(0);
 
     Assert.assertEquals(1, spans.size());
+    Assert.assertTrue(span.hasTag("DATE_TIME"));
     Assert.assertEquals("1994-11-05T08:15:30-05:00", span.text());
     Assert.assertEquals("1994-11-05", span.getFeature("DATE"));
     Assert.assertEquals("08:15:30", span.getFeature("TIME"));

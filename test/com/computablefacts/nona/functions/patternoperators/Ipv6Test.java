@@ -39,6 +39,7 @@ public class Ipv6Test {
 
     Assert.assertEquals(1, spans.size());
     Assert.assertEquals("fe80:0:0:0:204:61ff:fe9d:f156", span.text());
+    Assert.assertTrue(span.hasTag("IPV6"));
   }
 
   @Test
@@ -53,5 +54,6 @@ public class Ipv6Test {
 
     Assert.assertEquals(1, spans.size());
     Assert.assertEquals("fe80::204:61ff:fe9d:f156", span.text());
+    Assert.assertTrue(span.hasTag("IPV6"));
   }
 }

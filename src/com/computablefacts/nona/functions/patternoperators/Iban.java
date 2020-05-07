@@ -45,7 +45,7 @@ public class Iban extends RegexExtract {
 
       @Var
       String iban = span.text();
-      String countryCode = span.getGroup(1);
+      String countryCode = span.getGroup(2);
 
       if (!IBAN_DICTIONARY.containsKey(countryCode)) {
         continue;
@@ -79,13 +79,14 @@ public class Iban extends RegexExtract {
 
       if (checksum == 1) {
 
-        span.removeAllGroups();
+        span.addTag("IBAN");
         span.setFeature("BBAN", iban.substring(4));
         span.setFeature("COUNTRY_CODE", countryCode);
         span.setFeature("COUNTRY_NAME", IBAN_DICTIONARY.get(countryCode).countryName());
         span.setFeature("IS_SEPA_MEMBER",
             Boolean.toString(IBAN_DICTIONARY.get(countryCode).isSepaMember()));
 
+        span.removeAllGroups();
         newSequence.add(span);
       }
     }

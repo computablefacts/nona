@@ -12,6 +12,7 @@ import static com.computablefacts.nona.functions.patternoperators.PatternsForwar
 import static com.computablefacts.nona.functions.patternoperators.PatternsForward.monetaryAmount;
 import static com.computablefacts.nona.functions.patternoperators.PatternsForward.number;
 import static com.computablefacts.nona.functions.patternoperators.PatternsForward.onion;
+import static com.computablefacts.nona.functions.patternoperators.PatternsForward.percent;
 import static com.computablefacts.nona.functions.patternoperators.PatternsForward.time;
 import static com.computablefacts.nona.functions.patternoperators.PatternsForward.unixPath;
 import static com.computablefacts.nona.functions.patternoperators.PatternsForward.url;
@@ -209,34 +210,34 @@ public class PatternsTest {
     Matcher matcher = pattern.matcher("john.doe@example.com");
 
     assertTrue(matcher.find());
-    assertEquals(2, matcher.groupCount());
-    assertEquals("john.doe@example.com", matcher.group(0));
-    assertEquals("john.doe", matcher.group(1));
-    assertEquals("example.com", matcher.group(2));
+    assertEquals(3, matcher.groupCount());
+    assertEquals("john.doe@example.com", matcher.group(1));
+    assertEquals("john.doe", matcher.group(2));
+    assertEquals("example.com", matcher.group(3));
 
     matcher = pattern.matcher("john+doe@example.com");
 
     assertTrue(matcher.find());
-    assertEquals(2, matcher.groupCount());
-    assertEquals("john+doe@example.com", matcher.group(0));
-    assertEquals("john+doe", matcher.group(1));
-    assertEquals("example.com", matcher.group(2));
+    assertEquals(3, matcher.groupCount());
+    assertEquals("john+doe@example.com", matcher.group(1));
+    assertEquals("john+doe", matcher.group(2));
+    assertEquals("example.com", matcher.group(3));
 
     matcher = pattern.matcher("john.doe@example-international.com");
 
     assertTrue(matcher.find());
-    assertEquals(2, matcher.groupCount());
-    assertEquals("john.doe@example-international.com", matcher.group(0));
-    assertEquals("john.doe", matcher.group(1));
-    assertEquals("example-international.com", matcher.group(2));
+    assertEquals(3, matcher.groupCount());
+    assertEquals("john.doe@example-international.com", matcher.group(1));
+    assertEquals("john.doe", matcher.group(2));
+    assertEquals("example-international.com", matcher.group(3));
 
     matcher = pattern.matcher("john+doe@example-international.com");
 
     assertTrue(matcher.find());
-    assertEquals(2, matcher.groupCount());
-    assertEquals("john+doe@example-international.com", matcher.group(0));
-    assertEquals("john+doe", matcher.group(1));
-    assertEquals("example-international.com", matcher.group(2));
+    assertEquals(3, matcher.groupCount());
+    assertEquals("john+doe@example-international.com", matcher.group(1));
+    assertEquals("john+doe", matcher.group(2));
+    assertEquals("example-international.com", matcher.group(3));
   }
 
   @Test
@@ -249,43 +250,43 @@ public class PatternsTest {
 
     assertTrue(matcher.find());
 
-    assertEquals(7, matcher.groupCount());
-    assertEquals("http://www.computablefacts.com/", matcher.group(0));
-    assertEquals("http", matcher.group(1));
-    assertEquals(null, matcher.group(2));
+    assertEquals(8, matcher.groupCount());
+    assertEquals("http://www.computablefacts.com/", matcher.group(1));
+    assertEquals("http", matcher.group(2));
     assertEquals(null, matcher.group(3));
-    assertEquals("www.computablefacts.com", matcher.group(4));
-    assertEquals(null, matcher.group(5));
-    assertEquals("/", matcher.group(6));
-    assertEquals(null, matcher.group(7));
+    assertEquals(null, matcher.group(4));
+    assertEquals("www.computablefacts.com", matcher.group(5));
+    assertEquals(null, matcher.group(6));
+    assertEquals("/", matcher.group(7));
+    assertEquals(null, matcher.group(8));
 
     matcher = pattern.matcher("https://1337.net");
 
     assertTrue(matcher.find());
 
-    assertEquals(7, matcher.groupCount());
-    assertEquals("https://1337.net", matcher.group(0));
-    assertEquals("https", matcher.group(1));
-    assertEquals(null, matcher.group(2));
+    assertEquals(8, matcher.groupCount());
+    assertEquals("https://1337.net", matcher.group(1));
+    assertEquals("https", matcher.group(2));
     assertEquals(null, matcher.group(3));
-    assertEquals("1337.net", matcher.group(4));
-    assertEquals(null, matcher.group(5));
+    assertEquals(null, matcher.group(4));
+    assertEquals("1337.net", matcher.group(5));
     assertEquals(null, matcher.group(6));
     assertEquals(null, matcher.group(7));
+    assertEquals(null, matcher.group(8));
 
     matcher = pattern.matcher("https://a.bc.de");
 
     matcher.find();
 
-    assertEquals(7, matcher.groupCount());
-    assertEquals("https://a.bc.de", matcher.group(0));
-    assertEquals("https", matcher.group(1));
-    assertEquals(null, matcher.group(2));
+    assertEquals(8, matcher.groupCount());
+    assertEquals("https://a.bc.de", matcher.group(1));
+    assertEquals("https", matcher.group(2));
     assertEquals(null, matcher.group(3));
-    assertEquals("a.bc.de", matcher.group(4));
-    assertEquals(null, matcher.group(5));
+    assertEquals(null, matcher.group(4));
+    assertEquals("a.bc.de", matcher.group(5));
     assertEquals(null, matcher.group(6));
     assertEquals(null, matcher.group(7));
+    assertEquals(null, matcher.group(8));
   }
 
   @Test
@@ -298,30 +299,30 @@ public class PatternsTest {
 
     assertTrue(matcher.find());
 
-    assertEquals(7, matcher.groupCount());
-    assertEquals("http://userid:password@example.com:8080", matcher.group(0));
-    assertEquals("http", matcher.group(1));
-    assertEquals("userid", matcher.group(2));
-    assertEquals("password", matcher.group(3));
-    assertEquals("example.com", matcher.group(4));
-    assertEquals("8080", matcher.group(5));
-    assertEquals(null, matcher.group(6));
+    assertEquals(8, matcher.groupCount());
+    assertEquals("http://userid:password@example.com:8080", matcher.group(1));
+    assertEquals("http", matcher.group(2));
+    assertEquals("userid", matcher.group(3));
+    assertEquals("password", matcher.group(4));
+    assertEquals("example.com", matcher.group(5));
+    assertEquals("8080", matcher.group(6));
     assertEquals(null, matcher.group(7));
+    assertEquals(null, matcher.group(8));
 
     matcher = pattern.matcher("https://userid@example.com/blah_blah_(wikipedia)/?q=test1&r=test2");
 
     assertTrue(matcher.find());
 
-    assertEquals(7, matcher.groupCount());
+    assertEquals(8, matcher.groupCount());
     assertEquals("https://userid@example.com/blah_blah_(wikipedia)/?q=test1&r=test2",
-        matcher.group(0));
-    assertEquals("https", matcher.group(1));
-    assertEquals("userid", matcher.group(2));
-    assertEquals(null, matcher.group(3));
-    assertEquals("example.com", matcher.group(4));
-    assertEquals(null, matcher.group(5));
-    assertEquals("/blah_blah_(wikipedia)/", matcher.group(6));
-    assertEquals("q=test1&r=test2", matcher.group(7));
+        matcher.group(1));
+    assertEquals("https", matcher.group(2));
+    assertEquals("userid", matcher.group(3));
+    assertEquals(null, matcher.group(4));
+    assertEquals("example.com", matcher.group(5));
+    assertEquals(null, matcher.group(6));
+    assertEquals("/blah_blah_(wikipedia)/", matcher.group(7));
+    assertEquals("q=test1&r=test2", matcher.group(8));
   }
 
   @Test
@@ -334,23 +335,23 @@ public class PatternsTest {
 
     assertTrue(matcher.find());
 
-    assertEquals(4, matcher.groupCount());
-    assertEquals("http://3g2upl4pq6kufc4m.onion/", matcher.group(0));
-    assertEquals("http", matcher.group(1));
-    assertEquals("3g2upl4pq6kufc4m.onion", matcher.group(2));
-    assertEquals(null, matcher.group(3));
-    assertEquals("/", matcher.group(4));
+    assertEquals(5, matcher.groupCount());
+    assertEquals("http://3g2upl4pq6kufc4m.onion/", matcher.group(1));
+    assertEquals("http", matcher.group(2));
+    assertEquals("3g2upl4pq6kufc4m.onion", matcher.group(3));
+    assertEquals(null, matcher.group(4));
+    assertEquals("/", matcher.group(5));
 
     matcher = pattern.matcher("http://lw4ipk5choakk5ze.onion/raw/evbLewgkDSVkifzv8zAo/");
 
     assertTrue(matcher.find());
 
-    assertEquals(4, matcher.groupCount());
-    assertEquals("http://lw4ipk5choakk5ze.onion/raw/evbLewgkDSVkifzv8zAo/", matcher.group(0));
-    assertEquals("http", matcher.group(1));
-    assertEquals("lw4ipk5choakk5ze.onion", matcher.group(2));
-    assertEquals(null, matcher.group(3));
-    assertEquals("/raw/evbLewgkDSVkifzv8zAo/", matcher.group(4));
+    assertEquals(5, matcher.groupCount());
+    assertEquals("http://lw4ipk5choakk5ze.onion/raw/evbLewgkDSVkifzv8zAo/", matcher.group(1));
+    assertEquals("http", matcher.group(2));
+    assertEquals("lw4ipk5choakk5ze.onion", matcher.group(3));
+    assertEquals(null, matcher.group(4));
+    assertEquals("/raw/evbLewgkDSVkifzv8zAo/", matcher.group(5));
   }
 
   @Test
@@ -623,5 +624,14 @@ public class PatternsTest {
     assertTrue(pattern.matches("123,456,789 €"));
     assertTrue(pattern.matches("123.456.789 €"));
     assertTrue(pattern.matches("99,785.01 €"));
+  }
+
+  @Test
+  public void testPercent() {
+
+    Pattern pattern = Pattern.compile("^" + percent() + "$", Pattern.CASE_INSENSITIVE);
+
+    assertTrue(pattern.matches("9.2%"));
+    assertTrue(pattern.matches("11,1 %"));
   }
 }

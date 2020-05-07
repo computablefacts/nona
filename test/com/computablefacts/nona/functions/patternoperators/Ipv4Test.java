@@ -25,6 +25,7 @@ public class Ipv4Test {
 
     Assert.assertEquals(1, spans.size());
     Assert.assertEquals("100.1.2.3", span.text());
+    Assert.assertTrue(span.hasTag("IPV4"));
     Assert.assertEquals("false", span.getFeature("IS_LOCAL"));
   }
 
@@ -40,6 +41,7 @@ public class Ipv4Test {
 
     Assert.assertEquals(1, spans.size());
     Assert.assertEquals("127.0.0.1", span.text());
+    Assert.assertTrue(span.hasTag("IPV4"));
     Assert.assertEquals("true", span.getFeature("IS_LOCAL"));
   }
 }

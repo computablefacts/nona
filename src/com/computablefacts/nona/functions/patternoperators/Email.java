@@ -2,26 +2,30 @@ package com.computablefacts.nona.functions.patternoperators;
 
 import static com.computablefacts.nona.functions.patternoperators.PatternsForward.email;
 import static com.computablefacts.nona.functions.patternoperators.PatternsForward.ipv4;
-import static com.computablefacts.nona.functions.patternoperators.PatternsForward.leftBoundary;
-import static com.computablefacts.nona.functions.patternoperators.PatternsForward.rightBoundary;
 
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import com.computablefacts.nona.dictionaries.Tld;
-import com.computablefacts.nona.functions.stringoperators.RegexExtract;
 import com.computablefacts.nona.types.BoxedType;
 import com.computablefacts.nona.types.Span;
 import com.computablefacts.nona.types.SpanSequence;
 import com.google.common.base.Preconditions;
 
-public class Email extends RegexExtract {
+public class Email extends MatchPattern {
 
   private static final Set<String> TLD_DICTIONARY = Tld.load();
+  private static final Map<Integer, String> GROUPS = new HashMap<>();
+
+  static {
+    GROUPS.put(2, "USERNAME");
+    GROUPS.put(3, "DOMAIN");
+  }
 
   public Email() {
-    super("EMAIL");
+    super("EMAIL", email(), GROUPS);
   }
 
   @Override
@@ -32,23 +36,19 @@ public class Email extends RegexExtract {
     Preconditions.checkArgument(parameters.get(0).isString(), "%s should be a string",
         parameters.get(0));
 
-    List<BoxedType> newParameters = new ArrayList<>();
-    newParameters.add(parameters.get(0));
-    newParameters.add(BoxedType.create(leftBoundary() + email() + rightBoundary()));
-
-    BoxedType boxedType = super.evaluate(newParameters);
+    BoxedType boxedType = super.evaluate(parameters);
     SpanSequence sequence = (SpanSequence) boxedType.value();
     SpanSequence newSequence = new SpanSequence();
 
     for (Span span : sequence.sequence()) {
 
-      String username = span.getGroup(1);
-      String domain = span.getGroup(2);
+      String username = span.getFeature("USERNAME");
+      String domain = span.getFeature("DOMAIN");
 
+      span.addTag("EMAIL");
       span.removeAllGroups();
 
       if (domain.matches("^\\[?" + ipv4() + "\\]?$")) {
-
         span.setFeature("USERNAME", username.toLowerCase());
         span.setFeature("DOMAIN", domain.toLowerCase());
 
@@ -58,7 +58,6 @@ public class Email extends RegexExtract {
         String tld = domain.substring(domain.lastIndexOf('.') + 1);
 
         if (TLD_DICTIONARY.contains(tld.toUpperCase())) {
-
           span.setFeature("USERNAME", username.toLowerCase());
           span.setFeature("DOMAIN", domain.toLowerCase());
           span.setFeature("TLD", tld.toUpperCase());

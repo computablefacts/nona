@@ -41,10 +41,11 @@ public class CompanyWithElf extends RegexExtract {
       String text = parameters.get(0).asString();
       Span newSpan = new Span(text, text.length() - span.end(), text.length() - span.begin());
 
+      newSpan.addTag("COMPANY_NAME");
       newSpan.setFeature("LEGAL_FORM",
-          new StringBuilder(span.getGroup(1)).reverse().toString().trim());
-      newSpan.setFeature("COMPANY_NAME",
           new StringBuilder(span.getGroup(2)).reverse().toString().trim());
+      newSpan.setFeature("COMPANY_NAME",
+          new StringBuilder(span.getGroup(3)).reverse().toString().trim());
 
       newSequence.add(newSpan);
     }

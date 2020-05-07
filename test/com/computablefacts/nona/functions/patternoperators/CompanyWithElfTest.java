@@ -514,6 +514,7 @@ public class CompanyWithElfTest {
       Span span = spans.get(0);
 
       Assert.assertEquals(1, spans.size());
+      Assert.assertTrue(span.hasTag("COMPANY_NAME"));
       Assert.assertNotNull(span.getFeature("COMPANY_NAME"));
       Assert.assertNotNull(span.getFeature("LEGAL_FORM"));
     }
@@ -562,6 +563,7 @@ public class CompanyWithElfTest {
       Span span = spans.get(0);
 
       Assert.assertEquals(1, spans.size());
+      Assert.assertTrue(span.hasTag("COMPANY_NAME"));
       Assert.assertNotNull(span.getFeature("COMPANY_NAME"));
       Assert.assertNotNull(span.getFeature("LEGAL_FORM"));
     }

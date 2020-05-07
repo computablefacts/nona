@@ -25,6 +25,7 @@ public class BicTest {
 
     Assert.assertEquals(1, spans.size());
     Assert.assertEquals("AALE FR 22", span.text());
+    Assert.assertEquals(true, span.hasTag("BIC"));
     Assert.assertEquals("22", span.getFeature("LOCATION_CODE"));
     Assert.assertEquals("France", span.getFeature("COUNTRY_NAME"));
     Assert.assertEquals("", span.getFeature("BRANCH_CODE"));
@@ -47,6 +48,7 @@ public class BicTest {
 
     Assert.assertEquals(1, spans.size());
     Assert.assertEquals("AFTR-FR-PP-CDP", span.text());
+    Assert.assertEquals(true, span.hasTag("BIC"));
     Assert.assertEquals("PP", span.getFeature("LOCATION_CODE"));
     Assert.assertEquals("France", span.getFeature("COUNTRY_NAME"));
     Assert.assertEquals("CDP", span.getFeature("BRANCH_CODE"));

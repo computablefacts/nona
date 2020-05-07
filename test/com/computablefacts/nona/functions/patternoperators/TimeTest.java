@@ -25,5 +25,6 @@ public class TimeTest {
 
     Assert.assertEquals(1, spans.size());
     Assert.assertEquals("19h20mn30s", span.text());
+    Assert.assertTrue(span.hasTag("TIME"));
   }
 }

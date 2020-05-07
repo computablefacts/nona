@@ -43,6 +43,7 @@ public class OnionTest {
 
     Assert.assertEquals(1, spans.size());
     Assert.assertEquals("http://torwikignoueupfm.onion/index.php?title=Main_Page", span.text());
+    Assert.assertTrue(span.hasTag("ONION"));
     Assert.assertEquals("http", span.getFeature("PROTOCOL"));
     Assert.assertEquals("torwikignoueupfm.onion", span.getFeature("HOSTNAME"));
     Assert.assertEquals("", span.getFeature("PORT"));
@@ -63,6 +64,7 @@ public class OnionTest {
 
       Assert.assertEquals(1, spans.size());
       Assert.assertEquals(onion.toLowerCase(), span.text().toLowerCase());
+      Assert.assertTrue(span.hasTag("ONION"));
     }
   }
 

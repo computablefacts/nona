@@ -137,7 +137,7 @@ public class SpanTest {
   }
 
   @Test
-  public void testOverlaps() {
+  public void testOverlapsSome() {
 
     Span span4567 = new Span("123456789", 3, 7);
     Span span345 = new Span("123456789", 2, 5);
@@ -145,72 +145,90 @@ public class SpanTest {
     Span span56 = new Span("123456789", 4, 6);
     Span span89 = new Span("123456789", 7, 9);
 
-    Assert.assertTrue(span4567.overlaps(span345));
-    Assert.assertTrue(span345.overlaps(span4567));
+    Assert.assertTrue(span4567.overlapsSome(span345));
+    Assert.assertTrue(span345.overlapsSome(span4567));
 
-    Assert.assertTrue(span4567.overlaps(span678));
-    Assert.assertTrue(span678.overlaps(span4567));
+    Assert.assertFalse(span4567.overlapsAll(span345));
+    Assert.assertFalse(span345.overlapsAll(span4567));
 
-    Assert.assertTrue(span4567.overlaps(span56));
-    Assert.assertTrue(span56.overlaps(span4567));
+    Assert.assertTrue(span4567.overlapsSome(span678));
+    Assert.assertTrue(span678.overlapsSome(span4567));
 
-    Assert.assertFalse(span4567.overlaps(span89));
-    Assert.assertFalse(span89.overlaps(span4567));
+    Assert.assertFalse(span4567.overlapsAll(span678));
+    Assert.assertFalse(span678.overlapsAll(span4567));
+
+    Assert.assertTrue(span4567.overlapsSome(span56));
+    Assert.assertTrue(span56.overlapsSome(span4567));
+
+    Assert.assertTrue(span4567.overlapsAll(span56));
+    Assert.assertFalse(span56.overlapsAll(span4567));
+
+    Assert.assertFalse(span4567.overlapsSome(span89));
+    Assert.assertFalse(span89.overlapsSome(span4567));
+
+    Assert.assertFalse(span4567.overlapsAll(span89));
+    Assert.assertFalse(span89.overlapsAll(span4567));
+
+    Assert.assertTrue(span4567.overlapsSome(span4567));
+    Assert.assertTrue(span4567.overlapsAll(span4567));
   }
 
   @Test
-  public void testOverlapsLeft() {
+  public void testOverlapsLeftOf() {
 
     Span span4567 = new Span("123456789", 3, 7);
     Span span345 = new Span("123456789", 2, 5);
     Span span567 = new Span("123456789", 4, 7);
 
-    Assert.assertTrue(span4567.overlaps(span345));
-    Assert.assertTrue(span345.overlaps(span4567));
+    Assert.assertTrue(span4567.overlapsSome(span345));
+    Assert.assertTrue(span345.overlapsSome(span4567));
 
-    Assert.assertTrue(span4567.overlapsRight(span345));
-    Assert.assertTrue(span345.overlapsLeft(span4567));
+    Assert.assertTrue(span4567.overlapsRightOf(span345));
+    Assert.assertTrue(span345.overlapsLeftOf(span4567));
 
-    Assert.assertTrue(span345.overlaps(span567));
-    Assert.assertTrue(span567.overlaps(span345));
+    Assert.assertTrue(span345.overlapsSome(span567));
+    Assert.assertTrue(span567.overlapsSome(span345));
 
-    Assert.assertTrue(span345.overlapsLeft(span567));
-    Assert.assertTrue(span567.overlapsRight(span345));
+    Assert.assertTrue(span345.overlapsLeftOf(span567));
+    Assert.assertTrue(span567.overlapsRightOf(span345));
   }
 
   @Test
-  public void testOverlapsRight() {
+  public void testOverlapsRightOf() {
 
     Span span4567 = new Span("123456789", 3, 7);
     Span span678 = new Span("123456789", 5, 8);
     Span span456 = new Span("123456789", 3, 6);
 
-    Assert.assertTrue(span4567.overlaps(span678));
-    Assert.assertTrue(span678.overlaps(span4567));
+    Assert.assertTrue(span4567.overlapsSome(span678));
+    Assert.assertTrue(span678.overlapsSome(span4567));
 
-    Assert.assertTrue(span4567.overlapsLeft(span678));
-    Assert.assertTrue(span678.overlapsRight(span4567));
+    Assert.assertTrue(span4567.overlapsLeftOf(span678));
+    Assert.assertTrue(span678.overlapsRightOf(span4567));
 
-    Assert.assertTrue(span678.overlaps(span456));
-    Assert.assertTrue(span456.overlaps(span678));
+    Assert.assertTrue(span678.overlapsSome(span456));
+    Assert.assertTrue(span456.overlapsSome(span678));
 
-    Assert.assertTrue(span678.overlapsRight(span456));
-    Assert.assertTrue(span456.overlapsLeft(span678));
+    Assert.assertTrue(span678.overlapsRightOf(span456));
+    Assert.assertTrue(span456.overlapsLeftOf(span678));
   }
 
   @Test
   public void testOverlapsAll() {
 
     Span span4567 = new Span("123456789", 3, 7);
-    Span span89 = new Span("123456789", 4, 6);
+    Span span56 = new Span("123456789", 4, 6);
 
-    Assert.assertTrue(span4567.overlaps(span89));
-    Assert.assertTrue(span89.overlaps(span4567));
+    Assert.assertFalse(span4567.overlapsLeftOf(span56));
+    Assert.assertFalse(span4567.overlapsRightOf(span56));
 
-    Assert.assertTrue(span4567.overlapsLeft(span89));
-    Assert.assertTrue(span4567.overlapsRight(span89));
+    Assert.assertFalse(span56.overlapsLeftOf(span4567));
+    Assert.assertFalse(span56.overlapsRightOf(span4567));
 
-    Assert.assertTrue(span4567.overlapsAll(span89));
-    Assert.assertFalse(span89.overlapsAll(span4567));
+    Assert.assertTrue(span4567.overlapsSome(span56));
+    Assert.assertTrue(span56.overlapsSome(span4567));
+
+    Assert.assertTrue(span4567.overlapsAll(span56));
+    Assert.assertFalse(span56.overlapsAll(span4567));
   }
 }

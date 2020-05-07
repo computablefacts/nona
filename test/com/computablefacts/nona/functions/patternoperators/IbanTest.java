@@ -27,6 +27,7 @@ public class IbanTest {
 
     Assert.assertEquals(1, spans.size());
     Assert.assertEquals("GB33BUKB20201555555555", spans.get(0).text());
+    Assert.assertTrue(spans.get(0).hasTag("IBAN"));
   }
 
   /**
@@ -43,6 +44,7 @@ public class IbanTest {
 
     Assert.assertEquals(1, spans.size());
     Assert.assertEquals("GB94BARC10201530093459", spans.get(0).text());
+    Assert.assertTrue(spans.get(0).hasTag("IBAN"));
   }
 
   /**
@@ -90,6 +92,7 @@ public class IbanTest {
 
       Assert.assertEquals(1, spans.size());
       Assert.assertEquals(iban.ibanExample().replaceAll("[^A-Z0-9]", ""), spans.get(0).text());
+      Assert.assertTrue(spans.get(0).hasTag("IBAN"));
     }
   }
 
@@ -105,5 +108,6 @@ public class IbanTest {
 
     Assert.assertEquals(1, spans.size());
     Assert.assertEquals("GB94BARC10201530093459", spans.get(0).text());
+    Assert.assertTrue(spans.get(0).hasTag("IBAN"));
   }
 }

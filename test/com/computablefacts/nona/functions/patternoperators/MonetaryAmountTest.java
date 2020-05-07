@@ -25,6 +25,7 @@ public class MonetaryAmountTest {
 
     Assert.assertEquals(1, spans.size());
     Assert.assertEquals("600 €", span.text());
+    Assert.assertTrue(span.hasTag("MONETARY_AMOUNT"));
     Assert.assertEquals("600", span.getFeature("AMOUNT"));
     Assert.assertEquals("€", span.getFeature("CURRENCY"));
   }
@@ -41,6 +42,7 @@ public class MonetaryAmountTest {
 
     Assert.assertEquals(1, spans.size());
     Assert.assertEquals("1 933.40 €", span.text());
+    Assert.assertTrue(span.hasTag("MONETARY_AMOUNT"));
     Assert.assertEquals("1 933.40", span.getFeature("AMOUNT"));
     Assert.assertEquals("€", span.getFeature("CURRENCY"));
   }
@@ -57,6 +59,7 @@ public class MonetaryAmountTest {
 
     Assert.assertEquals(1, spans.size());
     Assert.assertEquals("$10,590.98", span.text());
+    Assert.assertTrue(span.hasTag("MONETARY_AMOUNT"));
     Assert.assertEquals("10,590.98", span.getFeature("AMOUNT"));
     Assert.assertEquals("$", span.getFeature("CURRENCY"));
   }

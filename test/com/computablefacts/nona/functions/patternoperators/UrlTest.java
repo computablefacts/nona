@@ -62,6 +62,7 @@ public class UrlTest {
 
     Assert.assertEquals(1, spans.size());
     Assert.assertEquals("https://userid:password@example.com:8080/", span.text());
+    Assert.assertTrue(span.hasTag("URL"));
     Assert.assertEquals("https", span.getFeature("PROTOCOL"));
     Assert.assertEquals("userid", span.getFeature("USERNAME"));
     Assert.assertEquals("password", span.getFeature("PASSWORD"));
@@ -85,6 +86,7 @@ public class UrlTest {
 
       Assert.assertEquals(1, spans.size());
       Assert.assertEquals(url.toLowerCase(), span.text().toLowerCase());
+      Assert.assertTrue(span.hasTag("URL"));
     }
   }
 

@@ -11,6 +11,8 @@ import com.google.re2j.Pattern;
 
 /**
  * Patterns that should be applied on a reversed text. See {@link #reverse(String)} for details.
+ *
+ * The first group must always be the full matched pattern.
  */
 final public class PatternsBackward {
 
@@ -21,11 +23,12 @@ final public class PatternsBackward {
   }
 
   /**
-   * Regex for company name with Legal Entity Form extraction. Match and capture 2 groups :
+   * Regex for company name with Legal Entity Form extraction. Match and capture 3 groups :
    *
    * <ol>
-   * <li>Group 1 : the entity legal form</li>
-   * <li>Group 2 : the entity name</li>
+   * <li>Group 1 : whole match</li>
+   * <li>Group 2 : the entity legal form</li>
+   * <li>Group 3 : the entity name</li>
    * </ol>
    * 
    * @return regular expression.
@@ -39,8 +42,8 @@ final public class PatternsBackward {
 
     // Company name must start with an upper-case letter
     // TODO : can a company name starts with a number?
-    return "(?i)(" + elf + ")(?-i)(?:" + connector1 + ")((?:(?:" + connector2 + ")*(?:" + word
-        + "))+)";
+    return "((?i)(" + elf + ")(?-i)(?:" + connector1 + ")((?:(?:" + connector2 + ")*(?:" + word
+        + "))+))";
   }
 
   private static String elfs() {

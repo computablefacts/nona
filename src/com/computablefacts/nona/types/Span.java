@@ -1,18 +1,23 @@
 package com.computablefacts.nona.types;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
 import javax.validation.constraints.NotNull;
 
+import com.google.common.annotations.Beta;
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Objects;
 import com.google.common.base.Preconditions;
 import com.google.common.base.Strings;
 import com.google.errorprone.annotations.CheckReturnValue;
 
+/**
+ * Never ever rely on groups. Groups are for internal use only.
+ */
 @CheckReturnValue
 final public class Span implements Comparable<Span> {
 
@@ -20,6 +25,7 @@ final public class Span implements Comparable<Span> {
   private final int begin_;
   private final int end_;
   private final Map<String, String> features_ = new HashMap<>();
+  private final Set<String> tags_ = new HashSet<>();
 
   public Span(String text) {
     this(text, 0, text.length());
@@ -47,6 +53,7 @@ final public class Span implements Comparable<Span> {
     text_ = span.text_;
     begin_ = span.begin_;
     end_ = span.end_;
+    tags_.addAll(span.tags_);
 
     if (copyFeatures) {
       features_.putAll(span.features_);
@@ -63,18 +70,19 @@ final public class Span implements Comparable<Span> {
     }
     Span other = (Span) obj;
     return Objects.equal(text_, other.text_) && Objects.equal(begin_, other.begin_)
-        && Objects.equal(end_, other.end_) && Objects.equal(features_, other.features_);
+        && Objects.equal(end_, other.end_) && Objects.equal(features_, other.features_)
+        && Objects.equal(tags_, other.tags_);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hashCode(text_, begin_, end_, features_);
+    return Objects.hashCode(text_, begin_, end_, features_, tags_);
   }
 
   @Override
   public String toString() {
     return MoreObjects.toStringHelper(this).add("text", text_).add("begin", begin_).add("end", end_)
-        .add("features", features_).omitNullValues().toString();
+        .add("features", features_).add("tags", tags_).omitNullValues().toString();
   }
 
   @Override
@@ -128,12 +136,25 @@ final public class Span implements Comparable<Span> {
   }
 
   /**
+   * Checks whether this span (ex. [4, 7]) completely overlaps the given span (ex. [5, 6]).
+   *
+   * @param span span span.
+   * @return true if the spans overlap, false otherwise.
+   */
+  public boolean overlapsAll(Span span) {
+
+    Preconditions.checkNotNull(span, "span should not be null");
+
+    return begin_ <= span.begin() && end_ >= span.end();
+  }
+
+  /**
    * Checks whether the given span overlaps this span.
    *
    * @param span span.
    * @return true if the spans overlap, false otherwise.
    */
-  public boolean overlaps(Span span) {
+  public boolean overlapsSome(Span span) {
 
     Preconditions.checkNotNull(span, "span should not be null");
 
@@ -147,11 +168,11 @@ final public class Span implements Comparable<Span> {
    * @param span span span.
    * @return true if the spans overlap, false otherwise.
    */
-  public boolean overlapsRight(Span span) {
+  public boolean overlapsRightOf(Span span) {
 
     Preconditions.checkNotNull(span, "span should not be null");
 
-    return end_ > span.end();
+    return begin_ > span.begin() && begin_ < span.end() && end_ > span.end();
   }
 
   /**
@@ -161,24 +182,11 @@ final public class Span implements Comparable<Span> {
    * @param span span span.
    * @return true if the spans overlap, false otherwise.
    */
-  public boolean overlapsLeft(Span span) {
+  public boolean overlapsLeftOf(Span span) {
 
     Preconditions.checkNotNull(span, "span should not be null");
 
-    return begin_ < span.begin();
-  }
-
-  /**
-   * Checks whether this span (ex. [4, 7]) completely overlaps the given span (ex. [5, 6]).
-   *
-   * @param span span span.
-   * @return true if the spans overlap, false otherwise.
-   */
-  public boolean overlapsAll(Span span) {
-
-    Preconditions.checkNotNull(span, "span should not be null");
-
-    return overlapsLeft(span) && overlapsRight(span);
+    return begin_ < span.begin() && end_ > span.begin() && end_ < span.end();
   }
 
   /**
@@ -187,10 +195,17 @@ final public class Span implements Comparable<Span> {
    * @param position position.
    * @return true if the position falls into this span, false otherwise.
    */
-  public boolean overlaps(int position) {
+  public boolean overlapsSome(int position) {
     return begin_ <= position && position <= end_;
   }
 
+  @Beta
+  public Set<String> groups() {
+    return features_.keySet().stream().filter(f -> f.startsWith("GROUP_"))
+        .collect(Collectors.toSet());
+  }
+
+  @Beta
   public void setGroupCount(int count) {
 
     Preconditions.checkArgument(count >= 0, "count should be >= 0 : %s", count);
@@ -198,16 +213,14 @@ final public class Span implements Comparable<Span> {
     setFeature("GROUP_COUNT", Integer.toString(count, 10));
   }
 
+  @Beta
   public void removeAllGroups() {
-
-    Set<String> groups =
-        features_.keySet().stream().filter(f -> f.startsWith("GROUP_")).collect(Collectors.toSet());
-
-    for (String group : groups) {
+    for (String group : groups()) {
       features_.remove(group);
     }
   }
 
+  @Beta
   public void setGroup(int index, String value) {
 
     Preconditions.checkArgument(index >= 0, "index should be >= 0 : %s", index);
@@ -215,11 +228,17 @@ final public class Span implements Comparable<Span> {
     setFeature("GROUP_" + index, Strings.nullToEmpty(value));
   }
 
+  @Beta
   public String getGroup(int index) {
 
     Preconditions.checkArgument(index >= 0, "index should be >= 0 : %s", index);
 
     return getFeature("GROUP_" + index);
+  }
+
+  public Set<String> features() {
+    return features_.keySet().stream().filter(f -> !f.startsWith("GROUP_"))
+        .collect(Collectors.toSet());
   }
 
   public void setFeature(String key, String value) {
@@ -236,5 +255,25 @@ final public class Span implements Comparable<Span> {
 
   public void removeFeature(String key) {
     features_.remove(Preconditions.checkNotNull(key, "key is null"));
+  }
+
+  public Set<String> tags() {
+    return tags_;
+  }
+
+  public void addTag(String tag) {
+    if (!Strings.isNullOrEmpty(tag)) {
+      tags_.add(tag);
+    }
+  }
+
+  public void removeTag(String tag) {
+    if (!Strings.isNullOrEmpty(tag)) {
+      tags_.remove(tag);
+    }
+  }
+
+  public boolean hasTag(String tag) {
+    return !Strings.isNullOrEmpty(tag) && tags_.contains(tag);
   }
 }

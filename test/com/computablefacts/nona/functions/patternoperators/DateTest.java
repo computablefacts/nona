@@ -24,6 +24,7 @@ public class DateTest {
     Span span = spans.get(0);
 
     Assert.assertEquals(1, spans.size());
+    Assert.assertTrue(span.hasTag("DATE"));
     Assert.assertEquals("16/07/1997", span.text());
   }
 }

@@ -48,6 +48,7 @@ public class EmailTest {
 
       Assert.assertEquals(1, spans.size());
       Assert.assertEquals(email.toLowerCase(), span.text().toLowerCase());
+      Assert.assertTrue(span.hasTag("EMAIL"));
       Assert.assertNotNull(span.getFeature("USERNAME"));
       Assert.assertNotNull(span.getFeature("DOMAIN"));
     }
@@ -66,6 +67,7 @@ public class EmailTest {
       Span span = spans.get(0);
 
       Assert.assertEquals(1, spans.size());
+      Assert.assertTrue(span.hasTag("EMAIL"));
       Assert.assertEquals("email@example.com", span.text().toLowerCase());
       Assert.assertEquals("email", span.getFeature("USERNAME"));
       Assert.assertEquals("example.com", span.getFeature("DOMAIN"));

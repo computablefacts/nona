@@ -9,24 +9,26 @@ import com.google.re2j.Pattern;
 
 /**
  * Patterns that should be applied on the raw text.
+ *
+ * The first group must always be the full matched pattern.
  */
 final public class PatternsForward {
 
   private PatternsForward() {}
 
   public static String leftBoundary() {
-    return "(?:^|\\p{Zs}|\\b)";
+    return "(?:^|\\p{Zs}|\\b|[^\\p{N}\\p{L}])";
   }
 
   public static String rightBoundary() {
-    return "(?:$|\\p{Zs}|\\b)";
+    return "(?:$|\\p{Zs}|\\b|[^\\p{N}\\p{L}])";
   }
 
   /**
    * Regex for emoticons extraction. Match and capture a single group :
    *
    * <ol>
-   * <li>Group 1 : the emoticon</li>
+   * <li>Group 1 : whole match</li>
    * </ol>
    *
    * @return regular expression.
@@ -36,13 +38,14 @@ final public class PatternsForward {
   }
 
   /**
-   * Regex for Bank Identifier Code extraction. Match and capture 4 groups :
+   * Regex for Bank Identifier Code extraction. Match and capture 5 groups :
    *
    * <ol>
-   * <li>Group 1 : the institution code</li>
-   * <li>Group 2 : the country code</li>
-   * <li>Group 3 : the location code</li>
-   * <li>Group 4 : the branch code (optional)</li>
+   * <li>Group 1 : whole match</li>
+   * <li>Group 2 : the institution code</li>
+   * <li>Group 3 : the country code</li>
+   * <li>Group 4 : the location code</li>
+   * <li>Group 5 : the branch code (optional)</li>
    * </ol>
    * 
    * @return regular expression.
@@ -54,16 +57,17 @@ final public class PatternsForward {
     String location = "[A-Za-z0-9]{2}";
     String branch = "[A-Za-z0-9]{3}";
 
-    return "(" + institution + ")[-#\\p{Zs}]*(" + country + ")[-#\\p{Zs}]*(" + location
-        + ")(?:[-#\\p{Zs}]*(" + branch + "))?";
+    return "((" + institution + ")[-#\\p{Zs}]*(" + country + ")[-#\\p{Zs}]*(" + location
+        + ")(?:[-#\\p{Zs}]*(" + branch + "))?)";
   }
 
   /**
-   * Regex for email extraction. Match and capture 2 groups :
+   * Regex for email extraction. Match and capture 3 groups :
    *
    * <ol>
-   * <li>Group 1 : the username</li>
-   * <li>Group 2 : the ip/domain</li>
+   * <li>Group 1 : whole match</li>
+   * <li>Group 2 : the username</li>
+   * <li>Group 3 : the ip/domain</li>
    * </ol>
    *
    * @return regular expression.
@@ -74,20 +78,21 @@ final public class PatternsForward {
     String ip = "\\[?\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\]?";
     String domain = "[-\\w]+(?:\\.[-\\w]+)*\\.[A-Za-z]{2,4}";
 
-    return "(?i)(" + username + ")[@＠]((?:" + ip + ")|(?:" + domain + "))(?-i)";
+    return "(?i)((" + username + ")[@＠]((?:" + ip + ")|(?:" + domain + ")))(?-i)";
   }
 
   /**
-   * Regex for URL extraction. Match and capture 7 groups :
+   * Regex for URL extraction. Match and capture 8 groups :
    *
    * <ol>
-   * <li>Group 1 : the protocol (optional)</li>
-   * <li>Group 2 : the username (optional)</li>
-   * <li>Group 3 : the password (optional)</li>
-   * <li>Group 4 : the hostname</li>
-   * <li>Group 5 : the port (optional)</li>
-   * <li>Group 6 : the path (optional)</li>
-   * <li>Group 7 : the query string (optional)</li>
+   * <li>Group 1 : whole match</li>
+   * <li>Group 2 : the protocol (optional)</li>
+   * <li>Group 3 : the username (optional)</li>
+   * <li>Group 4 : the password (optional)</li>
+   * <li>Group 5 : the hostname</li>
+   * <li>Group 6 : the port (optional)</li>
+   * <li>Group 7 : the path (optional)</li>
+   * <li>Group 8 : the query string (optional)</li>
    * </ol>
    * 
    * @return regular expression.
@@ -103,18 +108,19 @@ final public class PatternsForward {
         "/[^.!,?;\"'<>\\[\\]{}\\s\\x7F-\\xFF]*(?:[.!,]+[^.!,?;\"'<>\\[\\]{}\\s\\x7F-\\xFF]+)*";
     String queryString = "[^.!,?;\"'<>\\[\\]{}\\s\\x7F-\\xFF]+";
 
-    return "(?i)(?:(" + protocol + ")://)(?:(" + username + ")(?::(" + password + "))?[@＠])?("
-        + hostname + ")(?::(" + port + "))?(" + path + ")?(?:\\?(" + queryString + "))?(?-i)";
+    return "(?i)((?:(" + protocol + ")://)(?:(" + username + ")(?::(" + password + "))?[@＠])?("
+        + hostname + ")(?::(" + port + "))?(" + path + ")?(?:\\?(" + queryString + "))?)(?-i)";
   }
 
   /**
-   * Regex for TOR onions extraction. Match and capture 4 groups :
+   * Regex for TOR onions extraction. Match and capture 5 groups :
    *
    * <ol>
-   * <li>Group 1 : the protocol (optional)</li>
-   * <li>Group 2 : the hostname</li>
-   * <li>Group 3 : the the port (optional)</li>
-   * <li>Group 4 : the the path (optional)</li>
+   * <li>Group 1 : whole match</li>
+   * <li>Group 2 : the protocol (optional)</li>
+   * <li>Group 3 : the hostname</li>
+   * <li>Group 4 : the the port (optional)</li>
+   * <li>Group 5 : the the path (optional)</li>
    * </ol>
    *
    * @return regular expression.
@@ -127,14 +133,14 @@ final public class PatternsForward {
     String path =
         "/[^.!,?;\"'<>()\\[\\]{}\\s\\x7F-\\xFF]*(?:[.!,?]+[^.!,?;\"'<>()\\[\\]{}\\s\\x7F-\\xFF]+)*";
 
-    return "(?i)(" + protocol + ")://(" + hostname + ")(" + port + ")?(" + path + ")?(?-i)";
+    return "(?i)((" + protocol + ")://(" + hostname + ")(" + port + ")?(" + path + ")?)(?-i)";
   }
 
   /**
    * Regex for Windows file path extraction. Match and capture 1 group :
    *
    * <ol>
-   * <li>Group 1 : full path</li>
+   * <li>Group 1 : whole match</li>
    * </ol>
    * 
    * @return regular expression.
@@ -152,7 +158,7 @@ final public class PatternsForward {
    * Regex for Unix file path extraction. Match and capture 1 group :
    *
    * <ol>
-   * <li>Group 1 : full path</li>
+   * <li>Group 1 : whole match</li>
    * </ol>
    *
    * @return regular expression.
@@ -165,7 +171,7 @@ final public class PatternsForward {
    * Regex for IPV4 addresses extraction. Match and capture 1 group :
    *
    * <ol>
-   * <li>Group 1 : ip address</li>
+   * <li>Group 1 : whole match</li>
    * </ol>
    *
    * @return regular expression.
@@ -178,7 +184,7 @@ final public class PatternsForward {
    * Regex for local IP addresses extraction. Match and capture 1 group :
    *
    * <ol>
-   * <li>Group 1 : ip address</li>
+   * <li>Group 1 : whole match</li>
    * </ol>
    *
    * @return regular expression.
@@ -198,7 +204,7 @@ final public class PatternsForward {
    * group :
    *
    * <ol>
-   * <li>Group 1 : ip address</li>
+   * <li>Group 1 : whole match</li>
    * </ol>
    *
    * @return regular expression.
@@ -221,7 +227,7 @@ final public class PatternsForward {
    * Regex for MAC addresses extraction. Match and capture 1 group :
    *
    * <ol>
-   * <li>Group 1 : mac address</li>
+   * <li>Group 1 : whole match</li>
    * </ol>
    *
    * @return regular expression.
@@ -234,7 +240,7 @@ final public class PatternsForward {
    * Regex for DATE extraction. Match and capture 1 group :
    *
    * <ol>
-   * <li>Group 1 : date</li>
+   * <li>Group 1 : whole match</li>
    * </ol>
    *
    * @return regular expression.
@@ -252,7 +258,7 @@ final public class PatternsForward {
    * Regex for TIME extraction. Match and capture 1 group :
    *
    * <ol>
-   * <li>Group 1 : time</li>
+   * <li>Group 1 : whole match</li>
    * </ol>
    *
    * @return regular expression.
@@ -267,25 +273,27 @@ final public class PatternsForward {
   }
 
   /**
-   * Regex for DATETIME extraction. Match and capture 3 groups :
+   * Regex for DATETIME extraction. Match and capture 4 groups :
    *
    * <ol>
-   * <li>Group 1 : date</li>
-   * <li>Group 2 : time</li>
-   * <li>Group 3 : timezone</li>
+   * <li>Group 1 : whole match</li>
+   * <li>Group 2 : date</li>
+   * <li>Group 3 : time</li>
+   * <li>Group 4 : timezone</li>
    * </ol>
    *
    * @return regular expression.
    */
   public static String dateTime() {
-    return date() + "[T\\p{Zs}]" + time() + "(?i)(Z|[+-](?:2[0-3]|[01][0-9]):[0-5][0-9])?(?-i)";
+    return "(" + date() + "[T\\p{Zs}]" + time()
+        + "(?i)(Z|[+-](?:2[0-3]|[01][0-9]):[0-5][0-9])?(?-i))";
   }
 
   /**
    * Regex for NUMBERS extraction. Match and capture 1 group :
    *
    * <ol>
-   * <li>Group 1 : number</li>
+   * <li>Group 1 : whole match</li>
    * </ol>
    *
    * @return regular expression.
@@ -298,7 +306,7 @@ final public class PatternsForward {
    * Regex for FINANCIAL NUMBERS extraction. Match and capture 1 group :
    *
    * <ol>
-   * <li>Group 1 : number</li>
+   * <li>Group 1 : whole match</li>
    * </ol>
    *
    * See https://en.wikipedia.org/wiki/Decimal_separator for details.
@@ -330,20 +338,35 @@ final public class PatternsForward {
   }
 
   /**
-   * Regex for MONETARY AMOUNTS extraction. Match and capture 4 groups :
+   * Regex for MONETARY AMOUNTS extraction. Match and capture 5 groups :
    *
    * <ol>
-   * <li>Group 1 : monetary symbol. If not matched, group 4 is matched.</li>
-   * <li>Group 2 : financial number. If not matched, group 3 is matched.</li>
-   * <li>Group 3 : regular number. If not matched, group 2 is matched.</li>
-   * <li>Group 4 : monetary symbol. If not matched, group 1 is matched.</li>
+   * <li>Group 1 : whole match</li>
+   * <li>Group 2 : monetary symbol. If not matched, group 5 is matched.</li>
+   * <li>Group 3 : financial number. If not matched, group 4 is matched.</li>
+   * <li>Group 4 : regular number. If not matched, group 3 is matched.</li>
+   * <li>Group 5 : monetary symbol. If not matched, group 2 is matched.</li>
    * </ol>
    *
    * @return regular expression.
    */
   public static String monetaryAmount() {
-    return "(?i)(\\p{Sc}?)\\p{Zs}*(?:" + financialNumber() + "|" + number()
-        + ")\\p{Zs}*(\\p{Sc}?)(?-i)";
+    return "(?i)((\\p{Sc}?)\\p{Zs}*(?:" + financialNumber() + "|" + number()
+        + ")\\p{Zs}*(\\p{Sc}?))(?-i)";
+  }
+
+  /**
+   * Regex for PERCENTS extraction. Match and capture 2 groups :
+   *
+   * <ol>
+   * <li>Group 1 : whole match</li>
+   * <li>Group 2 : number match</li>
+   * </ol>
+   *
+   * @return regular expression.
+   */
+  public static String percent() {
+    return "(?i)(" + number() + "\\p{Zs}*%)(?-i)";
   }
 
   private static String tld() {
