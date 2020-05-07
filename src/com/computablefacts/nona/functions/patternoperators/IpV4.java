@@ -24,8 +24,10 @@ public class IpV4 extends MatchPattern {
 
     Preconditions.checkArgument(parameters.size() == 1, "IPV4 takes exactly one parameter : %s",
         parameters);
-    Preconditions.checkArgument(parameters.get(0).isString(), "%s should be a string",
-        parameters.get(0));
+
+    // WARNING : do not check the parameters types. Always assume it is a string.
+    // Preconditions.checkArgument(parameters.get(0).isString(), "%s should be a string",
+    // parameters.get(0));
 
     BoxedType boxedType = super.evaluate(parameters);
     SpanSequence sequence = (SpanSequence) boxedType.value();

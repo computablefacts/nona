@@ -25,8 +25,10 @@ public class CompanyWithElf extends RegexExtract {
 
     Preconditions.checkArgument(parameters.size() == 1,
         "COMPANY_NAME takes exactly one parameter : %s", parameters);
-    Preconditions.checkArgument(parameters.get(0).isString(), "%s should be a string",
-        parameters.get(0));
+
+    // WARNING : do not check the parameters types. Always assume it is a string.
+    // Preconditions.checkArgument(parameters.get(0).isString(), "%s should be a string",
+    // parameters.get(0));
 
     List<BoxedType> newParameters = new ArrayList<>();
     newParameters.add(BoxedType.create(reverse(parameters.get(0).asString())));

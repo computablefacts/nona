@@ -62,10 +62,12 @@ public class MatchDictionary extends Function {
 
     Preconditions.checkArgument(parameters.size() == 2,
         "MATCHDICTIONARY takes exactly two parameters.");
-    Preconditions.checkArgument(parameters.get(0).isString(), "%s should be a string",
-        parameters.get(0));
-    Preconditions.checkArgument(parameters.get(1).isString(), "%s should be a string",
-        parameters.get(1));
+
+    // WARNING : do not check the parameters types. Always assume it is a string.
+    // Preconditions.checkArgument(parameters.get(0).isString(), "%s should be a string",
+    // parameters.get(0));
+    // Preconditions.checkArgument(parameters.get(1).isString(), "%s should be a string",
+    // parameters.get(1));
 
     String file = parameters.get(0).asString();
     String text = parameters.get(1).asString();

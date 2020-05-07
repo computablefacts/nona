@@ -29,8 +29,10 @@ public class Iban extends RegexExtract {
 
     Preconditions.checkArgument(parameters.size() == 1, "IBAN takes exactly one parameter : %s",
         parameters);
-    Preconditions.checkArgument(parameters.get(0).isString(), "%s should be a string",
-        parameters.get(0));
+
+    // WARNING : do not check the parameters types. Always assume it is a string.
+    // Preconditions.checkArgument(parameters.get(0).isString(), "%s should be a string",
+    // parameters.get(0));
 
     List<BoxedType> newParameters = new ArrayList<>();
     newParameters.add(BoxedType.create(compact(parameters.get(0).asString())));
