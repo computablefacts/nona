@@ -58,8 +58,7 @@ final public class Lei {
 
     List<Lei> list = new ArrayList<>();
 
-    try (InputStream inputStream =
-        Lei.class.getClassLoader().getResourceAsStream("./data/mfis.csv")) {
+    try (InputStream inputStream = Lei.class.getResourceAsStream("/data/mfis.csv")) {
 
       CsvSchema schema = CsvSchema.emptySchema().withHeader().withColumnSeparator(',');
       CsvMapper mapper = new CsvMapper();

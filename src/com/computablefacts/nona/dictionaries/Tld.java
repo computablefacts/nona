@@ -21,8 +21,7 @@ final public class Tld {
 
     Set<String> set = new HashSet<>();
 
-    try (InputStream inputStream =
-        Tld.class.getClassLoader().getResourceAsStream("./data/tlds.csv")) {
+    try (InputStream inputStream = Tld.class.getResourceAsStream("/data/tlds.csv")) {
 
       CsvSchema schema = CsvSchema.emptySchema().withHeader().withColumnSeparator(',');
       CsvMapper mapper = new CsvMapper();

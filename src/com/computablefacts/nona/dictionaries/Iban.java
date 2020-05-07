@@ -45,8 +45,7 @@ final public class Iban {
 
     Map<String, Iban> map = new HashMap<>();
 
-    try (InputStream inputStream =
-        Iban.class.getClassLoader().getResourceAsStream("./data/ibans.csv")) {
+    try (InputStream inputStream = Iban.class.getResourceAsStream("/data/ibans.csv")) {
 
       CsvSchema schema = CsvSchema.emptySchema().withHeader().withColumnSeparator(',');
       CsvMapper mapper = new CsvMapper();

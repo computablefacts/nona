@@ -37,8 +37,7 @@ final public class BicFr {
 
     Map<String, BicFr> map = new HashMap<>();
 
-    try (InputStream inputStream =
-        BicFr.class.getClassLoader().getResourceAsStream("./data/french-bics.csv")) {
+    try (InputStream inputStream = BicFr.class.getResourceAsStream("/data/french-bics.csv")) {
 
       CsvSchema schema = CsvSchema.emptySchema().withHeader().withColumnSeparator(',');
       CsvMapper mapper = new CsvMapper();
