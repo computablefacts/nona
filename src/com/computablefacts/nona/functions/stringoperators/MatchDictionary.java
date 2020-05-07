@@ -61,7 +61,7 @@ public class MatchDictionary extends Function {
   protected BoxedType evaluate(List<BoxedType> parameters) {
 
     Preconditions.checkArgument(parameters.size() == 2,
-        "MATCHDICTIONARY takes exactly four parameters.");
+        "MATCHDICTIONARY takes exactly two parameters.");
     Preconditions.checkArgument(parameters.get(0).isString(), "%s should be a string",
         parameters.get(0));
     Preconditions.checkArgument(parameters.get(1).isString(), "%s should be a string",
