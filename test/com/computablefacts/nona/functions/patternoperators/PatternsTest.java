@@ -4,10 +4,13 @@ import static com.computablefacts.nona.functions.patternoperators.PatternsForwar
 import static com.computablefacts.nona.functions.patternoperators.PatternsForward.dateTime;
 import static com.computablefacts.nona.functions.patternoperators.PatternsForward.email;
 import static com.computablefacts.nona.functions.patternoperators.PatternsForward.emoticon;
+import static com.computablefacts.nona.functions.patternoperators.PatternsForward.financialNumber;
 import static com.computablefacts.nona.functions.patternoperators.PatternsForward.iplocal;
 import static com.computablefacts.nona.functions.patternoperators.PatternsForward.ipv4;
 import static com.computablefacts.nona.functions.patternoperators.PatternsForward.ipv6;
 import static com.computablefacts.nona.functions.patternoperators.PatternsForward.macAddress;
+import static com.computablefacts.nona.functions.patternoperators.PatternsForward.monetaryAmount;
+import static com.computablefacts.nona.functions.patternoperators.PatternsForward.number;
 import static com.computablefacts.nona.functions.patternoperators.PatternsForward.onion;
 import static com.computablefacts.nona.functions.patternoperators.PatternsForward.time;
 import static com.computablefacts.nona.functions.patternoperators.PatternsForward.unixPath;
@@ -507,5 +510,118 @@ public class PatternsTest {
     Pattern pattern = Pattern.compile("^" + dateTime() + "$", Pattern.CASE_INSENSITIVE);
 
     assertTrue(pattern.matches("2017-10-30T16:18:00"));
+  }
+
+  @Test
+  public void testNumber() {
+
+    Pattern pattern = Pattern.compile("^" + number() + "$", Pattern.CASE_INSENSITIVE);
+
+    // Valid numbers
+    assertTrue(pattern.matches("894"));
+    assertTrue(pattern.matches("923.21"));
+    assertTrue(pattern.matches("923,21"));
+    assertTrue(pattern.matches("76876876"));
+    assertTrue(pattern.matches(".32"));
+    assertTrue(pattern.matches("2e10"));
+
+    assertTrue(pattern.matches("+894"));
+    assertTrue(pattern.matches("+923.21"));
+    assertTrue(pattern.matches("+923,21"));
+    assertTrue(pattern.matches("+76876876"));
+    assertTrue(pattern.matches("+.32"));
+    assertTrue(pattern.matches("+2e10"));
+
+    assertTrue(pattern.matches("-894"));
+    assertTrue(pattern.matches("-923.21"));
+    assertTrue(pattern.matches("-923,21"));
+    assertTrue(pattern.matches("-76876876"));
+    assertTrue(pattern.matches("-.32"));
+    assertTrue(pattern.matches("-2e10"));
+
+    assertTrue(pattern.matches("1 234 567,89"));
+    assertTrue(pattern.matches("1 234 567.89"));
+
+    assertTrue(pattern.matches("000"));
+    assertTrue(pattern.matches("01"));
+
+    // Invalid numbers
+    assertFalse(pattern.matches(",32"));
+    assertFalse(pattern.matches("+,32"));
+    assertFalse(pattern.matches("-,32"));
+    assertFalse(pattern.matches("10e5.4"));
+    assertFalse(pattern.matches("123,456,789"));
+    assertFalse(pattern.matches("123.456.789"));
+    assertFalse(pattern.matches("99,785.01")); // borderline
+
+    // Misc.
+    assertFalse(pattern.matches("hello"));
+    assertFalse(pattern.matches("8world"));
+    assertFalse(pattern.matches("world8"));
+    assertFalse(pattern.matches("hello8world"));
+  }
+
+  @Test
+  public void testFinancialNumber() {
+
+    Pattern pattern = Pattern.compile("^" + financialNumber() + "$", Pattern.CASE_INSENSITIVE);
+
+    // Valid numbers
+    assertTrue(pattern.matches("1 234 567,89"));
+    assertTrue(pattern.matches("1 234 567.89"));
+    assertTrue(pattern.matches("1,234,567.89"));
+    assertTrue(pattern.matches("123,4567.89"));
+    assertTrue(pattern.matches("1.234.567,89"));
+    assertTrue(pattern.matches("1'234'567.89"));
+    assertTrue(pattern.matches("1'234'567,89"));
+    assertTrue(pattern.matches("1'234,567.89"));
+    assertTrue(pattern.matches("123,456,789"));
+    assertTrue(pattern.matches("123.456.789"));
+    assertTrue(pattern.matches("99,785.01"));
+
+    // Invalid numbers
+    assertFalse(pattern.matches(",32"));
+    assertFalse(pattern.matches("+,32"));
+    assertFalse(pattern.matches("-,32"));
+    assertFalse(pattern.matches("10e5.4"));
+    assertFalse(pattern.matches("1,234,567,89"));
+    assertFalse(pattern.matches("1.234.567.89"));
+    assertFalse(pattern.matches("1'234'567'89"));
+
+    // Misc.
+    assertFalse(pattern.matches("hello"));
+    assertFalse(pattern.matches("8world"));
+    assertFalse(pattern.matches("world8"));
+    assertFalse(pattern.matches("hello8world"));
+  }
+
+  @Test
+  public void testMonetaryAmount() {
+
+    Pattern pattern = Pattern.compile("^" + monetaryAmount() + "$", Pattern.CASE_INSENSITIVE);
+
+    assertTrue(pattern.matches("$1 234 567,89"));
+    assertTrue(pattern.matches("$1 234 567.89"));
+    assertTrue(pattern.matches("$1,234,567.89"));
+    assertTrue(pattern.matches("$123,4567.89"));
+    assertTrue(pattern.matches("$1.234.567,89"));
+    assertTrue(pattern.matches("$1'234'567.89"));
+    assertTrue(pattern.matches("$1'234'567,89"));
+    assertTrue(pattern.matches("$1'234,567.89"));
+    assertTrue(pattern.matches("$123,456,789"));
+    assertTrue(pattern.matches("$123.456.789"));
+    assertTrue(pattern.matches("$99,785.01"));
+
+    assertTrue(pattern.matches("1 234 567,89 €"));
+    assertTrue(pattern.matches("1 234 567.89 €"));
+    assertTrue(pattern.matches("1,234,567.89 €"));
+    assertTrue(pattern.matches("123,4567.89 €"));
+    assertTrue(pattern.matches("1.234.567,89 €"));
+    assertTrue(pattern.matches("1'234'567.89 €"));
+    assertTrue(pattern.matches("1'234'567,89 €"));
+    assertTrue(pattern.matches("1'234,567.89 €"));
+    assertTrue(pattern.matches("123,456,789 €"));
+    assertTrue(pattern.matches("123.456.789 €"));
+    assertTrue(pattern.matches("99,785.01 €"));
   }
 }

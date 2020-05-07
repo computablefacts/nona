@@ -267,7 +267,7 @@ final public class PatternsForward {
   }
 
   /**
-   * Regex for DATETIME extraction. Match and capture 2 groups :
+   * Regex for DATETIME extraction. Match and capture 3 groups :
    *
    * <ol>
    * <li>Group 1 : date</li>
@@ -278,7 +278,72 @@ final public class PatternsForward {
    * @return regular expression.
    */
   public static String dateTime() {
-    return date() + ".?" + time() + "(?i)(Z|[+-](?:2[0-3]|[01][0-9]):[0-5][0-9])?(?-i)";
+    return date() + "[T\\p{Zs}]" + time() + "(?i)(Z|[+-](?:2[0-3]|[01][0-9]):[0-5][0-9])?(?-i)";
+  }
+
+  /**
+   * Regex for NUMBERS extraction. Match and capture 1 group :
+   *
+   * <ol>
+   * <li>Group 1 : number</li>
+   * </ol>
+   *
+   * @return regular expression.
+   */
+  public static String number() {
+    return "(?i)([-+]?\\p{Zs}*(?:[0-9]{1,3}\\p{Zs}?)*(?:[0-9]+[,]|[0-9]*[.])?[0-9]+(?:[eE][-+]?[0-9]+)?)(?-i)";
+  }
+
+  /**
+   * Regex for FINANCIAL NUMBERS extraction. Match and capture 1 group :
+   *
+   * <ol>
+   * <li>Group 1 : number</li>
+   * </ol>
+   *
+   * See https://en.wikipedia.org/wiki/Decimal_separator for details.
+   *
+   * @return regular expression.
+   */
+  public static String financialNumber() {
+
+    // 1,234,567.89 (us)
+    String form1 = "(?:(?:[0-9]{1,3}[,])+[0-9]{3}(?:[.][0-9]+)?|[0-9]{1,3}[.][0-9]+)";
+
+    // 1 234 567,89 (europe) or 1 234 567.89 (europe)
+    String form2 = "(?:(?:[0-9]{1,3}\\p{Zs})+[0-9]{3}(?:[,.][0-9]+)?|[0-9]{1,3}[,.][0-9]+)";
+
+    // 123,4567.89 (china)
+    String form3 = "(?:(?:[0-9]{1,4}[\\p{Zs},])+[0-9]{4}(?:[.][0-9]+)?|[0-9]{1,4}[.][0-9]+)";
+
+    // 1.234.567,89 (europe)
+    String form4 = "(?:(?:[0-9]{1,3}[.])+[0-9]{3}(?:[,][0-9]+)?|[0-9]{1,3}[,][0-9]+)";
+
+    // 1'234'567.89 (switzerland) or 1'234'567,89 (switzerland)
+    String form5 = "(?:(?:[0-9]{1,3}['])+[0-9]{3}(?:[.,][0-9]+)?|[0-9]{1,3}[.,][0-9]+)";
+
+    // 1'234,567.89 (mexico)
+    String form6 = "(?:(?:[0-9]{1,3}['])+[0-9]{1,3}[,])?[0-9]{1,3}(?:[.][0-9]+)?";
+
+    return "(?i)([-+]?\\p{Zs}*(?:(?:" + form1 + ")|(?:" + form2 + ")|(?:" + form3 + ")|(?:" + form4
+        + ")|(?:" + form5 + ")|(?:" + form6 + ")))(?-i)";
+  }
+
+  /**
+   * Regex for MONETARY AMOUNTS extraction. Match and capture 4 groups :
+   *
+   * <ol>
+   * <li>Group 1 : monetary symbol. If not matched, group 4 is matched.</li>
+   * <li>Group 2 : financial number. If not matched, group 3 is matched.</li>
+   * <li>Group 3 : regular number. If not matched, group 2 is matched.</li>
+   * <li>Group 4 : monetary symbol. If not matched, group 1 is matched.</li>
+   * </ol>
+   *
+   * @return regular expression.
+   */
+  public static String monetaryAmount() {
+    return "(?i)(\\p{Sc}?)\\p{Zs}*(?:" + financialNumber() + "|" + number()
+        + ")\\p{Zs}*(\\p{Sc}?)(?-i)";
   }
 
   private static String tld() {

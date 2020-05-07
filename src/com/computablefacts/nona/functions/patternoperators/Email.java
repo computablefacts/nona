@@ -1,6 +1,7 @@
 package com.computablefacts.nona.functions.patternoperators;
 
 import static com.computablefacts.nona.functions.patternoperators.PatternsForward.email;
+import static com.computablefacts.nona.functions.patternoperators.PatternsForward.ipv4;
 import static com.computablefacts.nona.functions.patternoperators.PatternsForward.leftBoundary;
 import static com.computablefacts.nona.functions.patternoperators.PatternsForward.rightBoundary;
 
@@ -46,8 +47,7 @@ public class Email extends RegexExtract {
 
       span.removeAllGroups();
 
-      // TODO : use IPV4 regex
-      if (domain.matches("^\\[?\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\]?$")) {
+      if (domain.matches("^\\[?" + ipv4() + "\\]?$")) {
 
         span.setFeature("USERNAME", username.toLowerCase());
         span.setFeature("DOMAIN", domain.toLowerCase());
