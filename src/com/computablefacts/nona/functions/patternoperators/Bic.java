@@ -68,8 +68,12 @@ public class Bic extends MatchPattern {
         String bic = newSpan.text().replaceAll("[^A-Za-z0-9]", "");
 
         if (FRENCH_BIC_DICTIONARY.containsKey(bic)) {
+
           newSpan.setFeature("BANK_NAME", FRENCH_BIC_DICTIONARY.get(bic).name());
           newSpan.setFeature("CITY", FRENCH_BIC_DICTIONARY.get(bic).city());
+
+          newSpan.removeGroups();
+          newSequence.add(newSpan);
         } else {
 
           String bic8 = bic.substring(0, Math.min(bic.length(), 8));
@@ -77,14 +81,15 @@ public class Bic extends MatchPattern {
           if (BIC8_DICTIONARY.containsKey(bic8)) {
             for (Lei lei : BIC8_DICTIONARY.get(bic8)) {
               if (lei.countryCode().equals(countryCode)) {
+
                 newSpan.setFeature("BANK_NAME", lei.legalName());
+
+                newSpan.removeGroups();
+                newSequence.add(newSpan);
               }
             }
           }
         }
-
-        newSpan.removeGroups();
-        newSequence.add(newSpan);
       }
     }
     return BoxedType.create(newSequence);
