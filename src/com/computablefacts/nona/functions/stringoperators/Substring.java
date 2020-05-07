@@ -15,7 +15,7 @@ public class Substring extends Function {
   }
 
   @Override
-  protected BoxedType evaluate(List<BoxedType> parameters) {
+  public BoxedType evaluate(List<BoxedType> parameters) {
 
     Preconditions.checkArgument(parameters.size() > 1 && parameters.size() < 4,
         "SUBSTRING takes at least two parameters and at most three.");

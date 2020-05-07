@@ -17,7 +17,7 @@ public class Multiply extends Function {
   }
 
   @Override
-  protected BoxedType evaluate(List<BoxedType> parameters) {
+  public BoxedType evaluate(List<BoxedType> parameters) {
 
     Preconditions.checkArgument(parameters.size() >= 2, "MULTIPLY takes at least two parameters.");
 

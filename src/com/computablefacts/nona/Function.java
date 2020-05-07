@@ -150,7 +150,7 @@ public class Function {
    * @param parameters the function parameters.
    * @return computed value.
    */
-  protected BoxedType evaluate(List<BoxedType> parameters) {
+  public BoxedType evaluate(List<BoxedType> parameters) {
     return Preconditions.checkNotNull(null,
         "Function " + name_ + "/" + parameters.size() + " is not implemented.");
   }

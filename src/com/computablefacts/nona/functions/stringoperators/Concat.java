@@ -15,7 +15,7 @@ public class Concat extends Function {
   }
 
   @Override
-  protected BoxedType evaluate(List<BoxedType> parameters) {
+  public BoxedType evaluate(List<BoxedType> parameters) {
 
     Preconditions.checkArgument(parameters.size() >= 2, "CONCAT takes at least two parameters.");
 

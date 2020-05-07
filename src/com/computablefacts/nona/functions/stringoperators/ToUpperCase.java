@@ -15,7 +15,7 @@ public class ToUpperCase extends Function {
   }
 
   @Override
-  protected BoxedType evaluate(List<BoxedType> parameters) {
+  public BoxedType evaluate(List<BoxedType> parameters) {
 
     Preconditions.checkArgument(parameters.size() == 1, "TOUPPERCASE takes exactly one parameter.");
     Preconditions.checkArgument(parameters.get(0).isString(), "%s should be a string",

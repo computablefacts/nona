@@ -17,7 +17,7 @@ public class Substract extends Function {
   }
 
   @Override
-  protected BoxedType evaluate(List<BoxedType> parameters) {
+  public BoxedType evaluate(List<BoxedType> parameters) {
 
     Preconditions.checkArgument(parameters.size() >= 2, "SUBSTRACT takes at least two parameters.");
     Preconditions.checkArgument(parameters.get(0).isNumber(), "%s should be a number",

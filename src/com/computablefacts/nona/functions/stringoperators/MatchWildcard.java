@@ -16,7 +16,7 @@ public class MatchWildcard extends Function {
   }
 
   @Override
-  protected BoxedType evaluate(List<BoxedType> parameters) {
+  public BoxedType evaluate(List<BoxedType> parameters) {
 
     Preconditions.checkArgument(parameters.size() == 2,
         "MATCHWILDCARD takes exactly two parameters.");

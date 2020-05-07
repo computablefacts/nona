@@ -15,7 +15,7 @@ public class Not extends Function {
   }
 
   @Override
-  protected BoxedType evaluate(List<BoxedType> parameters) {
+  public BoxedType evaluate(List<BoxedType> parameters) {
 
     Preconditions.checkArgument(parameters.size() == 1, "NOT takes exactly one parameter.");
     Preconditions.checkArgument(parameters.get(0).isBoolean(), "%s should be a boolean",

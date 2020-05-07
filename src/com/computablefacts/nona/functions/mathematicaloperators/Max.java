@@ -17,7 +17,7 @@ public class Max extends Function {
   }
 
   @Override
-  protected BoxedType evaluate(List<BoxedType> parameters) {
+  public BoxedType evaluate(List<BoxedType> parameters) {
 
     Preconditions.checkArgument(parameters.size() >= 2, "MAX takes at least two parameters.");
 

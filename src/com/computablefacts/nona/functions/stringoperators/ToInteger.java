@@ -15,7 +15,7 @@ public class ToInteger extends Function {
   }
 
   @Override
-  protected BoxedType evaluate(List<BoxedType> parameters) {
+  public BoxedType evaluate(List<BoxedType> parameters) {
 
     Preconditions.checkArgument(parameters.size() == 1, "TOINTEGER takes exactly one parameter.");
     Preconditions.checkArgument(parameters.get(0).isNumber(), "%s should be a number",

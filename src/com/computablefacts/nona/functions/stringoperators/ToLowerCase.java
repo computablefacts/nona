@@ -15,7 +15,7 @@ public class ToLowerCase extends Function {
   }
 
   @Override
-  protected BoxedType evaluate(List<BoxedType> parameters) {
+  public BoxedType evaluate(List<BoxedType> parameters) {
 
     Preconditions.checkArgument(parameters.size() == 1, "TOLOWERCASE takes exactly one parameter.");
     Preconditions.checkArgument(parameters.get(0).isString(), "%s should be a string",

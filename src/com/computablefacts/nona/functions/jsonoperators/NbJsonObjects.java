@@ -16,7 +16,7 @@ public class NbJsonObjects extends Function {
   }
 
   @Override
-  protected BoxedType evaluate(List<BoxedType> parameters) {
+  public BoxedType evaluate(List<BoxedType> parameters) {
 
     Preconditions.checkArgument(parameters.size() == 1,
         "NBJSONOBJECTS takes exactly one parameter.");

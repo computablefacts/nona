@@ -17,7 +17,7 @@ public class MatchFuzzy extends Function {
   }
 
   @Override
-  protected BoxedType evaluate(List<BoxedType> parameters) {
+  public BoxedType evaluate(List<BoxedType> parameters) {
 
     Preconditions.checkArgument(parameters.size() == 4,
         "MATCHFUZZY takes exactly four parameters.");

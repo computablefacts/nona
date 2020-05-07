@@ -15,7 +15,7 @@ public class And extends Function {
   }
 
   @Override
-  protected BoxedType evaluate(List<BoxedType> parameters) {
+  public BoxedType evaluate(List<BoxedType> parameters) {
 
     Preconditions.checkArgument(parameters.size() >= 2, "AND takes at least two parameters.");
 

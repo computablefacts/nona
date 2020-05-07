@@ -15,7 +15,7 @@ public class GreaterThan extends Function {
   }
 
   @Override
-  protected BoxedType evaluate(List<BoxedType> parameters) {
+  public BoxedType evaluate(List<BoxedType> parameters) {
 
     Preconditions.checkArgument(parameters.size() == 2, "GT takes exactly two parameters.");
 

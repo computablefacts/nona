@@ -14,7 +14,7 @@ public class Divide extends Function {
   }
 
   @Override
-  protected BoxedType evaluate(List<BoxedType> parameters) {
+  public BoxedType evaluate(List<BoxedType> parameters) {
 
     Preconditions.checkArgument(parameters.size() == 2, "DIVIDE takes exactly two parameters.");
     Preconditions.checkArgument(parameters.get(0).isNumber(), "%s should be a number",

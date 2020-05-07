@@ -15,7 +15,7 @@ public class If extends Function {
   }
 
   @Override
-  protected BoxedType evaluate(List<BoxedType> parameters) {
+  public BoxedType evaluate(List<BoxedType> parameters) {
 
     Preconditions.checkArgument(parameters.size() == 3, "IF takes exactly three parameters.");
     Preconditions.checkArgument(parameters.get(0).isBoolean(), "%s should be a boolean",

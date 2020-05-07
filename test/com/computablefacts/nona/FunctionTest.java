@@ -37,7 +37,7 @@ public class FunctionTest {
     functions.put("ZERO", new Function("ZERO", true) {
 
       @Override
-      protected BoxedType evaluate(List<BoxedType> parameters) {
+      public BoxedType evaluate(List<BoxedType> parameters) {
         return BoxedType.create(parameters.isEmpty() ? 0 : 1);
       }
     });
@@ -56,7 +56,7 @@ public class FunctionTest {
     functions.put("ZERO", new Function("ZERO", true) {
 
       @Override
-      protected BoxedType evaluate(List<BoxedType> parameters) {
+      public BoxedType evaluate(List<BoxedType> parameters) {
         return BoxedType.create(parameters.isEmpty() ? 0 : 1);
       }
     });
@@ -170,7 +170,7 @@ public class FunctionTest {
     functions.put("FN", new Function("FN", true) {
 
       @Override
-      protected BoxedType evaluate(List<BoxedType> parameters) {
+      public BoxedType evaluate(List<BoxedType> parameters) {
         return parameters.get(0);
       }
     });
@@ -189,7 +189,7 @@ public class FunctionTest {
     functions.put("FN", new Function("FN", true) {
 
       @Override
-      protected BoxedType evaluate(List<BoxedType> parameters) {
+      public BoxedType evaluate(List<BoxedType> parameters) {
         return parameters.get(0);
       }
     });
@@ -208,7 +208,7 @@ public class FunctionTest {
     functions.put("FN", new Function("FN", true) {
 
       @Override
-      protected BoxedType evaluate(List<BoxedType> parameters) {
+      public BoxedType evaluate(List<BoxedType> parameters) {
         return parameters.get(0);
       }
     });
@@ -227,7 +227,7 @@ public class FunctionTest {
     functions.put("FN", new Function("FN", true) {
 
       @Override
-      protected BoxedType evaluate(List<BoxedType> parameters) {
+      public BoxedType evaluate(List<BoxedType> parameters) {
         return parameters.get(0);
       }
     });
@@ -246,7 +246,7 @@ public class FunctionTest {
     functions.put("FN", new Function("FN", true) {
 
       @Override
-      protected BoxedType evaluate(List<BoxedType> parameters) {
+      public BoxedType evaluate(List<BoxedType> parameters) {
         return parameters.get(0);
       }
     });
@@ -265,7 +265,7 @@ public class FunctionTest {
     functions.put("FN", new Function("FN", true) {
 
       @Override
-      protected BoxedType evaluate(List<BoxedType> parameters) {
+      public BoxedType evaluate(List<BoxedType> parameters) {
         return parameters.get(0);
       }
     });
@@ -284,7 +284,7 @@ public class FunctionTest {
     functions.put("FN", new Function("FN", true) {
 
       @Override
-      protected BoxedType evaluate(List<BoxedType> parameters) {
+      public BoxedType evaluate(List<BoxedType> parameters) {
         return parameters.get(0);
       }
     });
@@ -303,7 +303,7 @@ public class FunctionTest {
     functions.put("FN", new Function("FN", true) {
 
       @Override
-      protected BoxedType evaluate(List<BoxedType> parameters) {
+      public BoxedType evaluate(List<BoxedType> parameters) {
         return parameters.get(0);
       }
     });
@@ -322,7 +322,7 @@ public class FunctionTest {
     functions.put("FN", new Function("FN", true) {
 
       @Override
-      protected BoxedType evaluate(List<BoxedType> parameters) {
+      public BoxedType evaluate(List<BoxedType> parameters) {
         return parameters.get(0);
       }
     });
