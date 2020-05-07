@@ -72,17 +72,24 @@ public class MatchAll extends Function {
       Span cur = spans.get(i);
       Span prev = spans.get(i - 1);
 
-      cur.removeAllGroups();
-      prev.removeAllGroups();
+      cur.removeGroups();
+      prev.removeGroups();
 
-      if (prev.overlapsAll(cur) && cur.overlapsAll(prev)) {
-        // TODO : merge features
-      } else if (prev.overlapsAll(cur) || prev.overlapsLeftOf(cur) || cur.overlapsAll(prev)) {
+      if (prev.overlapsAll(cur) || prev.overlapsLeftOf(cur) || cur.overlapsAll(prev)) {
         if (prev.length() < cur.length()) {
 
           // Longer matches prevail over shorter matches
           spans.remove(i - 1);
         } else {
+
+          if (prev.overlapsAll(cur) && cur.overlapsAll(prev)) {
+
+            // If the prev and cur features are identical, copy all the groups/features from the
+            // deleted one to the new one
+            cur.features().forEach(prev::setFeature);
+            cur.tags().forEach(prev::addTag);
+            cur.groups().forEach(prev::setGroup);
+          }
 
           // Left-most matches prevail over right-most
           spans.remove(i);

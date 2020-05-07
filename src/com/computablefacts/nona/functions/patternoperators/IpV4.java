@@ -32,7 +32,7 @@ public class IpV4 extends MatchPattern {
 
     for (Span span : sequence.sequence()) {
       span.setFeature("IS_LOCAL", Boolean.toString(IP_LOCAL.matches(span.text())));
-      span.removeAllGroups();
+      span.removeGroups();
     }
     return BoxedType.create(sequence);
   }

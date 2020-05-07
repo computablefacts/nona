@@ -86,7 +86,7 @@ public class Iban extends RegexExtract {
         span.setFeature("IS_SEPA_MEMBER",
             Boolean.toString(IBAN_DICTIONARY.get(countryCode).isSepaMember()));
 
-        span.removeAllGroups();
+        span.removeGroups();
         newSequence.add(span);
       }
     }

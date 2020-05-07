@@ -83,7 +83,7 @@ public class Bic extends MatchPattern {
           }
         }
 
-        newSpan.removeAllGroups();
+        newSpan.removeGroups();
         newSequence.add(newSpan);
       }
     }

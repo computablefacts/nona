@@ -46,7 +46,7 @@ public class Email extends MatchPattern {
       String domain = span.getFeature("DOMAIN");
 
       span.addTag("EMAIL");
-      span.removeAllGroups();
+      span.removeGroups();
 
       if (domain.matches("^\\[?" + ipv4() + "\\]?$")) {
         span.setFeature("USERNAME", username.toLowerCase());

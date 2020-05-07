@@ -97,7 +97,7 @@ public class SpanTest {
     Assert.assertEquals(span1.text(), span2.text());
   }
 
-  @Test(expected = NullPointerException.class)
+  @Test(expected = IllegalArgumentException.class)
   public void testSetFeatureWithNullKey() {
     Span span = new Span("text", 0, "text".length());
     span.setFeature(null, "value");
@@ -107,6 +107,39 @@ public class SpanTest {
   public void testSetFeatureWithNullValue() {
     Span span = new Span("text", 0, "text".length());
     span.setFeature("key", null);
+  }
+
+  @Test(expected = IllegalArgumentException.class)
+  public void testSetFeatureWithEmptyKey() {
+    Span span = new Span("text", 0, "text".length());
+    span.setFeature("", "value");
+  }
+
+  @Test
+  public void testSetFeatureWithEmptyValue() {
+
+    Span span = new Span("text", 0, "text".length());
+    span.setFeature("key", "");
+
+    Assert.assertTrue(span.hasFeature("key"));
+  }
+
+  @Test
+  public void testSetNullTag() {
+
+    Span span = new Span("text", 0, "text".length());
+    span.addTag(null);
+
+    Assert.assertTrue(span.tags().isEmpty());
+  }
+
+  @Test
+  public void testSetEmptyTag() {
+
+    Span span = new Span("text", 0, "text".length());
+    span.addTag("");
+
+    Assert.assertTrue(span.tags().isEmpty());
   }
 
   @Test

@@ -4,7 +4,6 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 import javax.validation.constraints.NotNull;
 
@@ -25,6 +24,7 @@ final public class Span implements Comparable<Span> {
   private final int begin_;
   private final int end_;
   private final Map<String, String> features_ = new HashMap<>();
+  private final Map<Integer, String> groups_ = new HashMap<>();
   private final Set<String> tags_ = new HashSet<>();
 
   public Span(String text) {
@@ -199,80 +199,150 @@ final public class Span implements Comparable<Span> {
     return begin_ <= position && position <= end_;
   }
 
+  /**
+   * Get all the groups associated to this span.
+   *
+   * @return the groups.
+   */
   @Beta
-  public Set<String> groups() {
-    return features_.keySet().stream().filter(f -> f.startsWith("GROUP_"))
-        .collect(Collectors.toSet());
+  public Map<Integer, String> groups() {
+    return groups_;
   }
 
+  /**
+   * Remove all groups names and values. For internal use only.
+   */
   @Beta
-  public void setGroupCount(int count) {
-
-    Preconditions.checkArgument(count >= 0, "count should be >= 0 : %s", count);
-
-    setFeature("GROUP_COUNT", Integer.toString(count, 10));
+  public void removeGroups() {
+    groups_.clear();
   }
 
-  @Beta
-  public void removeAllGroups() {
-    for (String group : groups()) {
-      features_.remove(group);
-    }
-  }
-
+  /**
+   * Set a new group value. For internal use only.
+   *
+   * @param index the group index.
+   * @param value the group value.
+   */
   @Beta
   public void setGroup(int index, String value) {
 
     Preconditions.checkArgument(index >= 0, "index should be >= 0 : %s", index);
 
-    setFeature("GROUP_" + index, Strings.nullToEmpty(value));
+    groups_.put(index, Strings.nullToEmpty(value));
   }
 
+  /**
+   * Get a group value. For internal use only.
+   *
+   * @param index the group index.
+   * @return the group value.
+   */
   @Beta
   public String getGroup(int index) {
 
     Preconditions.checkArgument(index >= 0, "index should be >= 0 : %s", index);
 
-    return getFeature("GROUP_" + index);
+    return groups_.getOrDefault(index, "");
   }
 
-  public Set<String> features() {
-    return features_.keySet().stream().filter(f -> !f.startsWith("GROUP_"))
-        .collect(Collectors.toSet());
+  /**
+   * Get the span's features.
+   *
+   * @return the features.
+   */
+  public Map<String, String> features() {
+    return features_;
   }
 
-  public void setFeature(String key, String value) {
+  /**
+   * Add a new feature. If the feature already exists, the previous value is replaced by the new
+   * one.
+   *
+   * @param name the feature name.
+   * @param value the name value.
+   */
+  public void setFeature(String name, String value) {
 
-    Preconditions.checkNotNull(key, "key is null");
+    Preconditions.checkArgument(!Strings.isNullOrEmpty(name),
+        "name should neither be null nor empty");
     Preconditions.checkNotNull(value, "value is null");
 
-    features_.put(key, value);
+    features_.put(name, value);
   }
 
-  public String getFeature(String key) {
-    return features_.get(Preconditions.checkNotNull(key, "key is null"));
+  /**
+   * Get the value associated with a given feature.
+   *
+   * @param name the name of the feature.
+   * @return the value associated to the name.
+   */
+  public String getFeature(String name) {
+    return features_.get(Preconditions.checkNotNull(name, "name is null"));
   }
 
-  public void removeFeature(String key) {
-    features_.remove(Preconditions.checkNotNull(key, "key is null"));
+  /**
+   * Check if a given feature is associated with this span.
+   *
+   * @param name the name of the feature to check.
+   * @return true if the feature is associated with this span, false otherwise.
+   */
+  public boolean hasFeature(String name) {
+    return features_.containsKey(Preconditions.checkNotNull(name, "name is null"));
   }
 
+  /**
+   * Remove a feature.
+   *
+   * @param name the name of the feature to remove.
+   */
+  public void removeFeature(String name) {
+    features_.remove(Preconditions.checkNotNull(name, "name is null"));
+  }
+
+  /**
+   * Remove all features
+   */
+  public void removeFeatures() {
+    features_.clear();
+  }
+
+  /**
+   * Get the span's tags.
+   *
+   * @return the tags.
+   */
   public Set<String> tags() {
     return tags_;
   }
 
+  /**
+   * Add a new tag.
+   *
+   * @param tag the tag to add.
+   */
   public void addTag(String tag) {
     if (!Strings.isNullOrEmpty(tag)) {
       tags_.add(tag);
     }
   }
 
+  /**
+   * Remove a given tag.
+   *
+   * @param tag the tag to remove.
+   */
   public void removeTag(String tag) {
     if (!Strings.isNullOrEmpty(tag)) {
       tags_.remove(tag);
     }
   }
 
+  /**
+   * Check if a given tag is associated with this span.
+   *
+   * @param tag the tag to check.
+   * @return true if the tag is associated with this span, false otherwise.
+   */
   public boolean hasTag(String tag) {
     return !Strings.isNullOrEmpty(tag) && tags_.contains(tag);
   }

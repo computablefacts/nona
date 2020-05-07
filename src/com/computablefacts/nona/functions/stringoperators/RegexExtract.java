@@ -78,7 +78,6 @@ public class RegexExtract extends Function {
         for (int k = 1; k < matcher.groupCount() + 1; k++) {
           span.setGroup(k, matcher.group(k));
         }
-        span.setGroupCount(matcher.groupCount());
 
         sequence.add(span);
       }

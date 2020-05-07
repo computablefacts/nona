@@ -57,7 +57,7 @@ public class MonetaryAmount extends MatchPattern {
         span.removeFeature("FINANCIAL_NUMBER");
         span.removeFeature("NUMBER");
         span.removeFeature("SYMBOL2");
-        span.removeAllGroups();
+        span.removeGroups();
 
         newSequence.add(span);
       }

@@ -56,13 +56,9 @@ public class MatchPattern extends RegexExtract {
         // Resize span : remove left & right boundaries
         Span newSpan =
             new Span(span.rawText(), span.begin() + index, span.begin() + index + match.length());
+        span.features().forEach(newSpan::setFeature);
+        span.tags().forEach(newSpan::addTag);
 
-        for (String feature : span.features()) {
-          newSpan.setFeature(feature, span.getFeature(feature));
-        }
-        for (String tag : span.tags()) {
-          newSpan.addTag(tag);
-        }
         return newSpan;
       }
     }
