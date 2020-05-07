@@ -2,7 +2,9 @@ package com.computablefacts.nona.types;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import javax.validation.constraints.NotNull;
+
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Objects;
 import com.google.common.base.Preconditions;
@@ -61,5 +63,12 @@ final public class SpanSequence implements Comparable<SpanSequence> {
 
   public void add(Span span) {
     sequence_.add(Preconditions.checkNotNull(span, "span is null"));
+  }
+
+  public void add(SpanSequence spans) {
+
+    Preconditions.checkNotNull(spans, "spans is null");
+
+    sequence_.addAll(spans.sequence());
   }
 }

@@ -8,7 +8,13 @@ public class SpanSequenceTest {
   @Test(expected = NullPointerException.class)
   public void testAddNullSpan() {
     SpanSequence sequence = new SpanSequence();
-    sequence.add(null);
+    sequence.add((Span) null);
+  }
+
+  @Test(expected = NullPointerException.class)
+  public void testAddNullSpanSequence() {
+    SpanSequence sequence = new SpanSequence();
+    sequence.add((SpanSequence) null);
   }
 
   @Test

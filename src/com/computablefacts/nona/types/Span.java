@@ -137,7 +137,48 @@ final public class Span implements Comparable<Span> {
 
     Preconditions.checkNotNull(span, "span should not be null");
 
-    return begin_ <= span.end() && end_ >= span.begin();
+    return begin_ < span.end() && end_ > span.begin();
+  }
+
+  /**
+   * Checks whether the left of this span (ex. [4, 7]) overlaps the right of the given span (ex. [2,
+   * 5]).
+   *
+   * @param span span span.
+   * @return true if the spans overlap, false otherwise.
+   */
+  public boolean overlapsRight(Span span) {
+
+    Preconditions.checkNotNull(span, "span should not be null");
+
+    return end_ > span.end();
+  }
+
+  /**
+   * Checks whether the right of this span (ex. [4, 7]) overlaps the left of the given span (ex. [6,
+   * 9]).
+   *
+   * @param span span span.
+   * @return true if the spans overlap, false otherwise.
+   */
+  public boolean overlapsLeft(Span span) {
+
+    Preconditions.checkNotNull(span, "span should not be null");
+
+    return begin_ < span.begin();
+  }
+
+  /**
+   * Checks whether this span (ex. [4, 7]) completely overlaps the given span (ex. [5, 6]).
+   *
+   * @param span span span.
+   * @return true if the spans overlap, false otherwise.
+   */
+  public boolean overlapsAll(Span span) {
+
+    Preconditions.checkNotNull(span, "span should not be null");
+
+    return overlapsLeft(span) && overlapsRight(span);
   }
 
   /**
