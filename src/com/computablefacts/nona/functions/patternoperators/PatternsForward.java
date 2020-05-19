@@ -356,6 +356,19 @@ final public class PatternsForward {
   }
 
   /**
+   * Regex for BASE64 strings extraction. Match and capture a single group :
+   *
+   * <ol>
+   * <li>Group 1 : whole match</li>
+   * </ol>
+   *
+   * @return regular expression.
+   */
+  public static String base64() {
+    return "(?i)((?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=))(?-i)";
+  }
+
+  /**
    * Regex for PERCENTS extraction. Match and capture 2 groups :
    *
    * <ol>
