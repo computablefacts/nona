@@ -29,4 +29,18 @@ public class Base64Test {
     Assert.assertEquals(1, spans.size());
     Assert.assertEquals(b64, span.text());
   }
+
+  @Test
+  public void testInvalidBase64String() {
+
+    String b64 = "====";
+
+    Map<String, Function> functions = new HashMap<>();
+    functions.put("BASE64", new Base64());
+
+    Function fn = new Function("BASE64(" + Function.wrap(b64) + ")");
+    List<Span> spans = ((SpanSequence) fn.evaluate(functions).value()).sequence();
+
+    Assert.assertEquals(0, spans.size());
+  }
 }
