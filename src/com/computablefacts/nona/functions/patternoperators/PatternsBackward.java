@@ -49,10 +49,10 @@ final public class PatternsBackward {
   private static String elfs() {
     return Joiner.on("|").join(Elf.load().stream().flatMap(elf -> {
 
-      Set<String> abbr1 = elf.abbreviationLocal().stream().filter(abbr -> abbr.length() > 1)
-          .map(String::toUpperCase).collect(Collectors.toSet());
-      Set<String> abbr2 = elf.abbreviationTransliterated().stream()
-          .filter(abbr -> abbr.length() > 1).map(String::toUpperCase).collect(Collectors.toSet());
+      Set<String> abbr1 =
+          elf.abbreviationLocal().stream().map(String::toUpperCase).collect(Collectors.toSet());
+      Set<String> abbr2 = elf.abbreviationTransliterated().stream().map(String::toUpperCase)
+          .collect(Collectors.toSet());
 
       return Sets.union(abbr1, abbr2).stream();
     }).filter(abbr -> !Strings.isNullOrEmpty(abbr)).map(abbr -> Pattern.quote(reverse(abbr))
