@@ -16,6 +16,8 @@ import com.google.common.base.Preconditions;
 
 public class CompanyWithElf extends RegexExtract {
 
+  private final static String PATTERN = leftBoundary() + companyName() + rightBoundary();
+
   public CompanyWithElf() {
     super("COMPANY_NAME");
   }
@@ -28,7 +30,7 @@ public class CompanyWithElf extends RegexExtract {
 
     List<BoxedType> newParameters = new ArrayList<>();
     newParameters.add(BoxedType.create(reverse(parameters.get(0).asString())));
-    newParameters.add(BoxedType.create(leftBoundary() + companyName() + rightBoundary()));
+    newParameters.add(BoxedType.create(PATTERN));
 
     BoxedType boxedType = super.evaluate(newParameters);
     SpanSequence sequence = (SpanSequence) boxedType.value();
