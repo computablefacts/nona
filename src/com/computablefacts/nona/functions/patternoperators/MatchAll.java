@@ -16,10 +16,10 @@ import com.google.errorprone.annotations.Var;
 
 public class MatchAll extends Function {
 
-  private static final List<RegexExtract> FORWARD_AND_BACKWARD_EXTRACTORS =
-      Lists.newArrayList(new Bic(), new CompanyWithElf(), new Date(), new DateTime(), new Email(),
-          new FinancialNumber(), new IpV4(), new IpV6(), new MonetaryAmount(), new Number(),
-          new Onion(), new Percent(), new Time(), new UnixPath(), new Url(), new WinPath());
+  private static final List<RegexExtract> FORWARD_AND_BACKWARD_EXTRACTORS = Lists.newArrayList(
+      new Base64(), new Bic(), new CompanyWithElf(), new Date(), new DateTime(), new Email(),
+      new FinancialNumber(), new IpV4(), new IpV6(), new MonetaryAmount(), new Number(),
+      new Onion(), new Percent(), new Time(), new UnixPath(), new Url(), new WinPath());
   private static final List<RegexExtract> COMPACT_EXTRACTORS = Lists.newArrayList(new Iban());
 
   public MatchAll() {
