@@ -71,10 +71,6 @@ public class MatchPattern extends RegexExtract {
     Preconditions.checkArgument(parameters.size() == 1, "%s takes exactly one parameter : %s",
         name_, parameters);
 
-    // WARNING : do not check the parameters types. Always assume it is a string.
-    // Preconditions.checkArgument(parameters.get(0).isString(), "%s should be a string",
-    // parameters.get(0));
-
     List<BoxedType> newParameters = new ArrayList<>();
     newParameters.add(parameters.get(0));
     newParameters.add(BoxedType.create(leftBoundary() + pattern_ + rightBoundary()));

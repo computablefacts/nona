@@ -32,10 +32,6 @@ public class MatchAll extends Function {
     Preconditions.checkArgument(parameters.size() >= 1,
         "EXTRACT_ALL takes at least one parameter : %s", parameters);
 
-    // WARNING : do not check the parameters types. Always assume it is a string.
-    // Preconditions.checkArgument(parameters.get(0).isString(), "%s should be a string",
-    // parameters.get(0));
-
     SpanSequence newSequence = new SpanSequence();
 
     // Extract from dictionary

@@ -41,10 +41,6 @@ public class Bic extends MatchPattern {
     Preconditions.checkArgument(parameters.size() == 1, "BIC takes exactly one parameter : %s",
         parameters);
 
-    // WARNING : do not check the parameters types. Always assume it is a string.
-    // Preconditions.checkArgument(parameters.get(0).isString(), "%s should be a string",
-    // parameters.get(0));
-
     BoxedType boxedType = super.evaluate(parameters);
     SpanSequence sequence = (SpanSequence) boxedType.value();
     SpanSequence newSequence = new SpanSequence();
