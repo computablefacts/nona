@@ -110,4 +110,16 @@ public class IbanTest {
     Assert.assertEquals("GB94BARC10201530093459", spans.get(0).text());
     Assert.assertTrue(spans.get(0).hasTag("IBAN"));
   }
+
+  @Test
+  public void testMismatchBetweenExtractedIbanLengthAndTheoreticLength() {
+
+    Map<String, Function> functions = new HashMap<>();
+    functions.put("IBAN", new Iban());
+
+    Function fn = new Function("IBAN(SE35 5000 0000 0549 1000)");
+    List<Span> spans = ((SpanSequence) fn.evaluate(functions).value()).sequence();
+
+    Assert.assertEquals(0, spans.size());
+  }
 }
