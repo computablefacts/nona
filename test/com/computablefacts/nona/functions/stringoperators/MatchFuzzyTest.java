@@ -12,6 +12,17 @@ import com.computablefacts.nona.types.BoxedType;
 public class MatchFuzzyTest {
 
   @Test
+  public void testMatchFuzzyWithPartialRatio() {
+
+    Map<String, Function> functions = new HashMap<>();
+    functions.put("MATCH_FUZZY", new MatchFuzzy());
+
+    Function fn =
+        new Function("MATCH_FUZZY(partial, 72, \"mysmilarstring\", \"myawfullysimilarstirng\")");
+    Assert.assertEquals(BoxedType.create(true), fn.evaluate(functions));
+  }
+
+  @Test
   public void testMatchFuzzyWithSimpleRatio1() {
 
     Map<String, Function> functions = new HashMap<>();
