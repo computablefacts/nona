@@ -12,6 +12,16 @@ import com.computablefacts.nona.types.BoxedType;
 public class MultiplyTest {
 
   @Test
+  public void testMultZero() {
+
+    Map<String, Function> functions = new HashMap<>();
+    functions.put("MULT", new Multiply());
+
+    Function fn = new Function("MULT(3, 2, 1, 0)");
+    Assert.assertEquals(BoxedType.create(0), fn.evaluate(functions));
+  }
+
+  @Test
   public void testMult() {
 
     Map<String, Function> functions = new HashMap<>();
