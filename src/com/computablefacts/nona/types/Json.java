@@ -12,6 +12,7 @@ import com.fasterxml.jackson.databind.ObjectReader;
 import com.fasterxml.jackson.databind.type.TypeFactory;
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Preconditions;
+import com.google.common.base.Strings;
 import com.google.errorprone.annotations.CheckReturnValue;
 
 @CheckReturnValue
@@ -67,6 +68,22 @@ final public class Json implements Comparable<Json> {
     return jsons_.length;
   }
 
+  public Map<String, Object> object(int index) {
+
+    Preconditions.checkArgument(index >= 0 && index < nbObjects(), "index must be >= 0 and <%s",
+        nbObjects());
+
+    return jsons_[index];
+  }
+
+  public Object value(int index, String key) {
+
+    Preconditions.checkArgument(!Strings.isNullOrEmpty(key),
+        "key should neither be null nor empty");
+
+    return object(index).get(key);
+  }
+
   @Override
   public boolean equals(Object obj) {
     if (obj == this) {
@@ -89,10 +106,13 @@ final public class Json implements Comparable<Json> {
     return MoreObjects.toStringHelper(this).add("json", jsons_).omitNullValues().toString();
   }
 
+  /**
+   * WARNING : DO NOT USE.
+   *
+   * This method exists to ensure the {@link Json} datatype can be boxed using {@link BoxedType}.
+   */
   @Override
   public int compareTo(@NotNull Json json) {
-
-    // TODO
     return 0;
   }
 }

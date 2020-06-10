@@ -15,7 +15,6 @@ import com.google.common.base.MoreObjects;
 import com.google.common.base.Preconditions;
 import com.google.common.base.Strings;
 import com.google.errorprone.annotations.CheckReturnValue;
-import com.google.errorprone.annotations.Var;
 
 @CheckReturnValue
 final public class Csv implements Comparable<Csv> {
@@ -48,14 +47,19 @@ final public class Csv implements Comparable<Csv> {
     return rows_.size();
   }
 
-  public String value(int rowId, String colName) {
+  public Map<String, String> row(int row) {
 
-    Preconditions.checkArgument(rowId >= 0 && rowId < nbRows(), "rowId must be >= 0 and <%s",
-        nbRows());
+    Preconditions.checkArgument(row >= 0 && row < nbRows(), "row must be >= 0 and <%s", nbRows());
+
+    return rows_.get(row);
+  }
+
+  public String value(int row, String colName) {
+
     Preconditions.checkArgument(!Strings.isNullOrEmpty(colName),
         "colName should neither be null nor empty");
 
-    return rows_.get(rowId).get(colName);
+    return row(row).get(colName);
   }
 
   @Override
@@ -80,26 +84,13 @@ final public class Csv implements Comparable<Csv> {
     return MoreObjects.toStringHelper(this).add("rows", rows_).omitNullValues().toString();
   }
 
+  /**
+   * WARNING : DO NOT USE.
+   *
+   * This method exists to ensure the {@link Csv} datatype can be boxed using {@link BoxedType}.
+   */
   @Override
   public int compareTo(@NotNull Csv csv) {
-
-    @Var
-    int cmp = Integer.compare(nbRows(), csv.nbRows());
-
-    if (cmp != 0) {
-      return cmp;
-    }
-
-    for (int i = 0; i < nbRows(); i++) {
-      for (String col : rows_.get(i).keySet()) {
-
-        cmp = value(i, col).compareTo(csv.value(i, col));
-
-        if (cmp != 0) {
-          return cmp;
-        }
-      }
-    }
     return 0;
   }
 }

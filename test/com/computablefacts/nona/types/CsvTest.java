@@ -42,6 +42,56 @@ public class CsvTest {
   }
 
   @Test
+  public void testCompareSorted() {
+
+    Csv csv1 = Csv.create("col_1,col_2,col_3\n11,12,13\n21,22,23");
+    Csv csv2 = Csv.create("col_1,col_2,col_3\n11,12,13\n21,22,23");
+
+    Assert.assertEquals(0, csv1.compareTo(csv2));
+    Assert.assertEquals(0, csv2.compareTo(csv1));
+  }
+
+  @Test
+  public void testCompareScrambled() {
+
+    Csv csv1 = Csv.create("col_1,col_2,col_3\n11,12,13\n21,22,23");
+    Csv csv2 = Csv.create("col_3,col_2,col_1\n13,12,11\n23,22,21");
+
+    Assert.assertEquals(0, csv1.compareTo(csv2));
+    Assert.assertEquals(0, csv2.compareTo(csv1));
+  }
+
+  @Test
+  public void testCompareLessRows() {
+
+    Csv csv1 = Csv.create("col_1,col_2,col_3\n11,12,13\n21,22,23");
+    Csv csv2 = Csv.create("col_1,col_2,col_3\n11,12,13");
+
+    Assert.assertEquals(0, csv1.compareTo(csv2));
+    Assert.assertEquals(0, csv2.compareTo(csv1));
+  }
+
+  @Test
+  public void testCompareLessColumns() {
+
+    Csv csv1 = Csv.create("col_1,col_2,col_3\n11,12,13\n21,22,23");
+    Csv csv2 = Csv.create("col_1,col_2\n11,12\n21,22");
+
+    Assert.assertEquals(0, csv1.compareTo(csv2));
+    Assert.assertEquals(0, csv2.compareTo(csv1));
+  }
+
+  @Test
+  public void testCompareDifferentColumns() {
+
+    Csv csv1 = Csv.create("col_1,col_2,col_3\n11,12,13\n21,22,23");
+    Csv csv2 = Csv.create("col_1,col_2,col_n\n11,12,1n\n21,22,2n");
+
+    Assert.assertEquals(0, csv1.compareTo(csv2));
+    Assert.assertEquals(0, csv2.compareTo(csv1));
+  }
+
+  @Test
   public void testParseCsv() {
 
     Csv csv = Csv.create("col_1,col_2,col_3\n11,12,13\n21,22,23");
