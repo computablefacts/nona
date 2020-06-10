@@ -151,7 +151,7 @@ public class Function {
    * @return computed value.
    */
   public BoxedType evaluate(List<BoxedType> parameters) {
-    return Preconditions.checkNotNull(null,
+    throw new RuntimeException(
         "Function " + name_ + "/" + parameters.size() + " is not implemented.");
   }
 

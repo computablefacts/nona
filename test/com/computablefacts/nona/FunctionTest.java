@@ -1,5 +1,6 @@
 package com.computablefacts.nona;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -7,6 +8,8 @@ import java.util.Map;
 import org.junit.Assert;
 import org.junit.Test;
 
+import com.computablefacts.nona.functions.additiveoperators.Add;
+import com.computablefacts.nona.functions.multiplicativeoperators.Divide;
 import com.computablefacts.nona.types.BoxedType;
 
 public class FunctionTest {
@@ -332,5 +335,69 @@ public class FunctionTest {
     Assert.assertEquals("FN", fn.name());
     Assert.assertEquals(1, fn.arity());
     Assert.assertEquals(BoxedType.create("str)ing"), fn.evaluate(functions));
+  }
+
+  @Test(expected = RuntimeException.class)
+  public void testDirectCallToEvaluate() {
+    BoxedType bt = new Function("FN", true).evaluate(new ArrayList<>());
+  }
+
+  @Test
+  public void testHasReferenceTo() {
+
+    Function fn = new Function("DIV(SUM(1, 2, 3, 4), 4)");
+
+    Assert.assertTrue(fn.hasReferenceTo("DIV"));
+    Assert.assertTrue(fn.hasReferenceTo("SUM"));
+    Assert.assertFalse(fn.hasReferenceTo("SUB"));
+    Assert.assertFalse(fn.hasReferenceTo("MUL"));
+  }
+
+  @Test
+  public void testWithCache() {
+
+    Map<String, Function> functions = new HashMap<>();
+    functions.put("DIV", new Divide() {
+
+      @Override
+      public boolean isCacheable() {
+        return true;
+      }
+    });
+    functions.put("SUM", new Add() {
+
+      @Override
+      public boolean isCacheable() {
+        return true;
+      }
+    });
+
+    Function fn = new Function("DIV(SUM(1, 2, 3, 4), 4)");
+
+    Assert.assertEquals(BoxedType.create(2.5), fn.evaluate(functions));
+  }
+
+  @Test
+  public void testWithoutCache() {
+
+    Map<String, Function> functions = new HashMap<>();
+    functions.put("DIV", new Divide() {
+
+      @Override
+      public boolean isCacheable() {
+        return false;
+      }
+    });
+    functions.put("SUM", new Add() {
+
+      @Override
+      public boolean isCacheable() {
+        return false;
+      }
+    });
+
+    Function fn = new Function("DIV(SUM(1, 2, 3, 4), 4)");
+
+    Assert.assertEquals(BoxedType.create(2.5), fn.evaluate(functions));
   }
 }
