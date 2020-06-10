@@ -196,7 +196,7 @@ final public class Span implements Comparable<Span> {
    * @return true if the position falls into this span, false otherwise.
    */
   public boolean overlapsSome(int position) {
-    return begin_ <= position && position <= end_;
+    return begin_ <= position && position < end_;
   }
 
   /**
@@ -335,6 +335,13 @@ final public class Span implements Comparable<Span> {
     if (!Strings.isNullOrEmpty(tag)) {
       tags_.remove(tag);
     }
+  }
+
+  /**
+   * Remove all tags.
+   */
+  public void removeTags() {
+    tags_.clear();
   }
 
   /**

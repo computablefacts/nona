@@ -89,12 +89,55 @@ public class SpanTest {
   }
 
   @Test
+  public void testRawText() {
+
+    Span span1 = new Span("text", 0, 2);
+    Span span2 = new Span("text", 2, 4);
+
+    Assert.assertEquals("te", span1.text());
+    Assert.assertEquals("xt", span2.text());
+    Assert.assertEquals(span1.rawText(), span2.rawText());
+  }
+
+  @Test
   public void testText() {
 
     Span span1 = new Span("text1", 0, "text1".length() - 1);
     Span span2 = new Span("text2", 0, "text2".length() - 1);
 
     Assert.assertEquals(span1.text(), span2.text());
+  }
+
+  @Test
+  public void testCopySpanWithFeatures() {
+
+    Span span1 = new Span("text1", 0, "text1".length() - 1);
+    span1.setFeature("key1", "value1");
+    span1.setFeature("key2", "value2");
+
+    Span span2 = new Span(span1, true);
+
+    Assert.assertEquals(span1, span2);
+  }
+
+  @Test
+  public void testCopySpanWithoutFeatures() {
+
+    Span span1 = new Span("text1", 0, "text1".length() - 1);
+    span1.setFeature("key1", "value1");
+    span1.setFeature("key2", "value2");
+
+    Span span2 = new Span(span1, false);
+
+    Assert.assertNotEquals(span1, span2);
+
+    Assert.assertEquals(2, span1.features().size());
+    Assert.assertTrue(span1.hasFeature("key1"));
+    Assert.assertTrue(span1.hasFeature("key2"));
+
+    Assert.assertEquals(0, span2.features().size());
+    Assert.assertFalse(span2.hasFeature("key1"));
+    Assert.assertFalse(span2.hasFeature("key2"));
   }
 
   @Test(expected = IllegalArgumentException.class)
@@ -125,6 +168,47 @@ public class SpanTest {
   }
 
   @Test
+  public void testRemoveFeature() {
+
+    Span span = new Span("text", 0, "text".length());
+    span.setFeature("key1", "f1");
+    span.setFeature("key2", "f2");
+
+    Assert.assertEquals(2, span.features().size());
+    Assert.assertTrue(span.hasFeature("key1"));
+    Assert.assertTrue(span.hasFeature("key2"));
+    Assert.assertEquals("f1", span.getFeature("key1"));
+    Assert.assertEquals("f2", span.getFeature("key2"));
+
+    span.removeFeature("key1");
+
+    Assert.assertEquals(1, span.features().size());
+    Assert.assertFalse(span.hasFeature("key1"));
+    Assert.assertTrue(span.hasFeature("key2"));
+    Assert.assertEquals("f2", span.getFeature("key2"));
+  }
+
+  @Test
+  public void testRemoveAllFeatures() {
+
+    Span span = new Span("text", 0, "text".length());
+    span.setFeature("key1", "f1");
+    span.setFeature("key2", "f2");
+
+    Assert.assertEquals(2, span.features().size());
+    Assert.assertTrue(span.hasFeature("key1"));
+    Assert.assertTrue(span.hasFeature("key2"));
+    Assert.assertEquals("f1", span.getFeature("key1"));
+    Assert.assertEquals("f2", span.getFeature("key2"));
+
+    span.removeFeatures();
+
+    Assert.assertEquals(0, span.features().size());
+    Assert.assertFalse(span.hasFeature("key2"));
+    Assert.assertFalse(span.hasFeature("key2"));
+  }
+
+  @Test
   public void testSetNullTag() {
 
     Span span = new Span("text", 0, "text".length());
@@ -140,6 +224,42 @@ public class SpanTest {
     span.addTag("");
 
     Assert.assertTrue(span.tags().isEmpty());
+  }
+
+  @Test
+  public void testRemoveTag() {
+
+    Span span = new Span("text", 0, "text".length());
+    span.addTag("tag1");
+    span.addTag("tag2");
+
+    Assert.assertEquals(2, span.tags().size());
+    Assert.assertTrue(span.hasTag("tag1"));
+    Assert.assertTrue(span.hasTag("tag2"));
+
+    span.removeTag("tag1");
+
+    Assert.assertEquals(1, span.tags().size());
+    Assert.assertFalse(span.hasTag("tag1"));
+    Assert.assertTrue(span.hasTag("tag2"));
+  }
+
+  @Test
+  public void testRemoveAllTags() {
+
+    Span span = new Span("text", 0, "text".length());
+    span.addTag("tag1");
+    span.addTag("tag2");
+
+    Assert.assertEquals(2, span.tags().size());
+    Assert.assertTrue(span.hasTag("tag1"));
+    Assert.assertTrue(span.hasTag("tag2"));
+
+    span.removeTags();
+
+    Assert.assertEquals(0, span.tags().size());
+    Assert.assertFalse(span.hasTag("tag2"));
+    Assert.assertFalse(span.hasTag("tag2"));
   }
 
   @Test
@@ -167,6 +287,22 @@ public class SpanTest {
 
     Assert.assertEquals("Hello", span2.text());
     Assert.assertEquals(5, span2.length());
+  }
+
+  @Test
+  public void testOverlapsSomePosition() {
+
+    Span span4567 = new Span("123456789", 3, 7);
+
+    Assert.assertFalse(span4567.overlapsSome(0));
+    Assert.assertFalse(span4567.overlapsSome(1));
+    Assert.assertFalse(span4567.overlapsSome(2));
+    Assert.assertTrue(span4567.overlapsSome(3));
+    Assert.assertTrue(span4567.overlapsSome(4));
+    Assert.assertTrue(span4567.overlapsSome(5));
+    Assert.assertTrue(span4567.overlapsSome(6));
+    Assert.assertFalse(span4567.overlapsSome(7));
+    Assert.assertFalse(span4567.overlapsSome(8));
   }
 
   @Test
