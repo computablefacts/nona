@@ -5,6 +5,7 @@ import static org.junit.Assert.assertEquals;
 import org.junit.Assert;
 import org.junit.Test;
 
+import com.computablefacts.nona.types.Span;
 import com.google.common.collect.Lists;
 
 public class SnippetExtractorTest {
@@ -12,7 +13,7 @@ public class SnippetExtractorTest {
   @Test
   public void testLocationEqualsNull() {
 
-    SnippetExtractor.Location location = new SnippetExtractor.Location("word", 0);
+    Span location = new Span("word", 0, "word".length());
 
     Assert.assertNotEquals(location, null);
   }
@@ -20,8 +21,8 @@ public class SnippetExtractorTest {
   @Test
   public void testLocationEquals() {
 
-    SnippetExtractor.Location location1 = new SnippetExtractor.Location("word", 0);
-    SnippetExtractor.Location location2 = new SnippetExtractor.Location("word", 0);
+    Span location1 = new Span("word", 0, "word".length());
+    Span location2 = new Span("word", 0, "word".length());
 
     Assert.assertEquals(location1, location1);
     Assert.assertEquals(location2, location2);
@@ -33,8 +34,8 @@ public class SnippetExtractorTest {
   @Test
   public void testLocationHashcode() {
 
-    SnippetExtractor.Location location1 = new SnippetExtractor.Location("word", 0);
-    SnippetExtractor.Location location2 = new SnippetExtractor.Location("word", 0);
+    Span location1 = new Span("word", 0, "word".length());
+    Span location2 = new Span("word", 0, "word".length());
 
     Assert.assertEquals(location1.hashCode(), location2.hashCode());
   }

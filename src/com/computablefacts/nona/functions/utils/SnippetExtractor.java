@@ -6,8 +6,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import com.google.common.base.MoreObjects;
-import com.google.common.base.Objects;
+import com.computablefacts.nona.types.Span;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Sets;
 import com.google.errorprone.annotations.Var;
@@ -57,11 +56,11 @@ final public class SnippetExtractor {
       return text;
     }
 
-    List<Location> locations = wordsLocations(Sets.newHashSet(words), text);
+    List<Span> locations = wordsLocations(Sets.newHashSet(words), text);
 
     @Var
     int startPos = locations == null || locations.isEmpty() ? 0
-        : snipLocation(locations, relLength, prevCount);
+        : snippetLocation(locations, relLength, prevCount);
 
     @Var
     int begin = startPos;
@@ -104,12 +103,12 @@ final public class SnippetExtractor {
    * @param text text.
    * @return index of each word in text.
    */
-  public static List<Location> wordsLocations(Set<String> words, String text) {
+  public static List<Span> wordsLocations(Set<String> words, String text) {
 
     Preconditions.checkNotNull(words, "words is null");
     Preconditions.checkNotNull(text, "text is null");
 
-    List<Location> locations = new ArrayList<>();
+    List<Span> locations = new ArrayList<>();
 
     for (String word : words) {
 
@@ -118,12 +117,12 @@ final public class SnippetExtractor {
       int loc = text.indexOf(word);
 
       while (loc >= 0) {
-        locations.add(new Location(word, loc));
+        locations.add(new Span(text, loc, loc + length));
         loc = text.indexOf(word, loc + length);
       }
     }
 
-    locations.sort(Comparator.comparingInt(Location::position));
+    locations.sort(Comparator.comparingInt(Span::begin));
     return locations;
   }
 
@@ -135,7 +134,7 @@ final public class SnippetExtractor {
    * @param prevCount the number of characters to display before the leftmost match.
    * @return where to start the snippet.
    */
-  private static int snipLocation(List<Location> locations, int relLength, int prevCount) {
+  public static int snippetLocation(List<Span> locations, int relLength, int prevCount) {
 
     Preconditions.checkNotNull(locations, "locations is null");
     Preconditions.checkArgument(!locations.isEmpty(), "locations is empty");
@@ -150,15 +149,15 @@ final public class SnippetExtractor {
     for (int i = 0; i < locations.size(); i++) {
 
       @Var
-      int endPos = locations.get(i).position() + locations.get(i).word().length();
-      int beginPos = locations.get(i).position();
+      int endPos = locations.get(i).begin() + locations.get(i).text().length();
+      int beginPos = locations.get(i).begin();
       Set<String> words = new HashSet<>();
-      words.add(locations.get(i).word());
+      words.add(locations.get(i).text());
 
       for (int j = i + 1; j < locations.size()
-          && (locations.get(j).position() - beginPos) < relLength; j++) {
-        endPos = locations.get(j).position() + locations.get(j).word().length();
-        words.add(locations.get(j).word());
+          && (locations.get(j).begin() - beginPos) < relLength; j++) {
+        endPos = locations.get(j).begin() + locations.get(j).text().length();
+        words.add(locations.get(j).text());
       }
 
       if (words.size() > nbDistinctWords /* maximize the number of distinct words */
@@ -170,47 +169,5 @@ final public class SnippetExtractor {
       }
     }
     return Math.max(0, bestLocation - prevCount);
-  }
-
-  final public static class Location {
-
-    private final String word_;
-    private final int position_;
-
-    public Location(String word, int position) {
-      word_ = word;
-      position_ = position;
-    }
-
-    public String word() {
-      return word_;
-    }
-
-    public int position() {
-      return position_;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-      if (obj == this) {
-        return true;
-      }
-      if (obj == null || getClass() != obj.getClass()) {
-        return false;
-      }
-      Location other = (Location) obj;
-      return Objects.equal(word_, other.word_) && Objects.equal(position_, other.position_);
-    }
-
-    @Override
-    public int hashCode() {
-      return Objects.hashCode(word_, position_);
-    }
-
-    @Override
-    public String toString() {
-      return MoreObjects.toStringHelper(this).add("word", word_).add("position", position_)
-          .omitNullValues().toString();
-    }
   }
 }
