@@ -119,6 +119,14 @@ public class BoxedTypeTest {
   }
 
   @Test
+  public void testNullCompareTo() {
+
+    BoxedType bt = BoxedType.create(null);
+
+    Assert.assertEquals(0, bt.compareTo(bt));
+  }
+
+  @Test
   public void testBooleanCompareTo() {
 
     BoxedType btTrue = BoxedType.create(true);

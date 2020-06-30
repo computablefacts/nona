@@ -127,7 +127,8 @@ final public class BoxedType<T extends Comparable> implements Comparable<BoxedTy
     if (isString() && object.isString()) {
       return asString().compareTo(object.asString());
     }
-    return value_.compareTo(object.value_);
+    return value_ == null && object.value_ == null ? 0
+        : value_ == null ? -1 : object.value_ == null ? 1 : value_.compareTo(object.value_);
   }
 
   @Override
