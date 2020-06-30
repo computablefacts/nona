@@ -121,9 +121,10 @@ public class BoxedTypeTest {
   @Test
   public void testNullCompareTo() {
 
-    BoxedType bt = BoxedType.create(null);
+    BoxedType bt1 = BoxedType.create(null);
+    BoxedType bt2 = BoxedType.create(null);
 
-    Assert.assertEquals(0, bt.compareTo(bt));
+    Assert.assertEquals(0, bt1.compareTo(bt2));
   }
 
   @Test
