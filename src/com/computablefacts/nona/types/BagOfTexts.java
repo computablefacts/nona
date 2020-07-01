@@ -27,8 +27,6 @@ final public class BagOfTexts implements IBagOfTexts {
   private final Function<String, List<String>> sentenceSplitter_;
   private final Function<String, List<String>> wordSplitter_;
 
-  private Map<String, Set<Text>> index_;
-
   public BagOfTexts(Function<String, List<String>> sentenceSplitter,
       Function<String, List<String>> wordSplitter) {
     this(sentenceSplitter, wordSplitter, false);
@@ -43,6 +41,11 @@ final public class BagOfTexts implements IBagOfTexts {
     sentenceSplitter_ = sentenceSplitter;
     wordSplitter_ = wordSplitter;
     wordsSeen_ = takeUnknownWordsIntoAccount ? new HashSet<>() : null;
+  }
+
+  public static IBagOfTexts wrap(Multiset<Text> bagOfTexts, Multiset<String> bagOfWords,
+      Multiset<Map.Entry<String, String>> bagOfBigrams) {
+    return new BagOfTexts.SimpleBagOfTexts(bagOfTexts, bagOfWords, bagOfBigrams);
   }
 
   @Override
@@ -73,77 +76,16 @@ final public class BagOfTexts implements IBagOfTexts {
   }
 
   @Override
-  public int numberOfDistinctTextsOccurrences(String word) {
+  public IBagOfTexts freezeBagOfTexts() {
 
-    Preconditions.checkNotNull(word, "word should not be null");
+    Multiset<String> bagOfWords = HashMultiset.create();
+    Multiset<Map.Entry<String, String>> bagOfBigrams = HashMultiset.create();
 
-    return index(false).get(word).size();
-  }
-
-  @Override
-  public int numberOfDistinctTextsOccurrences(String word1, String word2) {
-
-    Preconditions.checkNotNull(word1, "word1 should not be null");
-    Preconditions.checkNotNull(word2, "word2 should not be null");
-
-    Set<Text> set1 = index(false).getOrDefault(word1, new HashSet<>());
-    Set<Text> set2 = index(false).getOrDefault(word2, new HashSet<>());
-
-    int size1 = set1.size();
-    int size2 = set2.size();
-
-    if (size1 < size2) {
-      return set1.stream().mapToInt(text -> text.frequency(word1, word2) > 0 ? 1 : 0).sum();
-    }
-    return set2.stream().mapToInt(text -> text.frequency(word1, word2) > 0 ? 1 : 0).sum();
-  }
-
-  @Override
-  public List<Text> find(Set<String> words, int limit, BiFunction<Text, Set<String>, Double> rank) {
-
-    Preconditions.checkNotNull(words, "words should not be null");
-    Preconditions.checkArgument(limit > 0, "limit must be > 0");
-    Preconditions.checkNotNull(rank, "rank should not be null");
-
-    @Var
-    Set<Text> set = null;
-
-    for (String word : words) {
-      if (set == null) {
-        set = index(false).getOrDefault(word, new HashSet<>());
-      } else {
-        set = Sets.union(set, index(false).getOrDefault(word, new HashSet<>()));
-      }
-    }
-
-    if (set == null) {
-      return new ArrayList<>();
-    }
-    return set.stream()
-        .sorted(
-            Collections.reverseOrder(Comparator.comparingDouble(text -> rank.apply(text, words))))
-        .limit(limit).collect(Collectors.toList());
-  }
-
-  /**
-   * Build and cache an inverted index.
-   *
-   * @param forceRebuild if an index has already been built and cached, force a rebuild.
-   * @return index.
-   */
-  public Map<String, Set<Text>> index(boolean forceRebuild) {
-    if (index_ == null || forceRebuild) {
-      index_ = new HashMap<>();
-      texts_.elementSet().forEach(text -> {
-        for (String word : text.bagOfWords()) {
-          if (!index_.containsKey(word)) {
-            index_.put(word, new HashSet<>());
-          }
-          index_.get(word).add(text);
-        }
-      });
-    }
-    return index_;
+    bagOfTexts().elementSet().forEach(bag -> {
+      bagOfWords.addAll(bag.bagOfWords());
+      bagOfBigrams.addAll(bag.bagOfBigrams());
+    });
+    return wrap(bagOfTexts(), bagOfWords, bagOfBigrams);
   }
 
   /**
@@ -156,5 +98,133 @@ final public class BagOfTexts implements IBagOfTexts {
     Preconditions.checkNotNull(text, "text should not be null");
 
     texts_.add(new Text(text, sentenceSplitter_, wordSplitter_, wordsSeen_));
+  }
+
+  final static class SimpleBagOfTexts implements IBagOfTexts {
+
+    private final Multiset<Text> bagOfTexts_;
+    private final Multiset<String> bagOfWords_;
+    private final Multiset<Map.Entry<String, String>> bagOfBigrams_;
+
+    private Map<String, Set<Text>> index_;
+
+    public SimpleBagOfTexts(Multiset<Text> bagOfTexts, Multiset<String> bagOfWords,
+        Multiset<Map.Entry<String, String>> bagOfBigrams) {
+      bagOfTexts_ = Preconditions.checkNotNull(bagOfTexts, "bagOfTexts should not be null");
+      bagOfWords_ = Preconditions.checkNotNull(bagOfWords, "bagOfWords should not be null");
+      bagOfBigrams_ = Preconditions.checkNotNull(bagOfBigrams, "bagOfBigrams should not be null");
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+      if (obj == null) {
+        return false;
+      }
+      if (!(obj instanceof com.computablefacts.nona.types.BagOfTexts.SimpleBagOfTexts)) {
+        return false;
+      }
+      com.computablefacts.nona.types.BagOfTexts.SimpleBagOfTexts other =
+          (com.computablefacts.nona.types.BagOfTexts.SimpleBagOfTexts) obj;
+      return com.google.common.base.Objects.equal(bagOfTexts_, other.bagOfTexts_)
+          && com.google.common.base.Objects.equal(bagOfWords_, other.bagOfWords_)
+          && com.google.common.base.Objects.equal(bagOfBigrams_, other.bagOfBigrams_);
+    }
+
+    @Override
+    public int hashCode() {
+      return com.google.common.base.Objects.hashCode(bagOfTexts_, bagOfWords_, bagOfBigrams_);
+    }
+
+    @Override
+    public Multiset<Text> bagOfTexts() {
+      return bagOfTexts_;
+    }
+
+    @Override
+    public Multiset<String> bagOfWords() {
+      return bagOfWords_;
+    }
+
+    @Override
+    public Multiset<Map.Entry<String, String>> bagOfBigrams() {
+      return bagOfBigrams_;
+    }
+
+    @Override
+    public int numberOfDistinctTextsOccurrences(String word) {
+
+      Preconditions.checkNotNull(word, "word should not be null");
+
+      if (index().containsKey(word)) {
+        return index().get(word).size();
+      }
+      return 0;
+    }
+
+    @Override
+    public int numberOfDistinctTextsOccurrences(String word1, String word2) {
+
+      Preconditions.checkNotNull(word1, "word1 should not be null");
+      Preconditions.checkNotNull(word2, "word2 should not be null");
+
+      Set<Text> set1 = index().getOrDefault(word1, new HashSet<>());
+      Set<Text> set2 = index().getOrDefault(word2, new HashSet<>());
+
+      int size1 = set1.size();
+      int size2 = set2.size();
+
+      if (size1 < size2) {
+        return set1.stream().mapToInt(text -> text.frequency(word1, word2) > 0 ? 1 : 0).sum();
+      }
+      return set2.stream().mapToInt(text -> text.frequency(word1, word2) > 0 ? 1 : 0).sum();
+    }
+
+    @Override
+    public List<Text> find(Set<String> words, int limit,
+        BiFunction<Text, Set<String>, Double> rank) {
+
+      Preconditions.checkNotNull(words, "words should not be null");
+      Preconditions.checkArgument(limit > 0, "limit must be > 0");
+      Preconditions.checkNotNull(rank, "rank should not be null");
+
+      @Var
+      Set<Text> set = null;
+
+      for (String word : words) {
+        if (set == null) {
+          set = index().getOrDefault(word, new HashSet<>());
+        } else {
+          set = Sets.union(set, index().getOrDefault(word, new HashSet<>()));
+        }
+      }
+
+      if (set == null) {
+        return new ArrayList<>();
+      }
+      return set.stream()
+          .sorted(
+              Collections.reverseOrder(Comparator.comparingDouble(text -> rank.apply(text, words))))
+          .limit(limit).collect(Collectors.toList());
+    }
+
+    /**
+     * Build and cache an inverted index.
+     *
+     * @return index.
+     */
+    private Map<String, Set<Text>> index() {
+      if (index_ == null) {
+        index_ = new HashMap<>();
+        bagOfTexts_.elementSet().forEach(text -> {
+          for (String word : text.bagOfWords()) {
+            if (!index_.containsKey(word)) {
+              index_.put(word, new HashSet<>());
+            }
+            index_.get(word).add(text);
+          }
+        });
+      }
+      return index_;
+    }
   }
 }
