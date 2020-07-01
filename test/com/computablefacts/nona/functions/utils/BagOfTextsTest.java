@@ -9,12 +9,12 @@ import java.util.function.Function;
 import org.junit.Assert;
 import org.junit.Test;
 
-import com.computablefacts.nona.types.BagOfTexts;
 import com.computablefacts.nona.types.Text;
 import com.google.common.base.CharMatcher;
 import com.google.common.base.Splitter;
 import com.google.common.collect.HashMultiset;
 import com.google.common.collect.Multiset;
+import com.google.common.collect.Sets;
 
 public class BagOfTextsTest {
 
@@ -278,13 +278,39 @@ public class BagOfTextsTest {
     Assert.assertEquals(0.5, bag.tfIdf(textGoodbye(), "goodbye", "joe"), 0.000001);
   }
 
-  private BagOfTexts bagOfTexts() {
+  @Test
+  public void testFindNoWord() {
 
-    BagOfTexts bag = new BagOfTexts(sentenceSplitter(), wordSplitter());
-    bag.add(textHello().text());
-    bag.add(textHello().text());
-    bag.add(textGoodbye().text());
-    return bag;
+    IBagOfTexts bag = bagOfTexts();
+    List<Text> set = bag.find(Sets.newHashSet(), 3);
+
+    Assert.assertEquals(0, set.size());
+  }
+
+  @Test
+  public void testFindOneWord() {
+
+    IBagOfTexts bag = bagOfTexts();
+    List<Text> set = bag.find(Sets.newHashSet("joe"), 3);
+
+    Assert.assertEquals(2, set.size());
+    Assert.assertTrue(set.contains(textHello()));
+    Assert.assertTrue(set.contains(textGoodbye()));
+  }
+
+  @Test
+  public void testFindTwoWords() {
+
+    IBagOfTexts bag = bagOfTexts();
+    List<Text> set = bag.find(Sets.newHashSet("john", "hello"), 3);
+
+    Assert.assertEquals(1, set.size());
+    Assert.assertTrue(set.contains(textHello()));
+    Assert.assertFalse(set.contains(textGoodbye()));
+  }
+
+  private IBagOfTexts bagOfTexts() {
+    return IBagOfTexts.wrap(texts(), words(), bigrams());
   }
 
   private Multiset<Text> texts() {

@@ -481,6 +481,7 @@ public interface IBagOfTexts extends IBagOfWords, IBagOfBigrams {
     Preconditions.checkNotNull(rank, "rank should not be null");
 
     return bagOfTexts().entrySet().stream()
+        .filter(entry -> words.stream().anyMatch(word -> entry.getElement().frequency(word) > 0))
         .sorted(Collections.reverseOrder(
             Comparator.comparingDouble(entry -> rank.apply(entry.getElement(), words))))
         .limit(limit).map(entry -> entry.getElement()).collect(Collectors.toList());
