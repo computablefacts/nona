@@ -2,8 +2,8 @@ package com.computablefacts.nona.functions.utils;
 
 import java.util.Collection;
 
-import com.google.common.annotations.Beta;
 import com.google.common.base.Preconditions;
+import com.google.errorprone.annotations.Var;
 
 /**
  * Implementation of confusion matrix for evaluating learning algorithms.
@@ -29,12 +29,18 @@ final public class ConfusionMatrix {
     clazz_ = clazz;
   }
 
-  @Beta
-  public static String merge(Collection<ConfusionMatrix> matrices) {
+  /**
+   * In a multi-class classification setup, micro-average is preferable if you suspect there might
+   * be class imbalance (i.e you may have many more examples of one class than of other classes).
+   * 
+   * @param matrices confusion matrices.
+   * @return micro-averages.
+   */
+  public static String microAverage(Collection<ConfusionMatrix> matrices) {
 
     Preconditions.checkNotNull(matrices, "matrices should not be null");
 
-    ConfusionMatrix matrix = new ConfusionMatrix(matrices.size() + "_MATRICES_MERGED");
+    ConfusionMatrix matrix = new ConfusionMatrix("MICRO_AVG_OF_" + matrices.size() + "_MATRICES");
 
     for (ConfusionMatrix m : matrices) {
       matrix.tp_ += m.tp_;
@@ -42,7 +48,63 @@ final public class ConfusionMatrix {
       matrix.fp_ += m.fp_;
       matrix.fn_ += m.fn_;
     }
-    return matrix.toString();
+
+    StringBuilder builder = new StringBuilder();
+    builder.append(
+        "\n================================================================================");
+    builder.append("\nClass : M" + matrix.clazz_);
+    builder.append("\nMCC : " + matrix.matthewsCorrelationCoefficient());
+    builder.append("\nF1 : " + matrix.f1Score());
+    builder.append("\nPrecision : " + matrix.precision());
+    builder.append("\nRecall : " + matrix.recall());
+    builder.append("\nAccuracy : " + matrix.accuracy());
+
+    return builder.toString();
+  }
+
+  /**
+   * A macro-average will compute the metric independently for each class and then take the average
+   * (hence treating all classes equally). The macro-average is used when you want to know how the
+   * system performs overall across a given dataset. You should not come up with any specific
+   * decision with this average.
+   * 
+   * @param matrices confusion matrices.
+   * @return macro-averages.
+   */
+  public static String macroAverage(Collection<ConfusionMatrix> matrices) {
+
+    Preconditions.checkNotNull(matrices, "matrices should not be null");
+
+    @Var
+    double mcc = 0;
+    @Var
+    double f1 = 0;
+    @Var
+    double precision = 0;
+    @Var
+    double recall = 0;
+    @Var
+    double accuracy = 0;
+
+    for (ConfusionMatrix m : matrices) {
+      mcc += m.matthewsCorrelationCoefficient();
+      f1 += m.f1Score();
+      precision += m.precision();
+      recall += m.recall();
+      accuracy += m.accuracy();
+    }
+
+    StringBuilder builder = new StringBuilder();
+    builder.append(
+        "\n================================================================================");
+    builder.append("\nClass : MACRO_AVG_OF_" + matrices.size() + "_MATRICES");
+    builder.append("\nMCC : " + mcc / matrices.size());
+    builder.append("\nF1 : " + f1 / matrices.size());
+    builder.append("\nPrecision : " + precision / matrices.size());
+    builder.append("\nRecall : " + recall / matrices.size());
+    builder.append("\nAccuracy : " + accuracy / matrices.size());
+
+    return builder.toString();
   }
 
   @Override
