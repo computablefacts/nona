@@ -52,7 +52,7 @@ final public class ConfusionMatrix {
     StringBuilder builder = new StringBuilder();
     builder.append(
         "\n================================================================================");
-    builder.append("\nClass : M" + matrix.clazz_);
+    builder.append("\nClass : " + matrix.clazz_);
     builder.append("\nMCC : " + matrix.matthewsCorrelationCoefficient());
     builder.append("\nF1 : " + matrix.f1Score());
     builder.append("\nPrecision : " + matrix.precision());

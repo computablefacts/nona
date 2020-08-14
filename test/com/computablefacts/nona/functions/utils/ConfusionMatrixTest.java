@@ -3,10 +3,114 @@ package com.computablefacts.nona.functions.utils;
 import org.junit.Assert;
 import org.junit.Test;
 
+import com.google.common.collect.Lists;
+
 /**
  * Values verified using https://www.mdapp.co/confusion-matrix-calculator-406/
  */
 public class ConfusionMatrixTest {
+
+  @Test
+  public void testSimpleMicroAverage() {
+
+    ConfusionMatrix matrixA = new ConfusionMatrix("A");
+    matrixA.addTruePositives(1);
+    matrixA.addFalsePositives(1);
+
+    ConfusionMatrix matrixB = new ConfusionMatrix("B");
+    matrixB.addTruePositives(10);
+    matrixB.addFalsePositives(90);
+
+    ConfusionMatrix matrixC = new ConfusionMatrix("C");
+    matrixC.addTruePositives(1);
+    matrixC.addFalsePositives(1);
+
+    ConfusionMatrix matrixD = new ConfusionMatrix("D");
+    matrixD.addTruePositives(1);
+    matrixD.addFalsePositives(1);
+
+    String microAverage =
+        ConfusionMatrix.microAverage(Lists.newArrayList(matrixA, matrixB, matrixC, matrixD));
+
+    Assert.assertTrue(microAverage.contains("\nMCC : NaN"));
+    Assert.assertTrue(microAverage.contains("\nF1 : 0.21848739495798317"));
+    Assert.assertTrue(microAverage.contains("\nPrecision : 0.12264150943396226"));
+    Assert.assertTrue(microAverage.contains("\nRecall : 1.0"));
+    Assert.assertTrue(microAverage.contains("\nAccuracy : 0.12264150943396226"));
+  }
+
+  @Test
+  public void testSimpleMacroAverage() {
+
+    ConfusionMatrix matrixA = new ConfusionMatrix("A");
+    matrixA.addTruePositives(1);
+    matrixA.addFalsePositives(1);
+
+    ConfusionMatrix matrixB = new ConfusionMatrix("B");
+    matrixB.addTruePositives(10);
+    matrixB.addFalsePositives(90);
+
+    ConfusionMatrix matrixC = new ConfusionMatrix("C");
+    matrixC.addTruePositives(1);
+    matrixC.addFalsePositives(1);
+
+    ConfusionMatrix matrixD = new ConfusionMatrix("D");
+    matrixD.addTruePositives(1);
+    matrixD.addFalsePositives(1);
+
+    String macroAverage =
+        ConfusionMatrix.macroAverage(Lists.newArrayList(matrixA, matrixB, matrixC, matrixD));
+
+    Assert.assertTrue(macroAverage.contains("\nMCC : NaN"));
+    Assert.assertTrue(macroAverage.contains("\nF1 : 0.5454545454545454"));
+    Assert.assertTrue(macroAverage.contains("\nPrecision : 0.4"));
+    Assert.assertTrue(macroAverage.contains("\nRecall : 1"));
+    Assert.assertTrue(macroAverage.contains("\nAccuracy : 0.4"));
+  }
+
+  @Test
+  public void testComplexMicroAverage() {
+
+    ConfusionMatrix matrixA = new ConfusionMatrix("A");
+    matrixA.addTruePositives(12);
+    matrixA.addFalsePositives(9);
+    matrixA.addFalseNegatives(3);
+
+    ConfusionMatrix matrixB = new ConfusionMatrix("B");
+    matrixB.addTruePositives(50);
+    matrixB.addFalsePositives(23);
+    matrixB.addFalseNegatives(9);
+
+    String microAverage = ConfusionMatrix.microAverage(Lists.newArrayList(matrixA, matrixB));
+
+    Assert.assertTrue(microAverage.contains("\nMCC : -0.23495561349012983"));
+    Assert.assertTrue(microAverage.contains("\nF1 : 0.7380952380952381"));
+    Assert.assertTrue(microAverage.contains("\nPrecision : 0.6595744680851063"));
+    Assert.assertTrue(microAverage.contains("\nRecall : 0.8378378378378378"));
+    Assert.assertTrue(microAverage.contains("\nAccuracy : 0.5849056603773585"));
+  }
+
+  @Test
+  public void testComplexMacroAverage() {
+
+    ConfusionMatrix matrixA = new ConfusionMatrix("A");
+    matrixA.addTruePositives(12);
+    matrixA.addFalsePositives(9);
+    matrixA.addFalseNegatives(3);
+
+    ConfusionMatrix matrixB = new ConfusionMatrix("B");
+    matrixB.addTruePositives(50);
+    matrixB.addFalsePositives(23);
+    matrixB.addFalseNegatives(9);
+
+    String macroAverage = ConfusionMatrix.macroAverage(Lists.newArrayList(matrixA, matrixB));
+
+    Assert.assertTrue(macroAverage.contains("\nMCC : -0.2559994438028284"));
+    Assert.assertTrue(macroAverage.contains("\nF1 : 0.7121212121212122"));
+    Assert.assertTrue(macroAverage.contains("\nPrecision : 0.6281800391389432"));
+    Assert.assertTrue(macroAverage.contains("\nRecall : 0.823728813559322"));
+    Assert.assertTrue(macroAverage.contains("\nAccuracy : 0.5548780487804879"));
+  }
 
   @Test
   public void testAdd() {
