@@ -61,7 +61,7 @@ public class ConfusionMatrixTest {
     String macroAverage =
         ConfusionMatrix.macroAverage(Lists.newArrayList(matrixA, matrixB, matrixC, matrixD));
 
-    Assert.assertTrue(macroAverage.contains("\nMCC : NaN"));
+    Assert.assertTrue(macroAverage.contains("\nMCC : 0.0"));
     Assert.assertTrue(macroAverage.contains("\nF1 : 0.5454545454545454"));
     Assert.assertTrue(macroAverage.contains("\nPrecision : 0.4"));
     Assert.assertTrue(macroAverage.contains("\nRecall : 1"));

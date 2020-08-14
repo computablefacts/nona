@@ -87,11 +87,13 @@ final public class ConfusionMatrix {
     double accuracy = 0;
 
     for (ConfusionMatrix m : matrices) {
-      mcc += m.matthewsCorrelationCoefficient();
-      f1 += m.f1Score();
-      precision += m.precision();
-      recall += m.recall();
-      accuracy += m.accuracy();
+      mcc +=
+          Double.isFinite(m.matthewsCorrelationCoefficient()) ? m.matthewsCorrelationCoefficient()
+              : 0;
+      f1 += Double.isFinite(m.f1Score()) ? m.f1Score() : 0;
+      precision += Double.isFinite(m.precision()) ? m.precision() : 0;
+      recall += Double.isFinite(m.recall()) ? m.recall() : 0;
+      accuracy += Double.isFinite(m.accuracy()) ? m.accuracy() : 0;
     }
 
     StringBuilder builder = new StringBuilder();
