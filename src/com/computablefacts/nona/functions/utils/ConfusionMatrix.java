@@ -3,6 +3,7 @@ package com.computablefacts.nona.functions.utils;
 import java.util.Collection;
 
 import com.google.common.base.Preconditions;
+import com.google.errorprone.annotations.CheckReturnValue;
 import com.google.errorprone.annotations.Var;
 
 /**
@@ -13,6 +14,7 @@ import com.google.errorprone.annotations.Var;
  * See https://mkhalusova.github.io/blog/2019/04/11/ml-model-evaluation-metrics-p1 for an overview
  * of MCC.
  */
+@CheckReturnValue
 final public class ConfusionMatrix {
 
   private final String clazz_;

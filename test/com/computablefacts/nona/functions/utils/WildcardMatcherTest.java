@@ -30,7 +30,7 @@ public class WildcardMatcherTest {
 
   @Test(expected = NullPointerException.class)
   public void testPrefixNull() {
-    WildcardMatcher.prefix(null);
+    String prefix = WildcardMatcher.prefix(null);
   }
 
   @Test
@@ -51,7 +51,7 @@ public class WildcardMatcherTest {
 
   @Test(expected = NullPointerException.class)
   public void testSuffixNull() {
-    WildcardMatcher.suffix(null);
+    String suffix = WildcardMatcher.suffix(null);
   }
 
   @Test
@@ -94,7 +94,7 @@ public class WildcardMatcherTest {
 
   @Test(expected = NullPointerException.class)
   public void testHasWildcardsNull() {
-    WildcardMatcher.hasWildcards(null);
+    boolean hasWildcards = WildcardMatcher.hasWildcards(null);
   }
 
   @Test
@@ -115,7 +115,7 @@ public class WildcardMatcherTest {
 
   @Test(expected = NullPointerException.class)
   public void testIsOnlyMadeOfWildcardsNull() {
-    WildcardMatcher.isOnlyMadeOfWildcards(null);
+    boolean isOnlyMadeOfWildcards = WildcardMatcher.isOnlyMadeOfWildcards(null);
   }
 
   @Test
@@ -136,7 +136,7 @@ public class WildcardMatcherTest {
 
   @Test(expected = NullPointerException.class)
   public void testStartsWithWildcardsNull() {
-    WildcardMatcher.startsWithWildcard(null);
+    boolean startsWithWildcard = WildcardMatcher.startsWithWildcard(null);
   }
 
   @Test
@@ -157,7 +157,7 @@ public class WildcardMatcherTest {
 
   @Test(expected = NullPointerException.class)
   public void testEndsWithWildcardsNull() {
-    WildcardMatcher.endsWithWildcard(null);
+    boolean endsWithWildcard = WildcardMatcher.endsWithWildcard(null);
   }
 
   @Test
@@ -178,7 +178,7 @@ public class WildcardMatcherTest {
 
   @Test(expected = NullPointerException.class)
   public void testCompactNull() {
-    WildcardMatcher.compact(null);
+    String pattern = WildcardMatcher.compact(null);
   }
 
   @Test

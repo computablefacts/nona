@@ -9,11 +9,13 @@ import java.util.Set;
 import com.computablefacts.nona.types.Span;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Sets;
+import com.google.errorprone.annotations.CheckReturnValue;
 import com.google.errorprone.annotations.Var;
 
 /**
  * Based on @{link https://boyter.org/2013/04/building-a-search-result-extract-generator-in-php/}
  */
+@CheckReturnValue
 final public class SnippetExtractor {
 
   private SnippetExtractor() {}

@@ -8,8 +8,10 @@ import javax.validation.constraints.NotNull;
 import com.google.common.annotations.Beta;
 import com.google.common.base.Preconditions;
 import com.google.common.base.Strings;
+import com.google.errorprone.annotations.CheckReturnValue;
 import com.google.errorprone.annotations.Var;
 
+@CheckReturnValue
 final public class WildcardMatcher {
 
   private WildcardMatcher() {}

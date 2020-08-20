@@ -8,6 +8,7 @@ import java.util.regex.Pattern;
 
 import com.google.common.base.Preconditions;
 import com.google.common.base.Strings;
+import com.google.errorprone.annotations.CheckReturnValue;
 import com.google.errorprone.annotations.Var;
 
 /**
@@ -16,6 +17,7 @@ import com.google.errorprone.annotations.Var;
  * @see <a href="http://www.blackbeltcoder.com/Articles/strings/a-text-parsing-helper-class">Text
  *      Parsing Helper Class</a>
  */
+@CheckReturnValue
 final public class StringIterator implements Iterator<Character> {
 
   public static final char CR = '\n';
