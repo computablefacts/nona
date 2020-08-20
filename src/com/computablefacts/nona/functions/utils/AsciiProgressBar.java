@@ -72,7 +72,6 @@ final public class AsciiProgressBar {
 
       if (done == total) {
         System.out.flush();
-        System.out.println();
         progress_.setLength(0);
       }
     }

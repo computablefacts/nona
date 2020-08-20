@@ -60,7 +60,7 @@ public class AsciiProgressBarTest {
   public void testUpdate100() {
     AsciiProgressBar.ProgressBar progressBar = AsciiProgressBar.create();
     progressBar.update(100, 100);
-    Assert.assertEquals("\r100% ################################################## |\r\n",
+    Assert.assertEquals("\r100% ################################################## |",
         outContent_.toString());
   }
 }
