@@ -22,6 +22,8 @@ public class DocSetLabelerTest {
   @Test
   public void testEntropy() {
     Assert.assertEquals(0, DocSetLabeler.entropy(0, 0, 0), 0.00001);
+    Assert.assertEquals(0, DocSetLabeler.entropy(1, 1, 0), 0.00001);
+    Assert.assertEquals(0, DocSetLabeler.entropy(1, 0, 1), 0.00001);
     Assert.assertEquals(0.97095, DocSetLabeler.entropy(5, 2, 3), 0.00001);
   }
 
