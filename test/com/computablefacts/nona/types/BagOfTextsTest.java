@@ -20,6 +20,22 @@ import com.google.common.collect.Sets;
 public class BagOfTextsTest {
 
   @Test
+  public void testEqualsWithNull() {
+
+    IBagOfTexts bag = bagOfTexts();
+
+    Assert.assertFalse(bag.equals(null));
+  }
+
+  @Test
+  public void testEqualsWithWrongObjectType() {
+
+    IBagOfTexts bag = bagOfTexts();
+
+    Assert.assertFalse(bag.equals("string"));
+  }
+
+  @Test
   public void testBagOfTextsEquals() {
 
     IBagOfTexts bag1 = bagOfTexts();

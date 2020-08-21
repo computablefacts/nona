@@ -26,6 +26,22 @@ public class SpanTest {
   }
 
   @Test
+  public void testEqualsWithNull() {
+
+    Span span = new Span("text", 0, "text".length());
+
+    Assert.assertFalse(span.equals(null));
+  }
+
+  @Test
+  public void testEqualsWithWrongObjectType() {
+
+    Span span = new Span("text", 0, "text".length());
+
+    Assert.assertFalse(span.equals("string"));
+  }
+
+  @Test
   public void testEquals() {
 
     Span span1 = new Span("text", 0, "text".length());

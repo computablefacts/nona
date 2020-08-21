@@ -6,6 +6,22 @@ import org.junit.Test;
 public class CsvTest {
 
   @Test
+  public void testEqualsWithNull() {
+
+    Csv csv = Csv.create("col_1,col_2,col_3\n11,12,13\n21,22,23");
+
+    Assert.assertFalse(csv.equals(null));
+  }
+
+  @Test
+  public void testEqualsWithWrongObjectType() {
+
+    Csv csv = Csv.create("col_1,col_2,col_3\n11,12,13\n21,22,23");
+
+    Assert.assertFalse(csv.equals("string"));
+  }
+
+  @Test
   public void testEquals() {
 
     Csv csv1 = Csv.create("col_1,col_2,col_3\n11,12,13\n21,22,23");

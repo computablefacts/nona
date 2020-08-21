@@ -117,6 +117,22 @@ public class TextTest {
   }
 
   @Test
+  public void testEqualsWithNull() {
+
+    Text text = new Text("Hello world!", sentenceSplitter(), wordSplitter());
+
+    Assert.assertFalse(text.equals(null));
+  }
+
+  @Test
+  public void testEqualsWithWrongObjectType() {
+
+    Text text = new Text("Hello world!", sentenceSplitter(), wordSplitter());
+
+    Assert.assertFalse(text.equals("string"));
+  }
+
+  @Test
   public void testEquals() {
 
     Text text1 = new Text("Hello world!", sentenceSplitter(), wordSplitter());
