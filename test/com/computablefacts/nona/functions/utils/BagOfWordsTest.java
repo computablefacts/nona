@@ -17,6 +17,9 @@ public class BagOfWordsTest {
     IBagOfWords bag1 = bagOfWords();
     IBagOfWords bag2 = bagOfWords();
 
+    Assert.assertFalse(bag1.equals(null));
+    Assert.assertFalse(bag1.equals("string"));
+
     Assert.assertTrue(bag1.equals(bag2));
     Assert.assertTrue(bag2.equals(bag1));
   }

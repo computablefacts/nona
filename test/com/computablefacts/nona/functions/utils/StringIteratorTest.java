@@ -414,4 +414,118 @@ public class StringIteratorTest {
 
     assertEquals("\"Hello world !\"", StringIterator.normalize(sentence));
   }
+
+  @Test
+  public void testIsPunctuation() {
+    assertTrue(StringIterator.isPunctuation('.'));
+    assertTrue(StringIterator.isPunctuation('?'));
+    assertTrue(StringIterator.isPunctuation('!'));
+    assertTrue(StringIterator.isPunctuation(','));
+    assertTrue(StringIterator.isPunctuation(';'));
+  }
+
+  @Test
+  public void testIsCurrency() {
+    assertTrue(StringIterator.isCurrency('$'));
+    assertTrue(StringIterator.isCurrency('£'));
+    assertTrue(StringIterator.isCurrency('€'));
+    assertTrue(StringIterator.isCurrency('¥'));
+  }
+
+  @Test
+  public void testIsArrow() {
+    assertTrue(StringIterator.isArrow('←'));
+    assertTrue(StringIterator.isArrow('→'));
+    assertTrue(StringIterator.isArrow('↑'));
+    assertTrue(StringIterator.isArrow('↓'));
+    assertTrue(StringIterator.isArrow('⇦'));
+    assertTrue(StringIterator.isArrow('⇨'));
+    assertTrue(StringIterator.isArrow('⇧'));
+    assertTrue(StringIterator.isArrow('⇩'));
+    assertTrue(StringIterator.isArrow('⇐'));
+    assertTrue(StringIterator.isArrow('⇒'));
+    assertTrue(StringIterator.isArrow('⇑'));
+    assertTrue(StringIterator.isArrow('⇓'));
+  }
+
+  @Test
+  public void testIsHyphen() {
+    assertTrue(StringIterator.isHyphen('-'));
+    assertTrue(StringIterator.isHyphen('-'));
+    assertTrue(StringIterator.isHyphen('‑'));
+  }
+
+  @Test
+  public void testIsListMark() {
+    assertTrue(StringIterator.isListMark('-'));
+    assertTrue(StringIterator.isListMark('⁃'));
+    assertTrue(StringIterator.isListMark('•'));
+  }
+
+  @Test
+  public void testIsTerminalMark() {
+    assertTrue(StringIterator.isTerminalMark('.'));
+    assertTrue(StringIterator.isTerminalMark('?'));
+    assertTrue(StringIterator.isTerminalMark('!'));
+  }
+
+  @Test
+  public void testIsSeparatorMark() {
+    assertTrue(StringIterator.isSeparatorMark(','));
+    assertTrue(StringIterator.isSeparatorMark(';'));
+    assertTrue(StringIterator.isSeparatorMark(':'));
+    assertTrue(StringIterator.isSeparatorMark('|'));
+    assertTrue(StringIterator.isSeparatorMark('/'));
+    assertTrue(StringIterator.isSeparatorMark('\\'));
+  }
+
+  @Test
+  public void testIsQuotationMark() {
+    assertTrue(StringIterator.isQuotationMark('\''));
+    assertTrue(StringIterator.isQuotationMark('`'));
+    assertTrue(StringIterator.isQuotationMark('"'));
+    assertTrue(StringIterator.isQuotationMark('«'));
+    assertTrue(StringIterator.isQuotationMark('»'));
+  }
+
+  @Test
+  public void testIsSingleQuotationMark() {
+    assertTrue(StringIterator.isSingleQuotationMark('\''));
+    assertTrue(StringIterator.isSingleQuotationMark('`'));
+  }
+
+  @Test
+  public void testIsDoubleQuotationMark() {
+    assertTrue(StringIterator.isDoubleQuotationMark('"'));
+    assertTrue(StringIterator.isDoubleQuotationMark('«'));
+    assertTrue(StringIterator.isDoubleQuotationMark('»'));
+  }
+
+  @Test
+  public void testIsBracket() {
+    assertTrue(StringIterator.isBracket('('));
+    assertTrue(StringIterator.isBracket(')'));
+    assertTrue(StringIterator.isBracket('{'));
+    assertTrue(StringIterator.isBracket('}'));
+    assertTrue(StringIterator.isBracket('['));
+    assertTrue(StringIterator.isBracket(']'));
+    assertTrue(StringIterator.isBracket('<'));
+    assertTrue(StringIterator.isBracket('>'));
+  }
+
+  @Test
+  public void testIsLeftBracket() {
+    assertTrue(StringIterator.isLeftBracket('('));
+    assertTrue(StringIterator.isLeftBracket('{'));
+    assertTrue(StringIterator.isLeftBracket('['));
+    assertTrue(StringIterator.isLeftBracket('<'));
+  }
+
+  @Test
+  public void testIsRightBracket() {
+    assertTrue(StringIterator.isRightBracket(')'));
+    assertTrue(StringIterator.isRightBracket('}'));
+    assertTrue(StringIterator.isRightBracket(']'));
+    assertTrue(StringIterator.isRightBracket('>'));
+  }
 }

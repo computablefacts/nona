@@ -27,14 +27,14 @@ public interface IBagOfTexts extends IBagOfWords, IBagOfBigrams {
 
   @Deprecated
   static String encode(String text) {
-    return com.computablefacts.nona.Function.encode(text).replace(",", "\\u002c")
-        .replace("\n", "\\u000d").replace("\r", "\\u000a");
+    return com.computablefacts.nona.Function.encode(text).replace("\n", "\\u000d").replace("\r",
+        "\\u000a");
   }
 
   @Deprecated
   static String decode(String text) {
     return com.computablefacts.nona.Function
-        .decode(text.replace("\\u002c", ",").replace("\\u000d", "\n").replace("\\u000a", "\r"));
+        .decode(text.replace("\\u000d", "\n").replace("\\u000a", "\r"));
   }
 
   /**

@@ -18,6 +18,18 @@ import com.google.common.collect.Sets;
 
 public class BagOfTextsTest {
 
+  @Test
+  public void testEncode() {
+    Assert.assertEquals("Test legacy encode : [\\u002c\\u000d\\u000a]",
+        IBagOfTexts.encode("Test legacy encode : [,\n\r]"));
+  }
+
+  @Test
+  public void testDecode() {
+    Assert.assertEquals("Test legacy encode : [,\n\r]",
+        IBagOfTexts.decode("Test legacy encode : [\\u002c\\u000d\\u000a]"));
+  }
+
   @Test(expected = NullPointerException.class)
   public void testAnagramHashWithNullWord() {
     IBagOfTexts.anagramHash(null);
@@ -79,10 +91,63 @@ public class BagOfTextsTest {
   }
 
   @Test
+  public void testLikelihoodRatio() {
+
+    IBagOfTexts bagOfTexts = bagOfTexts();
+
+    double ratio1 = bagOfTexts.likelihoodRatio("hello", "joe");
+    double ratio2 = bagOfTexts.likelihoodRatio("goodbye", "kevin");
+
+    Assert.assertEquals(0.81803, ratio1, 0.00001);
+    Assert.assertEquals(0.58138, ratio2, 0.00001);
+
+    double ratio3 = bagOfTexts.likelihoodRatio("goodbye", "");
+    double ratio4 = bagOfTexts.likelihoodRatio("", "kevin");
+
+    Assert.assertTrue(Double.isNaN(ratio3));
+    Assert.assertTrue(Double.isNaN(ratio4));
+  }
+
+  /**
+   * See https://nlp.stanford.edu/fsnlp/promo/colloc.pdf page 163 for details.
+   */
+  @Test
+  public void testLikelihoodRatioFormulaC1AboveC2() {
+
+    int c1 = 12593;
+    int c2 = 932;
+    int c12 = 150;
+    long N = 14307668; // See https://nlp.stanford.edu/fsnlp/promo/colloc.pdf page 158
+
+    double ratio = IBagOfTexts.likelihoodRatio(c1, c2, c12, N);
+
+    Assert.assertEquals(1291.32, ratio, 0.001);
+  }
+
+  /**
+   * See https://nlp.stanford.edu/fsnlp/promo/colloc.pdf page 163 for details.
+   */
+  @Test
+  public void testLikelihoodRatioFormulaC1UnderC2() {
+
+    int c1 = 932;
+    int c2 = 2064;
+    int c12 = 8;
+    long N = 14307668; // See https://nlp.stanford.edu/fsnlp/promo/colloc.pdf page 158
+
+    double ratio = IBagOfTexts.likelihoodRatio(c1, c2, c12, N);
+
+    Assert.assertEquals(49.741, ratio, 0.001);
+  }
+
+  @Test
   public void testSimpleBagOfTextsEquals() {
 
     IBagOfTexts bag1 = bagOfTexts();
     IBagOfTexts bag2 = bagOfTexts();
+
+    Assert.assertFalse(bag1.equals(null));
+    Assert.assertFalse(bag1.equals("string"));
 
     Assert.assertTrue(bag1.equals(bag2));
     Assert.assertTrue(bag2.equals(bag1));
