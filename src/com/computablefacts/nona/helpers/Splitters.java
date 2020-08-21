@@ -1,4 +1,4 @@
-package com.computablefacts.nona.functions.utils;
+package com.computablefacts.nona.helpers;
 
 import java.util.ArrayList;
 import java.util.List;

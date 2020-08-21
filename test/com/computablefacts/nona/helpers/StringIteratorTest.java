@@ -1,4 +1,4 @@
-package com.computablefacts.nona.functions.utils;
+package com.computablefacts.nona.helpers;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;

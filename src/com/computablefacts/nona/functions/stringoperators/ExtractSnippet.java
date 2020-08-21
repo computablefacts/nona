@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import com.computablefacts.nona.Function;
-import com.computablefacts.nona.functions.utils.SnippetExtractor;
+import com.computablefacts.nona.helpers.SnippetExtractor;
 import com.computablefacts.nona.types.BoxedType;
 import com.google.common.base.Preconditions;
 import com.google.errorprone.annotations.CheckReturnValue;

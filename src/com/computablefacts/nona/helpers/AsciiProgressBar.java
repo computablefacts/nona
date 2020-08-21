@@ -18,7 +18,7 @@
  *
  * @author http://www.mncc.fr
  */
-package com.computablefacts.nona.functions.utils;
+package com.computablefacts.nona.helpers;
 
 import com.google.errorprone.annotations.CheckReturnValue;
 import com.google.errorprone.annotations.Var;

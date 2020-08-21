@@ -1,4 +1,4 @@
-package com.computablefacts.nona.functions.utils;
+package com.computablefacts.nona.helpers;
 
 import org.junit.Assert;
 import org.junit.Test;
