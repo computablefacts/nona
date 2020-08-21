@@ -1,7 +1,6 @@
 package com.computablefacts.nona.functions.patternoperators;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import org.junit.Assert;
@@ -23,8 +22,8 @@ public class Base64Test {
     functions.put("BASE64", new Base64());
 
     Function fn = new Function("BASE64(" + Function.wrap(b64) + ")");
-    List<Span> spans = ((SpanSequence) fn.evaluate(functions).value()).sequence();
-    Span span = spans.get(0);
+    SpanSequence spans = (SpanSequence) fn.evaluate(functions).value();
+    Span span = spans.span(0);
 
     Assert.assertEquals(1, spans.size());
     Assert.assertEquals(b64, span.text());
@@ -39,7 +38,7 @@ public class Base64Test {
     functions.put("BASE64", new Base64());
 
     Function fn = new Function("BASE64(" + Function.wrap(b64) + ")");
-    List<Span> spans = ((SpanSequence) fn.evaluate(functions).value()).sequence();
+    SpanSequence spans = (SpanSequence) fn.evaluate(functions).value();
 
     Assert.assertEquals(0, spans.size());
   }

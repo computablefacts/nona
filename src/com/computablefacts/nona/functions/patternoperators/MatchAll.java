@@ -53,8 +53,7 @@ public class MatchAll extends Function {
     }
 
     // Remove overlapping matches
-    List<Span> spans = newSequence.sequence();
-    spans.sort((s1, s2) -> {
+    newSequence.sort((s1, s2) -> {
 
       @Var
       int cmp = Ints.compare(s1.begin(), s2.begin());
@@ -65,10 +64,10 @@ public class MatchAll extends Function {
       return Ints.compare(s1.length(), s2.length());
     });
 
-    for (int i = 1; i < spans.size(); i++) {
+    for (int i = 1; i < newSequence.size(); i++) {
 
-      Span cur = spans.get(i);
-      Span prev = spans.get(i - 1);
+      Span cur = newSequence.span(i);
+      Span prev = newSequence.span(i - 1);
 
       cur.removeGroups();
       prev.removeGroups();
@@ -77,7 +76,7 @@ public class MatchAll extends Function {
         if (prev.length() < cur.length()) {
 
           // Longer matches prevail over shorter matches
-          spans.remove(i - 1);
+          newSequence.remove(i - 1);
         } else {
 
           if (prev.overlapsAll(cur) && cur.overlapsAll(prev)) {
@@ -90,7 +89,7 @@ public class MatchAll extends Function {
           }
 
           // Left-most matches prevail over right-most
-          spans.remove(i);
+          newSequence.remove(i);
         }
         i--;
       }

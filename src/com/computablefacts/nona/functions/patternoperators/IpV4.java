@@ -28,7 +28,7 @@ public class IpV4 extends MatchPattern {
     BoxedType boxedType = super.evaluate(parameters);
     SpanSequence sequence = (SpanSequence) boxedType.value();
 
-    for (Span span : sequence.sequence()) {
+    for (Span span : sequence) {
       span.setFeature("IS_LOCAL", Boolean.toString(IP_LOCAL.matches(span.text())));
       span.removeGroups();
     }

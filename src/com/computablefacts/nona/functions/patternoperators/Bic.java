@@ -45,7 +45,7 @@ public class Bic extends MatchPattern {
     SpanSequence sequence = (SpanSequence) boxedType.value();
     SpanSequence newSequence = new SpanSequence();
 
-    for (Span span : sequence.sequence()) {
+    for (Span span : sequence) {
 
       Span newSpan = resize(span);
       String countryCode = newSpan.getFeature("COUNTRY_CODE");

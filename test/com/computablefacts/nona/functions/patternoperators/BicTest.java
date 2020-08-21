@@ -1,7 +1,6 @@
 package com.computablefacts.nona.functions.patternoperators;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import org.junit.Assert;
@@ -20,8 +19,8 @@ public class BicTest {
     functions.put("BIC", new Bic());
 
     Function fn = new Function("BIC(AALE FR 22)");
-    List<Span> spans = ((SpanSequence) fn.evaluate(functions).value()).sequence();
-    Span span = spans.get(0);
+    SpanSequence spans = (SpanSequence) fn.evaluate(functions).value();
+    Span span = spans.span(0);
 
     Assert.assertEquals(1, spans.size());
     Assert.assertEquals("AALE FR 22", span.text());
@@ -43,8 +42,8 @@ public class BicTest {
     functions.put("BIC", new Bic());
 
     Function fn = new Function("BIC(AFTR-FR-PP-CDP)");
-    List<Span> spans = ((SpanSequence) fn.evaluate(functions).value()).sequence();
-    Span span = spans.get(0);
+    SpanSequence spans = (SpanSequence) fn.evaluate(functions).value();
+    Span span = spans.span(0);
 
     Assert.assertEquals(1, spans.size());
     Assert.assertEquals("AFTR-FR-PP-CDP", span.text());
@@ -66,8 +65,8 @@ public class BicTest {
     functions.put("BIC", new Bic());
 
     Function fn = new Function("BIC(CTBA-AU-2S)");
-    List<Span> spans = ((SpanSequence) fn.evaluate(functions).value()).sequence();
-    Span span = spans.get(0);
+    SpanSequence spans = (SpanSequence) fn.evaluate(functions).value();
+    Span span = spans.span(0);
 
     Assert.assertEquals(1, spans.size());
     Assert.assertEquals("CTBA-AU-2S", span.text());

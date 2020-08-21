@@ -1,7 +1,6 @@
 package com.computablefacts.nona.functions.patternoperators;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -510,8 +509,8 @@ public class CompanyWithElfTest {
     for (String cpy : COMPANY_FULL_MATCH) {
 
       Function fn = new Function("CPYNAME(" + Function.wrap(cpy) + ")");
-      List<Span> spans = ((SpanSequence) fn.evaluate(functions).value()).sequence();
-      Span span = spans.get(0);
+      SpanSequence spans = (SpanSequence) fn.evaluate(functions).value();
+      Span span = spans.span(0);
 
       Assert.assertEquals(1, spans.size());
       Assert.assertTrue(span.hasTag("COMPANY_NAME"));
@@ -529,7 +528,7 @@ public class CompanyWithElfTest {
     for (String cpy : COMPANY_PARTIAL_MATCH) {
 
       Function fn = new Function("CPYNAME(" + Function.wrap(cpy) + ")");
-      List<Span> spans = ((SpanSequence) fn.evaluate(functions).value()).sequence();
+      SpanSequence spans = (SpanSequence) fn.evaluate(functions).value();
 
       Assert.assertEquals(2, spans.size());
     }
@@ -544,7 +543,7 @@ public class CompanyWithElfTest {
     for (String cpy : COMPANY_NO_MATCH) {
 
       Function fn = new Function("CPYNAME(" + Function.wrap(cpy) + ")");
-      List<Span> spans = ((SpanSequence) fn.evaluate(functions).value()).sequence();
+      SpanSequence spans = (SpanSequence) fn.evaluate(functions).value();
 
       Assert.assertEquals(0, spans.size());
     }
@@ -559,8 +558,8 @@ public class CompanyWithElfTest {
     for (String cpy : COMPANY_IN_TEXT) {
 
       Function fn = new Function("CPYNAME(" + Function.wrap(cpy) + ")");
-      List<Span> spans = ((SpanSequence) fn.evaluate(functions).value()).sequence();
-      Span span = spans.get(0);
+      SpanSequence spans = (SpanSequence) fn.evaluate(functions).value();
+      Span span = spans.span(0);
 
       Assert.assertEquals(1, spans.size());
       Assert.assertTrue(span.hasTag("COMPANY_NAME"));

@@ -18,6 +18,22 @@ public class SpanSequenceTest {
   }
 
   @Test
+  public void testEqualsWithNull() {
+
+    SpanSequence sequence = new SpanSequence();
+
+    Assert.assertFalse(sequence.equals(null));
+  }
+
+  @Test
+  public void testEqualsWithWrongObjectType() {
+
+    SpanSequence sequence = new SpanSequence();
+
+    Assert.assertFalse(sequence.equals("string"));
+  }
+
+  @Test
   public void testEquals() {
 
     SpanSequence sequence1 = new SpanSequence();
@@ -90,7 +106,7 @@ public class SpanSequenceTest {
 
     Assert.assertEquals(0, sequence1.compareTo(sequence2));
 
-    sequence2.sequence().sort(Span::compareTo);
+    sequence2.sort(Span::compareTo);
 
     Assert.assertEquals(-1, sequence2.compareTo(sequence1));
     Assert.assertEquals(1, sequence1.compareTo(sequence2));

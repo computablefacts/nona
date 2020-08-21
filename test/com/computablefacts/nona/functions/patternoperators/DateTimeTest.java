@@ -1,7 +1,6 @@
 package com.computablefacts.nona.functions.patternoperators;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import org.junit.Assert;
@@ -20,8 +19,8 @@ public class DateTimeTest {
     functions.put("DTIME", new DateTime());
 
     Function fn = new Function("DTIME(1997-07-16T19:20:30+01:00)");
-    List<Span> spans = ((SpanSequence) fn.evaluate(functions).value()).sequence();
-    Span span = spans.get(0);
+    SpanSequence spans = (SpanSequence) fn.evaluate(functions).value();
+    Span span = spans.span(0);
 
     Assert.assertEquals(1, spans.size());
     Assert.assertTrue(span.hasTag("DATE_TIME"));
@@ -38,8 +37,8 @@ public class DateTimeTest {
     functions.put("DTIME", new DateTime());
 
     Function fn = new Function("DTIME(1994-11-05T08:15:30-05:00)");
-    List<Span> spans = ((SpanSequence) fn.evaluate(functions).value()).sequence();
-    Span span = spans.get(0);
+    SpanSequence spans = (SpanSequence) fn.evaluate(functions).value();
+    Span span = spans.span(0);
 
     Assert.assertEquals(1, spans.size());
     Assert.assertTrue(span.hasTag("DATE_TIME"));

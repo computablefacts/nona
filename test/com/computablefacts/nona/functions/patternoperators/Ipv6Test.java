@@ -1,7 +1,6 @@
 package com.computablefacts.nona.functions.patternoperators;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import org.junit.Assert;
@@ -20,8 +19,8 @@ public class Ipv6Test {
     functions.put("EIPV6", new IpV6());
 
     Function fn = new Function("EIPV6(fe80:0000:0000:0000:0204:61ff:fe9d:f156)");
-    List<Span> spans = ((SpanSequence) fn.evaluate(functions).value()).sequence();
-    Span span = spans.get(0);
+    SpanSequence spans = (SpanSequence) fn.evaluate(functions).value();
+    Span span = spans.span(0);
 
     Assert.assertEquals(1, spans.size());
     Assert.assertEquals("fe80:0000:0000:0000:0204:61ff:fe9d:f156", span.text());
@@ -34,8 +33,8 @@ public class Ipv6Test {
     functions.put("IPV6", new IpV6());
 
     Function fn = new Function("IPV6(fe80:0:0:0:204:61ff:fe9d:f156)");
-    List<Span> spans = ((SpanSequence) fn.evaluate(functions).value()).sequence();
-    Span span = spans.get(0);
+    SpanSequence spans = (SpanSequence) fn.evaluate(functions).value();
+    Span span = spans.span(0);
 
     Assert.assertEquals(1, spans.size());
     Assert.assertEquals("fe80:0:0:0:204:61ff:fe9d:f156", span.text());
@@ -49,8 +48,8 @@ public class Ipv6Test {
     functions.put("IPV6", new IpV6());
 
     Function fn = new Function("IPV6(fe80::204:61ff:fe9d:f156)");
-    List<Span> spans = ((SpanSequence) fn.evaluate(functions).value()).sequence();
-    Span span = spans.get(0);
+    SpanSequence spans = (SpanSequence) fn.evaluate(functions).value();
+    Span span = spans.span(0);
 
     Assert.assertEquals(1, spans.size());
     Assert.assertEquals("fe80::204:61ff:fe9d:f156", span.text());

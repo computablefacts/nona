@@ -1,7 +1,6 @@
 package com.computablefacts.nona.functions.patternoperators;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import org.junit.Assert;
@@ -20,8 +19,8 @@ public class Ipv4Test {
     functions.put("IPV4", new IpV4());
 
     Function fn = new Function("IPV4(100.1.2.3)");
-    List<Span> spans = ((SpanSequence) fn.evaluate(functions).value()).sequence();
-    Span span = spans.get(0);
+    SpanSequence spans = (SpanSequence) fn.evaluate(functions).value();
+    Span span = spans.span(0);
 
     Assert.assertEquals(1, spans.size());
     Assert.assertEquals("100.1.2.3", span.text());
@@ -36,8 +35,8 @@ public class Ipv4Test {
     functions.put("IPV4", new IpV4());
 
     Function fn = new Function("IPV4(127.0.0.1)");
-    List<Span> spans = ((SpanSequence) fn.evaluate(functions).value()).sequence();
-    Span span = spans.get(0);
+    SpanSequence spans = (SpanSequence) fn.evaluate(functions).value();
+    Span span = spans.span(0);
 
     Assert.assertEquals(1, spans.size());
     Assert.assertEquals("127.0.0.1", span.text());

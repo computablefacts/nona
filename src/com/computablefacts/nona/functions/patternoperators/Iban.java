@@ -39,7 +39,7 @@ public class Iban extends RegexExtract {
     SpanSequence newSequence = new SpanSequence();
 
     for (@Var
-    Span span : sequence.sequence()) {
+    Span span : sequence) {
 
       @Var
       String iban = span.text();

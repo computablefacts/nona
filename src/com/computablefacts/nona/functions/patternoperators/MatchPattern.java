@@ -79,7 +79,7 @@ public class MatchPattern extends RegexExtract {
     SpanSequence sequence = (SpanSequence) boxedType.value();
     SpanSequence newSequence = new SpanSequence();
 
-    for (Span span : sequence.sequence()) {
+    for (Span span : sequence) {
 
       Span newSpan = resize(span);
 

@@ -1,7 +1,6 @@
 package com.computablefacts.nona.functions.patternoperators;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -38,8 +37,8 @@ public class OnionTest {
 
     Function fn = new Function(
         "ONION(" + Function.wrap("http://torwikignoueupfm.onion/index.php?title=Main_Page") + ")");
-    List<Span> spans = ((SpanSequence) fn.evaluate(functions).value()).sequence();
-    Span span = spans.get(0);
+    SpanSequence spans = (SpanSequence) fn.evaluate(functions).value();
+    Span span = spans.span(0);
 
     Assert.assertEquals(1, spans.size());
     Assert.assertEquals("http://torwikignoueupfm.onion/index.php?title=Main_Page", span.text());
@@ -59,8 +58,8 @@ public class OnionTest {
     for (String onion : VALID_URLS_THAT_MATCH) {
 
       Function fn = new Function("ONION(" + Function.wrap(onion) + ")");
-      List<Span> spans = ((SpanSequence) fn.evaluate(functions).value()).sequence();
-      Span span = spans.get(0);
+      SpanSequence spans = (SpanSequence) fn.evaluate(functions).value();
+      Span span = spans.span(0);
 
       Assert.assertEquals(1, spans.size());
       Assert.assertEquals(onion.toLowerCase(), span.text().toLowerCase());
@@ -77,7 +76,7 @@ public class OnionTest {
     for (String onion : INVALID_URLS) {
 
       Function fn = new Function("EONION(" + Function.wrap(onion) + ")");
-      List<Span> spans = ((SpanSequence) fn.evaluate(functions).value()).sequence();
+      SpanSequence spans = (SpanSequence) fn.evaluate(functions).value();
 
       Assert.assertEquals(0, spans.size());
     }

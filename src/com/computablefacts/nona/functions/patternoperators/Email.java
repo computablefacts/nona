@@ -38,7 +38,7 @@ public class Email extends MatchPattern {
     SpanSequence sequence = (SpanSequence) boxedType.value();
     SpanSequence newSequence = new SpanSequence();
 
-    for (Span span : sequence.sequence()) {
+    for (Span span : sequence) {
 
       String username = span.getFeature("USERNAME");
       String domain = span.getFeature("DOMAIN");

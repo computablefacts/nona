@@ -1,7 +1,6 @@
 package com.computablefacts.nona.functions.patternoperators;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -57,8 +56,8 @@ public class UrlTest {
 
     Function fn =
         new Function("URL(" + Function.wrap("https://userid:password@example.com:8080/") + ")");
-    List<Span> spans = ((SpanSequence) fn.evaluate(functions).value()).sequence();
-    Span span = spans.get(0);
+    SpanSequence spans = (SpanSequence) fn.evaluate(functions).value();
+    Span span = spans.span(0);
 
     Assert.assertEquals(1, spans.size());
     Assert.assertEquals("https://userid:password@example.com:8080/", span.text());
@@ -81,8 +80,8 @@ public class UrlTest {
     for (String url : VALID_URLS_THAT_MATCH) {
 
       Function fn = new Function("URL(" + Function.wrap(url) + ")");
-      List<Span> spans = ((SpanSequence) fn.evaluate(functions).value()).sequence();
-      Span span = spans.get(0);
+      SpanSequence spans = (SpanSequence) fn.evaluate(functions).value();
+      Span span = spans.span(0);
 
       Assert.assertEquals(1, spans.size());
       Assert.assertEquals(url.toLowerCase(), span.text().toLowerCase());
@@ -99,7 +98,7 @@ public class UrlTest {
     for (String url : INVALID_URLS) {
 
       Function fn = new Function("URL(" + Function.wrap(url) + ")");
-      List<Span> spans = ((SpanSequence) fn.evaluate(functions).value()).sequence();
+      SpanSequence spans = (SpanSequence) fn.evaluate(functions).value();
 
       Assert.assertEquals(0, spans.size());
     }

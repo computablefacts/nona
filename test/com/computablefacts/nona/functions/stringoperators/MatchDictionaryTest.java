@@ -32,12 +32,12 @@ public class MatchDictionaryTest {
 
     Function fn = new Function("DICO(" + Function.wrap(file.toString()) + ", "
         + Function.wrap("sugarcane sugar canesugar") + ")");
-    List<Span> spans = ((SpanSequence) fn.evaluate(functions).value()).sequence();
+    SpanSequence spans = (SpanSequence) fn.evaluate(functions).value();
 
     Assert.assertEquals(1, spans.size());
-    Assert.assertEquals("sugar", spans.get(0).text());
-    Assert.assertEquals(10, spans.get(0).begin());
-    Assert.assertEquals(15, spans.get(0).end());
+    Assert.assertEquals("sugar", spans.span(0).text());
+    Assert.assertEquals(10, spans.span(0).begin());
+    Assert.assertEquals(15, spans.span(0).end());
   }
 
   @Test
@@ -55,7 +55,7 @@ public class MatchDictionaryTest {
     Function fn = new Function("DICO(" + Function.wrap(file.toString()) + ", " + Function.wrap(
         "The Answer to the Great Question... Of Life,\nthe Universe and Everything... Is... Forty-two,' said\nDeep Thought, with infinite majesty and calm.")
         + ")");
-    List<Span> spans = ((SpanSequence) fn.evaluate(functions).value()).sequence();
+    SpanSequence spans = (SpanSequence) fn.evaluate(functions).value();
 
     Assert.assertEquals(3, spans.size());
     Assert.assertTrue(

@@ -1,7 +1,6 @@
 package com.computablefacts.nona.functions.patternoperators;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import org.junit.Assert;
@@ -20,8 +19,8 @@ public class MonetaryAmountTest {
     functions.put("MONETARY_AMOUNT", new MonetaryAmount());
 
     Function fn = new Function("MONETARY_AMOUNT(600 €)");
-    List<Span> spans = ((SpanSequence) fn.evaluate(functions).value()).sequence();
-    Span span = spans.get(0);
+    SpanSequence spans = (SpanSequence) fn.evaluate(functions).value();
+    Span span = spans.span(0);
 
     Assert.assertEquals(1, spans.size());
     Assert.assertEquals("600 €", span.text());
@@ -37,8 +36,8 @@ public class MonetaryAmountTest {
     functions.put("MONETARY_AMOUNT", new MonetaryAmount());
 
     Function fn = new Function("MONETARY_AMOUNT(1 933.40 €)");
-    List<Span> spans = ((SpanSequence) fn.evaluate(functions).value()).sequence();
-    Span span = spans.get(0);
+    SpanSequence spans = (SpanSequence) fn.evaluate(functions).value();
+    Span span = spans.span(0);
 
     Assert.assertEquals(1, spans.size());
     Assert.assertEquals("1 933.40 €", span.text());
@@ -54,8 +53,8 @@ public class MonetaryAmountTest {
     functions.put("MONETARY_AMOUNT", new MonetaryAmount());
 
     Function fn = new Function("MONETARY_AMOUNT(" + Function.wrap("$10,590.98") + ")");
-    List<Span> spans = ((SpanSequence) fn.evaluate(functions).value()).sequence();
-    Span span = spans.get(0);
+    SpanSequence spans = (SpanSequence) fn.evaluate(functions).value();
+    Span span = spans.span(0);
 
     Assert.assertEquals(1, spans.size());
     Assert.assertEquals("$10,590.98", span.text());

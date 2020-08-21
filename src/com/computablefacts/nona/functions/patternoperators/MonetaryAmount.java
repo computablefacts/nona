@@ -37,7 +37,7 @@ public class MonetaryAmount extends MatchPattern {
     SpanSequence sequence = (SpanSequence) boxedType.value();
     SpanSequence newSequence = new SpanSequence();
 
-    for (Span span : sequence.sequence()) {
+    for (Span span : sequence) {
 
       String symbol1 = span.getFeature("SYMBOL1");
       String financialNumber = span.getFeature("FINANCIAL_NUMBER");

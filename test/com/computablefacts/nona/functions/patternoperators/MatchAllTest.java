@@ -11,7 +11,6 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import com.computablefacts.nona.Function;
-import com.computablefacts.nona.types.Span;
 import com.computablefacts.nona.types.SpanSequence;
 import com.google.common.collect.Lists;
 
@@ -34,39 +33,39 @@ public class MatchAllTest {
 
     Function fn = new Function(
         "MATCH_ALL(" + Function.wrap(text) + ", " + Function.wrap(file.toString()) + ")");
-    List<Span> spans = ((SpanSequence) fn.evaluate(functions).value()).sequence();
+    SpanSequence spans = (SpanSequence) fn.evaluate(functions).value();
 
     Assert.assertEquals(11, spans.size());
 
-    Assert.assertEquals("2017", spans.get(0).text());
-    Assert.assertTrue(spans.get(0).hasTag("NUMBER"));
+    Assert.assertEquals("2017", spans.span(0).text());
+    Assert.assertTrue(spans.span(0).hasTag("NUMBER"));
 
-    Assert.assertEquals("UBS Group AG", spans.get(1).text());
-    Assert.assertTrue(spans.get(1).hasTag("COMPANY_NAME"));
+    Assert.assertEquals("UBS Group AG", spans.span(1).text());
+    Assert.assertTrue(spans.span(1).hasTag("COMPANY_NAME"));
 
-    Assert.assertEquals("$64.5", spans.get(2).text());
-    Assert.assertTrue(spans.get(2).hasTag("MONETARY_AMOUNT"));
+    Assert.assertEquals("$64.5", spans.span(2).text());
+    Assert.assertTrue(spans.span(2).hasTag("MONETARY_AMOUNT"));
 
-    Assert.assertEquals("3.2", spans.get(3).text());
-    Assert.assertTrue(spans.get(3).hasTag("FINANCIAL_NUMBER"));
+    Assert.assertEquals("3.2", spans.span(3).text());
+    Assert.assertTrue(spans.span(3).hasTag("FINANCIAL_NUMBER"));
 
-    Assert.assertEquals("2.8", spans.get(4).text());
-    Assert.assertTrue(spans.get(4).hasTag("FINANCIAL_NUMBER"));
+    Assert.assertEquals("2.8", spans.span(4).text());
+    Assert.assertTrue(spans.span(4).hasTag("FINANCIAL_NUMBER"));
 
-    Assert.assertEquals("2017", spans.get(5).text());
-    Assert.assertTrue(spans.get(5).hasTag("NUMBER"));
+    Assert.assertEquals("2017", spans.span(5).text());
+    Assert.assertTrue(spans.span(5).hasTag("NUMBER"));
 
-    Assert.assertEquals("11.1%", spans.get(6).text());
-    Assert.assertTrue(spans.get(6).hasTag("PERCENT"));
+    Assert.assertEquals("11.1%", spans.span(6).text());
+    Assert.assertTrue(spans.span(6).hasTag("PERCENT"));
 
-    Assert.assertEquals("Goldman Sachs", spans.get(7).text());
+    Assert.assertEquals("Goldman Sachs", spans.span(7).text());
 
-    Assert.assertEquals("9.5%", spans.get(8).text());
-    Assert.assertTrue(spans.get(8).hasTag("PERCENT"));
+    Assert.assertEquals("9.5%", spans.span(8).text());
+    Assert.assertTrue(spans.span(8).hasTag("PERCENT"));
 
-    Assert.assertEquals("JPMorgan Chase", spans.get(9).text());
+    Assert.assertEquals("JPMorgan Chase", spans.span(9).text());
 
-    Assert.assertEquals("9.2%", spans.get(10).text());
-    Assert.assertTrue(spans.get(10).hasTag("PERCENT"));
+    Assert.assertEquals("9.2%", spans.span(10).text());
+    Assert.assertTrue(spans.span(10).hasTag("PERCENT"));
   }
 }

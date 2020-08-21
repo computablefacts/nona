@@ -36,7 +36,7 @@ public class CompanyWithElf extends RegexExtract {
     SpanSequence sequence = (SpanSequence) boxedType.value();
     SpanSequence newSequence = new SpanSequence();
 
-    for (Span span : sequence.sequence()) {
+    for (Span span : sequence) {
 
       String text = parameters.get(0).asString();
       Span newSpan = new Span(text, text.length() - span.end(), text.length() - span.begin());
