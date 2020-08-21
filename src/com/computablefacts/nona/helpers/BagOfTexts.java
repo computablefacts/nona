@@ -16,8 +16,10 @@ import com.google.common.base.Preconditions;
 import com.google.common.collect.HashMultiset;
 import com.google.common.collect.Multiset;
 import com.google.common.collect.Sets;
+import com.google.errorprone.annotations.CheckReturnValue;
 import com.google.errorprone.annotations.Var;
 
+@CheckReturnValue
 final public class BagOfTexts implements IBagOfTexts {
 
   private final Multiset<Text> texts_ = HashMultiset.create();

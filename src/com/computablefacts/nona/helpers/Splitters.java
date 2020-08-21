@@ -6,7 +6,9 @@ import java.util.function.Function;
 
 import com.computablefacts.nona.types.SpanSequence;
 import com.google.common.base.Preconditions;
+import com.google.errorprone.annotations.CheckReturnValue;
 
+@CheckReturnValue
 final public class Splitters {
 
   private Splitters() {}

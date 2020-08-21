@@ -15,7 +15,9 @@ import com.google.common.graph.MutableNetwork;
 import com.google.common.graph.NetworkBuilder;
 import com.google.common.hash.HashFunction;
 import com.google.common.hash.Hashing;
+import com.google.errorprone.annotations.CheckReturnValue;
 
+@CheckReturnValue
 final public class Text implements IBagOfWords, IBagOfBigrams {
 
   private final static String UNKNOWN = "<UNK>";
