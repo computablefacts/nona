@@ -18,7 +18,7 @@
  *
  * @author http://www.mncc.fr
  */
-package com.computablefacts.nona.types;
+package com.computablefacts.nona.functions.utils;
 
 import java.util.AbstractMap;
 import java.util.HashSet;
@@ -29,7 +29,6 @@ import java.util.function.Function;
 import org.junit.Assert;
 import org.junit.Test;
 
-import com.computablefacts.nona.functions.utils.StringIterator;
 import com.google.common.base.CharMatcher;
 import com.google.common.base.Splitter;
 

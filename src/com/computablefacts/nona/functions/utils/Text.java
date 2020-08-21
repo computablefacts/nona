@@ -1,4 +1,4 @@
-package com.computablefacts.nona.types;
+package com.computablefacts.nona.functions.utils;
 
 import java.util.AbstractMap;
 import java.util.ArrayList;
@@ -7,8 +7,6 @@ import java.util.Map;
 import java.util.Set;
 import java.util.function.Function;
 
-import com.computablefacts.nona.functions.utils.IBagOfBigrams;
-import com.computablefacts.nona.functions.utils.IBagOfWords;
 import com.google.common.base.Objects;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.HashMultiset;
