@@ -1,4 +1,4 @@
-package com.computablefacts.nona.types;
+package com.computablefacts.nona.functions.utils;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -12,7 +12,7 @@ import java.util.function.BiFunction;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-import com.computablefacts.nona.functions.utils.IBagOfTexts;
+import com.computablefacts.nona.types.Text;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.HashMultiset;
 import com.google.common.collect.Multiset;
@@ -120,11 +120,10 @@ final public class BagOfTexts implements IBagOfTexts {
       if (obj == null) {
         return false;
       }
-      if (!(obj instanceof com.computablefacts.nona.types.BagOfTexts.SimpleBagOfTexts)) {
+      if (!(obj instanceof BagOfTexts.SimpleBagOfTexts)) {
         return false;
       }
-      com.computablefacts.nona.types.BagOfTexts.SimpleBagOfTexts other =
-          (com.computablefacts.nona.types.BagOfTexts.SimpleBagOfTexts) obj;
+      BagOfTexts.SimpleBagOfTexts other = (BagOfTexts.SimpleBagOfTexts) obj;
       return com.google.common.base.Objects.equal(bagOfTexts_, other.bagOfTexts_)
           && com.google.common.base.Objects.equal(bagOfWords_, other.bagOfWords_)
           && com.google.common.base.Objects.equal(bagOfBigrams_, other.bagOfBigrams_);

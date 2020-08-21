@@ -1,4 +1,4 @@
-package com.computablefacts.nona.types;
+package com.computablefacts.nona.functions.utils;
 
 import java.util.AbstractMap;
 import java.util.List;
@@ -9,15 +9,14 @@ import java.util.function.Function;
 import org.junit.Assert;
 import org.junit.Test;
 
-import com.computablefacts.nona.functions.utils.IBagOfTexts;
-import com.computablefacts.nona.functions.utils.StringIterator;
+import com.computablefacts.nona.types.Text;
 import com.google.common.base.CharMatcher;
 import com.google.common.base.Splitter;
 import com.google.common.collect.HashMultiset;
 import com.google.common.collect.Multiset;
 import com.google.common.collect.Sets;
 
-public class BagOfTextsTest {
+public class BagOfTextsImplTest {
 
   @Test
   public void testEqualsWithNull() {
