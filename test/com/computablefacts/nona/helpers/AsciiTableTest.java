@@ -5,6 +5,33 @@ import org.junit.Test;
 
 public class AsciiTableTest {
 
+  @Test(expected = NullPointerException.class)
+  public void testNullTable() {
+    String table = AsciiTable.format(null);
+  }
+
+  @Test(expected = IllegalArgumentException.class)
+  public void testTableWithoutRows() {
+    String table = AsciiTable.format(new String[0][0]);
+  }
+
+  @Test(expected = IllegalArgumentException.class)
+  public void testTableWithoutColumns() {
+    String table = AsciiTable.format(new String[1][0]);
+  }
+
+  @Test
+  public void testTableWithNullValues() {
+
+    String[][] testTable =
+        new String[][] {{"id", "First Name", "Last Name", "Age"}, {"1", null, null, null}};
+    String table = AsciiTable.format(testTable);
+
+    Assert.assertEquals(
+        "| id | First Name | Last Name | Age |\n" + "|  1 |            |           |     |\n",
+        table);
+  }
+
   @Test
   public void testRightJustifiedTable() {
 

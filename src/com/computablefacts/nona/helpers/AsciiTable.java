@@ -26,6 +26,8 @@ final public class AsciiTable {
   public static String format(String[][] table, boolean leftJustify, int maxColWidth) {
 
     Preconditions.checkNotNull(table, "table should not be null");
+    Preconditions.checkArgument(table.length > 0, "table should have at least one row");
+    Preconditions.checkArgument(table[0].length > 0, "table should have at least one column");
     Preconditions.checkArgument(maxColWidth > 0, "maxColWidth must be > 0");
 
     // Wrap all rows
