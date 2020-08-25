@@ -1,5 +1,7 @@
 package com.computablefacts.nona.helpers;
 
+import static org.junit.Assert.assertEquals;
+
 import java.util.List;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -76,6 +78,31 @@ public class SplittersTest {
     Assert.assertEquals("Lorem Ipsum is simply dummy", join(spans.get(0)));
     Assert.assertEquals("text of the printing and", join(spans.get(1)));
     Assert.assertEquals("typesetting industry.", join(spans.get(2)));
+  }
+
+  @Test
+  public void testOverlappingNGrams() {
+
+    SpanSequence ngrams = Splitters.overlappingNGrams(3).apply("overlaps");
+
+    assertEquals(6, ngrams.size());
+    assertEquals("ove", ngrams.span(0).text());
+    assertEquals("ver", ngrams.span(1).text());
+    assertEquals("erl", ngrams.span(2).text());
+    assertEquals("rla", ngrams.span(3).text());
+    assertEquals("lap", ngrams.span(4).text());
+    assertEquals("aps", ngrams.span(5).text());
+  }
+
+  @Test
+  public void testNonOverlappingNGrams() {
+
+    SpanSequence ngrams = Splitters.nonOverlappingNGrams(3).apply("overlaps");
+
+    assertEquals(3, ngrams.size());
+    assertEquals("ove", ngrams.span(0).text());
+    assertEquals("rla", ngrams.span(1).text());
+    assertEquals("ps", ngrams.span(2).text());
   }
 
   private String veryShortText() {

@@ -10,29 +10,30 @@ import java.util.NoSuchElementException;
 
 import org.junit.Test;
 
+import com.computablefacts.nona.types.Span;
 import com.google.common.collect.Lists;
 
 public class NGramIteratorTest {
 
   @Test(expected = NullPointerException.class)
   public void testNullString() {
-    Iterator<String> iterator = new NGramIterator(3, null);
+    Iterator<Span> iterator = new NGramIterator(3, null);
   }
 
   @Test(expected = IllegalArgumentException.class)
   public void testZeroLength() {
-    Iterator<String> iterator = new NGramIterator(0, "test");
+    Iterator<Span> iterator = new NGramIterator(0, "test");
   }
 
   @Test(expected = IllegalArgumentException.class)
   public void testNegativeLength() {
-    Iterator<String> iterator = new NGramIterator(-1, "test");
+    Iterator<Span> iterator = new NGramIterator(-1, "test");
   }
 
   @Test
   public void testHasNextOnEmptyString() {
 
-    Iterator<String> iterator = new NGramIterator(3, "");
+    Iterator<Span> iterator = new NGramIterator(3, "");
 
     assertFalse(iterator.hasNext());
   }
@@ -40,7 +41,7 @@ public class NGramIteratorTest {
   @Test(expected = NoSuchElementException.class)
   public void testNextOnEmptyString() {
 
-    Iterator<String> iterator = new NGramIterator(3, "");
+    Iterator<Span> iterator = new NGramIterator(3, "");
 
     assertNull(iterator.next());
   }
@@ -48,27 +49,27 @@ public class NGramIteratorTest {
   @Test
   public void testOverlapsTrue() {
 
-    Iterator<String> iterator = new NGramIterator(3, "overlaps", true);
-    List<String> ngrams = Lists.newArrayList(iterator);
+    Iterator<Span> iterator = new NGramIterator(3, "overlaps", true);
+    List<Span> ngrams = Lists.newArrayList(iterator);
 
     assertEquals(6, ngrams.size());
-    assertEquals("ove", ngrams.get(0));
-    assertEquals("ver", ngrams.get(1));
-    assertEquals("erl", ngrams.get(2));
-    assertEquals("rla", ngrams.get(3));
-    assertEquals("lap", ngrams.get(4));
-    assertEquals("aps", ngrams.get(5));
+    assertEquals("ove", ngrams.get(0).text());
+    assertEquals("ver", ngrams.get(1).text());
+    assertEquals("erl", ngrams.get(2).text());
+    assertEquals("rla", ngrams.get(3).text());
+    assertEquals("lap", ngrams.get(4).text());
+    assertEquals("aps", ngrams.get(5).text());
   }
 
   @Test
   public void testOverlapsFalse() {
 
-    Iterator<String> iterator = new NGramIterator(3, "overlaps", false);
-    List<String> ngrams = Lists.newArrayList(iterator);
+    Iterator<Span> iterator = new NGramIterator(3, "overlaps", false);
+    List<Span> ngrams = Lists.newArrayList(iterator);
 
     assertEquals(3, ngrams.size());
-    assertEquals("ove", ngrams.get(0));
-    assertEquals("rla", ngrams.get(1));
-    assertEquals("ps", ngrams.get(2));
+    assertEquals("ove", ngrams.get(0).text());
+    assertEquals("rla", ngrams.get(1).text());
+    assertEquals("ps", ngrams.get(2).text());
   }
 }

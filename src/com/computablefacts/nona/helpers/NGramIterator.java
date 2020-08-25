@@ -20,12 +20,13 @@
  */
 package com.computablefacts.nona.helpers;
 
+import com.computablefacts.nona.types.Span;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.AbstractIterator;
 import com.google.errorprone.annotations.CheckReturnValue;
 
 @CheckReturnValue
-final public class NGramIterator extends AbstractIterator<String> {
+final public class NGramIterator extends AbstractIterator<Span> {
 
   private final String string_;
   private final int length_;
@@ -47,18 +48,18 @@ final public class NGramIterator extends AbstractIterator<String> {
   }
 
   @Override
-  protected String computeNext() {
+  protected Span computeNext() {
     if (overlaps_) {
       if (pos_ < string_.length() - length_ + 1) {
-        String ngram = string_.substring(pos_, pos_ + length_);
+        Span span = new Span(string_, pos_, pos_ + length_);
         pos_ += 1;
-        return ngram;
+        return span;
       }
     } else {
       if (pos_ < string_.length()) {
-        String ngram = string_.substring(pos_, Math.min(string_.length(), pos_ + length_));
+        Span span = new Span(string_, pos_, Math.min(string_.length(), pos_ + length_));
         pos_ += length_;
-        return ngram;
+        return span;
       }
     }
     return endOfData();

@@ -6,12 +6,29 @@ import java.util.function.Function;
 
 import com.computablefacts.nona.types.SpanSequence;
 import com.google.common.base.Preconditions;
+import com.google.common.collect.Lists;
 import com.google.errorprone.annotations.CheckReturnValue;
 
 @CheckReturnValue
 final public class Splitters {
 
   private Splitters() {}
+
+  public static Function<String, SpanSequence> overlappingNGrams(int windowLength) {
+
+    Preconditions.checkArgument(windowLength >= 1, "windowLength must be >= 1");
+
+    return string -> new SpanSequence(
+        Lists.newArrayList(new NGramIterator(windowLength, string, true)));
+  }
+
+  public static Function<String, SpanSequence> nonOverlappingNGrams(int windowLength) {
+
+    Preconditions.checkArgument(windowLength >= 1, "windowLength must be >= 1");
+
+    return string -> new SpanSequence(
+        Lists.newArrayList(new NGramIterator(windowLength, string, false)));
+  }
 
   public static Function<SpanSequence, List<SpanSequence>> overlapping(int windowLength,
       int overlapLength) {
