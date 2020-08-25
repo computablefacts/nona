@@ -19,11 +19,12 @@ final public class AsciiTable {
 
   private AsciiTable() {}
 
-  public static String format(String[][] table) {
-    return format(table, false, 30);
+  public static String format(String[][] table, boolean hasHeader) {
+    return format(table, hasHeader, false, 30);
   }
 
-  public static String format(String[][] table, boolean leftJustify, int maxColWidth) {
+  public static String format(String[][] table, boolean hasHeader, boolean leftJustify,
+      int maxColWidth) {
 
     Preconditions.checkNotNull(table, "table should not be null");
     Preconditions.checkArgument(table.length > 0, "table should have at least one row");
@@ -100,12 +101,31 @@ final public class AsciiTable {
     builder.append(columnSeparator).append("\n");
     String format = builder.toString();
 
-    // Format the table
+    // Prepare row separator
     builder.setLength(0);
 
-    for (String[] row : tableNew) {
-      builder.append(String.format(format, row));
+    for (int i = 0; i < columnLengths.size(); i++) {
+      builder.append("+--");
+      for (int j = 0; j < columnLengths.get(i); j++) {
+        builder.append("-");
+      }
     }
-    return builder.toString();
+
+    builder.append("+\n");
+    String rowSeparator = builder.toString();
+
+    // Format the table
+    builder.setLength(0);
+    builder.append(rowSeparator);
+
+    for (int i = 0; i < tableNew.length; i++) {
+
+      builder.append(String.format(format, tableNew[i]));
+
+      if (hasHeader && i == 0) {
+        builder.append(rowSeparator);
+      }
+    }
+    return builder.append(rowSeparator).toString();
   }
 }
