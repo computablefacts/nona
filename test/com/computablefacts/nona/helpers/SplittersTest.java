@@ -17,7 +17,7 @@ public class SplittersTest {
   @Test
   public void testSplitOverlappingVeryShortText() {
 
-    Function<SpanSequence, List<SpanSequence>> splitter = Splitters.overlapping(5, 2);
+    Function<SpanSequence, List<SpanSequence>> splitter = Splitters.overlappingGroupBy(5, 2);
     List<SpanSequence> spans = splitter.apply(tokenize(veryShortText()));
 
     Assert.assertEquals(1, spans.size());
@@ -27,7 +27,7 @@ public class SplittersTest {
   @Test
   public void testSplitNonOverlappingVeryShortText() {
 
-    Function<SpanSequence, List<SpanSequence>> splitter = Splitters.nonOverlapping(5);
+    Function<SpanSequence, List<SpanSequence>> splitter = Splitters.nonOverlappingGroupBy(5);
     List<SpanSequence> spans = splitter.apply(tokenize(veryShortText()));
 
     Assert.assertEquals(1, spans.size());
@@ -37,7 +37,7 @@ public class SplittersTest {
   @Test
   public void testSplitOverlappingShortText() {
 
-    Function<SpanSequence, List<SpanSequence>> splitter = Splitters.overlapping(5, 2);
+    Function<SpanSequence, List<SpanSequence>> splitter = Splitters.overlappingGroupBy(5, 2);
     List<SpanSequence> spans = splitter.apply(tokenize(shortText()));
 
     Assert.assertEquals(2, spans.size());
@@ -48,7 +48,7 @@ public class SplittersTest {
   @Test
   public void testSplitNonOverlappingShortText() {
 
-    Function<SpanSequence, List<SpanSequence>> splitter = Splitters.nonOverlapping(5);
+    Function<SpanSequence, List<SpanSequence>> splitter = Splitters.nonOverlappingGroupBy(5);
     List<SpanSequence> spans = splitter.apply(tokenize(shortText()));
 
     Assert.assertEquals(1, spans.size());
@@ -58,7 +58,7 @@ public class SplittersTest {
   @Test
   public void testSplitOverlappingLongText() {
 
-    Function<SpanSequence, List<SpanSequence>> splitter = Splitters.overlapping(5, 2);
+    Function<SpanSequence, List<SpanSequence>> splitter = Splitters.overlappingGroupBy(5, 2);
     List<SpanSequence> spans = splitter.apply(tokenize(longText()));
 
     Assert.assertEquals(4, spans.size());
@@ -71,7 +71,7 @@ public class SplittersTest {
   @Test
   public void testSplitNonOverlappingLongText() {
 
-    Function<SpanSequence, List<SpanSequence>> splitter = Splitters.nonOverlapping(5);
+    Function<SpanSequence, List<SpanSequence>> splitter = Splitters.nonOverlappingGroupBy(5);
     List<SpanSequence> spans = splitter.apply(tokenize(longText()));
 
     Assert.assertEquals(3, spans.size());

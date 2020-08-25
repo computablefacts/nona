@@ -30,7 +30,7 @@ final public class Splitters {
         Lists.newArrayList(new NGramIterator(windowLength, string, false)));
   }
 
-  public static Function<SpanSequence, List<SpanSequence>> overlapping(int windowLength,
+  public static Function<SpanSequence, List<SpanSequence>> overlappingGroupBy(int windowLength,
       int overlapLength) {
 
     Preconditions.checkArgument(windowLength >= 1, "windowLength must be >= 1");
@@ -49,7 +49,7 @@ final public class Splitters {
     };
   }
 
-  public static Function<SpanSequence, List<SpanSequence>> nonOverlapping(int windowLength) {
-    return overlapping(windowLength, 0);
+  public static Function<SpanSequence, List<SpanSequence>> nonOverlappingGroupBy(int windowLength) {
+    return overlappingGroupBy(windowLength, 0);
   }
 }
