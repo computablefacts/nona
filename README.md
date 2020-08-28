@@ -155,7 +155,30 @@ while (iterator.hasNext()) {
 }
 
 // Here, sequence = ["123", "456", "789"]
-
-
 ```
 
+### SnippetExtractor
+
+A [SnippetExtractor](src/com/computablefacts/nona/helpers/SnippetExtractor.java)
+allows the extraction (from a text) of the snippet that contains the most dense 
+selection of words (from a given list).
+
+```java
+String text = 
+    "Welcome to Yahoo!, the world’s most visited home page. Quickly find what you’re " +
+    "searching for, get in touch with friends and stay in-the-know with the latest news " +
+    "and information. CloudSponge provides an interface to easily enable your users to " +
+    "import contacts from a variety of the most popular webmail services including Yahoo, " +
+    "Gmail and Hotmail/MSN as well as popular desktop address books such as Mac Address Book " +
+    "and Outlook.";
+
+String words = Lists.newArrayList("latest", "news", "CloudSponge");
+
+String snippet = SnippetExtractor.extract(words, text);
+
+// Here snippet = "...touch with friends and stay in-the-know with the latest news and 
+//                 information. CloudSponge provides an interface to easily enable your 
+//                 users to import contacts from a variety of the most popular webmail 
+//                 services including Yahoo, Gmail and Hotmail/MSN as well as popular 
+//                 desktop address books such as Mac..."
+```
