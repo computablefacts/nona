@@ -115,7 +115,7 @@ Span span = sequence.span(1) // span456
 
 A [NGramIterator](src/com/computablefacts/nona/helpers/NGramIterator.java) allows
 the creation of a list of [n-grams](https://en.wikipedia.org/wiki/N-gram) from a
-given string.
+string.
 
 ```java
 //  Create a list of overlapping 3-grams
