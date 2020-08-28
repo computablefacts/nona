@@ -116,6 +116,11 @@
                 <directory>${basedir}/src/resources</directory>
             </resource>
         </resources>
+        <testResources>
+            <testResource>
+                <directory>${basedir}/test/resources</directory>
+            </testResource>
+        </testResources>
         <plugins>
 
             <!-- Restrict Imports -->
@@ -175,7 +180,7 @@
                         <arg>-Xep:Var:ERROR</arg>
                         <arg>-Xep:WildcardImport</arg>
                         <arg>-XepDisableWarningsInGeneratedCode</arg>
-                        <arg>-XepExcludedPaths:.*/org/tartarus/snowball/ext/.*</arg>
+                        <arg>-XepExcludedPaths:.*/org/tartarus/snowball/.*</arg>
                     </compilerArgs>
                     <forceJavacCompilerUse>true</forceJavacCompilerUse>
                     <!-- maven-compiler-plugin defaults to targeting Java 5, but our javac only supports >=6 -->
