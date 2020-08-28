@@ -72,7 +72,12 @@ $ git push origin master
 
 ## Points of interest
 
-Nona contains a few helpers to perform text mining/NLP related tasks.
+Nona contains a few helpers to perform text mining/NLP related tasks :
+- [Span](#span)
+- [SpanSequence](#spansequence)
+- [NGramIterator](#ngramiterator)
+- [StringIterator](#stringiterator)
+- [SnippetExtractor](#snippetextractor)
 
 ### Span
 
