@@ -134,7 +134,9 @@ List<Span> ngrams = Lists.newArrayList(iterator);
 ### StringIterator
 
 A [StringIterator](src/com/computablefacts/nona/helpers/StringIterator.java) 
-facilitates iterating over the characters in a string.
+facilitates iterating over the characters in a string. Furthermore, this class
+contains many functions to find a character category : punctuation marks, arrows, 
+hyphens, apostrophes, bullets, quotation marks, etc. 
 
 ```java
 // Split a string on white-space characters
@@ -153,5 +155,7 @@ while (iterator.hasNext()) {
 }
 
 // Here, sequence = ["123", "456", "789"]
+
+
 ```
 
