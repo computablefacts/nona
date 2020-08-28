@@ -29,5 +29,9 @@
     <orderEntry type="library" name="Maven: com.fasterxml.jackson.core:jackson-annotations:2.10.2" level="project" />
     <orderEntry type="library" name="Maven: com.fasterxml.jackson.core:jackson-core:2.10.2" level="project" />
     <orderEntry type="library" name="Maven: org.ahocorasick:ahocorasick:0.4.0" level="project" />
+    <orderEntry type="library" name="Maven: com.optimaize.languagedetector:language-detector:0.6" level="project" />
+    <orderEntry type="library" name="Maven: net.arnx:jsonic:1.2.11" level="project" />
+    <orderEntry type="library" name="Maven: com.intellij:annotations:12.0" level="project" />
+    <orderEntry type="library" name="Maven: org.slf4j:slf4j-api:1.7.6" level="project" />
   </component>
 </module>
