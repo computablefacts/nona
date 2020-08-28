@@ -18,17 +18,7 @@ import com.google.common.base.Preconditions;
 
 public class SnowballStemmerTest {
 
-  @Test
-  public void testEnglishStemmer() throws IOException {
-    test(new englishStemmer(), "/data/porter_stem_diffs_en.txt");
-  }
-
-  @Test
-  public void testFrenchStemmer() throws IOException {
-    test(new frenchStemmer(), "/data/porter_stem_diffs_fr.txt");
-  }
-
-  private void test(SnowballStemmer stemmer, String file) throws IOException {
+  public static void test(SnowballStemmer stemmer, String file) throws IOException {
 
     Preconditions.checkNotNull(stemmer, "stemmer should not be null");
     Preconditions.checkNotNull(file, "file should not be null");
@@ -50,7 +40,7 @@ public class SnowballStemmerTest {
     }
   }
 
-  private void test(SnowballStemmer stemmer, String word, String stem) {
+  private static void test(SnowballStemmer stemmer, String word, String stem) {
 
     Preconditions.checkNotNull(stemmer, "stemmer should not be null");
     Preconditions.checkNotNull(word, "word should not be null");
@@ -63,5 +53,15 @@ public class SnowballStemmerTest {
     } else {
       fail();
     }
+  }
+
+  @Test
+  public void testEnglishStemmer() throws IOException {
+    test(new englishStemmer(), "/data/porter_stem_diffs_en.txt");
+  }
+
+  @Test
+  public void testFrenchStemmer() throws IOException {
+    test(new frenchStemmer(), "/data/porter_stem_diffs_fr.txt");
   }
 }
