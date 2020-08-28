@@ -176,9 +176,9 @@ String words = Lists.newArrayList("latest", "news", "CloudSponge");
 
 String snippet = SnippetExtractor.extract(words, text);
 
-// Here snippet = "...touch with friends and stay in-the-know with the latest news and 
-//                 information. CloudSponge provides an interface to easily enable your 
-//                 users to import contacts from a variety of the most popular webmail 
-//                 services including Yahoo, Gmail and Hotmail/MSN as well as popular 
-//                 desktop address books such as Mac..."
+// Here, snippet = "...touch with friends and stay in-the-know with the latest news and 
+//                  information. CloudSponge provides an interface to easily enable your 
+//                  users to import contacts from a variety of the most popular webmail 
+//                  services including Yahoo, Gmail and Hotmail/MSN as well as popular 
+//                  desktop address books such as Mac..."
 ```
