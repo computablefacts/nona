@@ -73,12 +73,19 @@ $ git push origin master
 ## Points of interest
 
 Nona contains a few helpers to perform text mining/NLP related tasks :
-- [Span](#span)
-- [SpanSequence](#spansequence)
-- [NGramIterator](#ngramiterator)
-- [StringIterator](#stringiterator)
-- [SnippetExtractor](#snippetextractor)
 
+- Data Structures
+    - [Span](#span)
+    - [SpanSequence](#spansequence)
+    - [Text](#text)
+    - [IBagOfWords](#ibagofwords)
+    - [IBagOfBigrams](#ibagofbigrams)        
+- Algorithms
+    - [NGramIterator](#ngramiterator)
+    - [StringIterator](#stringiterator)
+    - [SnippetExtractor](#snippetextractor)
+    - [DocSetLabeler](#docsetlabeler)
+    
 ### Span
 
 A [span](src/com/computablefacts/nona/types/Span.java) is a fragment of string 
@@ -115,6 +122,84 @@ SpanSequence sequence = new SpanSequence(Lists.newArrayList(span123, span456, sp
 // Usage
 int size = sequence.size() // 3
 Span span = sequence.span(1) // span456
+```
+
+### Text
+
+A [Text](src/com/computablefacts/nona/helpers/Text.java) object represents the 
+textual content of a document as a graph of sentences and words. The Text object
+extends the [IBagOfWords](#ibagofwords) and [IBagOfBigrams](ibagofbigrams) interfaces.
+
+```java
+// Split text into sentences
+Function<String, List<String>> sentenceSplitter = string -> 
+    Splitter.on(CharMatcher.anyOf(";.?!"))
+        .trimResults()
+        .omitEmptyStrings()
+        .splitToList(string);
+
+// Split sentence into words
+Function<String, List<String>> wordSplitter = string -> 
+    Splitter.on(CharMatcher.whitespace().or(CharMatcher.breakingWhitespace()))
+        .trimResults()
+        .omitEmptyStrings()
+        .splitToList(string);
+
+// Create a Text object
+Text text = new Text("Hello Kevin! Hello Joe!", sentenceSplitter, wordSplitter);
+
+// Usage
+String txt = text.text(); // "Hello Kevin! Hello Joe!"
+Multiset<String> bow = text.bagOfWords(); // {"Hello":2, "Joe":1, "Kevin":1, "!":2}
+Multiset<Map.Entry<String, String>> bob = text.bagOfBigrams(); // {"Hello Kevin":1, "Hello Joe":1, "Kevin!":1, "Joe!":1}
+```
+
+### IBagOfWords
+
+A [IBagOfWords](src/com/computablefacts/nona/helpers/IBagOfWords.java) is a 
+representation of text that describes the occurrence of words within a document.
+
+```java
+// Create a bag-of-words
+Multiset<String> bag = HashMultiset.create();
+bag.add("Hello");
+bag.add("Kevin");
+bag.add("!");
+bag.add("Hello");
+bag.add("Joe");
+bag.add("!");
+
+IBagOfWords bow = IBagOfWords.wrap(bag);
+
+// Here, bow = {"Hello":2, "Joe":1, "Kevin":1, "!":2}
+
+// Usage
+int frequency = bow.frequency("Hello"); // 2
+double normalizedFrequency = bow.normalizedFrequency("Hello"); // 2/6 = 0.333333
+```
+
+### IBagOfBigrams
+
+A [IBagOfBigrams](src/com/computablefacts/nona/helpers/IBagOfBigrams.java) is a
+representation of text that describes the co-occurrences of two words within a 
+document.
+
+```java
+// Create a bag-of-bigrams
+Multiset<Map.Entry<String, String>> bag = HashMultiset.create();
+bag.add(new AbstractMap.SimpleEntry<>("Hello", "Kevin"));
+bag.add(new AbstractMap.SimpleEntry<>("Kevin", "!"));
+bag.add(new AbstractMap.SimpleEntry<>("Hello", "Joe"));
+bag.add(new AbstractMap.SimpleEntry<>("Joe", "!"));
+
+IBagOfBigrams bob = IBagOfBigrams.wrap(bag);
+
+// Here, bob = {"Hello Kevin":1, "Hello Joe":1, "Kevin!":1, "Joe!":1}
+
+// Usage
+int frequency = bob.frequency("Hello", "Joe"); // 1
+double normalizedFrequency = bob.normalizedFrequency("Hello", "Joe"); // 1/4 = 0.25
+String mostProbableWordAfterHello = bob.mostProbableNextWord("Hello"); // "Kevin" (probability = 0.5) or "Joe" (probability = 0.5)
 ```
 
 ### NGramIterator
@@ -188,3 +273,5 @@ String snippet = SnippetExtractor.extract(words, text);
 //                  services including Yahoo, Gmail and Hotmail/MSN as well as popular 
 //                  desktop address books such as Mac..."
 ```
+
+### DocSetLabeler
