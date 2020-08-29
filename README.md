@@ -86,6 +86,7 @@ Nona contains a few helpers to perform text mining/NLP related tasks :
     - [StringIterator](#stringiterator)
     - [SnippetExtractor](#snippetextractor)
     - [DocSetLabeler](#docsetlabeler)
+    - [Languages](#languages)
     
 ### Span
 
@@ -335,3 +336,80 @@ A highly customizable implementation of the [DocSetLabeler](src/com/computablefa
 > An algorithm capable of generating expressive thematic labels for any subset of
 > documents in a corpus can greatly facilitate both characterization and navigation
 > of document collections.
+
+### Languages
+
+The [Languages](src/com/computablefacts/nona/helpers/Languages.java) class 
+contains helpers to perform [language identification](https://en.wikipedia.org/wiki/Language_identification) 
+and [stemming](https://en.wikipedia.org/wiki/Stemming) for the following languages :
+
+- ARABIC
+- BASQUE
+- CATALAN
+- DANISH
+- DUTCH
+- ENGLISH
+- FINNISH
+- FRENCH
+- GERMAN
+- GREEK
+- HINDI
+- HUNGARIAN
+- INDONESIAN
+- IRISH
+- ITALIAN
+- LITHUANIAN
+- NEPALI
+- NORWEGIAN
+- PORTUGUESE
+- ROMANIAN
+- RUSSIAN
+- SPANISH
+- SWEDISH
+- TAMIL
+- TURKISH
+
+Note that all libraries use are business-friendly :
+
+- The [Optimaize](https://github.com/optimaize/language-detector) language 
+identification algorithm is licenced under the Apache 2 Licence.
+- The [Snowball](https://snowballstem.org/license.html) stemmers algorithms are
+licenced under the 3-clause BSD Licence.
+
+```java
+String sentence = "Ha bisogno di una tazza di zucchero .";
+List<String> words = Splitter.on(' ')
+    .trimResults()
+    .omitEmptyStrings()
+    .splitToList(sentence);
+
+// Language identification
+Map.Entry<eLanguage, Double> language = Languages.language(sentence); // {"language":"ITALIAN", "confidence_score":0.9999995292613422}
+
+// Stemming
+SnowballStemmer stemmer = Languages.stemmer(language.getKey());
+
+stemmer.setCurrent(words.get(0));
+String stemHa = stemmer.getCurrent(); // "ha"
+
+stemmer.setCurrent(words.get(1));
+String stemBisogno = stemmer.getCurrent(); // "bisogn"
+
+stemmer.setCurrent(words.get(2));
+String stemDi = stemmer.getCurrent(); // "di"
+
+stemmer.setCurrent(words.get(3));
+String stemUna = stemmer.getCurrent(); // "una"
+
+stemmer.setCurrent(words.get(4));
+String stemTazza = stemmer.getCurrent(); // "tazz"
+
+stemmer.setCurrent(words.get(5));
+String stemDi = stemmer.getCurrent(); // "di"
+
+stemmer.setCurrent(words.get(6));
+String stemZucchero = stemmer.getCurrent(); // "zuccher"
+
+stemmer.setCurrent(words.get(7));
+String stemDot = stemmer.getCurrent(); // "."
+```
