@@ -369,11 +369,11 @@ and [stemming](https://en.wikipedia.org/wiki/Stemming) for the following languag
 - TAMIL
 - TURKISH
 
-Note that all libraries use are business-friendly :
+Note that all libraries used are business-friendly :
 
 - The [Optimaize](https://github.com/optimaize/language-detector) language 
 identification algorithm is licenced under the Apache 2 Licence.
-- The [Snowball](https://snowballstem.org/license.html) stemmers algorithms are
+- The [Snowball](https://snowballstem.org/license.html) stemmer algorithms are
 licenced under the 3-clause BSD Licence.
 
 ```java
