@@ -340,8 +340,13 @@ A highly customizable implementation of the [DocSetLabeler](src/com/computablefa
 ### Languages
 
 The [Languages](src/com/computablefacts/nona/helpers/Languages.java) class 
-contains helpers to perform [language identification](https://en.wikipedia.org/wiki/Language_identification) 
-and [stemming](https://en.wikipedia.org/wiki/Stemming) for the following languages :
+contains helpers to :
+
+- Perform [language identification](https://en.wikipedia.org/wiki/Language_identification),
+- Perform [stemming](https://en.wikipedia.org/wiki/Stemming),
+- Load list of [stopwords](https://en.wikipedia.org/wiki/Stop_word),
+
+for the following languages :
 
 - ARABIC
 - BASQUE
@@ -373,8 +378,10 @@ Note that all libraries used are business-friendly :
 
 - The [Optimaize](https://github.com/optimaize/language-detector) language 
 identification algorithm is licenced under the Apache 2 Licence.
-- The [Snowball](https://snowballstem.org/license.html) stemmer algorithms are
-licenced under the 3-clause BSD Licence.
+- The [Snowball](https://snowballstem.org/license.html) stemmers are licenced
+under the 3-clause BSD Licence.
+- The [Solr](https://lucene.apache.org) list of stopwords are licenced under 
+the Apache 2 Licence.
 
 ```java
 String sentence = "Ha bisogno di una tazza di zucchero .";
@@ -384,7 +391,9 @@ List<String> words = Splitter.on(' ')
     .splitToList(sentence);
 
 // Language identification
-Map.Entry<eLanguage, Double> language = Languages.language(sentence); // {"language":"ITALIAN", "confidence_score":0.9999995292613422}
+Map.Entry<eLanguage, Double> language = Languages.language(sentence); 
+
+// Here, language = {"language":"ITALIAN", "confidence_score":0.9999995292613422}
 
 // Stemming
 SnowballStemmer stemmer = Languages.stemmer(language.getKey());
@@ -412,4 +421,7 @@ String stemZucchero = stemmer.getCurrent(); // "zuccher"
 
 stemmer.setCurrent(words.get(7));
 String stemDot = stemmer.getCurrent(); // "."
+
+// Load stopwords for italian
+Set<String> stopwords = Languages.stopwords(Languages.eLanguage.ITALIAN)
 ```

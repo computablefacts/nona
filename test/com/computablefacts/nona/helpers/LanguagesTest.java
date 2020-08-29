@@ -80,5 +80,34 @@ public class LanguagesTest {
     SnowballStemmerTest.test(Languages.stemmer(Languages.eLanguage.FRENCH),
         "/data/porter_stem_diffs_fr.txt");
   }
+
+  @Test
+  public void testLoadStopwords() {
+    Assert.assertFalse(Languages.stopwords(Languages.eLanguage.ARABIC).isEmpty());
+    Assert.assertFalse(Languages.stopwords(Languages.eLanguage.BASQUE).isEmpty());
+    Assert.assertFalse(Languages.stopwords(Languages.eLanguage.CATALAN).isEmpty());
+    Assert.assertFalse(Languages.stopwords(Languages.eLanguage.DANISH).isEmpty());
+    Assert.assertFalse(Languages.stopwords(Languages.eLanguage.DUTCH).isEmpty());
+    Assert.assertFalse(Languages.stopwords(Languages.eLanguage.ENGLISH).isEmpty());
+    Assert.assertFalse(Languages.stopwords(Languages.eLanguage.FINNISH).isEmpty());
+    Assert.assertFalse(Languages.stopwords(Languages.eLanguage.FRENCH).isEmpty());
+    Assert.assertFalse(Languages.stopwords(Languages.eLanguage.GERMAN).isEmpty());
+    Assert.assertFalse(Languages.stopwords(Languages.eLanguage.GREEK).isEmpty());
+    Assert.assertFalse(Languages.stopwords(Languages.eLanguage.HINDI).isEmpty());
+    Assert.assertFalse(Languages.stopwords(Languages.eLanguage.HUNGARIAN).isEmpty());
+    Assert.assertFalse(Languages.stopwords(Languages.eLanguage.INDONESIAN).isEmpty());
+    Assert.assertFalse(Languages.stopwords(Languages.eLanguage.IRISH).isEmpty());
+    Assert.assertFalse(Languages.stopwords(Languages.eLanguage.ITALIAN).isEmpty());
+    Assert.assertNull(Languages.stopwords(Languages.eLanguage.LITHUANIAN));
+    Assert.assertNull(Languages.stopwords(Languages.eLanguage.NEPALI));
+    Assert.assertFalse(Languages.stopwords(Languages.eLanguage.NORWEGIAN).isEmpty());
+    Assert.assertFalse(Languages.stopwords(Languages.eLanguage.PORTUGUESE).isEmpty());
+    Assert.assertFalse(Languages.stopwords(Languages.eLanguage.ROMANIAN).isEmpty());
+    Assert.assertFalse(Languages.stopwords(Languages.eLanguage.RUSSIAN).isEmpty());
+    Assert.assertFalse(Languages.stopwords(Languages.eLanguage.SPANISH).isEmpty());
+    Assert.assertFalse(Languages.stopwords(Languages.eLanguage.SWEDISH).isEmpty());
+    Assert.assertNull(Languages.stopwords(Languages.eLanguage.TAMIL));
+    Assert.assertFalse(Languages.stopwords(Languages.eLanguage.TURKISH).isEmpty());
+  }
 }
 

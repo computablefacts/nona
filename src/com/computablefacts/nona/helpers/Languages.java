@@ -1,10 +1,16 @@
 package com.computablefacts.nona.helpers;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
 import java.util.AbstractMap;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -170,6 +176,7 @@ final public class Languages {
    *
    * See https://snowballstem.org/ for details.
    *
+   * @param language language.
    * @return a Snowball stemmer if the language has been found, null otherwise.
    */
   public static SnowballStemmer stemmer(eLanguage language) {
@@ -230,6 +237,122 @@ final public class Languages {
       default:
         return null;
     }
+  }
+
+  /**
+   * Get a list of stopwords from a language code.
+   * 
+   * @param language language.
+   * @return a list of stopwords if the language has been found, null otherwise.
+   */
+  public static Set<String> stopwords(eLanguage language) {
+
+    Preconditions.checkNotNull(language, "language should not be null");
+
+    String path;
+
+    switch (language) {
+      case ARABIC:
+        path = "/data/stopwords/stopwords_ar.txt";
+        break;
+      case BASQUE:
+        path = "/data/stopwords/stopwords_eu.txt";
+        break;
+      case CATALAN:
+        path = "/data/stopwords/stopwords_ca.txt";
+        break;
+      case DANISH:
+        path = "/data/stopwords/stopwords_da.txt";
+        break;
+      case DUTCH:
+        path = "/data/stopwords/stopwords_nl.txt";
+        break;
+      case ENGLISH:
+        path = "/data/stopwords/stopwords_en.txt";
+        break;
+      case FINNISH:
+        path = "/data/stopwords/stopwords_fi.txt";
+        break;
+      case FRENCH:
+        path = "/data/stopwords/stopwords_fr.txt";
+        break;
+      case GERMAN:
+        path = "/data/stopwords/stopwords_de.txt";
+        break;
+      case GREEK:
+        path = "/data/stopwords/stopwords_el.txt";
+        break;
+      case HINDI:
+        path = "/data/stopwords/stopwords_hi.txt";
+        break;
+      case HUNGARIAN:
+        path = "/data/stopwords/stopwords_hu.txt";
+        break;
+      case INDONESIAN:
+        path = "/data/stopwords/stopwords_id.txt";
+        break;
+      case IRISH:
+        path = "/data/stopwords/stopwords_ga.txt";
+        break;
+      case ITALIAN:
+        path = "/data/stopwords/stopwords_it.txt";
+        break;
+      case LITHUANIAN:
+        path = "/data/stopwords/stopwords_lt.txt"; // TODO
+        break;
+      case NEPALI:
+        path = "/data/stopwords/stopwords_ne.txt"; // TODO
+        break;
+      case NORWEGIAN:
+        path = "/data/stopwords/stopwords_no.txt";
+        break;
+      case PORTUGUESE:
+        path = "/data/stopwords/stopwords_pt.txt";
+        break;
+      case ROMANIAN:
+        path = "/data/stopwords/stopwords_ro.txt";
+        break;
+      case RUSSIAN:
+        path = "/data/stopwords/stopwords_ru.txt";
+        break;
+      case SPANISH:
+        path = "/data/stopwords/stopwords_es.txt";
+        break;
+      case SWEDISH:
+        path = "/data/stopwords/stopwords_sv.txt";
+        break;
+      case TAMIL:
+        path = "/data/stopwords/stopwords_ta.txt"; // TODO
+        break;
+      case TURKISH:
+        path = "/data/stopwords/stopwords_tr.txt";
+        break;
+      default:
+        return null;
+    }
+
+    Set<String> stopwords = new HashSet<>();
+
+    try (InputStream stream = Languages.class.getResourceAsStream(path)) {
+      try (BufferedReader buffer =
+          new BufferedReader(new InputStreamReader(stream, StandardCharsets.UTF_8))) {
+        for (String line; (line = buffer.readLine()) != null;) {
+
+          String stopword = line.trim();
+
+          if (!stopword.startsWith("#")) {
+            stopwords.add(stopword);
+          }
+        }
+      } catch (IOException | NullPointerException e) {
+        logger_.error(Throwables.getStackTraceAsString(Throwables.getRootCause(e)));
+        return null;
+      }
+    } catch (IOException | NullPointerException e) {
+      logger_.error(Throwables.getStackTraceAsString(Throwables.getRootCause(e)));
+      return null;
+    }
+    return stopwords;
   }
 
   public enum eLanguage {
