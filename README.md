@@ -89,7 +89,7 @@ Nona contains a few helpers to perform text mining/NLP related tasks :
     
 ### Span
 
-A [span](src/com/computablefacts/nona/types/Span.java) is a fragment of string 
+A [Span](src/com/computablefacts/nona/types/Span.java) is a fragment of string 
 with properties/features. Furthermore, this class contains many methods to detect
 and deal with overlaps between spans.
 
