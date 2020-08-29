@@ -380,7 +380,7 @@ Note that all libraries used are business-friendly :
 identification algorithm is licenced under the Apache 2 Licence.
 - The [Snowball](https://snowballstem.org/license.html) stemmers are licenced
 under the 3-clause BSD Licence.
-- The [Solr](https://lucene.apache.org) list of stopwords are licenced under 
+- The [Solr](https://lucene.apache.org) lists of stopwords are licenced under 
 the Apache 2 Licence.
 
 ```java
