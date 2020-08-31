@@ -1,0 +1,4 @@
+ignore:
+  - "src/resources/**" # ignore data files
+  - "src/org/tartarus/snowball/**" # ignore Snowball (backport)
+  - "src/RDRPOSTagger/jSCRDRtagger/**" # ignore RDRPOSTagger (backport)
