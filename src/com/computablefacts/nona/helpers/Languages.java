@@ -368,6 +368,21 @@ final public class Languages {
   /**
    * Get POS tags for a given sentence.
    *
+   * Note that :
+   * 
+   * <ul>
+   * <li>English tags come from the Penn Treebank Tagset :
+   * https://www.sketchengine.eu/modified-penn-treebank-tagset/</li>
+   * <li>French tags come from the SEM Tagset : http://apps.lattice.cnrs.fr/sem/about</li>
+   * <li>German tags come from the Stuttgart–Tubingen Tagset :
+   * https://www.sketchengine.eu/german-stts-part-of-speech-tagset/</li>
+   * <li>Italian tags come from the Tanl POS Tagset :
+   * http://medialab.di.unipi.it/wiki/Tanl_POS_Tagset</li>
+   * </ul>
+   *
+   * Tags for other languages come from the Universal POS Tagset :
+   * https://universaldependencies.org/u/pos/index.html
+   *
    * @param language language.
    * @param sentence sentence.
    * @return list of POS tags.
