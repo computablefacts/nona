@@ -343,6 +343,7 @@ The [Languages](src/com/computablefacts/nona/helpers/Languages.java) class
 contains helpers to :
 
 - Perform [language identification](https://en.wikipedia.org/wiki/Language_identification),
+- Perform [POS-tagging](https://en.wikipedia.org/wiki/Part-of-speech_tagging),
 - Perform [stemming](https://en.wikipedia.org/wiki/Stemming),
 - Load lists of [stopwords](https://en.wikipedia.org/wiki/Stop_word),
 
@@ -380,6 +381,8 @@ Note that all libraries used are business-friendly :
 identification algorithm is licenced under the Apache 2 Licence.
 - The [Snowball](https://snowballstem.org/license.html) stemmers are licenced
 under the 3-clause BSD Licence.
+- The [RDRPOSTagger](http://rdrpostagger.sourceforge.net/) POS-tagger is licenced
+under GPL-3 Licence.
 - The [Solr](https://lucene.apache.org) lists of stopwords are licenced under 
 the Apache 2 Licence.
 
@@ -404,24 +407,14 @@ String stemHa = stemmer.getCurrent(); // "ha"
 stemmer.setCurrent(words.get(1));
 String stemBisogno = stemmer.getCurrent(); // "bisogn"
 
-stemmer.setCurrent(words.get(2));
-String stemDi = stemmer.getCurrent(); // "di"
-
-stemmer.setCurrent(words.get(3));
-String stemUna = stemmer.getCurrent(); // "una"
-
-stemmer.setCurrent(words.get(4));
-String stemTazza = stemmer.getCurrent(); // "tazz"
-
-stemmer.setCurrent(words.get(5));
-String stemDi = stemmer.getCurrent(); // "di"
-
-stemmer.setCurrent(words.get(6));
-String stemZucchero = stemmer.getCurrent(); // "zuccher"
-
-stemmer.setCurrent(words.get(7));
-String stemDot = stemmer.getCurrent(); // "."
+...
 
 // Load stopwords for italian
-Set<String> stopwords = Languages.stopwords(Languages.eLanguage.ITALIAN)
+Set<String> stopwords = Languages.stopwords(Languages.eLanguage.ITALIAN);
+
+// Execute POS tagger
+List<Map.Entry<String, String>> tags = Languages.tag(Languages.eLanguage.ITALIAN, sentence);
+
+// Here, tags = [{Ha,V}, {bisogno,S}, {di,E}, {una,RI}, {tazza,S}, {di,E}, {zucchero,S}, {.,FS}]
+// See http://medialab.di.unipi.it/wiki/Tanl_POS_Tagset for tags meanings
 ```

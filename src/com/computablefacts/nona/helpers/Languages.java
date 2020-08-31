@@ -7,6 +7,7 @@ import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.util.AbstractMap;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -18,6 +19,7 @@ import org.tartarus.snowball.SnowballStemmer;
 import org.tartarus.snowball.ext.*;
 
 import com.google.common.base.Preconditions;
+import com.google.common.base.Strings;
 import com.google.common.base.Throwables;
 import com.optimaize.langdetect.DetectedLanguage;
 import com.optimaize.langdetect.LanguageDetector;
@@ -29,6 +31,13 @@ import com.optimaize.langdetect.profiles.LanguageProfileReader;
 import com.optimaize.langdetect.text.CommonTextObjectFactories;
 import com.optimaize.langdetect.text.TextObject;
 import com.optimaize.langdetect.text.TextObjectFactory;
+
+import RDRPOSTagger.jSCRDRtagger.FWObject;
+import RDRPOSTagger.jSCRDRtagger.InitialTagger;
+import RDRPOSTagger.jSCRDRtagger.Node;
+import RDRPOSTagger.jSCRDRtagger.RDRPOSTagger;
+import RDRPOSTagger.jSCRDRtagger.Utils;
+import RDRPOSTagger.jSCRDRtagger.WordTag;
 
 final public class Languages {
 
@@ -253,87 +262,88 @@ final public class Languages {
 
     switch (language) {
       case ARABIC:
-        path = "/data/stopwords/stopwords_ar.txt";
+        path = "/stopwords_ar.txt";
         break;
       case BASQUE:
-        path = "/data/stopwords/stopwords_eu.txt";
+        path = "/stopwords_eu.txt";
         break;
       case CATALAN:
-        path = "/data/stopwords/stopwords_ca.txt";
+        path = "/stopwords_ca.txt";
         break;
       case DANISH:
-        path = "/data/stopwords/stopwords_da.txt";
+        path = "/stopwords_da.txt";
         break;
       case DUTCH:
-        path = "/data/stopwords/stopwords_nl.txt";
+        path = "/stopwords_nl.txt";
         break;
       case ENGLISH:
-        path = "/data/stopwords/stopwords_en.txt";
+        path = "/stopwords_en.txt";
         break;
       case FINNISH:
-        path = "/data/stopwords/stopwords_fi.txt";
+        path = "/stopwords_fi.txt";
         break;
       case FRENCH:
-        path = "/data/stopwords/stopwords_fr.txt";
+        path = "/stopwords_fr.txt";
         break;
       case GERMAN:
-        path = "/data/stopwords/stopwords_de.txt";
+        path = "/stopwords_de.txt";
         break;
       case GREEK:
-        path = "/data/stopwords/stopwords_el.txt";
+        path = "/stopwords_el.txt";
         break;
       case HINDI:
-        path = "/data/stopwords/stopwords_hi.txt";
+        path = "/stopwords_hi.txt";
         break;
       case HUNGARIAN:
-        path = "/data/stopwords/stopwords_hu.txt";
+        path = "/stopwords_hu.txt";
         break;
       case INDONESIAN:
-        path = "/data/stopwords/stopwords_id.txt";
+        path = "/stopwords_id.txt";
         break;
       case IRISH:
-        path = "/data/stopwords/stopwords_ga.txt";
+        path = "/stopwords_ga.txt";
         break;
       case ITALIAN:
-        path = "/data/stopwords/stopwords_it.txt";
+        path = "/stopwords_it.txt";
         break;
       case LITHUANIAN:
-        path = "/data/stopwords/stopwords_lt.txt"; // TODO
+        path = "/stopwords_lt.txt"; // TODO
         break;
       case NEPALI:
-        path = "/data/stopwords/stopwords_ne.txt"; // TODO
+        path = "/stopwords_ne.txt"; // TODO
         break;
       case NORWEGIAN:
-        path = "/data/stopwords/stopwords_no.txt";
+        path = "/stopwords_no.txt";
         break;
       case PORTUGUESE:
-        path = "/data/stopwords/stopwords_pt.txt";
+        path = "/stopwords_pt.txt";
         break;
       case ROMANIAN:
-        path = "/data/stopwords/stopwords_ro.txt";
+        path = "/stopwords_ro.txt";
         break;
       case RUSSIAN:
-        path = "/data/stopwords/stopwords_ru.txt";
+        path = "/stopwords_ru.txt";
         break;
       case SPANISH:
-        path = "/data/stopwords/stopwords_es.txt";
+        path = "/stopwords_es.txt";
         break;
       case SWEDISH:
-        path = "/data/stopwords/stopwords_sv.txt";
+        path = "/stopwords_sv.txt";
         break;
       case TAMIL:
-        path = "/data/stopwords/stopwords_ta.txt"; // TODO
+        path = "/stopwords_ta.txt"; // TODO
         break;
       case TURKISH:
-        path = "/data/stopwords/stopwords_tr.txt";
+        path = "/stopwords_tr.txt";
         break;
       default:
         return null;
     }
 
+    String prefix = "/data/stopwords";
     Set<String> stopwords = new HashSet<>();
 
-    try (InputStream stream = Languages.class.getResourceAsStream(path)) {
+    try (InputStream stream = Languages.class.getResourceAsStream(prefix + path)) {
       try (BufferedReader buffer =
           new BufferedReader(new InputStreamReader(stream, StandardCharsets.UTF_8))) {
         for (String line; (line = buffer.readLine()) != null;) {
@@ -353,6 +363,167 @@ final public class Languages {
       return null;
     }
     return stopwords;
+  }
+
+  /**
+   * Get POS tags for a given sentence.
+   *
+   * @param language language.
+   * @param sentence sentence.
+   * @return list of POS tags.
+   */
+  public static List<Map.Entry<String, String>> tag(eLanguage language, String sentence) {
+
+    Preconditions.checkNotNull(language, "language should not be null");
+    Preconditions.checkNotNull(sentence, "sentence should not be null");
+
+    if (Strings.isNullOrEmpty(sentence)) {
+      return new ArrayList<>();
+    }
+
+    String dict;
+    String rdr;
+
+    switch (language) {
+      case ARABIC:
+        dict = "/ud-treebanks-v2.4/UD_Arabic-PADT/ar_padt-ud-train.conllu.UPOS.DICT";
+        rdr = "/ud-treebanks-v2.4/UD_Arabic-PADT/ar_padt-ud-train.conllu.UPOS.RDR";
+        break;
+      case BASQUE:
+        dict = "/ud-treebanks-v2.4/UD_Basque-BDT/eu_bdt-ud-train.conllu.UPOS.DICT";
+        rdr = "/ud-treebanks-v2.4/UD_Basque-BDT/eu_bdt-ud-train.conllu.UPOS.RDR";
+        break;
+      case CATALAN:
+        dict = "/ud-treebanks-v2.4/UD_Catalan-AnCora/ca_ancora-ud-train.conllu.UPOS.DICT";
+        rdr = "/ud-treebanks-v2.4/UD_Catalan-AnCora/ca_ancora-ud-train.conllu.UPOS.RDR";
+        break;
+      case DANISH:
+        dict = "/ud-treebanks-v2.4/UD_Danish-DDT/da_ddt-ud-train.conllu.UPOS.DICT";
+        rdr = "/ud-treebanks-v2.4/UD_Danish-DDT/da_ddt-ud-train.conllu.UPOS.RDR";
+        break;
+      case DUTCH:
+        dict = "/ud-treebanks-v2.4/UD_Dutch-Alpino/nl_alpino-ud-train.conllu.UPOS.DICT";
+        rdr = "/ud-treebanks-v2.4/UD_Dutch-Alpino/nl_alpino-ud-train.conllu.UPOS.RDR";
+        break;
+      case ENGLISH:
+        dict = "/POS/English.DICT";
+        rdr = "/POS/English.RDR";
+        break;
+      case FINNISH:
+        dict = "/ud-treebanks-v2.4/UD_Finnish-TDT/fi_tdt-ud-train.conllu.UPOS.DICT";
+        rdr = "/ud-treebanks-v2.4/UD_Finnish-TDT/fi_tdt-ud-train.conllu.UPOS.RDR";
+        break;
+      case FRENCH:
+        dict = "/POS/French.DICT";
+        rdr = "/POS/French.RDR";
+        break;
+      case GERMAN:
+        dict = "/POS/German.DICT";
+        rdr = "/POS/German.RDR";
+        break;
+      case GREEK:
+        dict = "/ud-treebanks-v2.4/UD_Greek-GDT/el_gdt-ud-train.conllu.UPOS.DICT";
+        rdr = "/ud-treebanks-v2.4/UD_Greek-GDT/el_gdt-ud-train.conllu.UPOS.RDR";
+        break;
+      case HINDI:
+        dict = "/POS/Hindi.DICT";
+        rdr = "/POS/Hindi.RDR";
+        break;
+      case HUNGARIAN:
+        dict = "/ud-treebanks-v2.4/UD_Hungarian-Szeged/hu_szeged-ud-train.conllu.UPOS.DICT";
+        rdr = "/ud-treebanks-v2.4/UD_Hungarian-Szeged/hu_szeged-ud-train.conllu.UPOS.RDR";
+        break;
+      case INDONESIAN:
+        dict = "/ud-treebanks-v2.4/UD_Indonesian-GSD/id_gsd-ud-train.conllu.UPOS.DICT";
+        rdr = "/ud-treebanks-v2.4/UD_Indonesian-GSD/id_gsd-ud-train.conllu.UPOS.RDR";
+        break;
+      case IRISH:
+        dict = "/ud-treebanks-v2.4/UD_Irish-IDT/ga_idt-ud-train.conllu.UPOS.DICT";
+        rdr = "/ud-treebanks-v2.4/UD_Irish-IDT/ga_idt-ud-train.conllu.UPOS.RDR";
+        break;
+      case ITALIAN:
+        dict = "/POS/Italian.DICT";
+        rdr = "/POS/Italian.RDR";
+        break;
+      case LITHUANIAN:
+        dict = "/ud-treebanks-v2.4/UD_Lithuanian-ALKSNIS/lt_alksnis-ud-train.conllu.UPOS.DICT";
+        rdr = "/ud-treebanks-v2.4/UD_Lithuanian-ALKSNIS/lt_alksnis-ud-train.conllu.UPOS.RDR";
+        break;
+      case NEPALI:
+        dict = "/"; // TODO
+        rdr = "/"; // TODO
+        break;
+      case NORWEGIAN:
+        dict = "/ud-treebanks-v2.4/UD_Norwegian-Bokmaal/no_bokmaal-ud-train.conllu.UPOS.DICT";
+        rdr = "/ud-treebanks-v2.4/UD_Norwegian-Bokmaal/no_bokmaal-ud-train.conllu.UPOS.RDR";
+        break;
+      case PORTUGUESE:
+        dict = "/ud-treebanks-v2.4/UD_Portuguese-GSD/pt_gsd-ud-train.conllu.UPOS.DICT";
+        rdr = "/ud-treebanks-v2.4/UD_Portuguese-GSD/pt_gsd-ud-train.conllu.UPOS.RDR";
+        break;
+      case ROMANIAN:
+        dict = "/ud-treebanks-v2.4/UD_Romanian-RRT/ro_rrt-ud-train.conllu.UPOS.DICT";
+        rdr = "/ud-treebanks-v2.4/UD_Romanian-RRT/ro_rrt-ud-train.conllu.UPOS.RDR";
+        break;
+      case RUSSIAN:
+        dict = "/ud-treebanks-v2.4/UD_Russian-GSD/ru_gsd-ud-train.conllu.UPOS.DICT";
+        rdr = "/ud-treebanks-v2.4/UD_Russian-GSD/ru_gsd-ud-train.conllu.UPOS.RDR";
+        break;
+      case SPANISH:
+        dict = "/ud-treebanks-v2.4/UD_Spanish-GSD/es_gsd-ud-train.conllu.UPOS.DICT";
+        rdr = "/ud-treebanks-v2.4/UD_Spanish-GSD/es_gsd-ud-train.conllu.UPOS.RDR";
+        break;
+      case SWEDISH:
+        dict = "/ud-treebanks-v2.4/UD_Swedish-Talbanken/sv_talbanken-ud-train.conllu.UPOS.DICT";
+        rdr = "/ud-treebanks-v2.4/UD_Swedish-Talbanken/sv_talbanken-ud-train.conllu.UPOS.RDR";
+        break;
+      case TAMIL:
+        dict = "/ud-treebanks-v2.4/UD_Tamil-TTB/ta_ttb-ud-train.conllu.UPOS.DICT";
+        rdr = "/ud-treebanks-v2.4/UD_Tamil-TTB/ta_ttb-ud-train.conllu.UPOS.RDR";
+        break;
+      case TURKISH:
+        dict = "/ud-treebanks-v2.4/UD_Turkish-GB/tr_gb-ud-test.conllu.UPOS.DICT";
+        rdr = "/ud-treebanks-v2.4/UD_Turkish-GB/tr_gb-ud-test.conllu.UPOS.RDR";
+        break;
+      default:
+        return null;
+    }
+
+    String prefix = "/data/rdrpostagger";
+    List<Map.Entry<String, String>> tags = new ArrayList<>();
+
+    try (InputStream dictStream = Languages.class.getResourceAsStream(prefix + dict)) {
+      try (InputStream modelStream = Languages.class.getResourceAsStream(prefix + rdr)) {
+
+        HashMap<String, String> FREQDICT = Utils.getDictionary(dictStream);
+        RDRPOSTagger tree = new RDRPOSTagger();
+        tree.constructTreeFromRulesFile(modelStream);
+        List<WordTag> wordtags = InitialTagger.InitTagger4Sentence(FREQDICT, sentence.trim());
+
+        if (wordtags == null) {
+          return null;
+        }
+
+        for (int i = 0; i < wordtags.size(); i++) {
+
+          FWObject object = Utils.getObject(wordtags, wordtags.size(), i);
+          Node firedNode = tree.findFiredNode(object);
+
+          if (firedNode.depth > 0) {
+            tags.add(new AbstractMap.SimpleEntry<>(wordtags.get(i).word, firedNode.conclusion));
+          } else { // Fired at root, return initialized tag.
+            tags.add(new AbstractMap.SimpleEntry<>(wordtags.get(i).word, wordtags.get(i).tag));
+          }
+        }
+      } catch (IOException | NullPointerException e) {
+        logger_.error(Throwables.getStackTraceAsString(Throwables.getRootCause(e)));
+        return null;
+      }
+    } catch (IOException | NullPointerException e) {
+      logger_.error(Throwables.getStackTraceAsString(Throwables.getRootCause(e)));
+      return null;
+    }
+    return tags;
   }
 
   public enum eLanguage {
