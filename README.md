@@ -398,6 +398,9 @@ Map.Entry<eLanguage, Double> language = Languages.language(sentence);
 
 // Here, language = {"language":"ITALIAN", "confidence_score":0.9999995292613422}
 
+// Stopwords
+Set<String> stopwords = Languages.stopwords(language.getKey());
+
 // Stemming
 SnowballStemmer stemmer = Languages.stemmer(language.getKey());
 
@@ -409,11 +412,8 @@ String stemBisogno = stemmer.getCurrent(); // "bisogn"
 
 ...
 
-// Load stopwords for italian
-Set<String> stopwords = Languages.stopwords(Languages.eLanguage.ITALIAN);
-
-// Execute POS tagger
-List<Map.Entry<String, String>> tags = Languages.tag(Languages.eLanguage.ITALIAN, sentence);
+// POS Tagging
+List<Map.Entry<String, String>> tags = Languages.tag(language.getKey(), sentence);
 
 // Here, tags = [{Ha,V}, {bisogno,S}, {di,E}, {una,RI}, {tazza,S}, {di,E}, {zucchero,S}, {.,FS}]
 // See http://medialab.di.unipi.it/wiki/Tanl_POS_Tagset for tags meanings
