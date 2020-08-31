@@ -344,7 +344,7 @@ contains helpers to :
 
 - Perform [language identification](https://en.wikipedia.org/wiki/Language_identification),
 - Perform [stemming](https://en.wikipedia.org/wiki/Stemming),
-- Load list of [stopwords](https://en.wikipedia.org/wiki/Stop_word),
+- Load lists of [stopwords](https://en.wikipedia.org/wiki/Stop_word),
 
 for the following languages :
 
