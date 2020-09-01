@@ -33,5 +33,6 @@
     <orderEntry type="library" name="Maven: net.arnx:jsonic:1.2.11" level="project" />
     <orderEntry type="library" name="Maven: com.intellij:annotations:12.0" level="project" />
     <orderEntry type="library" name="Maven: org.slf4j:slf4j-api:1.7.6" level="project" />
+    <orderEntry type="library" scope="TEST" name="Maven: nl.jqno.equalsverifier:equalsverifier:3.4.2" level="project" />
   </component>
 </module>

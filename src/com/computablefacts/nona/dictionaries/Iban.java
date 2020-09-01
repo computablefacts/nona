@@ -99,22 +99,27 @@ final public class Iban {
         .toString();
   }
 
+  @Generated
   public String countryName() {
     return countryName_;
   }
 
+  @Generated
   public String countryCode() {
     return countryCode_;
   }
 
+  @Generated
   public boolean isSepaMember() {
     return isSepaMember_;
   }
 
+  @Generated
   public int ibanLength() {
     return ibanLength_;
   }
 
+  @Generated
   public String ibanExample() {
     return ibanExample_;
   }

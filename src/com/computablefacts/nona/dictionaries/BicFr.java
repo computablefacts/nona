@@ -86,14 +86,17 @@ final public class BicFr {
         .add("swiftCode", swiftCode_).omitNullValues().toString();
   }
 
+  @Generated
   public String name() {
     return name_;
   }
 
+  @Generated
   public String city() {
     return city_;
   }
 
+  @Generated
   public String swiftCode() {
     return swiftCode_;
   }

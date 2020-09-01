@@ -228,22 +228,27 @@ final public class Lei {
         .add("countryCode", countryCode_).add("bic", bic_).omitNullValues().toString();
   }
 
+  @Generated
   public String lei() {
     return lei_;
   }
 
+  @Generated
   public String legalName() {
     return legalName_;
   }
 
+  @Generated
   public String countryCode() {
     return countryCode_;
   }
 
+  @Generated
   public String bic() {
     return Strings.nullToEmpty(bic_);
   }
 
+  @Generated
   public String bic8() {
     return Strings.isNullOrEmpty(bic_) ? "" : bic_.substring(0, 8);
   }

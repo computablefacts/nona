@@ -86,18 +86,22 @@ final public class Country {
         .add("alpha3", alpha3_).add("numeric", numeric_).omitNullValues().toString();
   }
 
+  @Generated
   public String name() {
     return name_;
   }
 
+  @Generated
   public String alpha2() {
     return alpha2_;
   }
 
+  @Generated
   public String alpha3() {
     return alpha3_;
   }
 
+  @Generated
   public int numeric() {
     return numeric_;
   }

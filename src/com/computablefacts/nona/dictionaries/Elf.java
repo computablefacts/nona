@@ -167,66 +167,82 @@ final public class Elf {
         .add("reason", reason_).omitNullValues().toString();
   }
 
+  @Generated
   public String elfCode() {
     return elfCode_;
   }
 
+  @Generated
   public String countryName() {
     return countryName_;
   }
 
+  @Generated
   public String countryCode() {
     return countryCode_;
   }
 
+  @Generated
   public String jurisdictionOfFormation() {
     return jurisdictionOfFormation_;
   }
 
+  @Generated
   public String countrySubdivisionCode() {
     return countrySubdivisionCode_;
   }
 
+  @Generated
   public String legalFormNameLocal() {
     return legalFormNameLocal_;
   }
 
+  @Generated
   public String language() {
     return language_;
   }
 
+  @Generated
   public String languageCode() {
     return languageCode_;
   }
 
+  @Generated
   public String legalFormNameTransliterated() {
     return legalFormNameTransliterated_;
   }
 
+  @Generated
   public Set<String> abbreviationLocal() {
     return new HashSet<>(Splitter.on(';').splitToList(abbreviationLocal_));
   }
 
+  @Generated
   public Set<String> abbreviationTransliterated() {
     return new HashSet<>(Splitter.on(';').splitToList(abbreviationTransliterated_));
   }
 
+  @Generated
   public Date dateCreated() {
     return dateCreated_;
   }
 
+  @Generated
   public String elfStatus() {
     return elfStatus_;
   }
 
+  @Generated
   public String modification() {
     return modification_;
   }
 
+  @Generated
   public Date modificationDate() {
     return modificationDate_;
   }
 
+  @Generated
   public String reason() {
     return reason_;
   }
