@@ -13,10 +13,12 @@ import com.fasterxml.jackson.dataformat.csv.CsvMapper;
 import com.fasterxml.jackson.dataformat.csv.CsvSchema;
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Objects;
+import com.google.errorprone.annotations.CheckReturnValue;
 
 /**
  * BIC - Bank Identifier Code
  */
+@CheckReturnValue
 final public class BicFr {
 
   @JsonProperty("name")
@@ -67,8 +69,8 @@ final public class BicFr {
       return false;
     }
     BicFr other = (BicFr) obj;
-    return name_.equals(other.name_) && city_.equals(other.city_)
-        && swiftCode_.equals(other.swiftCode_);
+    return Objects.equal(name_, other.name_) && Objects.equal(city_, other.city_)
+        && Objects.equal(swiftCode_, other.swiftCode_);
   }
 
   @Override

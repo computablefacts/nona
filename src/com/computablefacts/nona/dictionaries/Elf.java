@@ -17,10 +17,12 @@ import com.fasterxml.jackson.dataformat.csv.CsvSchema;
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Objects;
 import com.google.common.base.Splitter;
+import com.google.errorprone.annotations.CheckReturnValue;
 
 /**
  * ELF - Entity Legal Form
  */
+@CheckReturnValue
 final public class Elf {
 
   @JsonProperty("ELF Code")
@@ -121,18 +123,22 @@ final public class Elf {
       return false;
     }
     Elf other = (Elf) obj;
-    return elfCode_.equals(other.elfCode_) && countryName_.equals(other.countryName_)
-        && countryCode_.equals(other.countryCode_)
-        && jurisdictionOfFormation_.equals(other.jurisdictionOfFormation_)
-        && countrySubdivisionCode_.equals(other.countrySubdivisionCode_)
-        && legalFormNameLocal_.equals(other.legalFormNameLocal_)
-        && language_.equals(other.language_) && languageCode_.equals(other.languageCode_)
-        && legalFormNameTransliterated_.equals(other.legalFormNameTransliterated_)
-        && abbreviationLocal_.equals(other.abbreviationLocal_)
-        && abbreviationTransliterated_.equals(other.abbreviationTransliterated_)
-        && dateCreated_.equals(other.dateCreated_) && elfStatus_.equals(other.elfStatus_)
-        && modification_.equals(other.modification_)
-        && modificationDate_.equals(other.modificationDate_) && reason_.equals(other.reason_);
+    return Objects.equal(elfCode_, other.elfCode_)
+        && Objects.equal(countryName_, other.countryName_)
+        && Objects.equal(countryCode_, other.countryCode_)
+        && Objects.equal(jurisdictionOfFormation_, other.jurisdictionOfFormation_)
+        && Objects.equal(countrySubdivisionCode_, other.countrySubdivisionCode_)
+        && Objects.equal(legalFormNameLocal_, other.legalFormNameLocal_)
+        && Objects.equal(language_, other.language_)
+        && Objects.equal(languageCode_, other.languageCode_)
+        && Objects.equal(legalFormNameTransliterated_, other.legalFormNameTransliterated_)
+        && Objects.equal(abbreviationLocal_, other.abbreviationLocal_)
+        && Objects.equal(abbreviationTransliterated_, other.abbreviationTransliterated_)
+        && Objects.equal(dateCreated_, other.dateCreated_)
+        && Objects.equal(elfStatus_, other.elfStatus_)
+        && Objects.equal(modification_, other.modification_)
+        && Objects.equal(modificationDate_, other.modificationDate_)
+        && Objects.equal(reason_, other.reason_);
   }
 
   @Override

@@ -13,7 +13,9 @@ import com.fasterxml.jackson.dataformat.csv.CsvMapper;
 import com.fasterxml.jackson.dataformat.csv.CsvSchema;
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Objects;
+import com.google.errorprone.annotations.CheckReturnValue;
 
+@CheckReturnValue
 final public class Country {
 
   @JsonProperty("country")
@@ -67,8 +69,8 @@ final public class Country {
       return false;
     }
     Country other = (Country) obj;
-    return name_.equals(other.name_) && alpha2_.equals(other.alpha2_)
-        && alpha3_.equals(other.alpha3_) && numeric_ == other.numeric_;
+    return Objects.equal(name_, other.name_) && Objects.equal(alpha2_, other.alpha2_)
+        && Objects.equal(alpha3_, other.alpha3_) && Objects.equal(numeric_, other.numeric_);
   }
 
   @Override
