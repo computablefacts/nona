@@ -1,6 +1,5 @@
 package com.computablefacts.nona.functions.patternoperators;
 
-import java.util.Set;
 import java.util.stream.Collectors;
 
 import com.computablefacts.nona.dictionaries.Tld;
@@ -19,22 +18,22 @@ import com.google.re2j.Pattern;
 final public class PatternsForward {
 
   // List of reserved ECMAScript6 keywords
-  public static final Set<String> ECMASCRIPT6_KEYWORDS = ImmutableSet.of("do", "if", "in", "for",
-      "let", "new", "try", "var", "case", "else", "enum", "eval", "null", "this", "true", "void",
-      "with", "await", "break", "catch", "class", "const", "false", "super", "throw", "while",
-      "yield", "delete", "export", "import", "public", "return", "static", "switch", "typeof",
-      "default", "extends", "finally", "package", "private", "continue", "debugger", "function",
-      "arguments", "interface", "protected", "implements", "instanceof");
+  public static final ImmutableSet<String> ECMASCRIPT6_KEYWORDS = ImmutableSet.of("do", "if", "in",
+      "for", "let", "new", "try", "var", "case", "else", "enum", "eval", "null", "this", "true",
+      "void", "with", "await", "break", "catch", "class", "const", "false", "super", "throw",
+      "while", "yield", "delete", "export", "import", "public", "return", "static", "switch",
+      "typeof", "default", "extends", "finally", "package", "private", "continue", "debugger",
+      "function", "arguments", "interface", "protected", "implements", "instanceof");
 
   // List of JS objects, properties and methods
-  public static final Set<String> JS_OBJECTS_PROPERTIES_AND_METHODS =
+  public static final ImmutableSet<String> JS_OBJECTS_PROPERTIES_AND_METHODS =
       ImmutableSet.of("Array", "Date", "eval", "function", "hasOwnProperty", "Infinity", "isFinite",
           "isNaN", "isPrototypeOf", "length", "Math", "NaN", "name", "Number", "Object",
           "prototype", "String", "toString", "undefined", "valueOf");
 
   // List of HTML and Window objects properties
-  public static final Set<String> HTML_WINDOW_OBJECT_PROPERTIES = ImmutableSet.of("alert", "all",
-      "anchor", "anchors", "area", "assign", "blur", "button", "checkbox", "clearInterval",
+  public static final ImmutableSet<String> HTML_WINDOW_OBJECT_PROPERTIES = ImmutableSet.of("alert",
+      "all", "anchor", "anchors", "area", "assign", "blur", "button", "checkbox", "clearInterval",
       "clearTimeout", "clientInformation", "close", "closed", "confirm", "constructor", "crypto",
       "decodeURI", "decodeURIComponent", "defaultStatus", "document", "element", "elements",
       "embed", "embeds", "encodeURI", "encodeURIComponent", "escape", "event", "fileUpload",
@@ -47,7 +46,7 @@ final public class PatternsForward {
       "submit", "taint", "text", "textarea", "top", "unescape", "untaint", "window");
 
   // List of CSS properties
-  public static final Set<String> CSS_PROPERTIES = ImmutableSet.of("azimuth",
+  public static final ImmutableSet<String> CSS_PROPERTIES = ImmutableSet.of("azimuth",
       "background-attachment", "background-color", "background-image", "background-position",
       "background-repeat", "background", "border-collapse", "border-color", "border-spacing",
       "border-style", "border-top", "border-right", "border-bottom", "border-left",
