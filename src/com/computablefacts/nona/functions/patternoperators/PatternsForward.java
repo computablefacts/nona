@@ -1,10 +1,12 @@
 package com.computablefacts.nona.functions.patternoperators;
 
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import com.computablefacts.nona.dictionaries.Tld;
 import com.google.common.base.Joiner;
 import com.google.common.base.Strings;
+import com.google.common.collect.ImmutableSet;
 import com.google.re2j.Pattern;
 
 /**
@@ -14,6 +16,57 @@ import com.google.re2j.Pattern;
  */
 final public class PatternsForward {
 
+  // List of reserved ECMAScript6 keywords
+  public static final Set<String> ECMASCRIPT6_KEYWORDS = ImmutableSet.of("do", "if", "in", "for",
+      "let", "new", "try", "var", "case", "else", "enum", "eval", "null", "this", "true", "void",
+      "with", "await", "break", "catch", "class", "const", "false", "super", "throw", "while",
+      "yield", "delete", "export", "import", "public", "return", "static", "switch", "typeof",
+      "default", "extends", "finally", "package", "private", "continue", "debugger", "function",
+      "arguments", "interface", "protected", "implements", "instanceof");
+
+  // List of JS objects, properties and methods
+  public static final Set<String> JS_OBJECTS_PROPERTIES_AND_METHODS =
+      ImmutableSet.of("Array", "Date", "eval", "function", "hasOwnProperty", "Infinity", "isFinite",
+          "isNaN", "isPrototypeOf", "length", "Math", "NaN", "name", "Number", "Object",
+          "prototype", "String", "toString", "undefined", "valueOf");
+
+  // List of HTML and Window objects properties
+  public static final Set<String> HTML_WINDOW_OBJECT_PROPERTIES = ImmutableSet.of("alert", "all",
+      "anchor", "anchors", "area", "assign", "blur", "button", "checkbox", "clearInterval",
+      "clearTimeout", "clientInformation", "close", "closed", "confirm", "constructor", "crypto",
+      "decodeURI", "decodeURIComponent", "defaultStatus", "document", "element", "elements",
+      "embed", "embeds", "encodeURI", "encodeURIComponent", "escape", "event", "fileUpload",
+      "focus", "form", "forms", "frame", "innerHeight", "innerWidth", "layer", "layers", "link",
+      "location", "mimeTypes", "navigate", "navigator", "frames", "frameRate", "hidden", "history",
+      "image", "images", "offscreenBuffering", "open", "opener", "option", "outerHeight",
+      "outerWidth", "packages", "pageXOffset", "pageYOffset", "parent", "parseFloat", "parseInt",
+      "password", "pkcs11", "plugin", "prompt", "propertyIsEnum", "radio", "reset", "screenX",
+      "screenY", "scroll", "secure", "select", "self", "setInterval", "setTimeout", "status",
+      "submit", "taint", "text", "textarea", "top", "unescape", "untaint", "window");
+
+  // List of CSS properties
+  public static final Set<String> CSS_PROPERTIES = ImmutableSet.of("azimuth",
+      "background-attachment", "background-color", "background-image", "background-position",
+      "background-repeat", "background", "border-collapse", "border-color", "border-spacing",
+      "border-style", "border-top", "border-right", "border-bottom", "border-left",
+      "border-top-color", "border-right-color", "border-bottom-color", "border-left-color",
+      "border-top-style", "border-right-style", "border-bottom-style", "border-left-style",
+      "border-top-width", "border-right-width", "border-bottom-width", "border-left-width",
+      "border-width", "border", "bottom", "caption-side", "clear", "clip", "color", "content",
+      "counter-increment", "counter-reset", "cue-after", "cue-before", "cue", "cursor", "direction",
+      "display", "elevation", "empty-cells", "float", "font-family", "font-size", "font-style",
+      "font-variant", "font-weight", "font", "height", "left", "letter-spacing", "line-height",
+      "list-style-image", "list-style-position", "list-style-type", "list-style", "margin-right",
+      "margin-left", "margin-top", "margin-bottom", "margin", "max-height", "max-width",
+      "min-height", "min-width", "orphans", "outline-color", "outline-style", "outline-width",
+      "outline", "overflow", "padding-top", "padding-right", "padding-bottom", "padding-left",
+      "padding", "page-break-after", "page-break-before", "page-break-inside", "pause-after",
+      "pause-before", "pause", "pitch-range", "pitch", "play-during", "position", "quotes",
+      "richness", "right", "speak-header", "speak-numeral", "speak-punctuation", "speak",
+      "speech-rate", "stress", "table-layout", "text-align", "text-decoration", "text-indent",
+      "text-transform", "top", "unicode-bidi", "vertical-align", "visibility", "voice-family",
+      "volume", "white-space", "widows", "width", "word-spacing", "z-index");
+
   private PatternsForward() {}
 
   public static String leftBoundary() {
@@ -22,6 +75,58 @@ final public class PatternsForward {
 
   public static String rightBoundary() {
     return "(?:$|\\p{Zs}|\\b|[^\\p{N}\\p{L}])";
+  }
+
+  /**
+   * Regex for ECMAScript6 keywords extraction. Match and capture a single group :
+   *
+   * <ol>
+   * <li>Group 1 : whole match</li>
+   * </ol>
+   *
+   * @return regular expression.
+   */
+  public static String ecmaScript6Keywords() {
+    return "(" + Joiner.on('|').join(ECMASCRIPT6_KEYWORDS) + ")";
+  }
+
+  /**
+   * Regex for JavaScript Objects properties methods extraction. Match and capture a single group :
+   *
+   * <ol>
+   * <li>Group 1 : whole match</li>
+   * </ol>
+   *
+   * @return regular expression.
+   */
+  public static String jsObjectsPropertiesAndMethods() {
+    return "(" + Joiner.on('|').join(JS_OBJECTS_PROPERTIES_AND_METHODS) + ")";
+  }
+
+  /**
+   * Regex for HTML Window object properties extraction. Match and capture a single group :
+   *
+   * <ol>
+   * <li>Group 1 : whole match</li>
+   * </ol>
+   *
+   * @return regular expression.
+   */
+  public static String htmlWindowObjectProperties() {
+    return "(" + Joiner.on('|').join(HTML_WINDOW_OBJECT_PROPERTIES) + ")";
+  }
+
+  /**
+   * Regex for CSS properties extraction. Match and capture a single group :
+   *
+   * <ol>
+   * <li>Group 1 : whole match</li>
+   * </ol>
+   *
+   * @return regular expression.
+   */
+  public static String cssProperties() {
+    return "(" + Joiner.on('|').join(CSS_PROPERTIES) + ")";
   }
 
   /**
