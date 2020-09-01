@@ -1,9 +1,12 @@
 package com.computablefacts.nona.functions.stringoperators;
 
+import static java.nio.charset.StandardCharsets.UTF_8;
+
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileReader;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.Collection;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -38,7 +41,7 @@ public class MatchDictionary extends Function {
               Trie.TrieBuilder builder =
                   Trie.builder().ignoreCase().ignoreOverlaps().onlyWholeWords();
 
-              try (BufferedReader br = new BufferedReader(new FileReader(file))) {
+              try (BufferedReader br = Files.newBufferedReader(Paths.get(file), UTF_8)) {
 
                 @Var
                 String keyword;
