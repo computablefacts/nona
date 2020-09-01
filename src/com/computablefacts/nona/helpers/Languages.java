@@ -21,6 +21,7 @@ import org.tartarus.snowball.ext.*;
 import com.google.common.base.Preconditions;
 import com.google.common.base.Strings;
 import com.google.common.base.Throwables;
+import com.google.errorprone.annotations.CheckReturnValue;
 import com.optimaize.langdetect.DetectedLanguage;
 import com.optimaize.langdetect.LanguageDetector;
 import com.optimaize.langdetect.LanguageDetectorBuilder;
@@ -39,6 +40,7 @@ import RDRPOSTagger.jSCRDRtagger.RDRPOSTagger;
 import RDRPOSTagger.jSCRDRtagger.Utils;
 import RDRPOSTagger.jSCRDRtagger.WordTag;
 
+@CheckReturnValue
 final public class Languages {
 
   private static final double LANGUAGE_CONFIDENCE_SCORE = 0.85;

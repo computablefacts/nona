@@ -14,11 +14,13 @@ import com.computablefacts.nona.types.Span;
 import com.computablefacts.nona.types.SpanSequence;
 import com.google.common.base.Preconditions;
 import com.google.common.base.Strings;
+import com.google.errorprone.annotations.CheckReturnValue;
 
 /**
  * WARNING : the first group of the pattern must be the extracted entity without the left/right
  * boundaries.
  */
+@CheckReturnValue
 public class MatchPattern extends RegexExtract {
 
   private final String name_;

@@ -7,6 +7,7 @@ import com.computablefacts.nona.dictionaries.Tld;
 import com.google.common.base.Joiner;
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableSet;
+import com.google.errorprone.annotations.CheckReturnValue;
 import com.google.re2j.Pattern;
 
 /**
@@ -14,6 +15,7 @@ import com.google.re2j.Pattern;
  *
  * The first group must always be the full matched pattern.
  */
+@CheckReturnValue
 final public class PatternsForward {
 
   // List of reserved ECMAScript6 keywords

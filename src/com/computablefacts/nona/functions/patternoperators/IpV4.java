@@ -9,8 +9,10 @@ import com.computablefacts.nona.types.BoxedType;
 import com.computablefacts.nona.types.Span;
 import com.computablefacts.nona.types.SpanSequence;
 import com.google.common.base.Preconditions;
+import com.google.errorprone.annotations.CheckReturnValue;
 import com.google.re2j.Pattern;
 
+@CheckReturnValue
 public class IpV4 extends MatchPattern {
 
   private static Pattern IP_LOCAL = Pattern.compile(iplocal(), Pattern.CASE_INSENSITIVE);

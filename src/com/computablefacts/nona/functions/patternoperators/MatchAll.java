@@ -12,8 +12,10 @@ import com.computablefacts.nona.types.SpanSequence;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Lists;
 import com.google.common.primitives.Ints;
+import com.google.errorprone.annotations.CheckReturnValue;
 import com.google.errorprone.annotations.Var;
 
+@CheckReturnValue
 public class MatchAll extends Function {
 
   private static final List<RegexExtract> FORWARD_AND_BACKWARD_EXTRACTORS = Lists.newArrayList(

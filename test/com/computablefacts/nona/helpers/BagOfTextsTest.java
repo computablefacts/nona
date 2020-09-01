@@ -31,7 +31,7 @@ public class BagOfTextsTest {
 
   @Test(expected = NullPointerException.class)
   public void testAnagramHashWithNullWord() {
-    IBagOfTexts.anagramHash(null);
+    String anagram = IBagOfTexts.anagramHash(null);
   }
 
   @Test
@@ -46,12 +46,12 @@ public class BagOfTextsTest {
 
   @Test(expected = NullPointerException.class)
   public void testLevenshteinDistanceWithNullWord1() {
-    IBagOfTexts.levenshteinDistance(null, "word2");
+    int distance = IBagOfTexts.levenshteinDistance(null, "word2");
   }
 
   @Test(expected = NullPointerException.class)
   public void testLevenshteinDistanceWithNullWord2() {
-    IBagOfTexts.levenshteinDistance("word1", null);
+    int distance = IBagOfTexts.levenshteinDistance("word1", null);
   }
 
   @Test
@@ -66,12 +66,12 @@ public class BagOfTextsTest {
 
   @Test(expected = NullPointerException.class)
   public void testNormalizedLevenshteinDistanceWithNullWord1() {
-    IBagOfTexts.levenshteinDistance(null, "word2");
+    int distance = IBagOfTexts.levenshteinDistance(null, "word2");
   }
 
   @Test(expected = NullPointerException.class)
   public void testNormalizedLevenshteinDistanceWithNullWord2() {
-    IBagOfTexts.levenshteinDistance("word1", null);
+    int distance = IBagOfTexts.levenshteinDistance("word1", null);
   }
 
   @Test

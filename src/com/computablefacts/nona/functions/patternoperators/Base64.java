@@ -7,7 +7,9 @@ import java.util.List;
 import com.computablefacts.nona.types.BoxedType;
 import com.computablefacts.nona.types.SpanSequence;
 import com.google.common.base.Preconditions;
+import com.google.errorprone.annotations.CheckReturnValue;
 
+@CheckReturnValue
 public class Base64 extends MatchPattern {
 
   public Base64() {

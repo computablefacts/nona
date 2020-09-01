@@ -1,12 +1,14 @@
 package com.computablefacts.nona.functions.patternoperators;
 
 import com.google.common.base.Strings;
+import com.google.errorprone.annotations.CheckReturnValue;
 
 /**
  * Patterns that should be applied on a compacted text. See {@link #compact(String)} for details.
  *
  * The first group must always be the full matched pattern.
  */
+@CheckReturnValue
 final public class PatternsCompact {
 
   private PatternsCompact() {}

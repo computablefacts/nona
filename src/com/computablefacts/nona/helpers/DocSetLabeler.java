@@ -14,11 +14,13 @@ import javax.validation.constraints.NotNull;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Sets;
+import com.google.errorprone.annotations.CheckReturnValue;
 
 /**
  * Implements the DocSetLabeler algorithm from "Topic Similarity Networks: Visual Analytics for
  * Large Document Sets" by Arun S. Maiya and Robert M. Rolfe.
  */
+@CheckReturnValue
 public abstract class DocSetLabeler {
 
   protected DocSetLabeler() {}

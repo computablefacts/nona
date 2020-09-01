@@ -8,7 +8,9 @@ import com.google.common.base.Preconditions;
 import com.google.common.collect.HashMultiset;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Multiset;
+import com.google.errorprone.annotations.CheckReturnValue;
 
+@CheckReturnValue
 public interface IBagOfWords {
 
   static IBagOfWords wrap(Multiset<String> bag) {

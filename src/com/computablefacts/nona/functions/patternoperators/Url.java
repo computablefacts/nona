@@ -5,6 +5,9 @@ import static com.computablefacts.nona.functions.patternoperators.PatternsForwar
 import java.util.HashMap;
 import java.util.Map;
 
+import com.google.errorprone.annotations.CheckReturnValue;
+
+@CheckReturnValue
 public class Url extends MatchPattern {
 
   private static final Map<Integer, String> GROUPS = new HashMap<>();

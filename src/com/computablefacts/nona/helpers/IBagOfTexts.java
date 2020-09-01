@@ -12,8 +12,10 @@ import com.google.common.base.Preconditions;
 import com.google.common.collect.HashMultiset;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Multiset;
+import com.google.errorprone.annotations.CheckReturnValue;
 import com.google.errorprone.annotations.Var;
 
+@CheckReturnValue
 public interface IBagOfTexts extends IBagOfWords, IBagOfBigrams {
 
   double K1 = 1.2; // in [1.2, 2.0]
