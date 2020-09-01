@@ -16,7 +16,6 @@ import java.util.Set;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.tartarus.snowball.SnowballStemmer;
-import org.tartarus.snowball.ext.*;
 
 import com.google.common.base.Preconditions;
 import com.google.common.base.Strings;
@@ -196,55 +195,55 @@ final public class Languages {
 
     switch (language) {
       case ARABIC:
-        return new arabicStemmer();
+        return new org.tartarus.snowball.ext.arabicStemmer();
       case BASQUE:
-        return new basqueStemmer();
+        return new org.tartarus.snowball.ext.basqueStemmer();
       case CATALAN:
-        return new catalanStemmer();
+        return new org.tartarus.snowball.ext.catalanStemmer();
       case DANISH:
-        return new danishStemmer();
+        return new org.tartarus.snowball.ext.danishStemmer();
       case DUTCH:
-        return new dutchStemmer();
+        return new org.tartarus.snowball.ext.dutchStemmer();
       case ENGLISH:
-        return new englishStemmer();
+        return new org.tartarus.snowball.ext.englishStemmer();
       case FINNISH:
-        return new finnishStemmer();
+        return new org.tartarus.snowball.ext.finnishStemmer();
       case FRENCH:
-        return new frenchStemmer();
+        return new org.tartarus.snowball.ext.frenchStemmer();
       case GERMAN:
-        return new germanStemmer();
+        return new org.tartarus.snowball.ext.germanStemmer();
       case GREEK:
-        return new greekStemmer();
+        return new org.tartarus.snowball.ext.greekStemmer();
       case HINDI:
-        return new hindiStemmer();
+        return new org.tartarus.snowball.ext.hindiStemmer();
       case HUNGARIAN:
-        return new hungarianStemmer();
+        return new org.tartarus.snowball.ext.hungarianStemmer();
       case INDONESIAN:
-        return new indonesianStemmer();
+        return new org.tartarus.snowball.ext.indonesianStemmer();
       case IRISH:
-        return new irishStemmer();
+        return new org.tartarus.snowball.ext.irishStemmer();
       case ITALIAN:
-        return new italianStemmer();
+        return new org.tartarus.snowball.ext.italianStemmer();
       case LITHUANIAN:
-        return new lithuanianStemmer();
+        return new org.tartarus.snowball.ext.lithuanianStemmer();
       case NEPALI:
-        return new nepaliStemmer();
+        return new org.tartarus.snowball.ext.nepaliStemmer();
       case NORWEGIAN:
-        return new norwegianStemmer();
+        return new org.tartarus.snowball.ext.norwegianStemmer();
       case PORTUGUESE:
-        return new portugueseStemmer();
+        return new org.tartarus.snowball.ext.portugueseStemmer();
       case ROMANIAN:
-        return new romanianStemmer();
+        return new org.tartarus.snowball.ext.romanianStemmer();
       case RUSSIAN:
-        return new russianStemmer();
+        return new org.tartarus.snowball.ext.russianStemmer();
       case SPANISH:
-        return new spanishStemmer();
+        return new org.tartarus.snowball.ext.spanishStemmer();
       case SWEDISH:
-        return new swedishStemmer();
+        return new org.tartarus.snowball.ext.swedishStemmer();
       case TAMIL:
-        return new tamilStemmer();
+        return new org.tartarus.snowball.ext.tamilStemmer();
       case TURKISH:
-        return new turkishStemmer();
+        return new org.tartarus.snowball.ext.turkishStemmer();
       default:
         return null;
     }
