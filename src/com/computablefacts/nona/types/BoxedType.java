@@ -7,6 +7,7 @@ import java.util.concurrent.TimeUnit;
 
 import javax.validation.constraints.NotNull;
 
+import com.computablefacts.nona.Generated;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
@@ -131,6 +132,7 @@ final public class BoxedType<T extends Comparable> implements Comparable<BoxedTy
         : value_ == null ? -1 : object.value_ == null ? 1 : value_.compareTo(object.value_);
   }
 
+  @Generated
   @Override
   public String toString() {
     return asString();

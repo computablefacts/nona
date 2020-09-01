@@ -2,6 +2,7 @@ package com.computablefacts.nona.helpers;
 
 import java.util.Collection;
 
+import com.computablefacts.nona.Generated;
 import com.google.common.base.Preconditions;
 import com.google.errorprone.annotations.CheckReturnValue;
 import com.google.errorprone.annotations.Var;
@@ -111,6 +112,7 @@ final public class ConfusionMatrix {
     return builder.toString();
   }
 
+  @Generated
   @Override
   public String toString() {
 

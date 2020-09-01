@@ -7,6 +7,7 @@ import java.util.Set;
 
 import javax.validation.constraints.NotNull;
 
+import com.computablefacts.nona.Generated;
 import com.google.common.annotations.Beta;
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Objects;
@@ -79,6 +80,7 @@ final public class Span implements Comparable<Span> {
     return Objects.hashCode(text_, begin_, end_, features_, tags_);
   }
 
+  @Generated
   @Override
   public String toString() {
     return MoreObjects.toStringHelper(this).add("text", text_).add("begin", begin_).add("end", end_)

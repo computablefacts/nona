@@ -8,6 +8,7 @@ import java.util.stream.Stream;
 
 import javax.validation.constraints.NotNull;
 
+import com.computablefacts.nona.Generated;
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Objects;
 import com.google.common.base.Preconditions;
@@ -43,6 +44,7 @@ final public class SpanSequence implements Iterable<Span>, Comparable<SpanSequen
     return Objects.hashCode(sequence_);
   }
 
+  @Generated
   @Override
   public String toString() {
     return MoreObjects.toStringHelper(this).add("sequence", sequence_).omitNullValues().toString();

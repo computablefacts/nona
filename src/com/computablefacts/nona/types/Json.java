@@ -7,6 +7,7 @@ import java.util.Map;
 
 import javax.validation.constraints.NotNull;
 
+import com.computablefacts.nona.Generated;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectReader;
 import com.fasterxml.jackson.databind.type.TypeFactory;
@@ -101,6 +102,7 @@ final public class Json implements Comparable<Json> {
     return Arrays.hashCode(jsons_);
   }
 
+  @Generated
   @Override
   public String toString() {
     return MoreObjects.toStringHelper(this).add("json", jsons_).omitNullValues().toString();

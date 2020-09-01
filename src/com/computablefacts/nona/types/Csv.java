@@ -8,6 +8,7 @@ import java.util.Objects;
 
 import javax.validation.constraints.NotNull;
 
+import com.computablefacts.nona.Generated;
 import com.fasterxml.jackson.databind.MappingIterator;
 import com.fasterxml.jackson.dataformat.csv.CsvMapper;
 import com.fasterxml.jackson.dataformat.csv.CsvSchema;
@@ -79,6 +80,7 @@ final public class Csv implements Comparable<Csv> {
     return Objects.hashCode(rows_);
   }
 
+  @Generated
   @Override
   public String toString() {
     return MoreObjects.toStringHelper(this).add("rows", rows_).omitNullValues().toString();
