@@ -5,6 +5,7 @@ import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.computablefacts.nona.Generated;
 import com.computablefacts.nona.dictionaries.deserializers.WhiteSpaceRemovalDeserializer;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.MappingIterator;
@@ -78,6 +79,7 @@ final public class Country {
     return Objects.hashCode(name_, alpha2_, alpha3_, numeric_);
   }
 
+  @Generated
   @Override
   public String toString() {
     return MoreObjects.toStringHelper(this).add("name", name_).add("alpha2", alpha2_)

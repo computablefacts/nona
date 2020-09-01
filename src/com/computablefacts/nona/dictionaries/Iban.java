@@ -5,6 +5,7 @@ import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.computablefacts.nona.Generated;
 import com.computablefacts.nona.dictionaries.deserializers.BooleanDeserializer;
 import com.computablefacts.nona.dictionaries.deserializers.WhiteSpaceRemovalDeserializer;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -89,6 +90,7 @@ final public class Iban {
     return Objects.hashCode(countryName_, countryCode_, isSepaMember_, ibanLength_, ibanExample_);
   }
 
+  @Generated
   @Override
   public String toString() {
     return MoreObjects.toStringHelper(this).add("countryName", countryName_)
