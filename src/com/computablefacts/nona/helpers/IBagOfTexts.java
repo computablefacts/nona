@@ -54,7 +54,7 @@ public interface IBagOfTexts extends IBagOfWords, IBagOfBigrams {
     long hash = 0;
 
     for (int i = 0; i < word.length(); i++) {
-      hash += Math.pow(word.codePointAt(i), 5);
+      hash = (long) (hash + Math.pow(word.codePointAt(i), 5));
     }
     return Long.toString(hash, 10);
   }
