@@ -29,11 +29,13 @@ import com.fasterxml.jackson.dataformat.csv.CsvSchema;
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Objects;
 import com.google.common.base.Strings;
+import com.google.errorprone.annotations.CheckReturnValue;
 import com.google.errorprone.annotations.Var;
 
 /**
  * LEI - Legal Entity Identifier
  */
+@CheckReturnValue
 final public class Lei {
 
   @JsonProperty("lei")
@@ -209,8 +211,8 @@ final public class Lei {
       return false;
     }
     Lei other = (Lei) obj;
-    return lei_.equals(other.lei_) && legalName_.equals(other.legalName_)
-        && countryCode_.equals(other.countryCode_) && bic_.equals(other.bic_);
+    return Objects.equal(lei_, other.lei_) && Objects.equal(legalName_, other.legalName_)
+        && Objects.equal(countryCode_, other.countryCode_) && Objects.equal(bic_, other.bic_);
   }
 
   @Override

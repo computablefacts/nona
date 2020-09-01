@@ -9,10 +9,12 @@ import java.util.Set;
 import com.fasterxml.jackson.databind.MappingIterator;
 import com.fasterxml.jackson.dataformat.csv.CsvMapper;
 import com.fasterxml.jackson.dataformat.csv.CsvSchema;
+import com.google.errorprone.annotations.CheckReturnValue;
 
 /**
  * TLD - Top-Level Domain
  */
+@CheckReturnValue
 final public class Tld {
 
   private Tld() {}

@@ -14,10 +14,12 @@ import com.fasterxml.jackson.dataformat.csv.CsvMapper;
 import com.fasterxml.jackson.dataformat.csv.CsvSchema;
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Objects;
+import com.google.errorprone.annotations.CheckReturnValue;
 
 /**
  * IBAN - International Bank Account Number
  */
+@CheckReturnValue
 final public class Iban {
 
   @JsonProperty("country_name")
@@ -75,9 +77,11 @@ final public class Iban {
       return false;
     }
     Iban other = (Iban) obj;
-    return countryName_.equals(other.countryName_) && countryCode_.equals(other.countryCode_)
-        && isSepaMember_ == other.isSepaMember_ && ibanLength_ == other.ibanLength_
-        && ibanExample_.equals(other.ibanExample_);
+    return Objects.equal(countryName_, other.countryName_)
+        && Objects.equal(countryCode_, other.countryCode_)
+        && Objects.equal(isSepaMember_, other.isSepaMember_)
+        && Objects.equal(ibanLength_, other.ibanLength_)
+        && Objects.equal(ibanExample_, other.ibanExample_);
   }
 
   @Override

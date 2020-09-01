@@ -10,7 +10,7 @@ import com.computablefacts.nona.Function;
 import com.computablefacts.nona.types.Span;
 import com.computablefacts.nona.types.SpanSequence;
 
-public class BicTest {
+public class BicFrTest {
 
   @Test
   public void testAleInternational() {
