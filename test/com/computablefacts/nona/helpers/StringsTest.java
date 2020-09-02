@@ -82,12 +82,22 @@ public class StringsTest {
         Strings.normalizedLevenshteinDistance("rosettacode", "raisethysword"), 0.00000001);
   }
 
+  @Test(expected = NullPointerException.class)
+  public void testNullByteArrayToHexadecimalString() {
+    String string = Strings.hex(null);
+  }
+
   @Test
   public void testByteArrayToHexadecimalString() {
 
     byte[] bytes = "test".getBytes(StandardCharsets.UTF_8);
 
     assertEquals("74657374", Strings.hex(bytes));
+  }
+
+  @Test(expected = NullPointerException.class)
+  public void testNullStringToByteArray() {
+    byte[] bytes = Strings.unhex(null);
   }
 
   @Test
