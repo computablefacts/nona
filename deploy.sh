@@ -11,7 +11,6 @@ set -e
 
 echo "Checking environment variables..."
 
-# Check the variables are set
 if [ -z "$OSSRH_USERNAME" ]; then
   echo "Missing environment value: OSSRH_USERNAME" >&2
   exit 1
