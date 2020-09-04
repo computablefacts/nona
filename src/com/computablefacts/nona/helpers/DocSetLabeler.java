@@ -15,6 +15,7 @@ import javax.validation.constraints.NotNull;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Sets;
 import com.google.errorprone.annotations.CheckReturnValue;
+import com.google.errorprone.annotations.Var;
 
 /**
  * Implements the DocSetLabeler algorithm from "Topic Similarity Networks: Visual Analytics for
@@ -70,6 +71,25 @@ public abstract class DocSetLabeler {
    */
   public List<Map.Entry<String, Double>> label(Set<String> corpus, Set<String> subsetOk,
       Set<String> subsetKo, int nbCandidatesToConsider, int nbLabelsToReturn) {
+    return label(corpus, subsetOk, subsetKo, nbCandidatesToConsider, nbLabelsToReturn, false);
+  }
+
+  /**
+   * Extract labels from texts.
+   *
+   * @param corpus a corpus of texts.
+   * @param subsetOk a subset of the corpus having caller-defined characteristics that should be
+   *        matched.
+   * @param subsetKo a subset of the corpus having caller-defined characteristics that should not be
+   *        matched.
+   * @param nbCandidatesToConsider the number of candidate terms to consider in each document.
+   * @param nbLabelsToReturn the number of labels to return.
+   * @param hasProgressBar true iif a progress bar must be displayed, false otherwise.
+   * @return labels and scores.
+   */
+  public List<Map.Entry<String, Double>> label(Set<String> corpus, Set<String> subsetOk,
+      Set<String> subsetKo, int nbCandidatesToConsider, int nbLabelsToReturn,
+      boolean hasProgressBar) {
 
     Preconditions.checkNotNull(corpus, "corpus should not be null");
     Preconditions.checkNotNull(subsetOk, "subsetOk should not be null");
@@ -93,7 +113,18 @@ public abstract class DocSetLabeler {
     Map<String, Set<String>> pos = new HashMap<>();
     Map<String, Set<String>> neg = new HashMap<>();
 
+    @Var
+    int nbTextsProcessed = 0;
+    int nbTexts = corpus.size();
+    AsciiProgressBar.ProgressBar bar = hasProgressBar ? AsciiProgressBar.create() : null;
+
     for (String text : corpus) {
+
+      nbTextsProcessed++;
+
+      if (bar != null && nbTextsProcessed % 10 == 0) {
+        bar.update(nbTextsProcessed, nbTexts);
+      }
 
       List<Map.Entry<String, Double>> weights = new ArrayList<>();
       Set<String> candidates = candidates(corpus, subsetOk, subsetKo, text);
@@ -121,6 +152,10 @@ public abstract class DocSetLabeler {
       } else {
         neg.put(text, selection);
       }
+    }
+
+    if (bar != null) {
+      bar.update(nbTextsProcessed, nbTexts);
     }
 
     uinit();
