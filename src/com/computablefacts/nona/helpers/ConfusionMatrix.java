@@ -153,6 +153,22 @@ final public class ConfusionMatrix {
     }
   }
 
+  public int nbTruePositives() {
+    return (int) tp_;
+  }
+
+  public int nbTrueNegatives() {
+    return (int) tn_;
+  }
+
+  public int nbFalsePositives() {
+    return (int) fp_;
+  }
+
+  public int nbFalseNegatives() {
+    return (int) fn_;
+  }
+
   public void addTruePositives(int count) {
     tp_ += count;
   }
