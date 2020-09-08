@@ -17,7 +17,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.tartarus.snowball.SnowballStemmer;
 
+import com.google.common.base.CharMatcher;
 import com.google.common.base.Preconditions;
+import com.google.common.base.Splitter;
 import com.google.common.base.Strings;
 import com.google.common.base.Throwables;
 import com.google.errorprone.annotations.CheckReturnValue;
@@ -351,8 +353,30 @@ final public class Languages {
 
           String stopword = line.trim();
 
-          if (!stopword.startsWith("#")) {
-            stopwords.add(stopword);
+          if (!stopword.startsWith("#") && !stopword.startsWith("|")) {
+
+            int indexSharp = stopword.indexOf("#");
+            int indexPipe = stopword.indexOf("|");
+
+            int index;
+
+            if (indexSharp >= 0 && indexPipe >= 0) {
+              index = Math.min(indexSharp, indexPipe);
+            } else if (indexSharp >= 0) {
+              index = indexSharp;
+            } else if (indexPipe >= 0) {
+              index = indexPipe;
+            } else {
+              index = -1;
+            }
+
+            if (index < 0) {
+              stopwords.addAll(Splitter.on(CharMatcher.whitespace()).trimResults()
+                  .omitEmptyStrings().splitToList(stopword));
+            } else {
+              stopwords.addAll(Splitter.on(CharMatcher.whitespace()).trimResults()
+                  .omitEmptyStrings().splitToList(stopword.substring(0, index).trim()));
+            }
           }
         }
       } catch (IOException | NullPointerException e) {

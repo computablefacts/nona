@@ -2,6 +2,7 @@ package com.computablefacts.nona.helpers;
 
 import java.io.IOException;
 import java.util.AbstractMap;
+import java.util.Set;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -236,6 +237,35 @@ public class LanguagesTest {
     // Languages.tag(Languages.eLanguage.TAMIL, "அமைதியாக இருங்கள்"));
     // Assert.assertEquals(Lists.newArrayList(),
     // Languages.tag(Languages.eLanguage.TURKISH, "Bu tür iş beni yıpratıyor."));
+  }
+
+  @Test
+  public void testRemoveCommentsFromStopwordsLists() {
+
+    Set<String> stopwordsFr = Languages.stopwords(Languages.eLanguage.FRENCH);
+
+    Assert.assertFalse(stopwordsFr.contains("dans           |  with"));
+    Assert.assertTrue(stopwordsFr.contains("dans"));
+    Assert.assertFalse(stopwordsFr.contains("with"));
+
+    Set<String> stopwordsFi = Languages.stopwords(Languages.eLanguage.FINNISH);
+
+    Assert.assertFalse(stopwordsFi.contains(
+        "joka   jonka         jota   jossa   josta   johon  jolla   jolta   jolle   jona   joksi  | who which"));
+    Assert.assertTrue(stopwordsFi.contains("joka"));
+    Assert.assertTrue(stopwordsFi.contains("jonka"));
+    Assert.assertTrue(stopwordsFi.contains("jota"));
+    Assert.assertTrue(stopwordsFi.contains("jossa"));
+    Assert.assertTrue(stopwordsFi.contains("josta"));
+    Assert.assertTrue(stopwordsFi.contains("johon"));
+    Assert.assertTrue(stopwordsFi.contains("jolla"));
+    Assert.assertTrue(stopwordsFi.contains("jolta"));
+    Assert.assertTrue(stopwordsFi.contains("jolle"));
+    Assert.assertTrue(stopwordsFi.contains("jona"));
+    Assert.assertTrue(stopwordsFi.contains("joksi"));
+    Assert.assertFalse(stopwordsFi.contains("who which"));
+    Assert.assertFalse(stopwordsFi.contains("who"));
+    Assert.assertFalse(stopwordsFi.contains("which"));
   }
 }
 
