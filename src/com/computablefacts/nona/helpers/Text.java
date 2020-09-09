@@ -31,6 +31,9 @@ final public class Text implements IBagOfWords, IBagOfBigrams {
       NetworkBuilder.directed().allowsParallelEdges(true).allowsSelfLoops(true)
           .expectedNodeCount(1000).expectedEdgeCount(1000).build();
 
+  private Multiset<String> unigrams_ = null;
+  private Multiset<Map.Entry<String, String>> bigrams_ = null;
+
   public Text(String text, Function<String, List<String>> sentenceSplitter,
       Function<String, List<String>> wordSplitter) {
     this(text, sentenceSplitter, wordSplitter, null);
@@ -113,23 +116,25 @@ final public class Text implements IBagOfWords, IBagOfBigrams {
 
   @Override
   public Multiset<String> bagOfWords() {
-
-    Multiset<String> bag = HashMultiset.create();
-    graph_.nodes().forEach(word -> bag.add(word,
-        Math.max(1, Math.max(graph_.inDegree(word), graph_.outDegree(word)))));
-    return bag;
+    if (unigrams_ == null) {
+      unigrams_ = HashMultiset.create();
+      graph_.nodes().forEach(word -> unigrams_.add(word,
+          Math.max(1, Math.max(graph_.inDegree(word), graph_.outDegree(word)))));
+    }
+    return HashMultiset.create(unigrams_);
   }
 
   @Override
   public Multiset<Map.Entry<String, String>> bagOfBigrams() {
-
-    Multiset<Map.Entry<String, String>> bag = HashMultiset.create();
-    graph_.nodes().stream()
-        .flatMap(word -> graph_.successors(word).stream()
-            .map(nextWord -> new AbstractMap.SimpleEntry<>(word, nextWord)))
-        .forEach(bigram -> bag.add(bigram,
-            graph_.edgesConnecting(bigram.getKey(), bigram.getValue()).size()));
-    return bag;
+    if (bigrams_ == null) {
+      bigrams_ = HashMultiset.create();
+      graph_.nodes().stream()
+          .flatMap(word -> graph_.successors(word).stream()
+              .map(nextWord -> new AbstractMap.SimpleEntry<>(word, nextWord)))
+          .forEach(bigram -> bigrams_.add(bigram,
+              graph_.edgesConnecting(bigram.getKey(), bigram.getValue()).size()));
+    }
+    return HashMultiset.create(bigrams_);
   }
 
   /**
