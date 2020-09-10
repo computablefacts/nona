@@ -6,11 +6,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 
 import com.google.common.base.Objects;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.HashMultiset;
 import com.google.common.collect.Multiset;
+import com.google.common.graph.EndpointPair;
 import com.google.common.graph.MutableNetwork;
 import com.google.common.graph.NetworkBuilder;
 import com.google.common.hash.HashFunction;
@@ -171,5 +173,218 @@ final public class Text implements IBagOfWords, IBagOfBigrams {
    */
   public Function<String, List<String>> wordSplitter() {
     return wordSplitter_;
+  }
+
+  /**
+   * Get bigrams starting with word1 and/or ending with word2.
+   *
+   * @param word1 first word.
+   * @param word2 second word.
+   * @param separator separator added between words.
+   * @return a set of bigrams.
+   */
+  public Multiset<String> bigrams(String word1, String word2, char separator) {
+
+    Multiset<String> multiset = HashMultiset.create();
+    Set<String> nodes = graph_.nodes();
+
+    if (word1 == null && word2 == null) {
+      nodes.forEach(node -> multiset.addAll(bigrams(node, null, separator)));
+    } else if (word1 != null && word2 != null && nodes.contains(word1) && nodes.contains(word2)) {
+      if (graph_.hasEdgeConnecting(word1, word2)) {
+        multiset.add(word1 + separator + word2, graph_.edgesConnecting(word1, word2).size());
+      }
+    } else if (word1 != null && nodes.contains(word1)) {
+      graph_.successors(word1).forEach(successor -> multiset.add(word1 + separator + successor,
+          graph_.edgesConnecting(word1, successor).size()));
+    } else if (word2 != null && nodes.contains(word2)) {
+      graph_.predecessors(word2).forEach(predecessor -> multiset
+          .add(predecessor + separator + word2, graph_.edgesConnecting(predecessor, word2).size()));
+    }
+    return multiset;
+  }
+
+  /**
+   * Get trigrams starting with word1 and ending with word3.
+   *
+   * @param word1 first word.
+   * @param word2 second word.
+   * @param word3 third word.
+   * @param separator separator added between words.
+   * @return a set of trigrams.
+   */
+  public Multiset<String> trigrams(String word1, String word2, String word3, char separator) {
+
+    Multiset<String> multiset = HashMultiset.create();
+    Set<String> nodes = graph_.nodes();
+
+    if (word1 == null && word2 == null && word3 == null) {
+
+      nodes.forEach(node -> multiset.addAll(trigrams(node, null, null, separator)));
+
+    } else if (word1 != null && word2 != null && word3 != null && nodes.contains(word1)
+        && nodes.contains(word2) && nodes.contains(word3)) {
+
+      Set<String> edges12 = graph_.edgesConnecting(word1, word2);
+
+      graph_.edgesConnecting(word2, word3).stream().map(edge23 -> {
+        String edge12 = previousEdge(edge23);
+        return edge12 == null || !edges12.contains(edge12) ? null
+            : new AbstractMap.SimpleEntry<>(edge12, edge23);
+      }).filter(edges -> edges != null).forEach(edges -> {
+
+        EndpointPair<String> nodes12 = graph_.incidentNodes(edges.getKey());
+        EndpointPair<String> nodes23 = graph_.incidentNodes(edges.getValue());
+
+        Preconditions.checkState(nodes12.nodeV().equals(nodes23.nodeU()));
+
+        multiset.add(nodes12.nodeU() + separator + nodes12.nodeV() + separator + nodes23.nodeV());
+      });
+
+    } else if (word1 != null && word2 != null && nodes.contains(word1) && nodes.contains(word2)) {
+
+      graph_.edgesConnecting(word1, word2).stream().map(edge12 -> {
+
+        EndpointPair<String> nodes12 = graph_.incidentNodes(edge12);
+        EndpointPair<String> nodes23 =
+            nextEdge(edge12) == null ? null : graph_.incidentNodes(nextEdge(edge12));
+
+        return nodes23 == null ? null
+            : nodes12.nodeU() + separator + nodes12.nodeV() + separator + nodes23.nodeV();
+      }).filter(trigram -> trigram != null).forEach(trigram -> multiset.add(trigram));
+
+    } else if (word2 != null && word3 != null && nodes.contains(word2) && nodes.contains(word3)) {
+
+      graph_.edgesConnecting(word2, word3).stream().map(edge23 -> {
+
+        EndpointPair<String> nodes12 =
+            previousEdge(edge23) == null ? null : graph_.incidentNodes(previousEdge(edge23));
+        EndpointPair<String> nodes23 = graph_.incidentNodes(edge23);
+
+        return nodes12 == null ? null
+            : nodes12.nodeU() + separator + nodes23.nodeU() + separator + nodes23.nodeV();
+      }).filter(trigram -> trigram != null).forEach(trigram -> multiset.add(trigram));
+
+    } else if (word1 != null && word3 != null && nodes.contains(word1) && nodes.contains(word3)) {
+
+      Set<String> edges12 = graph_.successors(word1).stream()
+          .flatMap(successor -> graph_.edgesConnecting(word1, successor).stream())
+          .collect(Collectors.toSet());
+
+      graph_.predecessors(word3).stream()
+          .flatMap(node2 -> graph_.edgesConnecting(node2, word3).stream()).map(edge23 -> {
+            String edge12 = previousEdge(edge23);
+            return edge12 == null || !edges12.contains(edge12) ? null
+                : new AbstractMap.SimpleEntry<>(edge12, edge23);
+          }).filter(edges -> edges != null).forEach(edges -> {
+
+            EndpointPair<String> nodes12 = graph_.incidentNodes(edges.getKey());
+            EndpointPair<String> nodes23 = graph_.incidentNodes(edges.getValue());
+
+            Preconditions.checkState(nodes12.nodeV().equals(nodes23.nodeU()));
+
+            multiset
+                .add(nodes12.nodeU() + separator + nodes12.nodeV() + separator + nodes23.nodeV());
+          });
+
+    } else if (word1 != null && nodes.contains(word1)) {
+
+      graph_.successors(word1).stream()
+          .flatMap(node2 -> graph_.edgesConnecting(word1, node2).stream())
+          .map(edge12 -> new AbstractMap.SimpleEntry<>(edge12, nextEdge(edge12)))
+          .filter(edges -> edges.getValue() != null).forEach(edges -> {
+
+            EndpointPair<String> nodes12 = graph_.incidentNodes(edges.getKey());
+            EndpointPair<String> nodes23 = graph_.incidentNodes(edges.getValue());
+
+            Preconditions.checkState(nodes12.nodeV().equals(nodes23.nodeU()));
+
+            multiset
+                .add(nodes12.nodeU() + separator + nodes12.nodeV() + separator + nodes23.nodeV());
+          });
+
+    } else if (word2 != null && nodes.contains(word2)) {
+
+      graph_.predecessors(word2).stream()
+          .flatMap(node1 -> graph_.edgesConnecting(node1, word2).stream())
+          .map(edge12 -> new AbstractMap.SimpleEntry<>(edge12, nextEdge(edge12)))
+          .filter(edges -> edges.getValue() != null).forEach(edges -> {
+
+            EndpointPair<String> nodes12 = graph_.incidentNodes(edges.getKey());
+            EndpointPair<String> nodes23 = graph_.incidentNodes(edges.getValue());
+
+            Preconditions.checkState(nodes12.nodeV().equals(nodes23.nodeU()));
+
+            multiset
+                .add(nodes12.nodeU() + separator + nodes12.nodeV() + separator + nodes23.nodeV());
+          });
+
+    } else if (word3 != null && nodes.contains(word3)) {
+
+      graph_.predecessors(word3).stream()
+          .flatMap(node2 -> graph_.edgesConnecting(node2, word3).stream())
+          .map(edge23 -> new AbstractMap.SimpleEntry<>(previousEdge(edge23), edge23))
+          .filter(edges -> edges.getKey() != null).forEach(edges -> {
+
+            EndpointPair<String> nodes12 = graph_.incidentNodes(edges.getKey());
+            EndpointPair<String> nodes23 = graph_.incidentNodes(edges.getValue());
+
+            Preconditions.checkState(nodes12.nodeV().equals(nodes23.nodeU()));
+
+            multiset
+                .add(nodes12.nodeU() + separator + nodes12.nodeV() + separator + nodes23.nodeV());
+          });
+    }
+    return multiset;
+  }
+
+  private String previousEdge(String edge) {
+
+    Preconditions.checkNotNull(edge, "edge should not be null");
+
+    int sentenceId = sentenceId(edge);
+    int wordId = wordId(edge);
+
+    String prevEdge = sentenceId + "-" + (wordId - 1);
+
+    try {
+      EndpointPair<String> ep = graph_.incidentNodes(prevEdge);
+      return ep != null ? prevEdge : null;
+    } catch (IllegalArgumentException e) {
+      // TODO
+    }
+    return null;
+  }
+
+  private String nextEdge(String edge) {
+
+    Preconditions.checkNotNull(edge, "edge should not be null");
+
+    int sentenceId = sentenceId(edge);
+    int wordId = wordId(edge);
+
+    String nextEdge = sentenceId + "-" + (wordId + 1);
+
+    try {
+      EndpointPair<String> ep = graph_.incidentNodes(nextEdge);
+      return ep != null ? nextEdge : null;
+    } catch (IllegalArgumentException e) {
+      // TODO
+    }
+    return null;
+  }
+
+  private int sentenceId(String edge) {
+
+    Preconditions.checkNotNull(edge, "edge should not be null");
+
+    return Integer.parseInt(edge.substring(0, edge.indexOf('-')), 10);
+  }
+
+  private int wordId(String edge) {
+
+    Preconditions.checkNotNull(edge, "edge should not be null");
+
+    return Integer.parseInt(edge.substring(edge.indexOf('-') + 1), 10);
   }
 }
