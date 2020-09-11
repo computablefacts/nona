@@ -210,7 +210,7 @@ String mostProbableWordAfterHello = bob.mostProbableNextWord("Hello"); // "Kevin
 
 A [IBagOfTexts](src/com/computablefacts/nona/helpers/IBagOfTexts.java) is a collection
 of [Text](#text) objects. The [IBagOfTexts](src/com/computablefacts/nona/helpers/IBagOfTexts.java) 
-object extends the [IBagOfWords](#ibagofwords) and [IBagOfNGrams](ibagofngrams) 
+object extends the [IBagOfWords](#ibagofwords) and [IBagOfNGrams](#ibagofngrams) 
 interfaces. The [BagOfTexts](src/com/computablefacts/nona/helpers/BagOfTexts.java) 
 class is an implementation of the [IBagOfTexts](src/com/computablefacts/nona/helpers/IBagOfTexts.java)
 interface.
@@ -237,7 +237,7 @@ bot.add("Goodbye Bill. Goodbye Joe.");
 
 // Usage
 Multiset<String> bow = bot.bagOfWords(); // {"Hello":2, "Goodbye":2, "Kevin":1, "Joe":2, "Bill":1, ".":2, "!":2}
-Multiset<Map.Entry<String, String>> bob = bot.bagOfBigrams(); // {"Hello Kevin":1, "Hello Joe":1, "Kevin!":1, "Joe!":1, "Goodbye Bill":1, "Goodbye Joe":1, "Bill.":1, "Joe.":1}
+Multiset<List<String>> bob = bot.bagOfBigrams(); // {"Hello Kevin":1, "Hello Joe":1, "Kevin!":1, "Joe!":1, "Goodbye Bill":1, "Goodbye Joe":1, "Bill.":1, "Joe.":1}
 
 int nbDistinctTexts = bot.numberOfDistinctTexts(); // 2
 int avgTextLength = bot.averageTextLength(); // (6 + 6) / 2 = 6
