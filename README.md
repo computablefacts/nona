@@ -79,7 +79,7 @@ Nona contains a few helpers to perform text mining/NLP related tasks :
     - [SpanSequence](#spansequence)
     - [Text](#text)
     - [IBagOfWords](#ibagofwords)
-    - [IBagOfBigrams](#ibagofbigrams) 
+    - [IBagOfNGrams](#ibagofngrams) 
     - [IBagOfTexts](#ibagoftexts)  
     - [ConfusionMatrix](#confusionmatrix)      
 - Algorithms
@@ -132,7 +132,7 @@ Span span = sequence.span(1) // span456
 A [Text](src/com/computablefacts/nona/helpers/Text.java) object represents the 
 textual content of a document as a graph of sentences and words. The 
 [Text](src/com/computablefacts/nona/helpers/Text.java) object extends the 
-[IBagOfWords](#ibagofwords) and [IBagOfBigrams](ibagofbigrams) interfaces.
+[IBagOfWords](#ibagofwords) and [IBagOfNGrams](ibagofngrams) interfaces.
 
 ```java
 // Split text into sentences
@@ -155,7 +155,7 @@ Text text = new Text("Hello Kevin! Hello Joe!", sentenceSplitter, wordSplitter);
 // Usage
 String txt = text.text(); // "Hello Kevin! Hello Joe!"
 Multiset<String> bow = text.bagOfWords(); // {"Hello":2, "Joe":1, "Kevin":1, "!":2}
-Multiset<Map.Entry<String, String>> bob = text.bagOfBigrams(); // {"Hello Kevin":1, "Hello Joe":1, "Kevin!":1, "Joe!":1}
+Multiset<List<String>> bob = text.bagOfBigrams(); // {"Hello Kevin":1, "Hello Joe":1, "Kevin!":1, "Joe!":1}
 ```
 
 ### IBagOfWords
@@ -182,21 +182,21 @@ int frequency = bow.frequency("Hello"); // 2
 double normalizedFrequency = bow.normalizedFrequency("Hello"); // 2/6 = 0.333333
 ```
 
-### IBagOfBigrams
+### IBagOfNGrams
 
-A [IBagOfBigrams](src/com/computablefacts/nona/helpers/IBagOfBigrams.java) is a
-representation of text that describes the co-occurrences of two words within a 
-document.
+A [IBagOfNGrams](src/com/computablefacts/nona/helpers/IBagOfNGrams.java) is a
+representation of text that describes the co-occurrences of two ore more words 
+within a document.
 
 ```java
 // Create a bag-of-bigrams
-Multiset<Map.Entry<String, String>> bag = HashMultiset.create();
-bag.add(new AbstractMap.SimpleEntry<>("Hello", "Kevin"));
-bag.add(new AbstractMap.SimpleEntry<>("Kevin", "!"));
-bag.add(new AbstractMap.SimpleEntry<>("Hello", "Joe"));
-bag.add(new AbstractMap.SimpleEntry<>("Joe", "!"));
+Multiset<List<String>> bag = HashMultiset.create();
+bag.add(Lists.newArrayList("Hello", "Kevin"));
+bag.add(Lists.newArrayList("Kevin", "!"));
+bag.add(Lists.newArrayList("Hello", "Joe"));
+bag.add(Lists.newArrayList("Joe", "!"));
 
-IBagOfBigrams bob = IBagOfBigrams.wrap(bag);
+IBagOfNGrams bob = IBagOfNGrams.wrap(bag);
 
 // Here, bob = {"Hello Kevin":1, "Hello Joe":1, "Kevin!":1, "Joe!":1}
 
@@ -210,7 +210,7 @@ String mostProbableWordAfterHello = bob.mostProbableNextWord("Hello"); // "Kevin
 
 A [IBagOfTexts](src/com/computablefacts/nona/helpers/IBagOfTexts.java) is a collection
 of [Text](#text) objects. The [IBagOfTexts](src/com/computablefacts/nona/helpers/IBagOfTexts.java) 
-object extends the [IBagOfWords](#ibagofwords) and [IBagOfBigrams](ibagofbigrams) 
+object extends the [IBagOfWords](#ibagofwords) and [IBagOfNGrams](ibagofngrams) 
 interfaces. The [BagOfTexts](src/com/computablefacts/nona/helpers/BagOfTexts.java) 
 class is an implementation of the [IBagOfTexts](src/com/computablefacts/nona/helpers/IBagOfTexts.java)
 interface.
