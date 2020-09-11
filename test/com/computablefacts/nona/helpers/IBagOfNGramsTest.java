@@ -46,6 +46,28 @@ public class IBagOfNGramsTest {
   }
 
   @Test
+  public void testFreezeBagOfBigrams() {
+
+    IBagOfNGrams bag = bagOfNGrams();
+    IBagOfNGrams copy = IBagOfNGrams.wrap(bigrams());
+    IBagOfNGrams frozen = bag.freezeBagOfNGrams(2);
+
+    Assert.assertEquals(copy, frozen);
+    Assert.assertEquals(bag.bagOfBigrams(), frozen.bagOfBigrams());
+  }
+
+  @Test
+  public void testFreezeBagOfTrigrams() {
+
+    IBagOfNGrams bag = bagOfNGrams();
+    IBagOfNGrams copy = IBagOfNGrams.wrap(trigrams());
+    IBagOfNGrams frozen = bag.freezeBagOfNGrams(3);
+
+    Assert.assertEquals(copy, frozen);
+    Assert.assertEquals(bag.bagOfTrigrams(), frozen.bagOfTrigrams());
+  }
+
+  @Test
   public void testFreezeBagOfNGrams() {
 
     IBagOfNGrams bag = bagOfNGrams();
@@ -53,6 +75,41 @@ public class IBagOfNGramsTest {
     IBagOfNGrams frozen = bag.freezeBagOfNGrams();
 
     Assert.assertEquals(copy, frozen);
+
+    Assert.assertEquals(bag.bagOfBigrams(), frozen.bagOfBigrams());
+    Assert.assertEquals(bag.bagOfTrigrams(), frozen.bagOfTrigrams());
+    Assert.assertEquals(bag.bagOfNGrams(), frozen.bagOfNGrams());
+  }
+
+  @Test
+  public void testUniqueBigrams() {
+
+    IBagOfNGrams bag = bagOfNGrams();
+
+    Set<List<String>> ngrams = new HashSet<>();
+
+    ngrams.add(Lists.newArrayList("a", "b"));
+    ngrams.add(Lists.newArrayList("a", "d"));
+    ngrams.add(Lists.newArrayList("c", "d"));
+    ngrams.add(Lists.newArrayList("c", "e"));
+    ngrams.add(Lists.newArrayList("f", "g"));
+
+    Assert.assertEquals(ngrams, bag.uniqueNGrams(2));
+  }
+
+  @Test
+  public void testUniqueTrigrams() {
+
+    IBagOfNGrams bag = bagOfNGrams();
+
+    Set<List<String>> ngrams = new HashSet<>();
+
+    ngrams.add(Lists.newArrayList("a", "b", "c"));
+    ngrams.add(Lists.newArrayList("a", "b", "d"));
+    ngrams.add(Lists.newArrayList("c", "d", "e"));
+    ngrams.add(Lists.newArrayList("c", "d", "d"));
+
+    Assert.assertEquals(ngrams, bag.uniqueNGrams(3));
   }
 
   @Test
@@ -82,6 +139,22 @@ public class IBagOfNGramsTest {
     IBagOfNGrams bag = bagOfNGrams();
 
     Assert.assertEquals(13, bag.numberOfNGrams());
+  }
+
+  @Test
+  public void testNumberOfDistinctBigrams() {
+
+    IBagOfNGrams bag = bagOfNGrams();
+
+    Assert.assertEquals(5, bag.numberOfDistinctNGrams(2));
+  }
+
+  @Test
+  public void testNumberOfDistinctTrigrams() {
+
+    IBagOfNGrams bag = bagOfNGrams();
+
+    Assert.assertEquals(4, bag.numberOfDistinctNGrams(3));
   }
 
   @Test
@@ -275,7 +348,7 @@ public class IBagOfNGramsTest {
     return IBagOfNGrams.wrap(ngrams());
   }
 
-  private Multiset<List<String>> ngrams() {
+  private Multiset<List<String>> bigrams() {
 
     Multiset<List<String>> bag = HashMultiset.create();
 
@@ -285,10 +358,26 @@ public class IBagOfNGramsTest {
     bag.add(Lists.newArrayList("c", "e"), 3);
     bag.add(Lists.newArrayList("f", "g"));
 
+    return bag;
+  }
+
+  private Multiset<List<String>> trigrams() {
+
+    Multiset<List<String>> bag = HashMultiset.create();
+
     bag.add(Lists.newArrayList("a", "b", "c"));
     bag.add(Lists.newArrayList("a", "b", "d"));
     bag.add(Lists.newArrayList("c", "d", "e"), 3);
     bag.add(Lists.newArrayList("c", "d", "d"));
+
+    return bag;
+  }
+
+  private Multiset<List<String>> ngrams() {
+
+    Multiset<List<String>> bag = HashMultiset.create();
+    bag.addAll(bigrams());
+    bag.addAll(trigrams());
 
     return bag;
   }
