@@ -9,7 +9,7 @@ import org.junit.Test;
 import com.google.common.collect.HashMultiset;
 import com.google.common.collect.Multiset;
 
-public class BagOfWordsTest {
+public class IBagOfWordsTest {
 
   @Test
   public void testSimpleBagOfWordsEquals() {

@@ -20,7 +20,6 @@
  */
 package com.computablefacts.nona.helpers;
 
-import java.util.AbstractMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -31,6 +30,7 @@ import org.junit.Test;
 
 import com.google.common.base.CharMatcher;
 import com.google.common.base.Splitter;
+import com.google.common.collect.Lists;
 import com.google.common.collect.Multiset;
 import com.google.errorprone.annotations.Var;
 
@@ -61,11 +61,14 @@ public class TextTest {
     Assert.assertEquals(sentenceSplitter(), text.sentenceSplitter());
     Assert.assertEquals(wordSplitter(), text.wordSplitter());
     Assert.assertEquals("", text.mostProbableNextWord("hello"));
+    Assert.assertEquals("", text.mostProbableNextWord("hello", "world"));
 
     Assert.assertEquals(1, text.bagOfWords().size());
     Assert.assertEquals(1, text.bagOfWords().count("hello"));
 
     Assert.assertEquals(0, text.bagOfBigrams().size());
+    Assert.assertEquals(0, text.bagOfTrigrams().size());
+    Assert.assertEquals(0, text.bagOfNGrams().size());
   }
 
   @Test
@@ -79,14 +82,16 @@ public class TextTest {
     Assert.assertEquals(wordSplitter(), text.wordSplitter());
     Assert.assertEquals("world", text.mostProbableNextWord("hello"));
     Assert.assertEquals("", text.mostProbableNextWord("world"));
+    Assert.assertEquals("", text.mostProbableNextWord("hello", "world"));
 
     Assert.assertEquals(2, text.bagOfWords().size());
     Assert.assertEquals(1, text.bagOfWords().count("hello"));
     Assert.assertEquals(1, text.bagOfWords().count("world"));
 
     Assert.assertEquals(1, text.bagOfBigrams().size());
-    Assert.assertEquals(1,
-        text.bagOfBigrams().count(new AbstractMap.SimpleEntry<>("hello", "world")));
+    Assert.assertEquals(1, text.bagOfBigrams().count(Lists.newArrayList("hello", "world")));
+    Assert.assertEquals(0, text.bagOfTrigrams().size());
+    Assert.assertEquals(1, text.bagOfNGrams().size());
   }
 
   @Test
@@ -111,10 +116,27 @@ public class TextTest {
     Assert.assertEquals(2, text.bagOfWords().count("<UNK>"));
 
     Assert.assertEquals(2, text.bagOfBigrams().size());
-    Assert.assertEquals(1,
-        text.bagOfBigrams().count(new AbstractMap.SimpleEntry<>("<UNK>", "<UNK>")));
-    Assert.assertEquals(1,
-        text.bagOfBigrams().count(new AbstractMap.SimpleEntry<>("hello", "<UNK>")));
+    Assert.assertEquals(1, text.bagOfBigrams().count(Lists.newArrayList("<UNK>", "<UNK>")));
+    Assert.assertEquals(1, text.bagOfBigrams().count(Lists.newArrayList("hello", "<UNK>")));
+    Assert.assertEquals(0, text.bagOfTrigrams().size());
+    Assert.assertEquals(2, text.bagOfNGrams().size());
+  }
+
+  @Test
+  public void testUnigramsBigramsAndTrigramsCounts() {
+
+    Text text = new Text(
+        "Young drivers are at a greater risk of being injured or killed on our roads than any other demographic (VicRoads 2014). There are a number of safety issues for young drivers, including the issue of distraction. The World Health Organisation (2011, p. 8) defines driver distraction ‘ as when some kind of triggering event external to the driver results in the driver shifting attention away from the driving task’. The ringing of a telephone, responding to a text message or a telephone alert can all cause distractions while driving. Young drivers are more likely to be involved in an accident as a result of a distraction within the vehicle as they do not have the experience to know how to respond (World Health Organisation 2011). Opinions differ regarding the solution to the problem of mobile phone use while driving by young people. Young, Rudin-Brown and Lenne (2010) suggest increased penalties and driver education as two possible strategies. In the not too distant future technology may provide a solution to the problem.",
+        sentenceSplitter(), wordSplitter());
+
+    Assert.assertEquals(171, text.bagOfWords().size());
+    Assert.assertEquals(170, text.bagOfBigrams().size());
+    Assert.assertEquals(169, text.bagOfTrigrams().size());
+    Assert.assertEquals(170 + 169, text.bagOfNGrams().size());
+
+    Assert.assertEquals(7, text.frequency("of"));
+    Assert.assertEquals(3, text.frequency("young", "drivers"));
+    Assert.assertEquals(2, text.frequency("world", "health", "organisation"));
   }
 
   @Test

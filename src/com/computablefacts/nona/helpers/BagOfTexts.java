@@ -45,8 +45,8 @@ final public class BagOfTexts implements IBagOfTexts {
   }
 
   public static IBagOfTexts wrap(Multiset<Text> bagOfTexts, Multiset<String> bagOfWords,
-      Multiset<Map.Entry<String, String>> bagOfBigrams) {
-    return new BagOfTexts.SimpleBagOfTexts(bagOfTexts, bagOfWords, bagOfBigrams);
+      Multiset<List<String>> bagOfNGrams) {
+    return new BagOfTexts.SimpleBagOfTexts(bagOfTexts, bagOfWords, bagOfNGrams);
   }
 
   @Override
@@ -62,13 +62,13 @@ final public class BagOfTexts implements IBagOfTexts {
         && com.google.common.base.Objects.equal(sentenceSplitter_, other.sentenceSplitter_)
         && com.google.common.base.Objects.equal(wordSplitter_, other.wordSplitter_)
         && com.google.common.base.Objects.equal(bagOfWords(), other.bagOfWords())
-        && com.google.common.base.Objects.equal(bagOfBigrams(), other.bagOfBigrams());
+        && com.google.common.base.Objects.equal(bagOfNGrams(), other.bagOfNGrams());
   }
 
   @Override
   public int hashCode() {
     return com.google.common.base.Objects.hashCode(texts_, sentenceSplitter_, wordSplitter_,
-        bagOfWords(), bagOfBigrams());
+        bagOfWords(), bagOfNGrams());
   }
 
   @Override
@@ -80,13 +80,13 @@ final public class BagOfTexts implements IBagOfTexts {
   public IBagOfTexts freezeBagOfTexts() {
 
     Multiset<String> bagOfWords = HashMultiset.create();
-    Multiset<Map.Entry<String, String>> bagOfBigrams = HashMultiset.create();
+    Multiset<List<String>> bagOfNGrams = HashMultiset.create();
 
     bagOfTexts().elementSet().forEach(bag -> {
       bagOfWords.addAll(bag.bagOfWords());
-      bagOfBigrams.addAll(bag.bagOfBigrams());
+      bagOfNGrams.addAll(bag.bagOfNGrams());
     });
-    return wrap(bagOfTexts(), bagOfWords, bagOfBigrams);
+    return wrap(bagOfTexts(), bagOfWords, bagOfNGrams);
   }
 
   /**
@@ -105,15 +105,15 @@ final public class BagOfTexts implements IBagOfTexts {
 
     private final Multiset<Text> bagOfTexts_;
     private final Multiset<String> bagOfWords_;
-    private final Multiset<Map.Entry<String, String>> bagOfBigrams_;
+    private final Multiset<List<String>> bagOfNGrams_;
 
     private Map<String, Set<Text>> index_;
 
     public SimpleBagOfTexts(Multiset<Text> bagOfTexts, Multiset<String> bagOfWords,
-        Multiset<Map.Entry<String, String>> bagOfBigrams) {
+        Multiset<List<String>> bagOfNGrams) {
       bagOfTexts_ = Preconditions.checkNotNull(bagOfTexts, "bagOfTexts should not be null");
       bagOfWords_ = Preconditions.checkNotNull(bagOfWords, "bagOfWords should not be null");
-      bagOfBigrams_ = Preconditions.checkNotNull(bagOfBigrams, "bagOfBigrams should not be null");
+      bagOfNGrams_ = Preconditions.checkNotNull(bagOfNGrams, "bagOfNGrams should not be null");
     }
 
     @Override
@@ -127,12 +127,12 @@ final public class BagOfTexts implements IBagOfTexts {
       BagOfTexts.SimpleBagOfTexts other = (BagOfTexts.SimpleBagOfTexts) obj;
       return com.google.common.base.Objects.equal(bagOfTexts_, other.bagOfTexts_)
           && com.google.common.base.Objects.equal(bagOfWords_, other.bagOfWords_)
-          && com.google.common.base.Objects.equal(bagOfBigrams_, other.bagOfBigrams_);
+          && com.google.common.base.Objects.equal(bagOfNGrams_, other.bagOfNGrams_);
     }
 
     @Override
     public int hashCode() {
-      return com.google.common.base.Objects.hashCode(bagOfTexts_, bagOfWords_, bagOfBigrams_);
+      return com.google.common.base.Objects.hashCode(bagOfTexts_, bagOfWords_, bagOfNGrams_);
     }
 
     @Override
@@ -146,8 +146,8 @@ final public class BagOfTexts implements IBagOfTexts {
     }
 
     @Override
-    public Multiset<Map.Entry<String, String>> bagOfBigrams() {
-      return bagOfBigrams_;
+    public Multiset<List<String>> bagOfNGrams() {
+      return bagOfNGrams_;
     }
 
     @Override
@@ -177,6 +177,33 @@ final public class BagOfTexts implements IBagOfTexts {
         return set1.stream().mapToInt(text -> text.frequency(word1, word2) > 0 ? 1 : 0).sum();
       }
       return set2.stream().mapToInt(text -> text.frequency(word1, word2) > 0 ? 1 : 0).sum();
+    }
+
+    @Override
+    public int numberOfDistinctTextsOccurrences(String word1, String word2, String word3) {
+
+      Preconditions.checkNotNull(word1, "word1 should not be null");
+      Preconditions.checkNotNull(word2, "word2 should not be null");
+      Preconditions.checkNotNull(word3, "word3 should not be null");
+
+      Set<Text> set1 = index().getOrDefault(word1, new HashSet<>());
+      Set<Text> set2 = index().getOrDefault(word2, new HashSet<>());
+      Set<Text> set3 = index().getOrDefault(word3, new HashSet<>());
+
+      int size1 = set1.size();
+      int size2 = set2.size();
+      int size3 = set3.size();
+
+      if (size1 < size2) {
+        if (size1 < size3) {
+          return set1.stream().mapToInt(text -> text.frequency(word1, word2) > 0 ? 1 : 0).sum();
+        }
+        return set3.stream().mapToInt(text -> text.frequency(word1, word2) > 0 ? 1 : 0).sum();
+      }
+      if (size2 < size3) {
+        return set2.stream().mapToInt(text -> text.frequency(word1, word2) > 0 ? 1 : 0).sum();
+      }
+      return set3.stream().mapToInt(text -> text.frequency(word1, word2) > 0 ? 1 : 0).sum();
     }
 
     @Override

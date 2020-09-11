@@ -3,7 +3,6 @@ package com.computablefacts.nona.helpers;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 import java.util.function.BiFunction;
 import java.util.stream.Collectors;
@@ -16,14 +15,14 @@ import com.google.errorprone.annotations.CheckReturnValue;
 import com.google.errorprone.annotations.Var;
 
 @CheckReturnValue
-public interface IBagOfTexts extends IBagOfWords, IBagOfBigrams {
+public interface IBagOfTexts extends IBagOfWords, IBagOfNGrams {
 
   double K1 = 1.2; // in [1.2, 2.0]
   double B = 0.75;
 
   static IBagOfTexts wrap(Multiset<Text> bagOfTexts, Multiset<String> bagOfWords,
-      Multiset<Map.Entry<String, String>> bagOfBigrams) {
-    return new SimpleBagOfTexts(bagOfTexts, bagOfWords, bagOfBigrams);
+      Multiset<List<String>> bagOfNGrams) {
+    return new SimpleBagOfTexts(bagOfTexts, bagOfWords, bagOfNGrams);
   }
 
   /**
@@ -32,16 +31,16 @@ public interface IBagOfTexts extends IBagOfWords, IBagOfBigrams {
    * See https://nlp.stanford.edu/fsnlp/promo/colloc.pdf section 5.3.4 for details.
    *
    * @param bagOfWords bag of words.
-   * @param bagOfBigrams bag of bigrams.
+   * @param bagOfNGrams bag of ngrams.
    * @param word1 first word of the bigram.
    * @param word2 second word of the bigram.
    * @return likelihood ratio.
    */
-  static double likelihoodRatio(IBagOfWords bagOfWords, IBagOfBigrams bagOfBigrams, String word1,
+  static double likelihoodRatio(IBagOfWords bagOfWords, IBagOfNGrams bagOfNGrams, String word1,
       String word2) {
 
     Preconditions.checkNotNull(bagOfWords, "bagOfWords should not be null");
-    Preconditions.checkNotNull(bagOfBigrams, "bagOfBigrams should not be null");
+    Preconditions.checkNotNull(bagOfNGrams, "bagOfNGrams should not be null");
     Preconditions.checkNotNull(word1, "word1 should not be null");
     Preconditions.checkNotNull(word2, "word2 should not be null");
 
@@ -54,7 +53,7 @@ public interface IBagOfTexts extends IBagOfWords, IBagOfBigrams {
 
     int c1 = bagOfWords.frequency(word1);
     int c2 = bagOfWords.frequency(word2);
-    int c12 = bagOfBigrams.frequency(word1, word2);
+    int c12 = bagOfNGrams.frequency(word1, word2);
     long n = bagOfWords.numberOfWords();
 
     return likelihoodRatio(c1, c2, c12, n);
@@ -100,9 +99,23 @@ public interface IBagOfTexts extends IBagOfWords, IBagOfBigrams {
   }
 
   @Override
-  default Multiset<Map.Entry<String, String>> bagOfBigrams() {
-    Multiset<Map.Entry<String, String>> bag = HashMultiset.create();
+  default Multiset<List<String>> bagOfBigrams() {
+    Multiset<List<String>> bag = HashMultiset.create();
     bagOfTexts().elementSet().stream().map(Text::bagOfBigrams).forEach(bag::addAll);
+    return bag;
+  }
+
+  @Override
+  default Multiset<List<String>> bagOfTrigrams() {
+    Multiset<List<String>> bag = HashMultiset.create();
+    bagOfTexts().elementSet().stream().map(Text::bagOfTrigrams).forEach(bag::addAll);
+    return bag;
+  }
+
+  @Override
+  default Multiset<List<String>> bagOfNGrams() {
+    Multiset<List<String>> bag = HashMultiset.create();
+    bagOfTexts().elementSet().stream().map(Text::bagOfNGrams).forEach(bag::addAll);
     return bag;
   }
 
@@ -122,13 +135,13 @@ public interface IBagOfTexts extends IBagOfWords, IBagOfBigrams {
   default IBagOfTexts freezeBagOfTexts() {
 
     Multiset<String> bagOfWords = HashMultiset.create();
-    Multiset<Map.Entry<String, String>> bagOfBigrams = HashMultiset.create();
+    Multiset<List<String>> bagOfNGrams = HashMultiset.create();
 
     bagOfTexts().elementSet().forEach(bag -> {
       bagOfWords.addAll(bag.bagOfWords());
-      bagOfBigrams.addAll(bag.bagOfBigrams());
+      bagOfNGrams.addAll(bag.bagOfNGrams());
     });
-    return wrap(bagOfTexts(), bagOfWords, bagOfBigrams);
+    return wrap(bagOfTexts(), bagOfWords, bagOfNGrams);
   }
 
   /**
@@ -212,6 +225,24 @@ public interface IBagOfTexts extends IBagOfWords, IBagOfBigrams {
   }
 
   /**
+   * Returns the number of distinct documents containing a given trigram.
+   *
+   * @param word1 first word of the trigram.
+   * @param word2 second word of the trigram.
+   * @param word3 second word of the trigram.
+   * @return the number of documents.
+   */
+  default int numberOfDistinctTextsOccurrences(String word1, String word2, String word3) {
+
+    Preconditions.checkNotNull(word1, "word1 should not be null");
+    Preconditions.checkNotNull(word2, "word2 should not be null");
+    Preconditions.checkNotNull(word3, "word3 should not be null");
+
+    return bagOfTexts().entrySet().stream()
+        .mapToInt(text -> text.getElement().frequency(word1, word2, word3) > 0 ? 1 : 0).sum();
+  }
+
+  /**
    * Computes "document frequency" which measures how common a word is among all documents.
    *
    * @param word word.
@@ -230,6 +261,19 @@ public interface IBagOfTexts extends IBagOfWords, IBagOfBigrams {
    */
   default double documentFrequency(String word1, String word2) {
     return (double) numberOfDistinctTextsOccurrences(word1, word2)
+        / (double) numberOfDistinctTexts();
+  }
+
+  /**
+   * Computes "document frequency" which measures how common a trigram is among all documents.
+   *
+   * @param word1 first word of the trigram.
+   * @param word2 second word of the trigram.
+   * @param word3 third word of the trigram.
+   * @return document frequency.
+   */
+  default double documentFrequency(String word1, String word2, String word3) {
+    return (double) numberOfDistinctTextsOccurrences(word1, word2, word3)
         / (double) numberOfDistinctTexts();
   }
 
@@ -262,7 +306,25 @@ public interface IBagOfTexts extends IBagOfWords, IBagOfBigrams {
     Preconditions.checkNotNull(word1, "word1 should not be null");
     Preconditions.checkNotNull(word2, "word2 should not be null");
 
-    return (double) text.frequency(word1, word2) / (double) text.numberOfBigrams();
+    return (double) text.frequency(word1, word2) / (double) text.numberOfNGrams(2);
+  }
+
+  /**
+   * Computes "term frequency" which is the number of times a trigram appears in a given document.
+   *
+   * @param text document.
+   * @param word1 first word of the trigram.
+   * @param word2 second word of the trigram.
+   * @param word3 third word of the trigram.
+   * @return term frequency.
+   */
+  default double termFrequency(Text text, String word1, String word2, String word3) {
+
+    Preconditions.checkNotNull(text, "text should not be null");
+    Preconditions.checkNotNull(word1, "word1 should not be null");
+    Preconditions.checkNotNull(word2, "word2 should not be null");
+
+    return (double) text.frequency(word1, word2, word3) / (double) text.numberOfNGrams(3);
   }
 
   /**
@@ -287,6 +349,20 @@ public interface IBagOfTexts extends IBagOfWords, IBagOfBigrams {
   default double inverseDocumentFrequency(String word1, String word2) {
     return 1 + Math.log((double) numberOfDistinctTexts()
         / (double) (1 + numberOfDistinctTextsOccurrences(word1, word2)));
+  }
+
+  /**
+   * Computes "inverse document frequency" which measures how common a trigram is among all
+   * documents.
+   *
+   * @param word1 first word of the trigram.
+   * @param word2 second word of the trigram.
+   * @param word3 third word of the trigram.
+   * @return inverse document frequency.
+   */
+  default double inverseDocumentFrequency(String word1, String word2, String word3) {
+    return 1 + Math.log((double) numberOfDistinctTexts()
+        / (double) (1 + numberOfDistinctTextsOccurrences(word1, word2, word3)));
   }
 
   /**
@@ -323,6 +399,28 @@ public interface IBagOfTexts extends IBagOfWords, IBagOfBigrams {
 
     double tf = termFrequency(text, word1, word2);
     double idf = inverseDocumentFrequency(word1, word2);
+
+    return tf * idf;
+  }
+
+  /**
+   * Computes the TF-IDF score of a document. It's the product of tf and idf.
+   *
+   * @param text text.
+   * @param word1 first word of the trigram.
+   * @param word2 second word of the trigram.
+   * @param word3 thirs word of the trigram.
+   * @return TF-IDF.
+   */
+  default double tfIdf(Text text, String word1, String word2, String word3) {
+
+    Preconditions.checkNotNull(text, "text should not be null");
+    Preconditions.checkNotNull(word1, "word1 should not be null");
+    Preconditions.checkNotNull(word2, "word2 should not be null");
+    Preconditions.checkNotNull(word3, "word3 should not be null");
+
+    double tf = termFrequency(text, word1, word2, word3);
+    double idf = inverseDocumentFrequency(word1, word2, word3);
 
     return tf * idf;
   }
@@ -415,20 +513,20 @@ public interface IBagOfTexts extends IBagOfWords, IBagOfBigrams {
    */
   default double likelihoodRatio(String word1, String word2) {
     return IBagOfTexts.likelihoodRatio(IBagOfWords.wrap(bagOfWords()),
-        IBagOfBigrams.wrap(bagOfBigrams()), word1, word2);
+        IBagOfNGrams.wrap(bagOfNGrams()), word1, word2);
   }
 
   final class SimpleBagOfTexts implements IBagOfTexts {
 
     private final Multiset<Text> bagOfTexts_;
     private final Multiset<String> bagOfWords_;
-    private final Multiset<Map.Entry<String, String>> bagOfBigrams_;
+    private final Multiset<List<String>> bagOfNGrams_;
 
     public SimpleBagOfTexts(Multiset<Text> bagOfTexts, Multiset<String> bagOfWords,
-        Multiset<Map.Entry<String, String>> bagOfBigrams) {
+        Multiset<List<String>> bagOfNGrams) {
       bagOfTexts_ = Preconditions.checkNotNull(bagOfTexts, "bagOfTexts should not be null");
       bagOfWords_ = Preconditions.checkNotNull(bagOfWords, "bagOfWords should not be null");
-      bagOfBigrams_ = Preconditions.checkNotNull(bagOfBigrams, "bagOfBigrams should not be null");
+      bagOfNGrams_ = Preconditions.checkNotNull(bagOfNGrams, "bagOfNGrams should not be null");
     }
 
     @Override
@@ -442,12 +540,12 @@ public interface IBagOfTexts extends IBagOfWords, IBagOfBigrams {
       SimpleBagOfTexts other = (SimpleBagOfTexts) obj;
       return com.google.common.base.Objects.equal(bagOfTexts_, other.bagOfTexts_)
           && com.google.common.base.Objects.equal(bagOfWords_, other.bagOfWords_)
-          && com.google.common.base.Objects.equal(bagOfBigrams_, other.bagOfBigrams_);
+          && com.google.common.base.Objects.equal(bagOfNGrams_, other.bagOfNGrams_);
     }
 
     @Override
     public int hashCode() {
-      return com.google.common.base.Objects.hashCode(bagOfTexts_, bagOfWords_, bagOfBigrams_);
+      return com.google.common.base.Objects.hashCode(bagOfTexts_, bagOfWords_, bagOfNGrams_);
     }
 
     @Override
@@ -461,8 +559,8 @@ public interface IBagOfTexts extends IBagOfWords, IBagOfBigrams {
     }
 
     @Override
-    public Multiset<Map.Entry<String, String>> bagOfBigrams() {
-      return bagOfBigrams_;
+    public Multiset<List<String>> bagOfNGrams() {
+      return bagOfNGrams_;
     }
   }
 }

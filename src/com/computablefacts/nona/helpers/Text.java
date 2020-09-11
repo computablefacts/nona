@@ -3,7 +3,6 @@ package com.computablefacts.nona.helpers;
 import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -11,6 +10,7 @@ import java.util.stream.Collectors;
 import com.google.common.base.Objects;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.HashMultiset;
+import com.google.common.collect.Lists;
 import com.google.common.collect.Multiset;
 import com.google.common.graph.EndpointPair;
 import com.google.common.graph.MutableNetwork;
@@ -20,7 +20,7 @@ import com.google.common.hash.Hashing;
 import com.google.errorprone.annotations.CheckReturnValue;
 
 @CheckReturnValue
-final public class Text implements IBagOfWords, IBagOfBigrams {
+final public class Text implements IBagOfWords, IBagOfNGrams {
 
   private final static String UNKNOWN = "<UNK>";
   private final static HashFunction GOOD_FAST_HASH_128 = Hashing.goodFastHash(128);
@@ -34,7 +34,8 @@ final public class Text implements IBagOfWords, IBagOfBigrams {
           .expectedNodeCount(1000).expectedEdgeCount(1000).build();
 
   private Multiset<String> unigrams_ = null;
-  private Multiset<Map.Entry<String, String>> bigrams_ = null;
+  private Multiset<List<String>> bigrams_ = null;
+  private Multiset<List<String>> trigrams_ = null;
 
   public Text(String text, Function<String, List<String>> sentenceSplitter,
       Function<String, List<String>> wordSplitter) {
@@ -127,16 +128,60 @@ final public class Text implements IBagOfWords, IBagOfBigrams {
   }
 
   @Override
-  public Multiset<Map.Entry<String, String>> bagOfBigrams() {
+  public Multiset<List<String>> bagOfBigrams() {
     if (bigrams_ == null) {
       bigrams_ = HashMultiset.create();
       graph_.nodes().stream()
           .flatMap(word -> graph_.successors(word).stream()
               .map(nextWord -> new AbstractMap.SimpleEntry<>(word, nextWord)))
-          .forEach(bigram -> bigrams_.add(bigram,
+          .forEach(bigram -> bigrams_.add(Lists.newArrayList(bigram.getKey(), bigram.getValue()),
               graph_.edgesConnecting(bigram.getKey(), bigram.getValue()).size()));
     }
     return HashMultiset.create(bigrams_);
+  }
+
+  @Override
+  public Multiset<List<String>> bagOfTrigrams() {
+    if (trigrams_ == null) {
+      trigrams_ = HashMultiset.create();
+      graph_.nodes().stream()
+          .flatMap(word -> graph_.successors(word).stream()
+              .flatMap(node2 -> graph_.edgesConnecting(word, node2).stream())
+              .map(edge12 -> new AbstractMap.SimpleEntry<>(edge12, nextEdge(edge12)))
+              .filter(edges -> edges.getValue() != null).map(edges -> {
+
+                EndpointPair<String> nodes12 = graph_.incidentNodes(edges.getKey());
+                EndpointPair<String> nodes23 = graph_.incidentNodes(edges.getValue());
+
+                Preconditions.checkState(nodes12.nodeV().equals(nodes23.nodeU()));
+
+                return Lists.newArrayList(nodes12.nodeU(), nodes12.nodeV(), nodes23.nodeV());
+              }))
+          .forEach(trigram -> trigrams_.add(trigram));
+    }
+    return HashMultiset.create(trigrams_);
+  }
+
+  @Override
+  public Multiset<List<String>> bagOfNGrams() {
+
+    HashMultiset<List<String>> bag = HashMultiset.create();
+    bag.addAll(bagOfBigrams());
+    bag.addAll(bagOfTrigrams());
+
+    return bag;
+  }
+
+  @Override
+  public Multiset<List<String>> bagOfNGrams(int n) {
+
+    Preconditions.checkArgument(n > 1, "n must be > 1");
+    Preconditions.checkArgument(n <= 3, "n must be <= 3");
+
+    if (n == 2) {
+      return bagOfBigrams();
+    }
+    return bagOfTrigrams();
   }
 
   /**
