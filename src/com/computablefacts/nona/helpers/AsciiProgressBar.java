@@ -24,6 +24,7 @@ final public class AsciiProgressBar {
   public static class ProgressBar {
 
     private final StringBuilder progress_;
+    private int percentPrev_ = 0;
 
     public ProgressBar() {
       progress_ = new StringBuilder(60);
@@ -39,20 +40,26 @@ final public class AsciiProgressBar {
 
       char[] workchars = {'|', '/', '-', '\\'};
       String format = "\r%3d%% %s %c";
-
       int percent = (done * 100) / total;
-      @Var
-      int extrachars = (percent / 2) - progress_.length();
 
-      while (extrachars-- > 0) {
-        progress_.append('#');
+      if (done == 0 || done == total || percent > percentPrev_) {
+
+        @Var
+        int extraChars = (percent / 2) - progress_.length();
+
+        while (extraChars-- > 0) {
+          progress_.append('#');
+        }
+
+        System.out.printf(format, percent, progress_, workchars[done % workchars.length]);
+
+        percentPrev_ = percent;
       }
-
-      System.out.printf(format, percent, progress_, workchars[done % workchars.length]);
 
       if (done == total) {
         System.out.flush();
         progress_.setLength(0);
+        percentPrev_ = 0;
       }
     }
   }
