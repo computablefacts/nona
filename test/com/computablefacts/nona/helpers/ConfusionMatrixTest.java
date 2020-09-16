@@ -13,19 +13,19 @@ public class ConfusionMatrixTest {
   @Test
   public void testSimpleMicroAverage() {
 
-    ConfusionMatrix matrixA = new ConfusionMatrix("A");
+    ConfusionMatrix matrixA = new ConfusionMatrix();
     matrixA.addTruePositives(1);
     matrixA.addFalsePositives(1);
 
-    ConfusionMatrix matrixB = new ConfusionMatrix("B");
+    ConfusionMatrix matrixB = new ConfusionMatrix();
     matrixB.addTruePositives(10);
     matrixB.addFalsePositives(90);
 
-    ConfusionMatrix matrixC = new ConfusionMatrix("C");
+    ConfusionMatrix matrixC = new ConfusionMatrix();
     matrixC.addTruePositives(1);
     matrixC.addFalsePositives(1);
 
-    ConfusionMatrix matrixD = new ConfusionMatrix("D");
+    ConfusionMatrix matrixD = new ConfusionMatrix();
     matrixD.addTruePositives(1);
     matrixD.addFalsePositives(1);
 
@@ -42,19 +42,19 @@ public class ConfusionMatrixTest {
   @Test
   public void testSimpleMacroAverage() {
 
-    ConfusionMatrix matrixA = new ConfusionMatrix("A");
+    ConfusionMatrix matrixA = new ConfusionMatrix();
     matrixA.addTruePositives(1);
     matrixA.addFalsePositives(1);
 
-    ConfusionMatrix matrixB = new ConfusionMatrix("B");
+    ConfusionMatrix matrixB = new ConfusionMatrix();
     matrixB.addTruePositives(10);
     matrixB.addFalsePositives(90);
 
-    ConfusionMatrix matrixC = new ConfusionMatrix("C");
+    ConfusionMatrix matrixC = new ConfusionMatrix();
     matrixC.addTruePositives(1);
     matrixC.addFalsePositives(1);
 
-    ConfusionMatrix matrixD = new ConfusionMatrix("D");
+    ConfusionMatrix matrixD = new ConfusionMatrix();
     matrixD.addTruePositives(1);
     matrixD.addFalsePositives(1);
 
@@ -71,12 +71,12 @@ public class ConfusionMatrixTest {
   @Test
   public void testComplexMicroAverage() {
 
-    ConfusionMatrix matrixA = new ConfusionMatrix("A");
+    ConfusionMatrix matrixA = new ConfusionMatrix();
     matrixA.addTruePositives(12);
     matrixA.addFalsePositives(9);
     matrixA.addFalseNegatives(3);
 
-    ConfusionMatrix matrixB = new ConfusionMatrix("B");
+    ConfusionMatrix matrixB = new ConfusionMatrix();
     matrixB.addTruePositives(50);
     matrixB.addFalsePositives(23);
     matrixB.addFalseNegatives(9);
@@ -93,12 +93,12 @@ public class ConfusionMatrixTest {
   @Test
   public void testComplexMacroAverage() {
 
-    ConfusionMatrix matrixA = new ConfusionMatrix("A");
+    ConfusionMatrix matrixA = new ConfusionMatrix();
     matrixA.addTruePositives(12);
     matrixA.addFalsePositives(9);
     matrixA.addFalseNegatives(3);
 
-    ConfusionMatrix matrixB = new ConfusionMatrix("B");
+    ConfusionMatrix matrixB = new ConfusionMatrix();
     matrixB.addTruePositives(50);
     matrixB.addFalsePositives(23);
     matrixB.addFalseNegatives(9);
@@ -221,7 +221,7 @@ public class ConfusionMatrixTest {
 
   private ConfusionMatrix confusionMatrix() {
 
-    ConfusionMatrix matrix = new ConfusionMatrix("");
+    ConfusionMatrix matrix = new ConfusionMatrix();
 
     matrix.addTruePositives(620);
     matrix.addTrueNegatives(8820);
@@ -233,7 +233,7 @@ public class ConfusionMatrixTest {
 
   private ConfusionMatrix confusionMatrix1() {
 
-    ConfusionMatrix matrix = new ConfusionMatrix("");
+    ConfusionMatrix matrix = new ConfusionMatrix();
 
     for (int i = 0; i < 620; i++) {
       matrix.incrementTruePositives();
@@ -252,19 +252,19 @@ public class ConfusionMatrixTest {
 
   private ConfusionMatrix confusionMatrix2() {
 
-    ConfusionMatrix matrix = new ConfusionMatrix("");
+    ConfusionMatrix matrix = new ConfusionMatrix();
 
     for (int i = 0; i < 620; i++) {
-      matrix.add("", "");
+      matrix.addAll(Lists.newArrayList(""), Lists.newArrayList(""), "", "<UNK>");
     }
     for (int i = 0; i < 8820; i++) {
-      matrix.add("<UNK>", "<UNK>");
+      matrix.addAll(Lists.newArrayList("<UNK>"), Lists.newArrayList("<UNK>"), "", "<UNK>");
     }
     for (int i = 0; i < 180; i++) {
-      matrix.add("<UNK>", "");
+      matrix.addAll(Lists.newArrayList("<UNK>"), Lists.newArrayList(""), "", "<UNK>");
     }
     for (int i = 0; i < 380; i++) {
-      matrix.add("", "<UNK>");
+      matrix.addAll(Lists.newArrayList(""), Lists.newArrayList("<UNK>"), "", "<UNK>");
     }
     return matrix;
   }

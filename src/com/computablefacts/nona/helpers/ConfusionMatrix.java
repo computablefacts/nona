@@ -1,6 +1,7 @@
 package com.computablefacts.nona.helpers;
 
 import java.util.Collection;
+import java.util.List;
 
 import com.computablefacts.nona.Generated;
 import com.google.common.base.Preconditions;
@@ -18,19 +19,12 @@ import com.google.errorprone.annotations.Var;
 @CheckReturnValue
 final public class ConfusionMatrix {
 
-  private final String clazz_;
-
   private double tp_ = 0;
   private double tn_ = 0;
   private double fp_ = 0;
   private double fn_ = 0;
 
-  public ConfusionMatrix(String clazz) {
-
-    Preconditions.checkNotNull(clazz, "clazz should not be null");
-
-    clazz_ = clazz;
-  }
+  public ConfusionMatrix() {}
 
   /**
    * In a multi-class classification setup, micro-average is preferable if you suspect there might
@@ -43,7 +37,7 @@ final public class ConfusionMatrix {
 
     Preconditions.checkNotNull(matrices, "matrices should not be null");
 
-    ConfusionMatrix matrix = new ConfusionMatrix("MICRO_AVG_OF_" + matrices.size() + "_MATRICES");
+    ConfusionMatrix matrix = new ConfusionMatrix();
 
     for (ConfusionMatrix m : matrices) {
       matrix.tp_ += m.tp_;
@@ -55,7 +49,6 @@ final public class ConfusionMatrix {
     StringBuilder builder = new StringBuilder();
     builder.append(
         "\n================================================================================");
-    builder.append("\nClass : " + matrix.clazz_);
     builder.append("\nMCC : " + matrix.matthewsCorrelationCoefficient());
     builder.append("\nF1 : " + matrix.f1Score());
     builder.append("\nPrecision : " + matrix.precision());
@@ -119,7 +112,6 @@ final public class ConfusionMatrix {
     StringBuilder builder = new StringBuilder();
     builder.append(
         "\n================================================================================");
-    builder.append("\nClass : " + clazz_);
     builder.append("\nMCC : " + matthewsCorrelationCoefficient());
     builder.append("\nF1 : " + f1Score());
     builder.append("\nPrecision : " + precision());
@@ -133,22 +125,51 @@ final public class ConfusionMatrix {
     return builder.toString();
   }
 
-  public void add(String actual, String predicted) {
+  /**
+   * Compute TP, TN, FP and FN. Works only for binary classification.
+   *
+   * If a label other than labelOk/labelKo is met in the actual or predicted lists, the pair is
+   * discarded.
+   * 
+   * @param actual gold labels.
+   * @param predicted predicted labels.
+   * @param labelOk positive label.
+   * @param labelKo negative label.
+   * @param <T> type of label.
+   */
+  public <T> void addAll(List<T> actual, List<T> predicted, T labelOk, T labelKo) {
 
     Preconditions.checkNotNull(actual, "actual should not be null");
     Preconditions.checkNotNull(predicted, "predicted should not be null");
+    Preconditions.checkNotNull(labelOk, "labelOk should not be null");
+    Preconditions.checkNotNull(labelKo, "labelKo should not be null");
+    Preconditions.checkArgument(actual.size() == predicted.size(),
+        "mismatch between the number of actual and predicted labels : %s expected vs %s found",
+        actual.size(), predicted.size());
 
-    if (actual.equals(clazz_)) {
-      if (predicted.equals(clazz_)) {
-        tp_ += 1.0;
+    for (int i = 0; i < actual.size(); i++) {
+
+      T act = actual.get(i);
+      T pred = predicted.get(i);
+
+      if (act.equals(labelOk)) {
+        if (pred.equals(labelOk)) {
+          incrementTruePositives();
+        } else if (pred.equals(labelKo)) {
+          incrementFalseNegatives();
+        } else {
+          // TODO : log warning
+        }
+      } else if (act.equals(labelKo)) {
+        if (pred.equals(labelOk)) {
+          incrementFalsePositives();
+        } else if (pred.equals(labelKo)) {
+          incrementTrueNegatives();
+        } else {
+          // TODO : log warning
+        }
       } else {
-        fn_ += 1.0;
-      }
-    } else {
-      if (predicted.equals(clazz_)) {
-        fp_ += 1.0;
-      } else {
-        tn_ += 1.0;
+        // TODO : log warning
       }
     }
   }
