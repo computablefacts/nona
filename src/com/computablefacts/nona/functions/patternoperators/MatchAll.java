@@ -24,8 +24,23 @@ public class MatchAll extends Function {
       new Onion(), new Percent(), new Time(), new UnixPath(), new Url(), new WinPath());
   private static final List<RegexExtract> COMPACT_EXTRACTORS = Lists.newArrayList(new Iban());
 
+  private final List<RegexExtract> forwardAndBackwardExtractors_;
+  private final List<RegexExtract> compactExtractors_;
+
+  @Deprecated
   public MatchAll() {
+    this(FORWARD_AND_BACKWARD_EXTRACTORS, COMPACT_EXTRACTORS);
+  }
+
+  public MatchAll(List<RegexExtract> forwardAndBackwardExtractors,
+      List<RegexExtract> compactExtractors) {
+
     super("EXTRACT_ALL", true);
+
+    forwardAndBackwardExtractors_ = Preconditions.checkNotNull(forwardAndBackwardExtractors,
+        "forwardAndBackwardExtractors should not be null");
+    compactExtractors_ =
+        Preconditions.checkNotNull(compactExtractors, "compactExtractors should not be null");
   }
 
   @Override
@@ -49,7 +64,7 @@ public class MatchAll extends Function {
     }
 
     // Extract forward and backward patterns
-    for (RegexExtract extractor : FORWARD_AND_BACKWARD_EXTRACTORS) {
+    for (RegexExtract extractor : forwardAndBackwardExtractors_) {
       newSequence
           .add((SpanSequence) extractor.evaluate(Lists.newArrayList(parameters.get(0))).value());
     }
@@ -98,7 +113,7 @@ public class MatchAll extends Function {
     }
 
     // Extract compact patterns
-    for (RegexExtract extractor : COMPACT_EXTRACTORS) {
+    for (RegexExtract extractor : compactExtractors_) {
       newSequence
           .add((SpanSequence) extractor.evaluate(Lists.newArrayList(parameters.get(0))).value());
     }
