@@ -97,7 +97,7 @@ public class BagOfTextsTest {
   @Test
   public void testFreezeBagOfTexts() {
 
-    IBagOfTexts copy = BagOfTexts.wrap(texts(), words(), bigrams());
+    IBagOfTexts copy = IBagOfTexts.wrap(texts(), words(), bigrams());
     IBagOfTexts frozen = frozenBagOfTexts();
 
     Assert.assertEquals(copy, frozen);
