@@ -17,7 +17,7 @@ import com.google.common.collect.Lists;
 public class MatchAllTest {
 
   @Test
-  public void testMatchAll1() throws IOException {
+  public void testMatchAll() throws IOException {
 
     List<String> keywords = Lists.newArrayList("UBS Group AG", "Goldman Sachs", "JPMorgan Chase");
     Path file = Files.createTempFile("dico-", ".txt");
