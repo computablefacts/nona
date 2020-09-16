@@ -488,6 +488,32 @@ final public class PatternsForward {
     return "(?i)(" + number() + "\\p{Zs}*%)(?-i)";
   }
 
+  /**
+   * Regex for WORDS WITH APOSTROPHES OR DASHES extraction. Match and capture a single group :
+   *
+   * <ol>
+   * <li>Group 1 : whole match</li>
+   * </ol>
+   *
+   * @return regular expression.
+   */
+  public static String wordWithApostrophesOrDashes() {
+    return "(?i)(\\p{L}+(?:['’]+\\p{L}*|[\\-_]+\\p{L}+)+)(?-i)";
+  }
+
+  /**
+   * Regex for WORDS WITHOUT APOSTROPHES OR DASHES extraction. Match and capture a single group :
+   *
+   * <ol>
+   * <li>Group 1 : whole match</li>
+   * </ol>
+   *
+   * @return regular expression.
+   */
+  public static String wordWithoutApostrophesOrDashes() {
+    return "(?i)(\\p{L}+)(?-i)";
+  }
+
   private static String tld() {
     return Joiner.on('|').join(Tld.load().stream().filter(tld -> !Strings.isNullOrEmpty(tld))
         .map(tld -> Pattern.quote(tld.toUpperCase())).collect(Collectors.toSet()));
