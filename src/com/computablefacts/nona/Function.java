@@ -53,6 +53,8 @@ import com.computablefacts.nona.functions.stringoperators.ToLowerCase;
 import com.computablefacts.nona.functions.stringoperators.ToUpperCase;
 import com.computablefacts.nona.types.BoxedType;
 import com.google.common.base.Joiner;
+import com.google.common.base.MoreObjects;
+import com.google.common.base.Objects;
 import com.google.common.base.Preconditions;
 import com.google.common.base.Strings;
 import com.google.common.cache.Cache;
@@ -65,22 +67,15 @@ public class Function {
 
   private static final Cache<String, BoxedType<?>> cache_ = CacheBuilder.newBuilder().recordStats()
       .maximumSize(1000).expireAfterWrite(1, TimeUnit.HOURS).build();
-  private final List<Function> parameters_ = new ArrayList<>();
-  private final eCategory category_;
-  private final String description_;
-  private String name_;
+  private Atom head_;
+  private Atom body_;
 
   public Function(String expression) {
     parseFunction(Preconditions.checkNotNull(expression, "expression should not be null"));
-    category_ = eCategory.UNKNOWN;
-    description_ = eCategory.UNKNOWN.toString();
   }
 
   protected Function(eCategory category, String expression, String description) {
-    category_ = Preconditions.checkNotNull(category, "category should not be null");
-    name_ = Preconditions.checkNotNull(expression, "expression should not be null").trim()
-        .toUpperCase();
-    description_ = Preconditions.checkNotNull(description, "description should not be null").trim();
+    head_ = new Atom(expression, new ArrayList<>(), category, description);
   }
 
   public static Map<String, Function> definitions() {
@@ -215,32 +210,41 @@ public class Function {
         .replace("\\u0029", ")").replace("\\u0022", "\"").replace("\\u002c", ",");
   }
 
+  @Generated
   public String name() {
-    return name_;
+    return head_.name();
   }
 
+  @Generated
+  public List<Function> parameters() {
+    return head_.parameters();
+  }
+
+  @Generated
   public eCategory category() {
-    return category_;
+    return head_.category();
   }
 
+  @Generated
   public String description() {
-    return description_;
+    return head_.description();
   }
 
+  @Generated
   public int arity() {
-    return parameters_.size();
+    return head_.arity();
   }
 
   public boolean isValid() {
-    if (!Strings.isNullOrEmpty(name_)) {
-      for (Function fn : parameters_) {
+    if (!Strings.isNullOrEmpty(head_.name())) {
+      for (Function fn : head_.parameters()) {
         if (!fn.isValid()) {
           return false;
         }
       }
       return true;
     }
-    return parameters_.isEmpty();
+    return head_.parameters().isEmpty();
   }
 
   public boolean hasReferenceTo(String function) {
@@ -248,13 +252,13 @@ public class Function {
     Preconditions.checkArgument(!Strings.isNullOrEmpty(function),
         "function should neither be null nor empty");
 
-    if (!Strings.isNullOrEmpty(name_)) {
-      for (Function fn : parameters_) {
+    if (!Strings.isNullOrEmpty(head_.name())) {
+      for (Function fn : head_.parameters()) {
         if (fn.hasReferenceTo(function)) {
           return true;
         }
       }
-      return name_.equals(function);
+      return head_.name().equals(function);
     }
     return false;
   }
@@ -274,33 +278,35 @@ public class Function {
       return null;
     }
 
-    if (definitions == null || !definitions.containsKey(name_)) {
-      if (substitutions != null && substitutions.containsKey(name_)) {
-        return substitutions.get(name_);
+    if (definitions == null || !definitions.containsKey(head_.name())) {
+      if (substitutions != null && substitutions.containsKey(head_.name())) {
+        return substitutions.get(head_.name());
       }
-      return BoxedType.create(name_);
+      return BoxedType.create(head_.name());
     }
 
-    List<BoxedType> parameters = new ArrayList<>(parameters_.size());
+    Function function = definitions.get(head_.name());
 
-    for (Function fn : parameters_) {
+    if (function == null || function.body_ == null) {
+      return evaluate(definitions, substitutions, head_);
+    }
+
+    Preconditions.checkState(head_.arity() == function.arity(),
+        "Mismatch between the head arity and the function definition: %s found vs %s expected",
+        head_.arity(), function.arity());
+
+    List<BoxedType> parameters = new ArrayList<>(head_.arity());
+
+    for (Function fn : head_.parameters()) {
       parameters.add(fn.evaluate(definitions, substitutions));
     }
 
-    Function function = definitions.get(name_);
+    Map<String, BoxedType> substs = new HashMap<>();
 
-    if (!function.isCacheable()) {
-      return function.evaluate(parameters);
+    for (int i = 0; i < head_.arity(); i++) {
+      substs.put(function.parameters().get(i).evaluate(definitions).asString(), parameters.get(i));
     }
-
-    try {
-      String key = name_ + "(" + Joiner.on(',')
-          .join(parameters.stream().map(BoxedType::asString).collect(Collectors.toList())) + ")";
-      return cache_.get(key, () -> function.evaluate(parameters));
-    } catch (ExecutionException e) {
-      // TODO
-    }
-    return null;
+    return evaluate(definitions, substs, function.body_);
   }
 
   /**
@@ -311,7 +317,7 @@ public class Function {
    */
   public BoxedType evaluate(List<BoxedType> parameters) {
     throw new RuntimeException(
-        "Function " + name_ + "/" + parameters.size() + " is not implemented.");
+        "Function " + head_.name() + "/" + parameters.size() + " is not implemented.");
   }
 
   /**
@@ -327,12 +333,23 @@ public class Function {
 
   private void parseFunction(String expression) {
 
+    int indexBody = expression.indexOf(":=");
+
+    if (indexBody < 0) {
+      head_ = parseAtom(expression.trim());
+    } else {
+      head_ = parseAtom(expression.substring(0, indexBody).trim());
+      body_ = parseAtom(expression.substring(indexBody + 2).trim());
+    }
+  }
+
+  private Atom parseAtom(String expression) {
+
     int indexArgsBegin = expression.indexOf('(');
     int indexArgsEnd = expression.lastIndexOf(')');
 
     if (indexArgsBegin < 0 && indexArgsEnd < 0) {
-      name_ = expression;
-      return;
+      return new Atom(expression);
     }
 
     Preconditions.checkState(indexArgsBegin > 0,
@@ -340,17 +357,19 @@ public class Function {
     Preconditions.checkState(indexArgsEnd > 0,
         "\"" + expression + "\" is an invalid expression. Missing \")\".");
 
-    name_ = expression.substring(0, indexArgsBegin).trim().toUpperCase();
+    String name = expression.substring(0, indexArgsBegin).trim().toUpperCase();
 
-    if ("_".equals(name_)) {
-      name_ = decode(expression.substring(indexArgsBegin + 1, indexArgsEnd));
-      return;
+    if ("_".equals(name)) {
+      return new Atom(decode(expression.substring(indexArgsBegin + 1, indexArgsEnd)));
     }
+
+    List<Function> parameters = new ArrayList<>();
 
     for (String parameter : parseParameters(
         expression.substring(indexArgsBegin + 1, indexArgsEnd))) {
-      parameters_.add(new Function(parameter));
+      parameters.add(new Function(parameter));
     }
+    return new Atom(name, parameters);
   }
 
   private List<String> parseParameters(String parameters) {
@@ -391,5 +410,114 @@ public class Function {
       }
     }
     return functions;
+  }
+
+  private BoxedType evaluate(Map<String, Function> definitions,
+      Map<String, BoxedType> substitutions, Atom atom) {
+
+    Preconditions.checkNotNull(atom, "atom should not be null");
+
+    List<BoxedType> parameters = new ArrayList<>(atom.arity());
+
+    for (Function fn : atom.parameters()) {
+      parameters.add(fn.evaluate(definitions, substitutions));
+    }
+
+    Function function = definitions.get(atom.name());
+
+    if (!function.isCacheable()) {
+      return function.evaluate(parameters);
+    }
+
+    try {
+      String key = atom.name() + "(" + Joiner.on(',')
+          .join(parameters.stream().map(BoxedType::asString).collect(Collectors.toList())) + ")";
+      return cache_.get(key, () -> function.evaluate(parameters));
+    } catch (ExecutionException e) {
+      // TODO
+    }
+    return null;
+  }
+
+  final static class Atom {
+
+    private final String name_;
+    private final List<Function> parameters_;
+
+    private final eCategory category_;
+    private final String description_;
+
+    public Atom(String name) {
+      this(name, new ArrayList<>());
+    }
+
+    public Atom(String name, List<Function> parameters) {
+      this(name, parameters, eCategory.UNKNOWN, eCategory.UNKNOWN.name());
+    }
+
+    public Atom(String name, List<Function> parameters, eCategory category, String description) {
+
+      Preconditions.checkNotNull(name, "name should not be null");
+      Preconditions.checkNotNull(parameters, "parameters should not be null");
+      Preconditions.checkNotNull(category, "category should not be null");
+      Preconditions.checkNotNull(description, "description should not be null");
+
+      name_ = name;
+      parameters_ = parameters;
+      category_ = category;
+      description_ = description;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+      if (obj == this) {
+        return true;
+      }
+      if (obj == null || getClass() != obj.getClass()) {
+        return false;
+      }
+      Atom other = (Atom) obj;
+      return Objects.equal(name_, other.name_) && Objects.equal(parameters_, other.parameters_)
+          && Objects.equal(category_, other.category_)
+          && Objects.equal(description_, other.description_);
+    }
+
+    @Override
+    public int hashCode() {
+      return Objects.hashCode(name_, parameters_, category_, description_);
+    }
+
+    @Generated
+    @Override
+    public String toString() {
+      return MoreObjects.toStringHelper(this).add("name", name_).add("parameters", parameters_)
+          .add("category", category_).add("description", description_).add("arity", arity())
+          .omitNullValues().toString();
+    }
+
+    @Generated
+    public String name() {
+      return name_;
+    }
+
+    @Generated
+    public List<Function> parameters() {
+      return parameters_;
+    }
+
+    @Generated
+    public eCategory category() {
+      return category_;
+    }
+
+    @Generated
+    public String description() {
+      return description_;
+    }
+
+    @Generated
+    public int arity() {
+      return parameters_.size();
+    }
   }
 }

@@ -1,6 +1,5 @@
 package com.computablefacts.nona.functions.controlflowoperators;
 
-import java.util.HashMap;
 import java.util.Map;
 
 import org.junit.Assert;
@@ -14,33 +13,35 @@ public class WhichTest {
   @Test
   public void testWhich() {
 
-    Map<String, BoxedType> substitutions = new HashMap<>();
-    substitutions.put("x", BoxedType.create(10));
+    Map<String, Function> definitions = Function.definitions();
+    definitions.put("WHICH_X", new Function(
+        "WHICH_X(x) := WHICH(LT(x, 0), negative, GT(x, 0), positive, EQUAL(x, 0), zero)"));
 
-    Function fn = new Function("WHICH(LT(x, 0), negative, GT(x, 0), positive, EQUAL(x, 0), zero)");
+    Function fn = new Function("WHICH_X(5)");
 
-    Assert.assertEquals(BoxedType.create("positive"),
-        fn.evaluate(Function.definitions(), substitutions));
+    Assert.assertEquals(BoxedType.create("positive"), fn.evaluate(definitions));
   }
 
   @Test
   public void testWhichWithDefaultStatement() {
 
-    Map<String, BoxedType> substitutions = new HashMap<>();
-    substitutions.put("x", BoxedType.create(0.0));
+    Map<String, Function> definitions = Function.definitions();
+    definitions.put("WHICH_X",
+        new Function("WHICH_X(x) := WHICH(LT(x, 0), negative, GT(x, 0), positive, _, zero)"));
 
-    Function fn = new Function("WHICH(LT(x, 0), negative, GT(x, 0), positive, _, zero)");
-    Assert.assertEquals(BoxedType.create("zero"),
-        fn.evaluate(Function.definitions(), substitutions));
+    Function fn = new Function("WHICH_X(0)");
+
+    Assert.assertEquals(BoxedType.create("zero"), fn.evaluate(definitions));
   }
 
   @Test(expected = IllegalStateException.class)
   public void testWhichWithMissingStatement() {
 
-    Map<String, BoxedType> substitutions = new HashMap<>();
-    substitutions.put("x", BoxedType.create(0.0));
+    Map<String, Function> definitions = Function.definitions();
+    definitions.put("WHICH_X",
+        new Function("WHICH_X(x) := WHICH(LT(x, 0), negative, GT(x, 0), positive)"));
 
-    Function fn = new Function("WHICH(LT(x, 0), negative, GT(x, 0), positive)");
-    Assert.assertEquals(BoxedType.create(null), fn.evaluate(Function.definitions(), substitutions));
+    Function fn = new Function("WHICH_X(0)");
+    BoxedType result = fn.evaluate(definitions);
   }
 }

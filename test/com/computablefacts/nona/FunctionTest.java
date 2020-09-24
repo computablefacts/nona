@@ -11,6 +11,9 @@ import org.junit.Test;
 import com.computablefacts.nona.functions.additiveoperators.Add;
 import com.computablefacts.nona.functions.multiplicativeoperators.Divide;
 import com.computablefacts.nona.types.BoxedType;
+import com.google.common.collect.Lists;
+
+import nl.jqno.equalsverifier.EqualsVerifier;
 
 public class FunctionTest {
 
@@ -400,5 +403,27 @@ public class FunctionTest {
     Function fn = new Function("DIV(SUM(1, 2, 3, 4), 4)");
 
     Assert.assertEquals(BoxedType.create(2.5), fn.evaluate(functions));
+  }
+
+  @Test
+  public void testFunctionAliasingWithSingleParameter() {
+
+    Map<String, Function> definitions = Function.definitions();
+    definitions.put("IS_ODD", new Function("IS_ODD(x) := IF(EQUAL(MOD(x, 2), 0), false, true)"));
+    definitions.put("IS_EVEN", new Function("IS_EVEN(x) := NOT(IS_ODD(x))"));
+
+    Assert.assertFalse(new Function("IS_ODD(2)").evaluate(definitions).asBool());
+    Assert.assertTrue(new Function("IS_EVEN(2)").evaluate(definitions).asBool());
+
+    Assert.assertTrue(new Function("IS_ODD(1)").evaluate(definitions).asBool());
+    Assert.assertFalse(new Function("IS_EVEN(1)").evaluate(definitions).asBool());
+  }
+
+  @Test
+  public void testAtomEqualsAndHashcode() {
+
+    EqualsVerifier.forClass(Function.Atom.class)
+        .withPrefabValues(List.class, Lists.newArrayList("x"), Lists.newArrayList("x", "y"))
+        .verify();
   }
 }
