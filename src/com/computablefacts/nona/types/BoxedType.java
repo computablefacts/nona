@@ -33,6 +33,7 @@ final public class BoxedType<T extends Comparable> implements Comparable<BoxedTy
               try {
                 return new BoxedType<>(new BigInteger(text));
               } catch (NumberFormatException ex) {
+                // FALL THROUGH
               }
 
               try {
@@ -45,6 +46,7 @@ final public class BoxedType<T extends Comparable> implements Comparable<BoxedTy
                   return bt;
                 }
               } catch (NumberFormatException ex) {
+                // FALL THROUGH
               }
 
               return new BoxedType<>(text);
