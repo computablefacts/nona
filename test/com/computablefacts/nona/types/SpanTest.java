@@ -80,26 +80,26 @@ public class SpanTest {
   @Test
   public void testCompareToLT() {
 
-    Span span1 = new Span("text1", 0, "text1".length() - 1);
-    Span span2 = new Span("text2", 0, "text2".length() - 1);
+    Span span1 = new Span("text1", 0, "text1".length());
+    Span span2 = new Span("text2", 0, "text2".length() - 1 /* remove 2 */);
 
-    Assert.assertTrue(span1.compareTo(span2) < 0);
+    Assert.assertTrue(span2.compareTo(span1) < 0);
   }
 
   @Test
   public void testCompareToGT() {
 
-    Span span1 = new Span("text1", 0, "text1".length() - 1);
-    Span span2 = new Span("text2", 0, "text2".length() - 1);
+    Span span1 = new Span("text1", 0, "text1".length());
+    Span span2 = new Span("text2", 0, "text2".length() - 1 /* remove 2 */);
 
-    Assert.assertTrue(span2.compareTo(span1) > 0);
+    Assert.assertTrue(span1.compareTo(span2) > 0);
   }
 
   @Test
   public void testCompareToEQ() {
 
-    Span span1 = new Span("text", 0, "text".length());
-    Span span2 = new Span("text", 0, "text".length());
+    Span span1 = new Span("text1", 0, "text1".length() - 1 /* remove 1 */);
+    Span span2 = new Span("text2", 0, "text2".length() - 1 /* remove 2 */);
 
     Assert.assertTrue(span1.compareTo(span2) == 0);
   }

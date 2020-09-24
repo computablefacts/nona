@@ -89,7 +89,7 @@ final public class Span implements Comparable<Span> {
 
   @Override
   public int compareTo(@NotNull Span span) {
-    return text_.compareTo(span.text_);
+    return text().compareTo(span.text());
   }
 
   /**
