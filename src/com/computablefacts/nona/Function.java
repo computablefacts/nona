@@ -22,6 +22,7 @@ import com.computablefacts.nona.functions.comparisonoperators.GreaterThanOrEqual
 import com.computablefacts.nona.functions.comparisonoperators.LessThan;
 import com.computablefacts.nona.functions.comparisonoperators.LessThanOrEqual;
 import com.computablefacts.nona.functions.controlflowoperators.If;
+import com.computablefacts.nona.functions.controlflowoperators.Switch;
 import com.computablefacts.nona.functions.csvoperators.CsvValue;
 import com.computablefacts.nona.functions.csvoperators.NbCsvRows;
 import com.computablefacts.nona.functions.csvoperators.ToCsv;
@@ -30,6 +31,7 @@ import com.computablefacts.nona.functions.jsonoperators.ToJson;
 import com.computablefacts.nona.functions.mathematicaloperators.Max;
 import com.computablefacts.nona.functions.mathematicaloperators.Min;
 import com.computablefacts.nona.functions.multiplicativeoperators.Divide;
+import com.computablefacts.nona.functions.multiplicativeoperators.Mod;
 import com.computablefacts.nona.functions.multiplicativeoperators.Multiply;
 import com.computablefacts.nona.functions.patternoperators.*;
 import com.computablefacts.nona.functions.patternoperators.Number;
@@ -105,6 +107,7 @@ public class Function {
 
     // Control flow operators
     definitions.put("IF", new If());
+    definitions.put("SWITCH", new Switch());
 
     // Csv operators
     definitions.put("CSV_VALUE", new CsvValue());
@@ -121,6 +124,7 @@ public class Function {
 
     // Multiplicative operators
     definitions.put("DIV", new Divide());
+    definitions.put("MOD", new Mod());
     definitions.put("MUL", new Multiply());
 
     // Pattern operators
