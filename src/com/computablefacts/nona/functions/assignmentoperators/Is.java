@@ -3,6 +3,7 @@ package com.computablefacts.nona.functions.assignmentoperators;
 import java.util.List;
 
 import com.computablefacts.nona.Function;
+import com.computablefacts.nona.eCategory;
 import com.computablefacts.nona.types.BoxedType;
 import com.google.common.base.Preconditions;
 import com.google.errorprone.annotations.CheckReturnValue;
@@ -11,7 +12,7 @@ import com.google.errorprone.annotations.CheckReturnValue;
 public class Is extends Function {
 
   public Is() {
-    super("IS", true);
+    super(eCategory.ASSIGNMENT_OPERATORS, "IS", "IS(x) returns x.");
   }
 
   @Override

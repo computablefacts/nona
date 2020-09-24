@@ -1,8 +1,5 @@
 package com.computablefacts.nona.functions.patternoperators;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -15,11 +12,8 @@ public class TimeTest {
   @Test
   public void testTime() {
 
-    Map<String, Function> functions = new HashMap<>();
-    functions.put("TIME", new Time());
-
-    Function fn = new Function("TIME(19h20mn30s)");
-    SpanSequence spans = (SpanSequence) fn.evaluate(functions).value();
+    Function fn = new Function("MATCH_TIME(19h20mn30s)");
+    SpanSequence spans = (SpanSequence) fn.evaluate(Function.definitions()).value();
     Span span = spans.span(0);
 
     Assert.assertEquals(1, spans.size());

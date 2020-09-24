@@ -1,8 +1,5 @@
 package com.computablefacts.nona.functions.patternoperators;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -15,11 +12,8 @@ public class MonetaryAmountTest {
   @Test
   public void testMonetaryAmounts1() {
 
-    Map<String, Function> functions = new HashMap<>();
-    functions.put("MONETARY_AMOUNT", new MonetaryAmount());
-
-    Function fn = new Function("MONETARY_AMOUNT(600 €)");
-    SpanSequence spans = (SpanSequence) fn.evaluate(functions).value();
+    Function fn = new Function("MATCH_MONETARY_AMOUNT(600 €)");
+    SpanSequence spans = (SpanSequence) fn.evaluate(Function.definitions()).value();
     Span span = spans.span(0);
 
     Assert.assertEquals(1, spans.size());
@@ -32,11 +26,8 @@ public class MonetaryAmountTest {
   @Test
   public void testMonetaryAmounts2() {
 
-    Map<String, Function> functions = new HashMap<>();
-    functions.put("MONETARY_AMOUNT", new MonetaryAmount());
-
-    Function fn = new Function("MONETARY_AMOUNT(1 933.40 €)");
-    SpanSequence spans = (SpanSequence) fn.evaluate(functions).value();
+    Function fn = new Function("MATCH_MONETARY_AMOUNT(1 933.40 €)");
+    SpanSequence spans = (SpanSequence) fn.evaluate(Function.definitions()).value();
     Span span = spans.span(0);
 
     Assert.assertEquals(1, spans.size());
@@ -49,11 +40,8 @@ public class MonetaryAmountTest {
   @Test
   public void testMonetaryAmounts3() {
 
-    Map<String, Function> functions = new HashMap<>();
-    functions.put("MONETARY_AMOUNT", new MonetaryAmount());
-
-    Function fn = new Function("MONETARY_AMOUNT(" + Function.wrap("$10,590.98") + ")");
-    SpanSequence spans = (SpanSequence) fn.evaluate(functions).value();
+    Function fn = new Function("MATCH_MONETARY_AMOUNT(" + Function.wrap("$10,590.98") + ")");
+    SpanSequence spans = (SpanSequence) fn.evaluate(Function.definitions()).value();
     Span span = spans.span(0);
 
     Assert.assertEquals(1, spans.size());

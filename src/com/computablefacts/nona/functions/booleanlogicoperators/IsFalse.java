@@ -3,6 +3,7 @@ package com.computablefacts.nona.functions.booleanlogicoperators;
 import java.util.List;
 
 import com.computablefacts.nona.Function;
+import com.computablefacts.nona.eCategory;
 import com.computablefacts.nona.types.BoxedType;
 import com.google.common.base.Preconditions;
 import com.google.errorprone.annotations.CheckReturnValue;
@@ -11,7 +12,8 @@ import com.google.errorprone.annotations.CheckReturnValue;
 public class IsFalse extends Function {
 
   public IsFalse() {
-    super("IS_FALSE", true);
+    super(eCategory.BOOLEAN_LOGIC_OPERATORS, "IS_FALSE",
+        "IS_FALSE(x) returns true if x is a boolean and x is false.");
   }
 
   @Override

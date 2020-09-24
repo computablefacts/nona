@@ -1,8 +1,5 @@
 package com.computablefacts.nona.functions.patternoperators;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -15,11 +12,8 @@ public class Ipv6Test {
   @Test
   public void testIpv6FullForm() {
 
-    Map<String, Function> functions = new HashMap<>();
-    functions.put("EIPV6", new IpV6());
-
-    Function fn = new Function("EIPV6(fe80:0000:0000:0000:0204:61ff:fe9d:f156)");
-    SpanSequence spans = (SpanSequence) fn.evaluate(functions).value();
+    Function fn = new Function("MATCH_IPV6(fe80:0000:0000:0000:0204:61ff:fe9d:f156)");
+    SpanSequence spans = (SpanSequence) fn.evaluate(Function.definitions()).value();
     Span span = spans.span(0);
 
     Assert.assertEquals(1, spans.size());
@@ -29,11 +23,8 @@ public class Ipv6Test {
   @Test
   public void testIpv6DropLeadingZeroes() {
 
-    Map<String, Function> functions = new HashMap<>();
-    functions.put("IPV6", new IpV6());
-
-    Function fn = new Function("IPV6(fe80:0:0:0:204:61ff:fe9d:f156)");
-    SpanSequence spans = (SpanSequence) fn.evaluate(functions).value();
+    Function fn = new Function("MATCH_IPV6(fe80:0:0:0:204:61ff:fe9d:f156)");
+    SpanSequence spans = (SpanSequence) fn.evaluate(Function.definitions()).value();
     Span span = spans.span(0);
 
     Assert.assertEquals(1, spans.size());
@@ -44,11 +35,8 @@ public class Ipv6Test {
   @Test
   public void testIpv6CollapseMultipleZeroes() {
 
-    Map<String, Function> functions = new HashMap<>();
-    functions.put("IPV6", new IpV6());
-
-    Function fn = new Function("IPV6(fe80::204:61ff:fe9d:f156)");
-    SpanSequence spans = (SpanSequence) fn.evaluate(functions).value();
+    Function fn = new Function("MATCH_IPV6(fe80::204:61ff:fe9d:f156)");
+    SpanSequence spans = (SpanSequence) fn.evaluate(Function.definitions()).value();
     Span span = spans.span(0);
 
     Assert.assertEquals(1, spans.size());

@@ -1,8 +1,5 @@
 package com.computablefacts.nona.functions.patternoperators;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -15,11 +12,8 @@ public class BicFrTest {
   @Test
   public void testAleInternational() {
 
-    Map<String, Function> functions = new HashMap<>();
-    functions.put("BIC", new Bic());
-
-    Function fn = new Function("BIC(AALE FR 22)");
-    SpanSequence spans = (SpanSequence) fn.evaluate(functions).value();
+    Function fn = new Function("MATCH_BIC(AALE FR 22)");
+    SpanSequence spans = (SpanSequence) fn.evaluate(Function.definitions()).value();
     Span span = spans.span(0);
 
     Assert.assertEquals(1, spans.size());
@@ -38,11 +32,8 @@ public class BicFrTest {
   @Test
   public void testAgenceFranceTresor() {
 
-    Map<String, Function> functions = new HashMap<>();
-    functions.put("BIC", new Bic());
-
-    Function fn = new Function("BIC(AFTR-FR-PP-CDP)");
-    SpanSequence spans = (SpanSequence) fn.evaluate(functions).value();
+    Function fn = new Function("MATCH_BIC(AFTR-FR-PP-CDP)");
+    SpanSequence spans = (SpanSequence) fn.evaluate(Function.definitions()).value();
     Span span = spans.span(0);
 
     Assert.assertEquals(1, spans.size());
@@ -61,11 +52,8 @@ public class BicFrTest {
   @Test
   public void testCommBank() {
 
-    Map<String, Function> functions = new HashMap<>();
-    functions.put("BIC", new Bic());
-
-    Function fn = new Function("BIC(CTBA-AU-2S)");
-    SpanSequence spans = (SpanSequence) fn.evaluate(functions).value();
+    Function fn = new Function("MATCH_BIC(CTBA-AU-2S)");
+    SpanSequence spans = (SpanSequence) fn.evaluate(Function.definitions()).value();
     Span span = spans.span(0);
 
     Assert.assertEquals(1, spans.size());

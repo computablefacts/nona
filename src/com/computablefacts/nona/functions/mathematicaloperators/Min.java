@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.util.List;
 
 import com.computablefacts.nona.Function;
+import com.computablefacts.nona.eCategory;
 import com.computablefacts.nona.types.BoxedType;
 import com.google.common.base.Preconditions;
 import com.google.errorprone.annotations.CheckReturnValue;
@@ -13,7 +14,8 @@ import com.google.errorprone.annotations.Var;
 public class Min extends Function {
 
   public Min() {
-    super("MIN", true);
+    super(eCategory.MATHEMATICAL_OPERATORS, "MIN",
+        "MIN(x, ..., z) returns the lowest number between {x, ..., z}.");
   }
 
   @Override

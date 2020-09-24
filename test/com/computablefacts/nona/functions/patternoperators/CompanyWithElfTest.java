@@ -1,7 +1,5 @@
 package com.computablefacts.nona.functions.patternoperators;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Set;
 
 import org.junit.Assert;
@@ -503,13 +501,10 @@ public class CompanyWithElfTest {
   @Test
   public void testFullMatch() {
 
-    Map<String, Function> functions = new HashMap<>();
-    functions.put("CPYNAME", new CompanyWithElf());
-
     for (String cpy : COMPANY_FULL_MATCH) {
 
-      Function fn = new Function("CPYNAME(" + Function.wrap(cpy) + ")");
-      SpanSequence spans = (SpanSequence) fn.evaluate(functions).value();
+      Function fn = new Function("MATCH_COMPANY_NAME(" + Function.wrap(cpy) + ")");
+      SpanSequence spans = (SpanSequence) fn.evaluate(Function.definitions()).value();
       Span span = spans.span(0);
 
       Assert.assertEquals(1, spans.size());
@@ -522,13 +517,10 @@ public class CompanyWithElfTest {
   @Test
   public void testPartialMatch() {
 
-    Map<String, Function> functions = new HashMap<>();
-    functions.put("CPYNAME", new CompanyWithElf());
-
     for (String cpy : COMPANY_PARTIAL_MATCH) {
 
-      Function fn = new Function("CPYNAME(" + Function.wrap(cpy) + ")");
-      SpanSequence spans = (SpanSequence) fn.evaluate(functions).value();
+      Function fn = new Function("MATCH_COMPANY_NAME(" + Function.wrap(cpy) + ")");
+      SpanSequence spans = (SpanSequence) fn.evaluate(Function.definitions()).value();
 
       Assert.assertEquals(2, spans.size());
     }
@@ -537,13 +529,10 @@ public class CompanyWithElfTest {
   @Test
   public void testNoMatch() {
 
-    Map<String, Function> functions = new HashMap<>();
-    functions.put("CPYNAME", new CompanyWithElf());
-
     for (String cpy : COMPANY_NO_MATCH) {
 
-      Function fn = new Function("CPYNAME(" + Function.wrap(cpy) + ")");
-      SpanSequence spans = (SpanSequence) fn.evaluate(functions).value();
+      Function fn = new Function("MATCH_COMPANY_NAME(" + Function.wrap(cpy) + ")");
+      SpanSequence spans = (SpanSequence) fn.evaluate(Function.definitions()).value();
 
       Assert.assertEquals(0, spans.size());
     }
@@ -552,13 +541,10 @@ public class CompanyWithElfTest {
   @Test
   public void testExtractValidCompanyNameFromText() {
 
-    Map<String, Function> functions = new HashMap<>();
-    functions.put("CPYNAME", new CompanyWithElf());
-
     for (String cpy : COMPANY_IN_TEXT) {
 
-      Function fn = new Function("CPYNAME(" + Function.wrap(cpy) + ")");
-      SpanSequence spans = (SpanSequence) fn.evaluate(functions).value();
+      Function fn = new Function("MATCH_COMPANY_NAME(" + Function.wrap(cpy) + ")");
+      SpanSequence spans = (SpanSequence) fn.evaluate(Function.definitions()).value();
       Span span = spans.span(0);
 
       Assert.assertEquals(1, spans.size());

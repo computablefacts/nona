@@ -3,6 +3,7 @@ package com.computablefacts.nona.functions.stringoperators;
 import java.util.List;
 
 import com.computablefacts.nona.Function;
+import com.computablefacts.nona.eCategory;
 import com.computablefacts.nona.helpers.WildcardMatcher;
 import com.computablefacts.nona.types.BoxedType;
 import com.google.common.base.Preconditions;
@@ -12,14 +13,16 @@ import com.google.errorprone.annotations.CheckReturnValue;
 public class MatchWildcard extends Function {
 
   public MatchWildcard() {
-    super("MATCHWILDCARD", true);
+    super(eCategory.STRING_OPERATORS, "MATCH_WILDCARD",
+        "MATCH_WILDCARD(x, y) returns true if x matches the y pattern, false otherwise. "
+            + "Available wildcards are \"*\" (0 or more) and \"?\" (exactly one).");
   }
 
   @Override
   public BoxedType evaluate(List<BoxedType> parameters) {
 
     Preconditions.checkArgument(parameters.size() == 2,
-        "MATCHWILDCARD takes exactly two parameters.");
+        "MATCH_WILDCARD takes exactly two parameters.");
     Preconditions.checkArgument(parameters.get(0).isString(), "%s should be a string",
         parameters.get(0));
     Preconditions.checkArgument(parameters.get(1).isString(), "%s should be a string",

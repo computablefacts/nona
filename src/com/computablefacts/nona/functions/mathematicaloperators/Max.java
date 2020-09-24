@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.util.List;
 
 import com.computablefacts.nona.Function;
+import com.computablefacts.nona.eCategory;
 import com.computablefacts.nona.types.BoxedType;
 import com.google.common.base.Preconditions;
 import com.google.errorprone.annotations.CheckReturnValue;
@@ -13,7 +14,8 @@ import com.google.errorprone.annotations.Var;
 public class Max extends Function {
 
   public Max() {
-    super("MAX", true);
+    super(eCategory.MATHEMATICAL_OPERATORS, "MAX",
+        "MAX(x, ..., z) returns the largest number between {x, ..., z}.");
   }
 
   @Override

@@ -3,6 +3,7 @@ package com.computablefacts.nona.functions.stringoperators;
 import java.util.List;
 
 import com.computablefacts.nona.Function;
+import com.computablefacts.nona.eCategory;
 import com.computablefacts.nona.types.BoxedType;
 import com.google.common.base.Preconditions;
 import com.google.errorprone.annotations.CheckReturnValue;
@@ -11,7 +12,8 @@ import com.google.errorprone.annotations.CheckReturnValue;
 public class Concat extends Function {
 
   public Concat() {
-    super("CONCAT", true);
+    super(eCategory.STRING_OPERATORS, "CONCAT",
+        "CONCAT(x, ..., z) returns \"x...z\" the concatenation of x and ... and z.");
   }
 
   @Override

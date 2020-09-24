@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.util.List;
 
 import com.computablefacts.nona.Function;
+import com.computablefacts.nona.eCategory;
 import com.computablefacts.nona.types.BoxedType;
 import com.google.common.base.Preconditions;
 import com.google.errorprone.annotations.CheckReturnValue;
@@ -13,7 +14,7 @@ import com.google.errorprone.annotations.Var;
 public class Add extends Function {
 
   public Add() {
-    super("ADD", true);
+    super(eCategory.ADDITIVE_OPERATORS, "ADD", "ADD(x, ..., y) returns x + ... + y.");
   }
 
   @Override

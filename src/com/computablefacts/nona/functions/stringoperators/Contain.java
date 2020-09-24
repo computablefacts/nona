@@ -3,6 +3,7 @@ package com.computablefacts.nona.functions.stringoperators;
 import java.util.List;
 
 import com.computablefacts.nona.Function;
+import com.computablefacts.nona.eCategory;
 import com.computablefacts.nona.types.BoxedType;
 import com.google.common.base.Preconditions;
 import com.google.errorprone.annotations.CheckReturnValue;
@@ -11,7 +12,8 @@ import com.google.errorprone.annotations.CheckReturnValue;
 public class Contain extends Function {
 
   public Contain() {
-    super("CONTAIN", true);
+    super(eCategory.STRING_OPERATORS, "CONTAIN",
+        "CONTAIN(x, y) returns true if x has y as a substring, false otherwise.");
   }
 
   @Override

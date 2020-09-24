@@ -3,6 +3,7 @@ package com.computablefacts.nona.functions.stringoperators;
 import java.util.List;
 
 import com.computablefacts.nona.Function;
+import com.computablefacts.nona.eCategory;
 import com.computablefacts.nona.types.BoxedType;
 import com.google.common.base.Preconditions;
 import com.google.errorprone.annotations.CheckReturnValue;
@@ -13,14 +14,17 @@ import me.xdrop.fuzzywuzzy.FuzzySearch;
 public class MatchFuzzy extends Function {
 
   public MatchFuzzy() {
-    super("MATCHFUZZY", true);
+    super(eCategory.STRING_OPERATORS, "MATCH_FUZZY",
+        "MATCH_FUZZY(r, m, x, y) returns true if x and y matches with a score greater than or equal to m using the r algorithm, false otherwise. "
+            + "Possible values for r are \"simple\", \"partial\", \"weighted\", \"token_set_simple\", \"token_sort_simple\", \"token_set_partial\" and \"token_sort_partial\". "
+            + "m must be an integer between 0 and 100.");
   }
 
   @Override
   public BoxedType evaluate(List<BoxedType> parameters) {
 
     Preconditions.checkArgument(parameters.size() == 4,
-        "MATCHFUZZY takes exactly four parameters.");
+        "MATCH_FUZZY takes exactly four parameters.");
     Preconditions.checkArgument(parameters.get(0).isString(), "%s should be a string",
         parameters.get(0));
     Preconditions.checkArgument(parameters.get(1).isNumber(), "%s should be a number",

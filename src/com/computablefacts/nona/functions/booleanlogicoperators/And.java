@@ -3,6 +3,7 @@ package com.computablefacts.nona.functions.booleanlogicoperators;
 import java.util.List;
 
 import com.computablefacts.nona.Function;
+import com.computablefacts.nona.eCategory;
 import com.computablefacts.nona.types.BoxedType;
 import com.google.common.base.Preconditions;
 import com.google.errorprone.annotations.CheckReturnValue;
@@ -11,7 +12,8 @@ import com.google.errorprone.annotations.CheckReturnValue;
 public class And extends Function {
 
   public And() {
-    super("AND", true);
+    super(eCategory.BOOLEAN_LOGIC_OPERATORS, "AND",
+        "AND(x, ..., z) returns true if x and ... and z are true.");
   }
 
   @Override

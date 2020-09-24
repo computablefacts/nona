@@ -1,7 +1,5 @@
 package com.computablefacts.nona.functions.patternoperators;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Set;
 
 import org.junit.Assert;
@@ -32,12 +30,9 @@ public class OnionTest {
   @Test
   public void testOnion() {
 
-    Map<String, Function> functions = new HashMap<>();
-    functions.put("ONION", new Onion());
-
-    Function fn = new Function(
-        "ONION(" + Function.wrap("http://torwikignoueupfm.onion/index.php?title=Main_Page") + ")");
-    SpanSequence spans = (SpanSequence) fn.evaluate(functions).value();
+    Function fn = new Function("MATCH_ONION("
+        + Function.wrap("http://torwikignoueupfm.onion/index.php?title=Main_Page") + ")");
+    SpanSequence spans = (SpanSequence) fn.evaluate(Function.definitions()).value();
     Span span = spans.span(0);
 
     Assert.assertEquals(1, spans.size());
@@ -52,13 +47,10 @@ public class OnionTest {
   @Test
   public void testValidOnions() {
 
-    Map<String, Function> functions = new HashMap<>();
-    functions.put("ONION", new Onion());
-
     for (String onion : VALID_URLS_THAT_MATCH) {
 
-      Function fn = new Function("ONION(" + Function.wrap(onion) + ")");
-      SpanSequence spans = (SpanSequence) fn.evaluate(functions).value();
+      Function fn = new Function("MATCH_ONION(" + Function.wrap(onion) + ")");
+      SpanSequence spans = (SpanSequence) fn.evaluate(Function.definitions()).value();
       Span span = spans.span(0);
 
       Assert.assertEquals(1, spans.size());
@@ -70,13 +62,10 @@ public class OnionTest {
   @Test
   public void testInvalidOnions() {
 
-    Map<String, Function> functions = new HashMap<>();
-    functions.put("EONION", new Onion());
-
     for (String onion : INVALID_URLS) {
 
-      Function fn = new Function("EONION(" + Function.wrap(onion) + ")");
-      SpanSequence spans = (SpanSequence) fn.evaluate(functions).value();
+      Function fn = new Function("MATCH_ONION(" + Function.wrap(onion) + ")");
+      SpanSequence spans = (SpanSequence) fn.evaluate(Function.definitions()).value();
 
       Assert.assertEquals(0, spans.size());
     }

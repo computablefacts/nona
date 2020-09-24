@@ -1,7 +1,5 @@
 package com.computablefacts.nona.functions.patternoperators;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Set;
 
 import org.junit.Assert;
@@ -36,13 +34,10 @@ public class EmailTest {
   @Test
   public void testValidEmails() {
 
-    Map<String, Function> functions = new HashMap<>();
-    functions.put("EMAIL", new Email());
-
     for (String email : VALID_EMAILS) {
 
-      Function fn = new Function("EMAIL(" + email + ")");
-      SpanSequence spans = (SpanSequence) fn.evaluate(functions).value();
+      Function fn = new Function("MATCH_EMAIL(" + email + ")");
+      SpanSequence spans = (SpanSequence) fn.evaluate(Function.definitions()).value();
       Span span = spans.span(0);
 
       Assert.assertEquals(1, spans.size());
@@ -56,13 +51,10 @@ public class EmailTest {
   @Test
   public void testValidEmailsInTexts() {
 
-    Map<String, Function> functions = new HashMap<>();
-    functions.put("EEMAIL", new Email());
-
     for (String email : VALID_EMAILS_IN_TEXTS) {
 
-      Function fn = new Function("EEMAIL(" + email + ")");
-      SpanSequence spans = (SpanSequence) fn.evaluate(functions).value();
+      Function fn = new Function("MATCH_EMAIL(" + email + ")");
+      SpanSequence spans = (SpanSequence) fn.evaluate(Function.definitions()).value();
       Span span = spans.span(0);
 
       Assert.assertEquals(1, spans.size());
@@ -77,13 +69,10 @@ public class EmailTest {
   @Test
   public void testInvalidEmails() {
 
-    Map<String, Function> functions = new HashMap<>();
-    functions.put("EMAIL", new Email());
-
     for (String email : INVALID_EMAILS) {
 
-      Function fn = new Function("EMAIL(" + email + ")");
-      SpanSequence spans = (SpanSequence) fn.evaluate(functions).value();
+      Function fn = new Function("MATCH_EMAIL(" + email + ")");
+      SpanSequence spans = (SpanSequence) fn.evaluate(Function.definitions()).value();
 
       Assert.assertEquals(0, spans.size());
     }
@@ -92,13 +81,10 @@ public class EmailTest {
   @Test
   public void testInvalidEmailsInTexts() {
 
-    Map<String, Function> functions = new HashMap<>();
-    functions.put("EMAIL", new Email());
-
     for (String email : INVALID_EMAILS_IN_TEXTS) {
 
-      Function fn = new Function("EMAIL(" + email + ")");
-      SpanSequence spans = (SpanSequence) fn.evaluate(functions).value();
+      Function fn = new Function("MATCH_EMAIL(" + email + ")");
+      SpanSequence spans = (SpanSequence) fn.evaluate(Function.definitions()).value();
 
       Assert.assertEquals(1, spans.size());
     }

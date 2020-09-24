@@ -1,8 +1,5 @@
 package com.computablefacts.nona.functions.booleanlogicoperators;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -14,20 +11,14 @@ public class NotTest {
   @Test
   public void testNotTrue() {
 
-    Map<String, Function> functions = new HashMap<>();
-    functions.put("NOT", new Not());
-
     Function fn = new Function("NOT(true)");
-    Assert.assertEquals(BoxedType.create(false), fn.evaluate(functions));
+    Assert.assertEquals(BoxedType.create(false), fn.evaluate(Function.definitions()));
   }
 
   @Test
   public void testNotFalse() {
 
-    Map<String, Function> functions = new HashMap<>();
-    functions.put("NOT", new Not());
-
     Function fn = new Function("NOT(false)");
-    Assert.assertEquals(BoxedType.create(true), fn.evaluate(functions));
+    Assert.assertEquals(BoxedType.create(true), fn.evaluate(Function.definitions()));
   }
 }

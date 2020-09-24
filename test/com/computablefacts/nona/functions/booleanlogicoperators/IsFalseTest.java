@@ -1,8 +1,5 @@
 package com.computablefacts.nona.functions.booleanlogicoperators;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -15,60 +12,42 @@ public class IsFalseTest {
   @Test(expected = UncheckedExecutionException.class)
   public void testIsFalseEmpty() {
 
-    Map<String, Function> functions = new HashMap<>();
-    functions.put("IS_FALSE", new IsFalse());
-
     Function fn = new Function("IS_FALSE()");
-    Assert.assertEquals(BoxedType.create(true), fn.evaluate(functions));
+    Assert.assertEquals(BoxedType.create(true), fn.evaluate(Function.definitions()));
   }
 
   @Test
   public void testIsFalseString() {
 
-    Map<String, Function> functions = new HashMap<>();
-    functions.put("IS_FALSE", new IsFalse());
-
     Function fn = new Function("IS_FALSE(test)");
-    Assert.assertEquals(BoxedType.create(true), fn.evaluate(functions));
+    Assert.assertEquals(BoxedType.create(true), fn.evaluate(Function.definitions()));
   }
 
   @Test
   public void testIsFalseInteger() {
 
-    Map<String, Function> functions = new HashMap<>();
-    functions.put("IS_FALSE", new IsFalse());
-
     Function fn = new Function("IS_FALSE(3)");
-    Assert.assertEquals(BoxedType.create(true), fn.evaluate(functions));
+    Assert.assertEquals(BoxedType.create(true), fn.evaluate(Function.definitions()));
   }
 
   @Test
   public void testIsFalseDouble() {
 
-    Map<String, Function> functions = new HashMap<>();
-    functions.put("IS_FALSE", new IsFalse());
-
     Function fn = new Function("IS_FALSE(3.14)");
-    Assert.assertEquals(BoxedType.create(true), fn.evaluate(functions));
+    Assert.assertEquals(BoxedType.create(true), fn.evaluate(Function.definitions()));
   }
 
   @Test
   public void testIsFalseTrue() {
 
-    Map<String, Function> functions = new HashMap<>();
-    functions.put("IS_FALSE", new IsFalse());
-
     Function fn = new Function("IS_FALSE(true)");
-    Assert.assertEquals(BoxedType.create(false), fn.evaluate(functions));
+    Assert.assertEquals(BoxedType.create(false), fn.evaluate(Function.definitions()));
   }
 
   @Test
   public void testIsFalseFalse() {
 
-    Map<String, Function> functions = new HashMap<>();
-    functions.put("IS_FALSE", new IsFalse());
-
     Function fn = new Function("IS_FALSE(false)");
-    Assert.assertEquals(BoxedType.create(true), fn.evaluate(functions));
+    Assert.assertEquals(BoxedType.create(true), fn.evaluate(Function.definitions()));
   }
 }

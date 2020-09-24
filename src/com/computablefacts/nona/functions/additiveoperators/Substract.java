@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.util.List;
 
 import com.computablefacts.nona.Function;
+import com.computablefacts.nona.eCategory;
 import com.computablefacts.nona.types.BoxedType;
 import com.google.common.base.Preconditions;
 import com.google.errorprone.annotations.CheckReturnValue;
@@ -13,13 +14,13 @@ import com.google.errorprone.annotations.Var;
 public class Substract extends Function {
 
   public Substract() {
-    super("SUBSTRACT", true);
+    super(eCategory.ADDITIVE_OPERATORS, "SUB", "SUB(x, ..., z) returns x - ... - z.");
   }
 
   @Override
   public BoxedType evaluate(List<BoxedType> parameters) {
 
-    Preconditions.checkArgument(parameters.size() >= 2, "SUBSTRACT takes at least two parameters.");
+    Preconditions.checkArgument(parameters.size() >= 2, "SUB takes at least two parameters.");
     Preconditions.checkArgument(parameters.get(0).isNumber(), "%s should be a number",
         parameters.get(0));
 

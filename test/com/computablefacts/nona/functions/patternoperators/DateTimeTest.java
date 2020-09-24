@@ -1,8 +1,5 @@
 package com.computablefacts.nona.functions.patternoperators;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -15,11 +12,8 @@ public class DateTimeTest {
   @Test
   public void testDateTimePositiveTimezone() {
 
-    Map<String, Function> functions = new HashMap<>();
-    functions.put("DTIME", new DateTime());
-
-    Function fn = new Function("DTIME(1997-07-16T19:20:30+01:00)");
-    SpanSequence spans = (SpanSequence) fn.evaluate(functions).value();
+    Function fn = new Function("MATCH_DATE_TIME(1997-07-16T19:20:30+01:00)");
+    SpanSequence spans = (SpanSequence) fn.evaluate(Function.definitions()).value();
     Span span = spans.span(0);
 
     Assert.assertEquals(1, spans.size());
@@ -33,11 +27,8 @@ public class DateTimeTest {
   @Test
   public void testDateTimeNegativeTimezone() {
 
-    Map<String, Function> functions = new HashMap<>();
-    functions.put("DTIME", new DateTime());
-
-    Function fn = new Function("DTIME(1994-11-05T08:15:30-05:00)");
-    SpanSequence spans = (SpanSequence) fn.evaluate(functions).value();
+    Function fn = new Function("MATCH_DATE_TIME(1994-11-05T08:15:30-05:00)");
+    SpanSequence spans = (SpanSequence) fn.evaluate(Function.definitions()).value();
     Span span = spans.span(0);
 
     Assert.assertEquals(1, spans.size());

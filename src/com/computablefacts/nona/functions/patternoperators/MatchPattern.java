@@ -8,7 +8,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.computablefacts.nona.functions.stringoperators.RegexExtract;
+import com.computablefacts.nona.functions.stringoperators.MatchRegex;
 import com.computablefacts.nona.types.BoxedType;
 import com.computablefacts.nona.types.Span;
 import com.computablefacts.nona.types.SpanSequence;
@@ -21,7 +21,7 @@ import com.google.errorprone.annotations.CheckReturnValue;
  * boundaries.
  */
 @CheckReturnValue
-public class MatchPattern extends RegexExtract {
+public class MatchPattern extends MatchRegex {
 
   private final String name_;
   private final String pattern_;

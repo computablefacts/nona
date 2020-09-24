@@ -3,6 +3,7 @@ package com.computablefacts.nona.functions.controlflowoperators;
 import java.util.List;
 
 import com.computablefacts.nona.Function;
+import com.computablefacts.nona.eCategory;
 import com.computablefacts.nona.types.BoxedType;
 import com.google.common.base.Preconditions;
 import com.google.errorprone.annotations.CheckReturnValue;
@@ -11,7 +12,8 @@ import com.google.errorprone.annotations.CheckReturnValue;
 public class If extends Function {
 
   public If() {
-    super("IF", true);
+    super(eCategory.CONTROL_FLOW_OPERATORS, "IF",
+        "IF(x, a, b) returns a if x is true, b otherwise.");
   }
 
   @Override

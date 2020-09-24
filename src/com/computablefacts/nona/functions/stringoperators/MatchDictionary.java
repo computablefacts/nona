@@ -17,6 +17,7 @@ import org.ahocorasick.trie.Emit;
 import org.ahocorasick.trie.Trie;
 
 import com.computablefacts.nona.Function;
+import com.computablefacts.nona.eCategory;
 import com.computablefacts.nona.types.BoxedType;
 import com.computablefacts.nona.types.Span;
 import com.computablefacts.nona.types.SpanSequence;
@@ -57,14 +58,15 @@ public class MatchDictionary extends Function {
           });
 
   public MatchDictionary() {
-    super("MATCHDICTIONARY", true);
+    super(eCategory.STRING_OPERATORS, "MATCH_DICTIONARY",
+        "MATCH_DICTIONARY(file, x) extract from string x all words found in a dictionary file (1 row = 1 word).");
   }
 
   @Override
   public BoxedType evaluate(List<BoxedType> parameters) {
 
     Preconditions.checkArgument(parameters.size() == 2,
-        "MATCHDICTIONARY takes exactly two parameters.");
+        "MATCH_DICTIONARY takes exactly two parameters.");
     Preconditions.checkArgument(parameters.get(0).isString(), "%s should be a string",
         parameters.get(0));
     Preconditions.checkArgument(parameters.get(1).isString(), "%s should be a string",

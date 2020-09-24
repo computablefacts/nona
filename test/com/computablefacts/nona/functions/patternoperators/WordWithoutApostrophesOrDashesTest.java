@@ -1,8 +1,5 @@
 package com.computablefacts.nona.functions.patternoperators;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -14,12 +11,9 @@ public class WordWithoutApostrophesOrDashesTest {
   @Test
   public void testWordWithApostrophe() {
 
-    Map<String, Function> functions = new HashMap<>();
-    functions.put("WORD_WITHOUT_APOSTROPHES_OR_DASHES", new WordWithoutApostrophesOrDashes());
-
-    Function fn = new Function("WORD_WITHOUT_APOSTROPHES_OR_DASHES("
+    Function fn = new Function("MATCH_WORD_WITHOUT_APOSTROPHES_OR_DASHES("
         + Function.wrap("He doesn't like celery in a salad.") + ")");
-    SpanSequence spans = (SpanSequence) fn.evaluate(functions).value();
+    SpanSequence spans = (SpanSequence) fn.evaluate(Function.definitions()).value();
 
     Assert.assertEquals(8, spans.size());
     Assert.assertEquals("He", spans.span(0).text());
@@ -35,12 +29,9 @@ public class WordWithoutApostrophesOrDashesTest {
   @Test
   public void testWordWithApostropheAtTheEnd() {
 
-    Map<String, Function> functions = new HashMap<>();
-    functions.put("WORD_WITHOUT_APOSTROPHES_OR_DASHES", new WordWithoutApostrophesOrDashes());
-
     Function fn = new Function(
-        "WORD_WITHOUT_APOSTROPHES_OR_DASHES(" + Function.wrap("Ms. Peters’ house.") + ")");
-    SpanSequence spans = (SpanSequence) fn.evaluate(functions).value();
+        "MATCH_WORD_WITHOUT_APOSTROPHES_OR_DASHES(" + Function.wrap("Ms. Peters’ house.") + ")");
+    SpanSequence spans = (SpanSequence) fn.evaluate(Function.definitions()).value();
 
     Assert.assertEquals(3, spans.size());
     Assert.assertEquals("Ms", spans.span(0).text());
@@ -51,12 +42,9 @@ public class WordWithoutApostrophesOrDashesTest {
   @Test
   public void testWordWithDash() {
 
-    Map<String, Function> functions = new HashMap<>();
-    functions.put("WORD_WITHOUT_APOSTROPHES_OR_DASHES", new WordWithoutApostrophesOrDashes());
-
-    Function fn = new Function("WORD_WITHOUT_APOSTROPHES_OR_DASHES("
+    Function fn = new Function("MATCH_WORD_WITHOUT_APOSTROPHES_OR_DASHES("
         + Function.wrap("Rock-forming minerals are minerals that form rocks.") + ")");
-    SpanSequence spans = (SpanSequence) fn.evaluate(functions).value();
+    SpanSequence spans = (SpanSequence) fn.evaluate(Function.definitions()).value();
 
     Assert.assertEquals(8, spans.size());
     Assert.assertEquals("Rock", spans.span(0).text());
@@ -72,12 +60,9 @@ public class WordWithoutApostrophesOrDashesTest {
   @Test
   public void testWordWithApostropheAndDash() {
 
-    Map<String, Function> functions = new HashMap<>();
-    functions.put("WORD_WITHOUT_APOSTROPHES_OR_DASHES", new WordWithoutApostrophesOrDashes());
-
-    Function fn = new Function("WORD_WITHOUT_APOSTROPHES_OR_DASHES("
+    Function fn = new Function("MATCH_WORD_WITHOUT_APOSTROPHES_OR_DASHES("
         + Function.wrap("My brother-in-law’s house is down the block.") + ")");
-    SpanSequence spans = (SpanSequence) fn.evaluate(functions).value();
+    SpanSequence spans = (SpanSequence) fn.evaluate(Function.definitions()).value();
 
     Assert.assertEquals(10, spans.size());
     Assert.assertEquals("My", spans.span(0).text());

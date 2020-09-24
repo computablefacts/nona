@@ -1,8 +1,5 @@
 package com.computablefacts.nona.functions.jsonoperators;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -17,11 +14,8 @@ public class ToJsonTest {
 
     String json = "[]";
 
-    Map<String, Function> functions = new HashMap<>();
-    functions.put("TOJSON", new ToJson());
-
-    Function fn = new Function("TOJSON(" + Function.wrap(json) + ")");
-    Assert.assertEquals(BoxedType.create(Json.create(json)), fn.evaluate(functions));
+    Function fn = new Function("TO_JSON(" + Function.wrap(json) + ")");
+    Assert.assertEquals(BoxedType.create(Json.create(json)), fn.evaluate(Function.definitions()));
   }
 
   @Test
@@ -30,11 +24,8 @@ public class ToJsonTest {
     String json =
         "[{\"col_1\": 11, \"col_2\": 12, \"col_3\": 13} , {\"col_1\": 21, \"col_2\": 22, \"col_3\": 23}]";
 
-    Map<String, Function> functions = new HashMap<>();
-    functions.put("TOJSON", new ToJson());
-
-    Function fn = new Function("TOJSON(" + Function.wrap(json) + ")");
-    Assert.assertEquals(BoxedType.create(Json.create(json)), fn.evaluate(functions));
+    Function fn = new Function("TO_JSON(" + Function.wrap(json) + ")");
+    Assert.assertEquals(BoxedType.create(Json.create(json)), fn.evaluate(Function.definitions()));
   }
 
   @Test
@@ -42,11 +33,8 @@ public class ToJsonTest {
 
     String json = "{}";
 
-    Map<String, Function> functions = new HashMap<>();
-    functions.put("TOJSON", new ToJson());
-
-    Function fn = new Function("TOJSON(" + Function.wrap(json) + ")");
-    Assert.assertEquals(BoxedType.create(Json.create(json)), fn.evaluate(functions));
+    Function fn = new Function("TO_JSON(" + Function.wrap(json) + ")");
+    Assert.assertEquals(BoxedType.create(Json.create(json)), fn.evaluate(Function.definitions()));
   }
 
   @Test
@@ -54,11 +42,8 @@ public class ToJsonTest {
 
     String json = "{\"col_1\": 11, \"col_2\": 12, \"col_3\": 13}";
 
-    Map<String, Function> functions = new HashMap<>();
-    functions.put("TOJSON", new ToJson());
-
-    Function fn = new Function("TOJSON(" + Function.wrap(json) + ")");
-    Assert.assertEquals(BoxedType.create(Json.create(json)), fn.evaluate(functions));
+    Function fn = new Function("TO_JSON(" + Function.wrap(json) + ")");
+    Assert.assertEquals(BoxedType.create(Json.create(json)), fn.evaluate(Function.definitions()));
   }
 
   @Test

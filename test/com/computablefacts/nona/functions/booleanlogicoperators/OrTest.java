@@ -1,8 +1,5 @@
 package com.computablefacts.nona.functions.booleanlogicoperators;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -14,40 +11,28 @@ public class OrTest {
   @Test
   public void testOrTrueFalse() {
 
-    Map<String, Function> functions = new HashMap<>();
-    functions.put("OR", new Or());
-
     Function fn = new Function("OR(true, false)");
-    Assert.assertEquals(BoxedType.create(true), fn.evaluate(functions));
+    Assert.assertEquals(BoxedType.create(true), fn.evaluate(Function.definitions()));
   }
 
   @Test
   public void testOrFalseTrue() {
 
-    Map<String, Function> functions = new HashMap<>();
-    functions.put("OR", new Or());
-
     Function fn = new Function("OR(false, true)");
-    Assert.assertEquals(BoxedType.create(true), fn.evaluate(functions));
+    Assert.assertEquals(BoxedType.create(true), fn.evaluate(Function.definitions()));
   }
 
   @Test
   public void testOrTrueTrue() {
 
-    Map<String, Function> functions = new HashMap<>();
-    functions.put("OR", new Or());
-
     Function fn = new Function("OR(true, true)");
-    Assert.assertEquals(BoxedType.create(true), fn.evaluate(functions));
+    Assert.assertEquals(BoxedType.create(true), fn.evaluate(Function.definitions()));
   }
 
   @Test
   public void testOrFalseFalse() {
 
-    Map<String, Function> functions = new HashMap<>();
-    functions.put("OR", new Or());
-
     Function fn = new Function("OR(false, false)");
-    Assert.assertEquals(BoxedType.create(false), fn.evaluate(functions));
+    Assert.assertEquals(BoxedType.create(false), fn.evaluate(Function.definitions()));
   }
 }

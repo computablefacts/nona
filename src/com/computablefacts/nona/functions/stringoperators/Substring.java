@@ -3,6 +3,7 @@ package com.computablefacts.nona.functions.stringoperators;
 import java.util.List;
 
 import com.computablefacts.nona.Function;
+import com.computablefacts.nona.eCategory;
 import com.computablefacts.nona.types.BoxedType;
 import com.google.common.base.Preconditions;
 import com.google.errorprone.annotations.CheckReturnValue;
@@ -11,7 +12,8 @@ import com.google.errorprone.annotations.CheckReturnValue;
 public class Substring extends Function {
 
   public Substring() {
-    super("SUBSTRING", true);
+    super(eCategory.STRING_OPERATORS, "SUBSTRING",
+        "SUBSTRING(x, a, b) returns the substring of x starting at position a (included) and ending at position b (excluded).");
   }
 
   @Override

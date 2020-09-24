@@ -37,7 +37,7 @@ public class FunctionTest {
   public void testEvaluateFunctionWithNoParameter1() {
 
     Map<String, Function> functions = new HashMap<>();
-    functions.put("ZERO", new Function("ZERO", true) {
+    functions.put("ZERO", new Function(eCategory.ASSIGNMENT_OPERATORS, "ZERO", "For tests only.") {
 
       @Override
       public BoxedType evaluate(List<BoxedType> parameters) {
@@ -56,7 +56,7 @@ public class FunctionTest {
   public void testEvaluateFunctionWithNoParameter2() {
 
     Map<String, Function> functions = new HashMap<>();
-    functions.put("ZERO", new Function("ZERO", true) {
+    functions.put("ZERO", new Function(eCategory.ASSIGNMENT_OPERATORS, "ZERO", "For tests only.") {
 
       @Override
       public BoxedType evaluate(List<BoxedType> parameters) {
@@ -170,7 +170,7 @@ public class FunctionTest {
   public void testParseFunctionWithIntegerParameter() {
 
     Map<String, Function> functions = new HashMap<>();
-    functions.put("FN", new Function("FN", true) {
+    functions.put("FN", new Function(eCategory.ASSIGNMENT_OPERATORS, "FN", "For tests only.") {
 
       @Override
       public BoxedType evaluate(List<BoxedType> parameters) {
@@ -189,7 +189,7 @@ public class FunctionTest {
   public void testParseFunctionWithDoubleParameter() {
 
     Map<String, Function> functions = new HashMap<>();
-    functions.put("FN", new Function("FN", true) {
+    functions.put("FN", new Function(eCategory.ASSIGNMENT_OPERATORS, "FN", "For tests only.") {
 
       @Override
       public BoxedType evaluate(List<BoxedType> parameters) {
@@ -208,7 +208,7 @@ public class FunctionTest {
   public void testParseFunctionWithStringParameter() {
 
     Map<String, Function> functions = new HashMap<>();
-    functions.put("FN", new Function("FN", true) {
+    functions.put("FN", new Function(eCategory.ASSIGNMENT_OPERATORS, "FN", "For tests only.") {
 
       @Override
       public BoxedType evaluate(List<BoxedType> parameters) {
@@ -227,7 +227,7 @@ public class FunctionTest {
   public void testParseFunctionWithDoubleQuotedStringParameter() {
 
     Map<String, Function> functions = new HashMap<>();
-    functions.put("FN", new Function("FN", true) {
+    functions.put("FN", new Function(eCategory.ASSIGNMENT_OPERATORS, "FN", "For tests only.") {
 
       @Override
       public BoxedType evaluate(List<BoxedType> parameters) {
@@ -246,7 +246,7 @@ public class FunctionTest {
   public void testParseFunctionWithParenthesisedStringParameter() {
 
     Map<String, Function> functions = new HashMap<>();
-    functions.put("FN", new Function("FN", true) {
+    functions.put("FN", new Function(eCategory.ASSIGNMENT_OPERATORS, "FN", "For tests only.") {
 
       @Override
       public BoxedType evaluate(List<BoxedType> parameters) {
@@ -265,7 +265,7 @@ public class FunctionTest {
   public void testParseFunctionWithACommaInStringParameter() {
 
     Map<String, Function> functions = new HashMap<>();
-    functions.put("FN", new Function("FN", true) {
+    functions.put("FN", new Function(eCategory.ASSIGNMENT_OPERATORS, "FN", "For tests only.") {
 
       @Override
       public BoxedType evaluate(List<BoxedType> parameters) {
@@ -284,7 +284,7 @@ public class FunctionTest {
   public void testParseFunctionWithASingleDoubleQuoteInStringParameter() {
 
     Map<String, Function> functions = new HashMap<>();
-    functions.put("FN", new Function("FN", true) {
+    functions.put("FN", new Function(eCategory.ASSIGNMENT_OPERATORS, "FN", "For tests only.") {
 
       @Override
       public BoxedType evaluate(List<BoxedType> parameters) {
@@ -303,7 +303,7 @@ public class FunctionTest {
   public void testParseFunctionWithASingleBeginningParenthesisInStringParameter() {
 
     Map<String, Function> functions = new HashMap<>();
-    functions.put("FN", new Function("FN", true) {
+    functions.put("FN", new Function(eCategory.ASSIGNMENT_OPERATORS, "FN", "For tests only.") {
 
       @Override
       public BoxedType evaluate(List<BoxedType> parameters) {
@@ -322,7 +322,7 @@ public class FunctionTest {
   public void testParseFunctionWithASingleEndingParenthesisInStringParameter() {
 
     Map<String, Function> functions = new HashMap<>();
-    functions.put("FN", new Function("FN", true) {
+    functions.put("FN", new Function(eCategory.ASSIGNMENT_OPERATORS, "FN", "For tests only.") {
 
       @Override
       public BoxedType evaluate(List<BoxedType> parameters) {
@@ -339,7 +339,8 @@ public class FunctionTest {
 
   @Test(expected = RuntimeException.class)
   public void testDirectCallToEvaluate() {
-    BoxedType bt = new Function("FN", true).evaluate(new ArrayList<>());
+    BoxedType bt = new Function(eCategory.ASSIGNMENT_OPERATORS, "FN", "For tests only.")
+        .evaluate(new ArrayList<>());
   }
 
   @Test

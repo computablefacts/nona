@@ -3,6 +3,7 @@ package com.computablefacts.nona.functions.booleanlogicoperators;
 import java.util.List;
 
 import com.computablefacts.nona.Function;
+import com.computablefacts.nona.eCategory;
 import com.computablefacts.nona.types.BoxedType;
 import com.google.common.base.Preconditions;
 import com.google.errorprone.annotations.CheckReturnValue;
@@ -11,7 +12,8 @@ import com.google.errorprone.annotations.CheckReturnValue;
 public class Not extends Function {
 
   public Not() {
-    super("NOT", true);
+    super(eCategory.BOOLEAN_LOGIC_OPERATORS, "NOT",
+        "NOT(x) returns true if x is false. Returns false if x is true.");
   }
 
   @Override

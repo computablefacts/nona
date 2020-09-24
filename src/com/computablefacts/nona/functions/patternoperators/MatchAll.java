@@ -4,8 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.computablefacts.nona.Function;
+import com.computablefacts.nona.eCategory;
 import com.computablefacts.nona.functions.stringoperators.MatchDictionary;
-import com.computablefacts.nona.functions.stringoperators.RegexExtract;
+import com.computablefacts.nona.functions.stringoperators.MatchRegex;
 import com.computablefacts.nona.types.BoxedType;
 import com.computablefacts.nona.types.Span;
 import com.computablefacts.nona.types.SpanSequence;
@@ -15,27 +16,27 @@ import com.google.common.primitives.Ints;
 import com.google.errorprone.annotations.CheckReturnValue;
 import com.google.errorprone.annotations.Var;
 
+@Deprecated
 @CheckReturnValue
 public class MatchAll extends Function {
 
-  private static final List<RegexExtract> FORWARD_AND_BACKWARD_EXTRACTORS = Lists.newArrayList(
+  private static final List<MatchRegex> FORWARD_AND_BACKWARD_EXTRACTORS = Lists.newArrayList(
       new Base64(), new Bic(), new CompanyWithElf(), new Date(), new DateTime(), new Email(),
       new FinancialNumber(), new IpV4(), new IpV6(), new MonetaryAmount(), new Number(),
       new Onion(), new Percent(), new Time(), new UnixPath(), new Url(), new WinPath());
-  private static final List<RegexExtract> COMPACT_EXTRACTORS = Lists.newArrayList(new Iban());
+  private static final List<MatchRegex> COMPACT_EXTRACTORS = Lists.newArrayList(new Iban());
 
-  private final List<RegexExtract> forwardAndBackwardExtractors_;
-  private final List<RegexExtract> compactExtractors_;
+  private final List<MatchRegex> forwardAndBackwardExtractors_;
+  private final List<MatchRegex> compactExtractors_;
 
-  @Deprecated
   public MatchAll() {
     this(FORWARD_AND_BACKWARD_EXTRACTORS, COMPACT_EXTRACTORS);
   }
 
-  public MatchAll(List<RegexExtract> forwardAndBackwardExtractors,
-      List<RegexExtract> compactExtractors) {
+  public MatchAll(List<MatchRegex> forwardAndBackwardExtractors,
+      List<MatchRegex> compactExtractors) {
 
-    super("EXTRACT_ALL", true);
+    super(eCategory.PATTERN_OPERATORS, "MATCH_ALL", "Deprecated.");
 
     forwardAndBackwardExtractors_ = Preconditions.checkNotNull(forwardAndBackwardExtractors,
         "forwardAndBackwardExtractors should not be null");
@@ -64,7 +65,7 @@ public class MatchAll extends Function {
     }
 
     // Extract forward and backward patterns
-    for (RegexExtract extractor : forwardAndBackwardExtractors_) {
+    for (MatchRegex extractor : forwardAndBackwardExtractors_) {
       newSequence
           .add((SpanSequence) extractor.evaluate(Lists.newArrayList(parameters.get(0))).value());
     }
@@ -113,7 +114,7 @@ public class MatchAll extends Function {
     }
 
     // Extract compact patterns
-    for (RegexExtract extractor : compactExtractors_) {
+    for (MatchRegex extractor : compactExtractors_) {
       newSequence
           .add((SpanSequence) extractor.evaluate(Lists.newArrayList(parameters.get(0))).value());
     }

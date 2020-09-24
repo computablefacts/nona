@@ -1,8 +1,5 @@
 package com.computablefacts.nona.functions.additiveoperators;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -14,21 +11,14 @@ public class AddTest {
   @Test
   public void testSimpleAddFunction() {
 
-    Map<String, Function> functions = new HashMap<>();
-    functions.put("ADD", new Add());
-
     Function fn = new Function("ADD(1, 1)");
-    Assert.assertEquals(BoxedType.create(2.0), fn.evaluate(functions));
+    Assert.assertEquals(BoxedType.create(2.0), fn.evaluate(Function.definitions()));
   }
 
   @Test
   public void testComplexAddFunction() {
 
-    Map<String, Function> functions = new HashMap<>();
-    functions.put("ADD", new Add());
-    functions.put("SUB", new Substract());
-
     Function fn = new Function("SUB(ADD(1, 1), 1)");
-    Assert.assertEquals(BoxedType.create(1.0), fn.evaluate(functions));
+    Assert.assertEquals(BoxedType.create(1.0), fn.evaluate(Function.definitions()));
   }
 }

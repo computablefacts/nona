@@ -3,9 +3,7 @@ package com.computablefacts.nona.functions.stringoperators;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.junit.Assert;
@@ -27,12 +25,9 @@ public class MatchDictionaryTest {
     Files.write(file, keywords);
 
     // Execute function
-    Map<String, Function> functions = new HashMap<>();
-    functions.put("DICO", new MatchDictionary());
-
-    Function fn = new Function("DICO(" + Function.wrap(file.toString()) + ", "
+    Function fn = new Function("MATCH_DICTIONARY(" + Function.wrap(file.toString()) + ", "
         + Function.wrap("sugarcane sugar canesugar") + ")");
-    SpanSequence spans = (SpanSequence) fn.evaluate(functions).value();
+    SpanSequence spans = (SpanSequence) fn.evaluate(Function.definitions()).value();
 
     Assert.assertEquals(1, spans.size());
     Assert.assertEquals("sugar", spans.span(0).text());
@@ -49,13 +44,11 @@ public class MatchDictionaryTest {
     Files.write(file, keywords);
 
     // Execute function
-    Map<String, Function> functions = new HashMap<>();
-    functions.put("DICO", new MatchDictionary());
-
-    Function fn = new Function("DICO(" + Function.wrap(file.toString()) + ", " + Function.wrap(
-        "The Answer to the Great Question... Of Life,\nthe Universe and Everything... Is... Forty-two,' said\nDeep Thought, with infinite majesty and calm.")
+    Function fn = new Function("MATCH_DICTIONARY(" + Function.wrap(file.toString()) + ", "
+        + Function.wrap(
+            "The Answer to the Great Question... Of Life,\nthe Universe and Everything... Is... Forty-two,' said\nDeep Thought, with infinite majesty and calm.")
         + ")");
-    SpanSequence spans = (SpanSequence) fn.evaluate(functions).value();
+    SpanSequence spans = (SpanSequence) fn.evaluate(Function.definitions()).value();
 
     Assert.assertEquals(3, spans.size());
     Assert.assertTrue(

@@ -27,7 +27,7 @@ public class Email extends MatchPattern {
   }
 
   public Email() {
-    super("EMAIL", email(), GROUPS);
+    super("MATCH_EMAIL", email(), GROUPS);
   }
 
   @Override

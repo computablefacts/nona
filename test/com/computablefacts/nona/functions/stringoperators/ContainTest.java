@@ -1,8 +1,5 @@
 package com.computablefacts.nona.functions.stringoperators;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -14,20 +11,14 @@ public class ContainTest {
   @Test
   public void testContainWithOneMatch() {
 
-    Map<String, Function> functions = new HashMap<>();
-    functions.put("CONTAIN", new Contain());
-
     Function fn = new Function("CONTAIN(john doe, john)");
-    Assert.assertEquals(BoxedType.create(true), fn.evaluate(functions));
+    Assert.assertEquals(BoxedType.create(true), fn.evaluate(Function.definitions()));
   }
 
   @Test
   public void testContainWithNoMatch() {
 
-    Map<String, Function> functions = new HashMap<>();
-    functions.put("CONTAIN", new Contain());
-
     Function fn = new Function("CONTAIN(john, john doe)");
-    Assert.assertEquals(BoxedType.create(false), fn.evaluate(functions));
+    Assert.assertEquals(BoxedType.create(false), fn.evaluate(Function.definitions()));
   }
 }

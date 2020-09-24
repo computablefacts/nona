@@ -3,6 +3,7 @@ package com.computablefacts.nona.functions.stringoperators;
 import java.util.List;
 
 import com.computablefacts.nona.Function;
+import com.computablefacts.nona.eCategory;
 import com.computablefacts.nona.types.BoxedType;
 import com.google.common.base.Preconditions;
 import com.google.errorprone.annotations.CheckReturnValue;
@@ -11,13 +12,14 @@ import com.google.errorprone.annotations.CheckReturnValue;
 public class StartWith extends Function {
 
   public StartWith() {
-    super("STARTWITH", true);
+    super(eCategory.STRING_OPERATORS, "START_WITH",
+        "START_WITH(x, y) returns true if x has y as a prefix, false otherwise.");
   }
 
   @Override
   public BoxedType evaluate(List<BoxedType> parameters) {
 
-    Preconditions.checkArgument(parameters.size() == 2, "STARTWITH takes exactly two parameters.");
+    Preconditions.checkArgument(parameters.size() == 2, "START_WITH takes exactly two parameters.");
     Preconditions.checkArgument(parameters.get(0).isString(), "%s should be a string",
         parameters.get(0));
 

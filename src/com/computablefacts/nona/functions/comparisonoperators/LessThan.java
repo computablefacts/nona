@@ -3,6 +3,7 @@ package com.computablefacts.nona.functions.comparisonoperators;
 import java.util.List;
 
 import com.computablefacts.nona.Function;
+import com.computablefacts.nona.eCategory;
 import com.computablefacts.nona.types.BoxedType;
 import com.google.common.base.Preconditions;
 import com.google.errorprone.annotations.CheckReturnValue;
@@ -11,7 +12,8 @@ import com.google.errorprone.annotations.CheckReturnValue;
 public class LessThan extends Function {
 
   public LessThan() {
-    super("LT", true);
+    super(eCategory.COMPARISON_OPERATORS, "LT",
+        "LT(x, y) returns true if x and y are both of the same type and x is strictly less than y.");
   }
 
   @Override

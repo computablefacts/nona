@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import com.computablefacts.nona.functions.stringoperators.RegexExtract;
+import com.computablefacts.nona.functions.stringoperators.MatchRegex;
 import com.computablefacts.nona.types.BoxedType;
 import com.computablefacts.nona.types.Span;
 import com.computablefacts.nona.types.SpanSequence;
@@ -17,7 +17,7 @@ import com.google.errorprone.annotations.CheckReturnValue;
 import com.google.errorprone.annotations.Var;
 
 @CheckReturnValue
-public class Iban extends RegexExtract {
+public class Iban extends MatchRegex {
 
   private static final Map<String, com.computablefacts.nona.dictionaries.Iban> IBAN_DICTIONARY =
       com.computablefacts.nona.dictionaries.Iban.load();

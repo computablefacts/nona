@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.util.List;
 
 import com.computablefacts.nona.Function;
+import com.computablefacts.nona.eCategory;
 import com.computablefacts.nona.types.BoxedType;
 import com.google.common.base.Preconditions;
 import com.google.errorprone.annotations.CheckReturnValue;
@@ -13,13 +14,13 @@ import com.google.errorprone.annotations.Var;
 public class Multiply extends Function {
 
   public Multiply() {
-    super("MULTIPLY", true);
+    super(eCategory.MULTIPLICATIVE_OPERATORS, "MUL", "MUL(x, ..., z) returns x * ... * z.");
   }
 
   @Override
   public BoxedType evaluate(List<BoxedType> parameters) {
 
-    Preconditions.checkArgument(parameters.size() >= 2, "MULTIPLY takes at least two parameters.");
+    Preconditions.checkArgument(parameters.size() >= 2, "MUL takes at least two parameters.");
 
     @Var
     BigDecimal res = BigDecimal.ONE;

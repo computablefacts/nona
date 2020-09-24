@@ -3,6 +3,7 @@ package com.computablefacts.nona.functions.csvoperators;
 import java.util.List;
 
 import com.computablefacts.nona.Function;
+import com.computablefacts.nona.eCategory;
 import com.computablefacts.nona.types.BoxedType;
 import com.computablefacts.nona.types.Csv;
 import com.google.common.base.Preconditions;
@@ -12,13 +13,14 @@ import com.google.errorprone.annotations.CheckReturnValue;
 public class NbCsvRows extends Function {
 
   public NbCsvRows() {
-    super("NBCSVROWS", true);
+    super(eCategory.CSV_OPERATORS, "NB_CSV_ROWS",
+        "NB_CSV_ROWS(csv) returns the total number of rows.");
   }
 
   @Override
   public BoxedType evaluate(List<BoxedType> parameters) {
 
-    Preconditions.checkArgument(parameters.size() == 1, "NBCSVROWS takes exactly one parameter.");
+    Preconditions.checkArgument(parameters.size() == 1, "NB_CSV_ROWS takes exactly one parameter.");
     Preconditions.checkArgument(parameters.get(0).value() instanceof Csv, "%s should be a csv",
         parameters.get(0));
 

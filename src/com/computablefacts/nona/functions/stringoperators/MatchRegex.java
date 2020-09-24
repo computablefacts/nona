@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import com.computablefacts.nona.Function;
+import com.computablefacts.nona.eCategory;
 import com.computablefacts.nona.types.BoxedType;
 import com.computablefacts.nona.types.Span;
 import com.computablefacts.nona.types.SpanSequence;
@@ -17,7 +18,7 @@ import com.google.re2j.Matcher;
 import com.google.re2j.Pattern;
 
 @CheckReturnValue
-public class RegexExtract extends Function {
+public class MatchRegex extends Function {
 
   private static final LoadingCache<String, Pattern> cache_ =
       CacheBuilder.newBuilder().recordStats().maximumSize(100).expireAfterWrite(1, TimeUnit.HOURS)
@@ -29,23 +30,21 @@ public class RegexExtract extends Function {
             }
           });
 
-  public RegexExtract() {
-    super("REGEXEXTRACT", true);
+  public MatchRegex() {
+    super(eCategory.STRING_OPERATORS, "MATCH_REGEX",
+        "MATCH_REGEX(x, y) returns all substrings of x matching a given regular expression y.");
   }
 
-  protected RegexExtract(String expression) {
-    super(expression, true);
+  protected MatchRegex(String expression) {
+    super(eCategory.STRING_OPERATORS, expression, expression.trim().toUpperCase()
+        + "(x, y) returns all substrings of x matching a given regular expression y.");
   }
 
   @Override
   public BoxedType evaluate(List<BoxedType> parameters) {
 
     Preconditions.checkArgument(parameters.size() == 2,
-        "REGEXEXTRACT takes exactly two parameters : %s", parameters);
-    // Preconditions.checkArgument(parameters.get(0).isString(), "%s should be a string",
-    // parameters.get(0));
-    // Preconditions.checkArgument(parameters.get(1).isString(), "%s should be a string",
-    // parameters.get(1));
+        "MATCH_REGEX takes exactly two parameters : %s", parameters);
 
     SpanSequence sequence = new SpanSequence();
     String text = parameters.get(0).asString();

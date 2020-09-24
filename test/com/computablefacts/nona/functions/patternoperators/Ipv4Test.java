@@ -1,8 +1,5 @@
 package com.computablefacts.nona.functions.patternoperators;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -15,11 +12,8 @@ public class Ipv4Test {
   @Test
   public void testIpv4NonLocal() {
 
-    Map<String, Function> functions = new HashMap<>();
-    functions.put("IPV4", new IpV4());
-
-    Function fn = new Function("IPV4(100.1.2.3)");
-    SpanSequence spans = (SpanSequence) fn.evaluate(functions).value();
+    Function fn = new Function("MATCH_IPV4(100.1.2.3)");
+    SpanSequence spans = (SpanSequence) fn.evaluate(Function.definitions()).value();
     Span span = spans.span(0);
 
     Assert.assertEquals(1, spans.size());
@@ -31,11 +25,8 @@ public class Ipv4Test {
   @Test
   public void testIpv4Local() {
 
-    Map<String, Function> functions = new HashMap<>();
-    functions.put("IPV4", new IpV4());
-
-    Function fn = new Function("IPV4(127.0.0.1)");
-    SpanSequence spans = (SpanSequence) fn.evaluate(functions).value();
+    Function fn = new Function("MATCH_IPV4(127.0.0.1)");
+    SpanSequence spans = (SpanSequence) fn.evaluate(Function.definitions()).value();
     Span span = spans.span(0);
 
     Assert.assertEquals(1, spans.size());

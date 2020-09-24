@@ -1,8 +1,5 @@
 package com.computablefacts.nona.functions.stringoperators;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -14,10 +11,7 @@ public class ToIntegerTest {
   @Test
   public void testToInteger() {
 
-    Map<String, Function> functions = new HashMap<>();
-    functions.put("TOINTEGER", new ToInteger());
-
-    Function fn = new Function("TOINTEGER(2018.0)");
-    Assert.assertEquals(BoxedType.create(2018), fn.evaluate(functions));
+    Function fn = new Function("TO_INTEGER(2018.0)");
+    Assert.assertEquals(BoxedType.create(2018), fn.evaluate(Function.definitions()));
   }
 }

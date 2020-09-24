@@ -1,8 +1,5 @@
 package com.computablefacts.nona.functions.stringoperators;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -14,10 +11,7 @@ public class StrLengthTest {
   @Test
   public void testStrLength() {
 
-    Map<String, Function> functions = new HashMap<>();
-    functions.put("STRLENGTH", new StrLength());
-
-    Function fn = new Function("STRLENGTH(cyrille)");
-    Assert.assertEquals(BoxedType.create(7), fn.evaluate(functions));
+    Function fn = new Function("STR_LENGTH(cyrille)");
+    Assert.assertEquals(BoxedType.create(7), fn.evaluate(Function.definitions()));
   }
 }

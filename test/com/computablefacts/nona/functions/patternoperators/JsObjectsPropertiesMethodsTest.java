@@ -1,8 +1,5 @@
 package com.computablefacts.nona.functions.patternoperators;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -15,12 +12,9 @@ public class JsObjectsPropertiesMethodsTest {
   @Test
   public void testJsObjectsPropertiesAndMethods() {
 
-    Map<String, Function> functions = new HashMap<>();
-    functions.put("JS_OBJECTS_PROPERTIES_AND_METHODS", new JsObjectsPropertiesAndMethods());
-
-    Function fn = new Function("JS_OBJECTS_PROPERTIES_AND_METHODS("
+    Function fn = new Function("MATCH_JS_OBJECTS_PROPERTIES_AND_METHODS("
         + Function.wrap("Employe.prototype = new Personne();") + ")");
-    SpanSequence spans = (SpanSequence) fn.evaluate(functions).value();
+    SpanSequence spans = (SpanSequence) fn.evaluate(Function.definitions()).value();
     Span spanPrototype = spans.span(0);
 
     Assert.assertEquals(1, spans.size());
