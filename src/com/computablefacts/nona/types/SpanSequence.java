@@ -55,14 +55,21 @@ final public class SpanSequence implements Iterable<Span>, Comparable<SpanSequen
     return sequence_.iterator();
   }
 
+  /**
+   * WARNING : DO NOT USE ON UNSORTED {@link SpanSequence}.
+   * 
+   * @param sequence {@link SpanSequence}.
+   * @return a negative integer, zero, or a positive integer as this object is less than, equal to,
+   *         or greater than the specified object.
+   */
   @Override
-  public int compareTo(@NotNull SpanSequence spanSequence) {
+  public int compareTo(@NotNull SpanSequence sequence) {
     for (int i = 0; i < sequence_.size(); i++) {
-      if (i >= spanSequence.sequence_.size()) {
+      if (i >= sequence.sequence_.size()) {
         return 1;
       }
       Span left = sequence_.get(i);
-      Span right = spanSequence.sequence_.get(i);
+      Span right = sequence.sequence_.get(i);
       int cmp = left.compareTo(right);
       if (cmp != 0) {
         return cmp;
