@@ -23,6 +23,7 @@ import com.computablefacts.nona.functions.comparisonoperators.LessThan;
 import com.computablefacts.nona.functions.comparisonoperators.LessThanOrEqual;
 import com.computablefacts.nona.functions.controlflowoperators.If;
 import com.computablefacts.nona.functions.controlflowoperators.Switch;
+import com.computablefacts.nona.functions.controlflowoperators.Which;
 import com.computablefacts.nona.functions.csvoperators.CsvValue;
 import com.computablefacts.nona.functions.csvoperators.NbCsvRows;
 import com.computablefacts.nona.functions.csvoperators.ToCsv;
@@ -65,12 +66,14 @@ public class Function {
   private static final Cache<String, BoxedType<?>> cache_ = CacheBuilder.newBuilder().recordStats()
       .maximumSize(1000).expireAfterWrite(1, TimeUnit.HOURS).build();
   private final List<Function> parameters_ = new ArrayList<>();
+  private final eCategory category_;
+  private final String description_;
   private String name_;
-  private eCategory category_;
-  private String description_;
 
   public Function(String expression) {
     parseFunction(Preconditions.checkNotNull(expression, "expression should not be null"));
+    category_ = eCategory.UNKNOWN;
+    description_ = eCategory.UNKNOWN.toString();
   }
 
   protected Function(eCategory category, String expression, String description) {
@@ -108,6 +111,7 @@ public class Function {
     // Control flow operators
     definitions.put("IF", new If());
     definitions.put("SWITCH", new Switch());
+    definitions.put("WHICH", new Which());
 
     // Csv operators
     definitions.put("CSV_VALUE", new CsvValue());
@@ -241,7 +245,8 @@ public class Function {
 
   public boolean hasReferenceTo(String function) {
 
-    Preconditions.checkArgument(!Strings.isNullOrEmpty(function));
+    Preconditions.checkArgument(!Strings.isNullOrEmpty(function),
+        "function should neither be null nor empty");
 
     if (!Strings.isNullOrEmpty(name_)) {
       for (Function fn : parameters_) {
@@ -255,23 +260,31 @@ public class Function {
   }
 
   public BoxedType evaluate() {
-    return evaluate((Map<String, Function>) null);
+    return evaluate(null, null);
   }
 
   public BoxedType evaluate(Map<String, Function> definitions) {
+    return evaluate(definitions, null);
+  }
+
+  public BoxedType evaluate(Map<String, Function> definitions,
+      Map<String, BoxedType> substitutions) {
 
     if (!isValid()) {
       return null;
     }
 
     if (definitions == null || !definitions.containsKey(name_)) {
+      if (substitutions != null && substitutions.containsKey(name_)) {
+        return substitutions.get(name_);
+      }
       return BoxedType.create(name_);
     }
 
     List<BoxedType> parameters = new ArrayList<>(parameters_.size());
 
     for (Function fn : parameters_) {
-      parameters.add(fn.evaluate(definitions));
+      parameters.add(fn.evaluate(definitions, substitutions));
     }
 
     Function function = definitions.get(name_);
@@ -302,8 +315,8 @@ public class Function {
   }
 
   /**
-   * Override this method if the value computed by {@link Function#evaluate(List)} will always be
-   * the same for a fixed set of parameters.
+   * Override this method if the value computed by {@link Function#evaluate(List)} is not always the
+   * same for a fixed set of parameters.
    *
    * @return true iif the value returned by {@link Function#evaluate(List)} is cacheable, false
    *         otherwise.
