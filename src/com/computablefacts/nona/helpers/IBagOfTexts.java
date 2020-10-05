@@ -526,8 +526,8 @@ public interface IBagOfTexts extends IBagOfWords, IBagOfNGrams {
 
     @Override
     public boolean equals(Object obj) {
-      if (obj == null) {
-        return false;
+      if (obj == this) {
+        return true;
       }
       if (!(obj instanceof IBagOfTexts.SimpleBagOfTexts)) {
         return false;

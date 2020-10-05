@@ -98,8 +98,8 @@ final public class BoxedType<T extends Comparable> implements Comparable<BoxedTy
   @Override
   public boolean equals(Object o) {
 
-    if (o == null) {
-      return false;
+    if (o == this) {
+      return true;
     }
     if (!(o instanceof BoxedType)) {
       return false;
