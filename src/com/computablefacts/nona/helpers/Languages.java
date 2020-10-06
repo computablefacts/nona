@@ -17,11 +17,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.tartarus.snowball.SnowballStemmer;
 
+import com.computablefacts.nona.logs.LogFormatterManager;
 import com.google.common.base.CharMatcher;
 import com.google.common.base.Preconditions;
 import com.google.common.base.Splitter;
 import com.google.common.base.Strings;
-import com.google.common.base.Throwables;
 import com.google.errorprone.annotations.CheckReturnValue;
 import com.optimaize.langdetect.DetectedLanguage;
 import com.optimaize.langdetect.LanguageDetector;
@@ -82,7 +82,7 @@ final public class Languages {
       profiles.add(reader.readBuiltIn(LdLocale.fromString("ta"))); // Tamil
       profiles.add(reader.readBuiltIn(LdLocale.fromString("tr"))); // Turkish
     } catch (IOException e) {
-      logger_.error(Throwables.getStackTraceAsString(Throwables.getRootCause(e)));
+      logger_.error(LogFormatterManager.logFormatter().message(e).formatError());
     }
 
     languageDetector_ = LanguageDetectorBuilder.create(NgramExtractors.standard())
@@ -380,11 +380,11 @@ final public class Languages {
           }
         }
       } catch (IOException | NullPointerException e) {
-        logger_.error(Throwables.getStackTraceAsString(Throwables.getRootCause(e)));
+        logger_.error(LogFormatterManager.logFormatter().message(e).formatError());
         return null;
       }
     } catch (IOException | NullPointerException e) {
-      logger_.error(Throwables.getStackTraceAsString(Throwables.getRootCause(e)));
+      logger_.error(LogFormatterManager.logFormatter().message(e).formatError());
       return null;
     }
     return stopwords;
@@ -556,11 +556,11 @@ final public class Languages {
           }
         }
       } catch (IOException | NullPointerException e) {
-        logger_.error(Throwables.getStackTraceAsString(Throwables.getRootCause(e)));
+        logger_.error(LogFormatterManager.logFormatter().message(e).formatError());
         return null;
       }
     } catch (IOException | NullPointerException e) {
-      logger_.error(Throwables.getStackTraceAsString(Throwables.getRootCause(e)));
+      logger_.error(LogFormatterManager.logFormatter().message(e).formatError());
       return null;
     }
     return tags;
