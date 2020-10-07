@@ -39,7 +39,7 @@
     </developers>
 
     <properties>
-        <logfmt.version>0.2</logfmt.version>
+        <logfmt.version>0.3</logfmt.version>
         <guava.version>28.0-jre</guava.version>
         <error-prone.version>2.3.1</error-prone.version>
         <junit.version>4.12</junit.version>
