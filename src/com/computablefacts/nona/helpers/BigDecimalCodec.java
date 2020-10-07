@@ -3,8 +3,7 @@ package com.computablefacts.nona.helpers;
 import java.math.BigDecimal;
 import java.text.ParseException;
 
-import javax.annotation.CheckReturnValue;
-
+import com.google.errorprone.annotations.CheckReturnValue;
 import com.google.errorprone.annotations.Var;
 
 /**
