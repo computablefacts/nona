@@ -88,6 +88,7 @@ Nona contains a few helpers to perform text mining/NLP related tasks :
     - [SnippetExtractor](#snippetextractor)
     - [DocSetLabeler](#docsetlabeler)
     - [Languages](#languages)
+    - [Codecs](#codecs)
     
 ### Span
 
@@ -453,4 +454,32 @@ List<Map.Entry<String, String>> tags = Languages.tag(language.getKey(), sentence
 
 // Here, tags = [{Ha,V}, {bisogno,S}, {di,E}, {una,RI}, {tazza,S}, {di,E}, {zucchero,S}, {.,FS}]
 // See http://medialab.di.unipi.it/wiki/Tanl_POS_Tagset for tags meanings
+```
+
+### Codecs
+
+The [Codecs](src/com/computablefacts/nona/helpers/Codecs.java) and 
+[BigDecimalCodec](src/com/computablefacts/nona/helpers/BigDecimalCodec.java) classes 
+contain helpers to :
+
+- Encode/Decode objects to/from JSON strings,
+- Encode/decode string to/from Base64,
+- Encode a number as a string such that the lexicographic order of the generated 
+string is in the same order as the numeric order.
+
+```java
+Pair<String, String> pair = new Pair<>("key1", "value1");
+String json = Codecs.asString(pair); // {"key":"key1","value":"value1"}
+
+List<Pair<?, ?>> pairs = Lists.newArrayList(new Pair<>("key1", "value1"), new Pair<>("key2", 2), new Pair<>("key3", false));
+String json = Codecs.asString(pairs); // "[{"key":"key1","value":"value1"},{"key":"key2","value":2},{"key":"key3","value":false}]"
+
+Map<String, Object> json = Codecs.asObject("{\"key\":\"key1\",\"value\":\"value1\"}");
+Collection<Map<String, Object>> json = Codecs.asCollection("[{\"key\":\"key1\",\"value\":\"value1\"},{\"key\":\"key2\",\"value\":2},{\"key\":\"key3\",\"value\":false}]");
+
+Codecs.decodeB64(Base64.getDecoder(), "dGVzdA=="); // test
+Codecs.encodeB64(Base64.getEncoder(), "test"); // dGVzdA==
+
+BigDecimalCodec.encode(BigDecimal.valueOf(123456789L)); // ??9123456789*
+BigDecimalCodec.encode(BigDecimal.valueOf(-123456789L)); // **0876543210?
 ```
