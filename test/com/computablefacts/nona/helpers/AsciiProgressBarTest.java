@@ -63,4 +63,34 @@ public class AsciiProgressBarTest {
     Assert.assertEquals("\r100% ################################################## |",
         outContent_.toString());
   }
+
+  @Test
+  public void testIndeterminateTask() {
+
+    AsciiProgressBar.IndeterminateProgressBar progressBar = AsciiProgressBar.createIndeterminate();
+
+    for (int i = 0; i < 10000; i++) {
+
+      progressBar.update();
+
+      if (i == 0) {
+        Assert.assertTrue(outContent_.toString()
+            .endsWith("\r100% ################################################## 2/2 (slice 1)"));
+      } else if (i == 2) {
+        Assert.assertTrue(outContent_.toString()
+            .endsWith("\r100% ################################################## 3/3 (slice 2)"));
+      } else if (i == 5) {
+        Assert.assertTrue(outContent_.toString()
+            .endsWith("\r100% ################################################## 4/4 (slice 3)"));
+      } else if (i == 10) {
+        Assert.assertTrue(outContent_.toString()
+            .endsWith("\r100% ################################################## 6/6 (slice 4)"));
+      }
+    }
+
+    progressBar.complete();
+
+    Assert.assertTrue(outContent_.toString().endsWith(
+        "\r100% ################################################## 2821/3597 (slice 20)"));
+  }
 }
