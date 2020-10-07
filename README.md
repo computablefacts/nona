@@ -462,7 +462,7 @@ The [Codecs](src/com/computablefacts/nona/helpers/Codecs.java) and
 [BigDecimalCodec](src/com/computablefacts/nona/helpers/BigDecimalCodec.java) classes 
 contain helpers to :
 
-- Encode/Decode objects to/from JSON strings,
+- Encode/decode objects to/from JSON strings,
 - Encode/decode string to/from Base64,
 - Encode a number as a string such that the lexicographic order of the generated 
 string is in the same order as the numeric order.
