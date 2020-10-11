@@ -4,9 +4,13 @@ import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.computablefacts.nona.Generated;
+import com.google.common.base.Objects;
 import com.google.common.base.Preconditions;
 import com.google.common.base.Strings;
+import com.google.errorprone.annotations.CheckReturnValue;
 
+@CheckReturnValue
 final public class Document {
 
   public static final String ID_MAGIC_KEY = "_id";
@@ -49,7 +53,7 @@ final public class Document {
 
     metadata_.putAll((Map<String, Object>) json.get(METADATA));
 
-    if (!metadata_.containsKey(CONTENT_TYPE)) {
+    if (!metadata_.containsKey(CONTENT_TYPE)) { // TODO : remove ASAP
 
       // Default content-type is "application/pdf"
       metadata_.put(CONTENT_TYPE, "application/pdf");
@@ -60,9 +64,28 @@ final public class Document {
     content_.putAll((Map<String, Object>) json.get(CONTENT));
   }
 
+  @Generated
   @Override
   public String toString() {
     return Codecs.asString(json());
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (obj == this) {
+      return true;
+    }
+    if (!(obj instanceof Document)) {
+      return false;
+    }
+    Document other = (Document) obj;
+    return Objects.equal(docId_, other.docId_) && Objects.equal(metadata_, other.metadata_)
+        && Objects.equal(content_, other.content_);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hashCode(docId_, metadata_, content_);
   }
 
   public Map<String, Object> json() {
