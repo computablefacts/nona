@@ -39,6 +39,7 @@ import com.computablefacts.nona.functions.patternoperators.Number;
 import com.computablefacts.nona.functions.stringoperators.Concat;
 import com.computablefacts.nona.functions.stringoperators.Contain;
 import com.computablefacts.nona.functions.stringoperators.EndWith;
+import com.computablefacts.nona.functions.stringoperators.FillTemplate;
 import com.computablefacts.nona.functions.stringoperators.IndexOf;
 import com.computablefacts.nona.functions.stringoperators.MatchDictionary;
 import com.computablefacts.nona.functions.stringoperators.MatchFuzzy;
@@ -157,6 +158,7 @@ public class Function {
     definitions.put("CONCAT", new Concat());
     definitions.put("CONTAIN", new Contain());
     definitions.put("END_WITH", new EndWith());
+    definitions.put("FILL_TEMPLATE", new FillTemplate());
     definitions.put("INDEX_OF", new IndexOf());
     definitions.put("MATCH_DICTIONARY", new MatchDictionary());
     definitions.put("MATCH_FUZZY", new MatchFuzzy());
