@@ -47,8 +47,6 @@ final public class ConfusionMatrix {
     }
 
     StringBuilder builder = new StringBuilder();
-    builder.append(
-        "\n================================================================================");
     builder.append("\nMCC : " + matrix.matthewsCorrelationCoefficient());
     builder.append("\nF1 : " + matrix.f1Score());
     builder.append("\nPrecision : " + matrix.precision());
@@ -93,8 +91,6 @@ final public class ConfusionMatrix {
     }
 
     StringBuilder builder = new StringBuilder();
-    builder.append(
-        "\n================================================================================");
     builder.append("\nClass : MACRO_AVG_OF_" + matrices.size() + "_MATRICES");
     builder.append("\nMCC : " + mcc / matrices.size());
     builder.append("\nF1 : " + f1 / matrices.size());
@@ -110,8 +106,6 @@ final public class ConfusionMatrix {
   public String toString() {
 
     StringBuilder builder = new StringBuilder();
-    builder.append(
-        "\n================================================================================");
     builder.append("\nMCC : " + matthewsCorrelationCoefficient());
     builder.append("\nF1 : " + f1Score());
     builder.append("\nPrecision : " + precision());
