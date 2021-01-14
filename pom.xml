@@ -182,6 +182,11 @@
                                 </restrictImports>
                                 <restrictImports
                                         implementation="de.skuzzle.enforcer.restrictimports.rule.RestrictImports">
+                                    <reason>Nona must not inherit from Junon</reason>
+                                    <bannedImport>com.computablefacts.junon.**</bannedImport>
+                                </restrictImports>
+                                <restrictImports
+                                        implementation="de.skuzzle.enforcer.restrictimports.rule.RestrictImports">
                                     <reason>Nona must not inherit from Jupiter</reason>
                                     <bannedImport>com.computablefacts.jupiter.**</bannedImport>
                                 </restrictImports>
