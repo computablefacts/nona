@@ -39,9 +39,8 @@
     </developers>
 
     <properties>
-        <logfmt.version>0.3</logfmt.version>
+        <logfmt.version>0.6</logfmt.version>
         <carrot.version>2.4.5</carrot.version>
-        <guava.version>28.0-jre</guava.version>
         <error-prone.version>2.3.1</error-prone.version>
         <junit.version>4.13.1</junit.version>
         <jcip.version>1.0-1</jcip.version>
@@ -73,11 +72,6 @@
             <groupId>au.com.codeka</groupId>
             <artifactId>carrot</artifactId>
             <version>${carrot.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.google.guava</groupId>
-            <artifactId>guava</artifactId>
-            <version>${guava.version}</version>
         </dependency>
         <dependency>
             <groupId>me.xdrop</groupId>
