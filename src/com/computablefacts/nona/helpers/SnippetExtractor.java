@@ -43,15 +43,15 @@ final public class SnippetExtractor {
    * @return the snippet.
    */
   public static String extract(List<String> words, String text, int relLength, int prevCount,
-      String indicator) {
+      @Var String indicator) {
 
     Preconditions.checkNotNull(words, "words must not be null");
     Preconditions.checkNotNull(text, "text must not be null");
-    Preconditions.checkNotNull(indicator, "indicator must not be null");
     Preconditions.checkArgument(!words.isEmpty(), "words is empty");
     Preconditions.checkArgument(relLength >= 0, "relLength must be >= 0");
     Preconditions.checkArgument(prevCount >= 0, "prevCount must be >= 0");
 
+    indicator = indicator == null ? "..." /* for backward compatibility */ : indicator;
     int textLength = text.length();
 
     if (textLength <= relLength) {
@@ -95,7 +95,8 @@ final public class SnippetExtractor {
     }
 
     // If we trimmed from the begin/end add ellipsis
-    return (begin > 0 ? "..." : "") + text.substring(begin, end) + (end < textLength ? "..." : "");
+    return (begin > 0 ? indicator : "") + text.substring(begin, end)
+        + (end < textLength ? indicator : "");
   }
 
   /**
