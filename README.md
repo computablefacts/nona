@@ -89,7 +89,10 @@ Nona contains a few helpers to perform text mining/NLP related tasks :
     - [DocSetLabeler](#docsetlabeler)
     - [Languages](#languages)
     - [Codecs](#codecs)
-    
+- Text-based user interface
+    - [AsciiProgressBar](#asciiprogressbar)
+    - [AsciiTable](#asciitable)
+
 ### Span
 
 A [Span](src/com/computablefacts/nona/types/Span.java) is a fragment of string 
@@ -482,4 +485,39 @@ Codecs.encodeB64(Base64.getEncoder(), "test"); // dGVzdA==
 
 BigDecimalCodec.encode(BigDecimal.valueOf(123456789L)); // ??9123456789*
 BigDecimalCodec.encode(BigDecimal.valueOf(-123456789L)); // **0876543210?
+```
+
+### AsciiProgressBar
+
+The [AsciiProgressBar](src/com/computablefacts/nona/helpers/AsciiProgressBar.java) class 
+contains helpers to display a textual progress bar while enumerating a bounded or 
+an unbounded dataset.
+
+```java
+// Progress bar on a bounded dataset
+AtomicInteger count = new AtomicInteger(0);
+AsciiProgressBar.ProgressBar bar = AsciiProgressBar.create();
+List<String> list = ...
+list.peek(e ->  bar.update(count.incrementAndGet(), list.size())).forEach(System.out::println);
+
+// Progress bar on an unbounded dataset
+AsciiProgressBar.IndeterminateProgressBar bar = AsciiProgressBar.createIndeterminate();
+Stream<String> stream = ...
+stream.peek(e -> bar.update()).forEach(System.out::println);
+bar.complete(); // reset
+```
+
+### AsciiTable
+
+The [AsciiTable](src/com/computablefacts/nona/helpers/AsciiTable.java) class
+contains helpers to display a textual table.
+
+```java
+String[][] table = ...
+        
+// Display a table with header
+System.out.println(AsciiTable.format(table, true));
+
+// Display a table without header
+System.out.println(AsciiTable.format(table, false));
 ```
