@@ -19,6 +19,7 @@ import java.util.stream.StreamSupport;
 import java.util.zip.GZIPInputStream;
 import java.util.zip.GZIPOutputStream;
 
+import com.google.errorprone.annotations.CheckReturnValue;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -28,6 +29,7 @@ import com.google.common.base.Preconditions;
 import com.google.common.collect.AbstractIterator;
 import com.google.errorprone.annotations.Var;
 
+@CheckReturnValue
 final public class Files {
 
   private static final Logger logger_ = LoggerFactory.getLogger(Files.class);

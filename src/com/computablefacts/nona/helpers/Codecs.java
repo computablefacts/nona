@@ -18,6 +18,7 @@ import java.util.stream.Collectors;
 
 import javax.validation.constraints.NotNull;
 
+import com.google.errorprone.annotations.CheckReturnValue;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -35,6 +36,7 @@ import com.google.errorprone.annotations.Var;
 import com.google.re2j.Matcher;
 import com.google.re2j.Pattern;
 
+@CheckReturnValue
 final public class Codecs {
 
   public static final Span SPAN_EMPTY = new Span("", 0, 0);
