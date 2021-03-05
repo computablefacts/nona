@@ -125,7 +125,7 @@ final public class Codecs {
   private static final ObjectMapper mapper_ = new ObjectMapper();
   private static final Pattern base64_ = Pattern.compile("^" + base64() + "$",
       Pattern.CASE_INSENSITIVE | Pattern.MULTILINE | Pattern.DOTALL);
-  private static final Pattern splitOnPunct_ = Pattern.compile("[^\\p{P}\\p{Zs}\\|\\^<>+=~]+",
+  private static final Pattern splitOnPunct_ = Pattern.compile("[^\r\n\t\\p{P}\\p{Zs}\\|\\^<>+=~]+",
       Pattern.CASE_INSENSITIVE | Pattern.MULTILINE | Pattern.DOTALL);
 
   /**
