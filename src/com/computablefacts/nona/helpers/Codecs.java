@@ -4,6 +4,7 @@ import static com.computablefacts.nona.functions.patternoperators.PatternsForwar
 
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.nio.charset.StandardCharsets;
 import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
@@ -18,7 +19,6 @@ import java.util.stream.Collectors;
 
 import javax.validation.constraints.NotNull;
 
-import com.google.errorprone.annotations.CheckReturnValue;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -32,6 +32,7 @@ import com.fasterxml.jackson.databind.type.TypeFactory;
 import com.google.common.base.Function;
 import com.google.common.base.Preconditions;
 import com.google.common.base.Strings;
+import com.google.errorprone.annotations.CheckReturnValue;
 import com.google.errorprone.annotations.Var;
 import com.google.re2j.Matcher;
 import com.google.re2j.Pattern;
@@ -66,6 +67,14 @@ final public class Codecs {
     }
     if (object instanceof String) {
       return new Span((String) object, 0, ((String) object).length());
+    }
+    if (object instanceof BigInteger) {
+      String str = BigDecimalCodec.encode(new BigDecimal((BigInteger) object));
+      return new Span(str, 0, str.length());
+    }
+    if (object instanceof BigDecimal) {
+      String str = BigDecimalCodec.encode((BigDecimal) object);
+      return new Span(str, 0, str.length());
     }
     if (object instanceof Integer) {
       String str = BigDecimalCodec.encode(BigDecimal.valueOf((Integer) object));

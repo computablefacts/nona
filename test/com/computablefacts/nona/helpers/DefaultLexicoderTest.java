@@ -2,6 +2,8 @@ package com.computablefacts.nona.helpers;
 
 import static org.junit.Assert.assertEquals;
 
+import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.List;
@@ -107,5 +109,17 @@ public class DefaultLexicoderTest {
     // TODO : tous les caractères sont mappés sur la chaîne de caractères vide. Est-ce correct?
     assertEquals("", Codecs.defaultLexicoder.apply('a').text());
     assertEquals("", Codecs.defaultLexicoder.apply('\0').text());
+  }
+
+  @Test
+  public void testLexicodeBigInteger() {
+    assertEquals("??210*", Codecs.defaultLexicoder.apply(BigInteger.valueOf(10)).text());
+    assertEquals("??214*", Codecs.defaultLexicoder.apply(BigInteger.valueOf(14)).text());
+  }
+
+  @Test
+  public void testLexicodeBigDecimal() {
+    assertEquals("??210*", Codecs.defaultLexicoder.apply(BigDecimal.valueOf(10)).text());
+    assertEquals("??214.7*", Codecs.defaultLexicoder.apply(BigDecimal.valueOf(14.7)).text());
   }
 }
