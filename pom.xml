@@ -39,14 +39,14 @@
     </developers>
 
     <properties>
-        <logfmt.version>0.7-SNAPSHOT</logfmt.version>
+        <logfmt.version>0.8</logfmt.version>
         <carrot.version>2.4.5</carrot.version>
         <error-prone.version>2.3.1</error-prone.version>
         <junit.version>4.13.1</junit.version>
         <jcip.version>1.0-1</jcip.version>
         <re2j.version>1.2</re2j.version>
         <fuzzywuzzy.version>1.2.0</fuzzywuzzy.version>
-        <jackson-dataformat-csv.version>2.10.2</jackson-dataformat-csv.version>
+        <jackson-dataformat-csv.version>2.12.0</jackson-dataformat-csv.version>
         <javax-validation.version>2.0.1.Final</javax-validation.version>
         <ahocorasick.version>0.4.0</ahocorasick.version>
         <language-detector.version>0.6</language-detector.version>
