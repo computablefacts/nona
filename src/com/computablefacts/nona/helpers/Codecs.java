@@ -68,6 +68,10 @@ final public class Codecs {
     if (object instanceof String) {
       return new Span((String) object, 0, ((String) object).length());
     }
+    if (object instanceof Boolean) {
+      String str = Boolean.toString((Boolean) object);
+      return new Span(str, 0, str.length());
+    }
     if (object instanceof BigInteger) {
       String str = BigDecimalCodec.encode(new BigDecimal((BigInteger) object));
       return new Span(str, 0, str.length());
