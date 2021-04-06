@@ -14,12 +14,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.Spliterator;
 import java.util.Spliterators;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 import java.util.zip.GZIPInputStream;
 import java.util.zip.GZIPOutputStream;
 
-import com.google.errorprone.annotations.CheckReturnValue;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -27,6 +27,7 @@ import com.computablefacts.nona.logs.LogFormatterManager;
 import com.google.common.base.Charsets;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.AbstractIterator;
+import com.google.errorprone.annotations.CheckReturnValue;
 import com.google.errorprone.annotations.Var;
 
 @CheckReturnValue
@@ -158,6 +159,15 @@ final public class Files {
     } catch (IOException e) {
       logger_.error(LogFormatterManager.logFormatter().message(e).formatError());
     }
+  }
+
+  public static String load(File file, Charset charset) {
+    return lineStream(file, charset).map(Map.Entry::getValue).collect(Collectors.joining("\n"));
+  }
+
+  public static String loadCompressed(File file, Charset charset) {
+    return compressedLineStream(file, charset).map(Map.Entry::getValue)
+        .collect(Collectors.joining("\n"));
   }
 
   public static Stream<Map.Entry<Integer, String>> lineStream(File file, Charset charset) {
