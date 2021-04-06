@@ -199,81 +199,93 @@ public class WildcardMatcherTest {
 
   @Test
   public void testMatchNullInput() {
-    assertTrue(WildcardMatcher.match(null, null));
-    assertTrue(WildcardMatcher.match(null, ""));
-    assertFalse(WildcardMatcher.match(null, "not empty"));
+    assertMatch(null, null, "");
+    assertMatch(null, "", "");
+    assertNoMatch(null, "not empty");
   }
 
   @Test
   public void testMatchEmptyInput() {
-    assertTrue(WildcardMatcher.match("", null));
-    assertTrue(WildcardMatcher.match("", ""));
-    assertFalse(WildcardMatcher.match("", "not empty"));
+    assertMatch("", null, "");
+    assertMatch("", "", "");
+    assertNoMatch("", "not empty");
   }
 
   @Test
   public void testMatchNullPattern() {
-    assertTrue(WildcardMatcher.match("", null));
-    assertFalse(WildcardMatcher.match("not empty", null));
+    assertMatch("", null, "");
+    assertNoMatch("not empty", null);
   }
 
   @Test
   public void testMatchEmptyPattern() {
-    assertTrue(WildcardMatcher.match("", ""));
-    assertFalse(WildcardMatcher.match("not empty", ""));
+    assertMatch("", "", "");
+    assertNoMatch("not empty", "");
   }
 
   @Test
   public void testMatchSingleStarPattern() {
-    assertFalse(WildcardMatcher.match("", "*"));
-    assertTrue(WildcardMatcher.match("not empty", "*"));
-    assertTrue(WildcardMatcher.match("*", "*"));
+    assertNoMatch("", "*");
+    assertMatch("not empty", "*", "not empty");
+    assertMatch("*", "*", "*");
   }
 
   @Test
   public void testMatchSingleQuestionMarkPattern() {
-    assertFalse(WildcardMatcher.match("", "?"));
-    assertFalse(WildcardMatcher.match("not empty", "?"));
-    assertTrue(WildcardMatcher.match("*", "?"));
+    assertNoMatch("", "?");
+    assertNoMatch("not empty", "?");
+    assertMatch("*", "?", "*");
   }
 
   @Test
   public void testMatchPatterns() {
-    assertTrue(WildcardMatcher.match("baaabab", "*****ba*****ab"));
-    assertTrue(WildcardMatcher.match("baaabab", "ba*****ab"));
-    assertTrue(WildcardMatcher.match("baaabab", "ba*ab"));
-    assertTrue(WildcardMatcher.match("baaabab", "*a*****ab"));
-    assertTrue(WildcardMatcher.match("baaabab", "ba*ab****"));
-    assertTrue(WildcardMatcher.match("baaabab", "****"));
-    assertTrue(WildcardMatcher.match("baaabab", "*"));
-    assertTrue(WildcardMatcher.match("baaabab", "b*b"));
-    assertTrue(WildcardMatcher.match("baaabab", "baaabab"));
-    assertTrue(WildcardMatcher.match("baaabab", "*baaaba*"));
-    assertTrue(WildcardMatcher.match("baaabab", "???????"));
+    assertMatch("baaabab", "*****ba*****ab", "baaabab");
+    assertMatch("baaabab", "ba*****ab", "baaabab");
+    assertMatch("baaabab", "ba*ab", "baaabab");
+    assertMatch("baaabab", "*a*****ab", "baaabab");
+    assertMatch("baaabab", "ba*ab****", "baaabab");
+    assertMatch("baaabab", "****", "baaabab");
+    assertMatch("baaabab", "*", "baaabab");
+    assertMatch("baaabab", "b*b", "baaabab");
+    assertMatch("baaabab", "baaabab", "baaabab");
+    assertMatch("baaabab", "*baaaba*", "baaabab");
+    assertMatch("baaabab", "???????", "baaabab");
   }
 
   @Test
   public void testMatchNoPatterns() {
-    assertFalse(WildcardMatcher.match("baaabab", "a*ab"));
-    assertFalse(WildcardMatcher.match("baaabab", "a*****ab"));
-    assertFalse(WildcardMatcher.match("baaabab", "a*a"));
-    assertFalse(WildcardMatcher.match("baaabab", "aa?ab"));
-    assertFalse(WildcardMatcher.match("baaabab", "?baaabab"));
-    assertFalse(WildcardMatcher.match("baaabab", "????????"));
+    assertNoMatch("baaabab", "a*ab");
+    assertNoMatch("baaabab", "a*****ab");
+    assertNoMatch("baaabab", "a*a");
+    assertNoMatch("baaabab", "aa?ab");
+    assertNoMatch("baaabab", "?baaabab");
+    assertNoMatch("baaabab", "????????");
   }
 
   @Test
   public void testMatchPatternsCaseInsensitive() {
-    assertTrue(WildcardMatcher.match("BaaaBaB", "*****ba*****ab"));
-    assertTrue(WildcardMatcher.match("BaaaBaB", "ba*****ab"));
-    assertTrue(WildcardMatcher.match("BaaaBaB", "ba*ab"));
-    assertTrue(WildcardMatcher.match("BaaaBaB", "*a*****ab"));
-    assertTrue(WildcardMatcher.match("BaaaBaB", "ba*ab****"));
-    assertTrue(WildcardMatcher.match("BaaaBaB", "****"));
-    assertTrue(WildcardMatcher.match("BaaaBaB", "*"));
-    assertTrue(WildcardMatcher.match("BaaaBaB", "b*b"));
-    assertTrue(WildcardMatcher.match("BaaaBaB", "baaabab"));
-    assertTrue(WildcardMatcher.match("BaaaBaB", "*baaaba*"));
-    assertTrue(WildcardMatcher.match("BaaaBaB", "???????"));
+    assertMatch("BaaaBaB", "*****ba*****ab", "BaaaBaB");
+    assertMatch("BaaaBaB", "ba*****ab", "BaaaBaB");
+    assertMatch("BaaaBaB", "ba*ab", "BaaaBaB");
+    assertMatch("BaaaBaB", "*a*****ab", "BaaaBaB");
+    assertMatch("BaaaBaB", "ba*ab****", "BaaaBaB");
+    assertMatch("BaaaBaB", "****", "BaaaBaB");
+    assertMatch("BaaaBaB", "*", "BaaaBaB");
+    assertMatch("BaaaBaB", "b*b", "BaaaBaB");
+    assertMatch("BaaaBaB", "baaabab", "BaaaBaB");
+    assertMatch("BaaaBaB", "*baaaba*", "BaaaBaB");
+    assertMatch("BaaaBaB", "???????", "BaaaBaB");
+  }
+
+  private void assertMatch(String str, String pattern, String expected) {
+    StringBuilder builder = new StringBuilder();
+    assertTrue(WildcardMatcher.match(str, pattern, builder));
+    assertEquals(expected, builder.toString());
+  }
+
+  private void assertNoMatch(String str, String pattern) {
+    StringBuilder builder = new StringBuilder();
+    assertFalse(WildcardMatcher.match(str, pattern, builder));
+    assertEquals("", builder.toString());
   }
 }

@@ -214,9 +214,23 @@ final public class WildcardMatcher {
    *         insensitive.
    */
   public static boolean match(String name, String pattern) {
+    return match(name, pattern, null);
+  }
 
+  /**
+   * Based on @{link https://research.swtch.com/glob}.
+   *
+   * @param name where to search.
+   * @param pattern what to search.
+   * @param match the matched string (optional).
+   * @return true iif pattern has been matched in name. False otherwise. This method is case
+   *         insensitive.
+   */
+  public static boolean match(String name, String pattern, StringBuilder match) {
+
+    String newPattern = pattern == null ? null : compact(pattern);
     int lenName = name == null ? 0 : name.length();
-    int lenPattern = pattern == null ? 0 : pattern.length();
+    int lenPattern = newPattern == null ? 0 : newPattern.length();
 
     if (lenName == 0) {
       return (lenPattern == 0);
@@ -232,8 +246,21 @@ final public class WildcardMatcher {
     int nextNx = 0;
 
     while (px < lenPattern || nx < lenName) {
+      if (match != null) {
+        if (px == 0) {
+          match.setLength(nx);
+        }
+        if (nx >= nextNx) {
+          if (nx < match.length()) {
+            match.setLength(nx);
+          }
+          if (nx < lenName) {
+            match.append(name.charAt(nx));
+          }
+        }
+      }
       if (px < lenPattern) {
-        char c = Character.toLowerCase(pattern.charAt(px));
+        char c = Character.toLowerCase(newPattern.charAt(px));
         switch (c) {
           case '*': { // zero-or-more-character wildcard
             // Try to match at nx. If that doesn't work out, restart at nx+1 next.
@@ -265,6 +292,9 @@ final public class WildcardMatcher {
         px = nextPx;
         nx = nextNx;
         continue;
+      }
+      if (match != null) {
+        match.setLength(0);
       }
       return false;
     }
