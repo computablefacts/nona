@@ -5,7 +5,6 @@ import java.util.Locale;
 import java.util.Objects;
 import java.util.Random;
 
-import com.computablefacts.nona.Generated;
 import com.google.common.base.Preconditions;
 import com.google.errorprone.annotations.CheckReturnValue;
 
@@ -27,7 +26,6 @@ final public class RandomString {
   /**
    * Create an alphanumeric string generator.
    */
-  @Generated
   public RandomString(int length, Random random) {
     this(length, random, alphanum);
   }
@@ -35,7 +33,6 @@ final public class RandomString {
   /**
    * Create session identifiers.
    */
-  @Generated
   public RandomString() {
     this(21);
   }
@@ -43,7 +40,6 @@ final public class RandomString {
   /**
    * Create an alphanumeric strings from a secure generator.
    */
-  @Generated
   public RandomString(int length) {
     this(length, new SecureRandom());
   }
