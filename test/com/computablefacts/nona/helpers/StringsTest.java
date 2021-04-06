@@ -149,6 +149,8 @@ public class StringsTest {
     assertFalse(Strings.isNumber("+0002.12345"));
     assertFalse(Strings.isNumber("0x"));
     assertFalse(Strings.isNumber("EE"));
+    assertFalse(Strings.isNumber("."));
+    assertFalse(Strings.isNumber("1E-"));
     assertFalse(Strings.isNumber("123.4E."));
     assertFalse(Strings.isNumber("123.4E15E10"));
   }
