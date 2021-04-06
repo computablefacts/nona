@@ -122,4 +122,10 @@ public class DefaultLexicoderTest {
     assertEquals("??210*", Codecs.defaultLexicoder.apply(BigDecimal.valueOf(10)).text());
     assertEquals("??214.7*", Codecs.defaultLexicoder.apply(BigDecimal.valueOf(14.7)).text());
   }
+
+  @Test
+  public void testLexicodeBoolean() {
+    assertEquals("true", Codecs.defaultLexicoder.apply(true).text());
+    assertEquals("false", Codecs.defaultLexicoder.apply(false).text());
+  }
 }

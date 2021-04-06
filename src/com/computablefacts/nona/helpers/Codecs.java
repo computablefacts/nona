@@ -44,21 +44,6 @@ final public class Codecs {
   public static final SpanSequence SPAN_SEQUENCE_EMPTY = new SpanSequence();
 
   /**
-   * A function that performs no encoding operation on the input string.
-   */
-  public static final Function<Object, Span> nopLexicoder = object -> {
-    if (object == null || object.getClass().isArray()) {
-      return SPAN_EMPTY;
-    }
-    if (object instanceof Date) {
-      String str = DateTimeFormatter.ISO_INSTANT.format(((Date) object).toInstant());
-      return new Span(str, 0, str.length());
-    }
-    String str = object.toString();
-    return new Span(str, 0, str.length());
-  };
-
-  /**
    * A function that encodes a primitive to a lexicographically sortable string.
    */
   public static final Function<Object, Span> defaultLexicoder = object -> {
