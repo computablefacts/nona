@@ -18,8 +18,8 @@ import com.google.errorprone.annotations.CheckReturnValue;
 import com.google.errorprone.annotations.Var;
 
 /**
- * Implements the DocSetLabeler algorithm from "Topic Similarity Networks: Visual Analytics for
- * Large Document Sets" by Arun S. Maiya and Robert M. Rolfe.
+ * Implements a modified version of the DocSetLabeler algorithm from "Topic Similarity Networks:
+ * Visual Analytics for Large Document Sets" by Arun S. Maiya and Robert M. Rolfe.
  */
 @CheckReturnValue
 public abstract class DocSetLabeler {
@@ -69,8 +69,8 @@ public abstract class DocSetLabeler {
    * @param nbLabelsToReturn the number of labels to return.
    * @return labels and scores.
    */
-  public List<Map.Entry<String, Double>> label(Set<String> corpus, Set<String> subsetOk,
-      Set<String> subsetKo, int nbCandidatesToConsider, int nbLabelsToReturn) {
+  public List<Map.Entry<String, Double>> label(List<String> corpus, List<String> subsetOk,
+      List<String> subsetKo, int nbCandidatesToConsider, int nbLabelsToReturn) {
     return label(corpus, subsetOk, subsetKo, nbCandidatesToConsider, nbLabelsToReturn, false);
   }
 
@@ -87,8 +87,8 @@ public abstract class DocSetLabeler {
    * @param hasProgressBar true iif a progress bar must be displayed, false otherwise.
    * @return labels and scores.
    */
-  public List<Map.Entry<String, Double>> label(Set<String> corpus, Set<String> subsetOk,
-      Set<String> subsetKo, int nbCandidatesToConsider, int nbLabelsToReturn,
+  public List<Map.Entry<String, Double>> label(List<String> corpus, List<String> subsetOk,
+      List<String> subsetKo, int nbCandidatesToConsider, int nbLabelsToReturn,
       boolean hasProgressBar) {
 
     Preconditions.checkNotNull(corpus, "corpus should not be null");
@@ -122,30 +122,30 @@ public abstract class DocSetLabeler {
 
       nbTextsProcessed++;
 
-      if (bar != null && nbTextsProcessed % 10 == 0) {
+      if (bar != null) {
         bar.update(nbTextsProcessed, nbTexts);
       }
 
       List<Map.Entry<String, Double>> weights = new ArrayList<>();
-      Set<String> candidates = candidates(corpus, subsetOk, subsetKo, text);
+      Set<String> candidates = candidates(text);
 
       for (String candidate : candidates) {
 
-        double x = computeX(corpus, subsetOk, subsetKo, candidates, text, candidate);
-        double y = computeY(corpus, subsetOk, subsetKo, candidates, text, candidate);
-        double weight = (2 * x * y) / (x + y);
+        double x = computeX(text, candidate);
+        double y = computeY(text, candidate);
+        double weight = (2.0 * x * y) / (x + y);
 
-        // Preconditions.checkState(0.0 <= x && x <= 1.0, "x should be such as 0.0 <= x <= 1.0 :
-        // %s", x);
-        // Preconditions.checkState(0.0 <= y && y <= 1.0, "y should be such as 0.0 <= y <= 1.0 :
-        // %s", y);
+        Preconditions.checkState(0.0 <= x && x <= 1.0, "x should be such as 0.0 <= x <= 1.0 : %s",
+            x);
+        Preconditions.checkState(0.0 <= y && y <= 1.0, "y should be such as 0.0 <= y <= 1.0 : %s",
+            y);
 
         weights.add(new AbstractMap.SimpleEntry<>(candidate, weight));
       }
 
       Set<String> selection = weights.isEmpty() ? Sets.newHashSet()
           : weights.stream().sorted(byScoreDesc).limit(nbCandidatesToConsider)
-              .map(pair -> pair.getKey()).collect(Collectors.toSet());
+              .map(Map.Entry::getKey).collect(Collectors.toSet());
 
       if (subsetOk.contains(text)) {
         pos.put(text, selection);
@@ -160,26 +160,30 @@ public abstract class DocSetLabeler {
 
     uinit();
 
-    // For each candidate keyword compute the information gain and keep the keywords with the
-    // highest information gain
-    return pos.values().stream().flatMap(Collection::stream)
+    // For each candidate keyword compute the information gain
+    List<Map.Entry<String, Double>> candidates = pos.values().stream().flatMap(Collection::stream)
         .map(candidate -> new AbstractMap.SimpleEntry<>(candidate, calcScore(candidate, pos, neg)))
-        .sorted(byScoreDesc).distinct().limit(nbLabelsToReturn).collect(Collectors.toList());
+        .sorted(byScoreDesc).distinct().collect(Collectors.toList());
+
+    // Keep the keywords with the highest information gain
+    return filter(candidates).stream().limit(nbLabelsToReturn).collect(Collectors.toList());
   }
 
-  protected void init(@NotNull Set<String> corpus, @NotNull Set<String> subsetOk,
-      @NotNull Set<String> subsetKo) {}
+  protected void init(@NotNull List<String> corpus, @NotNull List<String> subsetOk,
+      @NotNull List<String> subsetKo) {}
 
   protected void uinit() {}
 
-  protected abstract Set<String> candidates(@NotNull Set<String> corpus,
-      @NotNull Set<String> subsetOk, @NotNull Set<String> subsetKo, String text);
+  protected abstract Set<String> candidates(String text);
 
-  protected abstract double computeX(@NotNull Set<String> corpus, @NotNull Set<String> subsetOk,
-      @NotNull Set<String> subsetKo, Set<String> candidates, String text, String candidate);
+  protected abstract double computeX(String text, String candidate);
 
-  protected abstract double computeY(@NotNull Set<String> corpus, @NotNull Set<String> subsetOk,
-      @NotNull Set<String> subsetKo, Set<String> candidates, String text, String candidate);
+  protected abstract double computeY(String text, String candidate);
+
+  protected List<Map.Entry<String, Double>> filter(
+      @NotNull List<Map.Entry<String, Double>> candidates) {
+    return candidates;
+  }
 
   private double calcScore(String candidate, Map<String, Set<String>> pos,
       Map<String, Set<String>> neg) {
