@@ -168,18 +168,22 @@ final public class ConfusionMatrix {
     }
   }
 
+  @Generated
   public int nbTruePositives() {
     return (int) tp_;
   }
 
+  @Generated
   public int nbTrueNegatives() {
     return (int) tn_;
   }
 
+  @Generated
   public int nbFalsePositives() {
     return (int) fp_;
   }
 
+  @Generated
   public int nbFalseNegatives() {
     return (int) fn_;
   }
