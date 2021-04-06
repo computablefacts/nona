@@ -102,23 +102,6 @@ final public class Codecs {
     return SPAN_EMPTY;
   };
 
-  /**
-   * A tokenizer that performs no operation on the input string.
-   */
-  public static final Function<String, SpanSequence> nopTokenizer = text -> {
-    if (text == null || text.isEmpty()) {
-      return SPAN_SEQUENCE_EMPTY;
-    }
-
-    String newText =
-        StringIterator.removeDiacriticalMarks(StringIterator.normalize(text)).toLowerCase();
-
-    SpanSequence spanSequence = new SpanSequence();
-    spanSequence.add(new Span(newText, 0, newText.length()));
-
-    return spanSequence;
-  };
-
   private static final Logger logger_ = LoggerFactory.getLogger(Codecs.class);
   private static final ObjectMapper mapper_ = new ObjectMapper();
   private static final Pattern base64_ = Pattern.compile("^" + base64() + "$",
