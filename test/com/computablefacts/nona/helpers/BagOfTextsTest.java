@@ -73,25 +73,31 @@ public class BagOfTextsTest {
   @Test
   public void testBagOfTexts() {
 
-    IBagOfTexts bag = frozenBagOfTexts();
+    IBagOfTexts bag1 = bagOfTexts();
+    IBagOfTexts bag2 = frozenBagOfTexts();
 
-    Assert.assertEquals(texts(), bag.bagOfTexts());
+    Assert.assertEquals(texts(), bag1.bagOfTexts());
+    Assert.assertEquals(texts(), bag2.bagOfTexts());
   }
 
   @Test
   public void testBagOfWords() {
 
-    IBagOfTexts bag = frozenBagOfTexts();
+    IBagOfTexts bag1 = bagOfTexts();
+    IBagOfTexts bag2 = frozenBagOfTexts();
 
-    Assert.assertEquals(words(), bag.bagOfWords());
+    Assert.assertEquals(words(), bag1.bagOfWords());
+    Assert.assertEquals(words(), bag2.bagOfWords());
   }
 
   @Test
   public void testBagOfBigrams() {
 
-    IBagOfTexts bag = frozenBagOfTexts();
+    IBagOfTexts bag1 = bagOfTexts();
+    IBagOfTexts bag2 = frozenBagOfTexts();
 
-    Assert.assertEquals(bigrams(), bag.bagOfBigrams());
+    Assert.assertEquals(bigrams(), bag1.bagOfBigrams());
+    Assert.assertEquals(bigrams(), bag2.bagOfBigrams());
   }
 
   @Test
@@ -106,179 +112,267 @@ public class BagOfTextsTest {
   @Test
   public void testText() {
 
-    IBagOfTexts bag = frozenBagOfTexts();
+    IBagOfTexts bag1 = bagOfTexts();
+    IBagOfTexts bag2 = frozenBagOfTexts();
 
-    Assert.assertEquals(textHello(), bag.text("Hello Kevin!\nHello Joe!"));
-    Assert.assertEquals(textGoodbye(), bag.text("Goodbye Bill.\nGoodbye Joe."));
+    Assert.assertEquals(textHello(), bag1.text("Hello Kevin!\nHello Joe!"));
+    Assert.assertEquals(textGoodbye(), bag1.text("Goodbye Bill.\nGoodbye Joe."));
+
+    Assert.assertEquals(textHello(), bag2.text("Hello Kevin!\nHello Joe!"));
+    Assert.assertEquals(textGoodbye(), bag2.text("Goodbye Bill.\nGoodbye Joe."));
   }
 
   @Test
   public void testUniqueText() {
 
-    IBagOfTexts bag = frozenBagOfTexts();
-    Set<Text> set = texts().elementSet();
+    IBagOfTexts bag1 = bagOfTexts();
+    Set<Text> set1 = bag1.uniqueTexts();
 
-    Assert.assertEquals(2, bag.uniqueTexts().size());
-    Assert.assertTrue(set.contains(textHello()));
-    Assert.assertTrue(set.contains(textGoodbye()));
+    IBagOfTexts bag2 = frozenBagOfTexts();
+    Set<Text> set2 = bag2.uniqueTexts();
+
+    Assert.assertEquals(2, bag1.uniqueTexts().size());
+    Assert.assertTrue(set1.contains(textHello()));
+    Assert.assertTrue(set1.contains(textGoodbye()));
+
+    Assert.assertEquals(2, bag2.uniqueTexts().size());
+    Assert.assertTrue(set2.contains(textHello()));
+    Assert.assertTrue(set2.contains(textGoodbye()));
   }
 
   @Test
   public void testNumberOfTexts() {
 
-    IBagOfTexts bag = frozenBagOfTexts();
+    IBagOfTexts bag1 = bagOfTexts();
+    IBagOfTexts bag2 = frozenBagOfTexts();
 
-    Assert.assertEquals(3, bag.numberOfTexts());
+    Assert.assertEquals(3, bag1.numberOfTexts());
+    Assert.assertEquals(3, bag2.numberOfTexts());
   }
 
   @Test
   public void testNumberOfDistinctTexts() {
 
-    IBagOfTexts bag = frozenBagOfTexts();
+    IBagOfTexts bag1 = bagOfTexts();
+    IBagOfTexts bag2 = frozenBagOfTexts();
 
-    Assert.assertEquals(2, bag.numberOfDistinctTexts());
+    Assert.assertEquals(2, bag1.numberOfDistinctTexts());
+    Assert.assertEquals(2, bag2.numberOfDistinctTexts());
   }
 
   @Test
   public void testAverageTextLength() {
 
-    IBagOfTexts bag = frozenBagOfTexts();
+    IBagOfTexts bag1 = bagOfTexts();
+    IBagOfTexts bag2 = frozenBagOfTexts();
 
-    Assert.assertEquals(4.0, bag.averageTextLength(), 0.000001);
+    Assert.assertEquals(4.0, bag1.averageTextLength(), 0.000001);
+    Assert.assertEquals(4.0, bag2.averageTextLength(), 0.000001);
   }
 
   @Test
   public void testNumberOfDistinctTextsOccurrences1() {
 
-    IBagOfTexts bag = frozenBagOfTexts();
+    IBagOfTexts bag1 = bagOfTexts();
+    IBagOfTexts bag2 = frozenBagOfTexts();
 
-    Assert.assertEquals(1, bag.numberOfDistinctTextsOccurrences("hello"));
-    Assert.assertEquals(1, bag.numberOfDistinctTextsOccurrences("kevin"));
-    Assert.assertEquals(2, bag.numberOfDistinctTextsOccurrences("joe"));
-    Assert.assertEquals(1, bag.numberOfDistinctTextsOccurrences("bill"));
-    Assert.assertEquals(1, bag.numberOfDistinctTextsOccurrences("goodbye"));
+    Assert.assertEquals(1, bag1.numberOfDistinctTextsOccurrences("hello"));
+    Assert.assertEquals(1, bag1.numberOfDistinctTextsOccurrences("kevin"));
+    Assert.assertEquals(2, bag1.numberOfDistinctTextsOccurrences("joe"));
+    Assert.assertEquals(1, bag1.numberOfDistinctTextsOccurrences("bill"));
+    Assert.assertEquals(1, bag1.numberOfDistinctTextsOccurrences("goodbye"));
+
+    Assert.assertEquals(1, bag2.numberOfDistinctTextsOccurrences("hello"));
+    Assert.assertEquals(1, bag2.numberOfDistinctTextsOccurrences("kevin"));
+    Assert.assertEquals(2, bag2.numberOfDistinctTextsOccurrences("joe"));
+    Assert.assertEquals(1, bag2.numberOfDistinctTextsOccurrences("bill"));
+    Assert.assertEquals(1, bag2.numberOfDistinctTextsOccurrences("goodbye"));
   }
 
   @Test
   public void testNumberOfDistinctTextsOccurrences2() {
 
-    IBagOfTexts bag = frozenBagOfTexts();
+    IBagOfTexts bag1 = bagOfTexts();
+    IBagOfTexts bag2 = frozenBagOfTexts();
 
-    Assert.assertEquals(1, bag.numberOfDistinctTextsOccurrences("hello", "kevin"));
-    Assert.assertEquals(1, bag.numberOfDistinctTextsOccurrences("hello", "joe"));
-    Assert.assertEquals(1, bag.numberOfDistinctTextsOccurrences("goodbye", "bill"));
-    Assert.assertEquals(1, bag.numberOfDistinctTextsOccurrences("goodbye", "joe"));
+    Assert.assertEquals(1, bag1.numberOfDistinctTextsOccurrences("hello", "kevin"));
+    Assert.assertEquals(1, bag1.numberOfDistinctTextsOccurrences("hello", "joe"));
+    Assert.assertEquals(1, bag1.numberOfDistinctTextsOccurrences("goodbye", "bill"));
+    Assert.assertEquals(1, bag1.numberOfDistinctTextsOccurrences("goodbye", "joe"));
+
+    Assert.assertEquals(1, bag2.numberOfDistinctTextsOccurrences("hello", "kevin"));
+    Assert.assertEquals(1, bag2.numberOfDistinctTextsOccurrences("hello", "joe"));
+    Assert.assertEquals(1, bag2.numberOfDistinctTextsOccurrences("goodbye", "bill"));
+    Assert.assertEquals(1, bag2.numberOfDistinctTextsOccurrences("goodbye", "joe"));
   }
 
   @Test
   public void testDocumentFrequency1() {
 
-    IBagOfTexts bag = frozenBagOfTexts();
+    IBagOfTexts bag1 = bagOfTexts();
+    IBagOfTexts bag2 = frozenBagOfTexts();
 
-    Assert.assertEquals(0.5, bag.documentFrequency("hello"), 0.000001);
-    Assert.assertEquals(1.0, bag.documentFrequency("joe"), 0.000001);
+    Assert.assertEquals(0.5, bag1.documentFrequency("hello"), 0.000001);
+    Assert.assertEquals(1.0, bag1.documentFrequency("joe"), 0.000001);
+
+    Assert.assertEquals(0.5, bag2.documentFrequency("hello"), 0.000001);
+    Assert.assertEquals(1.0, bag2.documentFrequency("joe"), 0.000001);
   }
 
   @Test
   public void testDocumentFrequency2() {
 
-    IBagOfTexts bag = frozenBagOfTexts();
+    IBagOfTexts bag1 = bagOfTexts();
+    IBagOfTexts bag2 = frozenBagOfTexts();
 
-    Assert.assertEquals(0.5, bag.documentFrequency("hello", "joe"), 0.000001);
-    Assert.assertEquals(0.5, bag.documentFrequency("goodbye", "joe"), 0.000001);
+    Assert.assertEquals(0.5, bag1.documentFrequency("hello", "joe"), 0.000001);
+    Assert.assertEquals(0.5, bag1.documentFrequency("goodbye", "joe"), 0.000001);
+
+    Assert.assertEquals(0.5, bag2.documentFrequency("hello", "joe"), 0.000001);
+    Assert.assertEquals(0.5, bag2.documentFrequency("goodbye", "joe"), 0.000001);
   }
 
   @Test
   public void testTermFrequency1() {
 
-    IBagOfTexts bag = frozenBagOfTexts();
+    IBagOfTexts bag1 = bagOfTexts();
+    IBagOfTexts bag2 = frozenBagOfTexts();
 
-    Assert.assertEquals(0.5, bag.termFrequency(textHello(), "hello"), 0.000001);
-    Assert.assertEquals(0.25, bag.termFrequency(textHello(), "joe"), 0.000001);
-    Assert.assertEquals(0.0, bag.termFrequency(textGoodbye(), "hello"), 0.000001);
-    Assert.assertEquals(0.25, bag.termFrequency(textGoodbye(), "joe"), 0.000001);
+    Assert.assertEquals(0.5, bag1.termFrequency(textHello(), "hello"), 0.000001);
+    Assert.assertEquals(0.25, bag1.termFrequency(textHello(), "joe"), 0.000001);
+    Assert.assertEquals(0.0, bag1.termFrequency(textGoodbye(), "hello"), 0.000001);
+    Assert.assertEquals(0.25, bag1.termFrequency(textGoodbye(), "joe"), 0.000001);
+
+    Assert.assertEquals(0.5, bag2.termFrequency(textHello(), "hello"), 0.000001);
+    Assert.assertEquals(0.25, bag2.termFrequency(textHello(), "joe"), 0.000001);
+    Assert.assertEquals(0.0, bag2.termFrequency(textGoodbye(), "hello"), 0.000001);
+    Assert.assertEquals(0.25, bag2.termFrequency(textGoodbye(), "joe"), 0.000001);
   }
 
   @Test
   public void testTermFrequency2() {
 
-    IBagOfTexts bag = frozenBagOfTexts();
+    IBagOfTexts bag1 = bagOfTexts();
+    IBagOfTexts bag2 = frozenBagOfTexts();
 
-    Assert.assertEquals(0.5, bag.termFrequency(textHello(), "hello", "joe"), 0.000001);
-    Assert.assertEquals(0.0, bag.termFrequency(textHello(), "goodbye", "joe"), 0.000001);
-    Assert.assertEquals(0.0, bag.termFrequency(textGoodbye(), "hello", "joe"), 0.000001);
-    Assert.assertEquals(0.5, bag.termFrequency(textGoodbye(), "goodbye", "joe"), 0.000001);
+    Assert.assertEquals(0.5, bag1.termFrequency(textHello(), "hello", "joe"), 0.000001);
+    Assert.assertEquals(0.0, bag1.termFrequency(textHello(), "goodbye", "joe"), 0.000001);
+    Assert.assertEquals(0.0, bag1.termFrequency(textGoodbye(), "hello", "joe"), 0.000001);
+    Assert.assertEquals(0.5, bag1.termFrequency(textGoodbye(), "goodbye", "joe"), 0.000001);
+
+    Assert.assertEquals(0.5, bag2.termFrequency(textHello(), "hello", "joe"), 0.000001);
+    Assert.assertEquals(0.0, bag2.termFrequency(textHello(), "goodbye", "joe"), 0.000001);
+    Assert.assertEquals(0.0, bag2.termFrequency(textGoodbye(), "hello", "joe"), 0.000001);
+    Assert.assertEquals(0.5, bag2.termFrequency(textGoodbye(), "goodbye", "joe"), 0.000001);
   }
 
   @Test
   public void testInverseDocumentFrequency1() {
 
-    IBagOfTexts bag = frozenBagOfTexts();
+    IBagOfTexts bag1 = bagOfTexts();
+    IBagOfTexts bag2 = frozenBagOfTexts();
 
-    Assert.assertEquals(1.0, bag.inverseDocumentFrequency("hello"), 0.000001);
-    Assert.assertEquals(0.5945348918918356, bag.inverseDocumentFrequency("joe"), 0.000001);
+    Assert.assertEquals(1.0, bag1.inverseDocumentFrequency("hello"), 0.000001);
+    Assert.assertEquals(0.5945348918918356, bag1.inverseDocumentFrequency("joe"), 0.000001);
+
+    Assert.assertEquals(1.0, bag2.inverseDocumentFrequency("hello"), 0.000001);
+    Assert.assertEquals(0.5945348918918356, bag2.inverseDocumentFrequency("joe"), 0.000001);
   }
 
   @Test
   public void testInverseDocumentFrequency2() {
 
-    IBagOfTexts bag = frozenBagOfTexts();
+    IBagOfTexts bag1 = bagOfTexts();
+    IBagOfTexts bag2 = frozenBagOfTexts();
 
-    Assert.assertEquals(1.0, bag.inverseDocumentFrequency("hello", "joe"), 0.000001);
-    Assert.assertEquals(1.0, bag.inverseDocumentFrequency("goodbye", "joe"), 0.000001);
+    Assert.assertEquals(1.0, bag1.inverseDocumentFrequency("hello", "joe"), 0.000001);
+    Assert.assertEquals(1.0, bag1.inverseDocumentFrequency("goodbye", "joe"), 0.000001);
+
+    Assert.assertEquals(1.0, bag2.inverseDocumentFrequency("hello", "joe"), 0.000001);
+    Assert.assertEquals(1.0, bag2.inverseDocumentFrequency("goodbye", "joe"), 0.000001);
   }
 
   @Test
   public void testTfIdf1() {
 
-    IBagOfTexts bag = frozenBagOfTexts();
+    IBagOfTexts bag1 = bagOfTexts();
+    IBagOfTexts bag2 = frozenBagOfTexts();
 
-    Assert.assertEquals(0.5, bag.tfIdf(textHello(), "hello"), 0.000001);
-    Assert.assertEquals(0.1486337229729589, bag.tfIdf(textHello(), "joe"), 0.000001);
-    Assert.assertEquals(0.0, bag.tfIdf(textGoodbye(), "hello"), 0.000001);
-    Assert.assertEquals(0.1486337229729589, bag.tfIdf(textGoodbye(), "joe"), 0.000001);
+    Assert.assertEquals(0.5, bag1.tfIdf(textHello(), "hello"), 0.000001);
+    Assert.assertEquals(0.1486337229729589, bag1.tfIdf(textHello(), "joe"), 0.000001);
+    Assert.assertEquals(0.0, bag1.tfIdf(textGoodbye(), "hello"), 0.000001);
+    Assert.assertEquals(0.1486337229729589, bag1.tfIdf(textGoodbye(), "joe"), 0.000001);
+
+    Assert.assertEquals(0.5, bag2.tfIdf(textHello(), "hello"), 0.000001);
+    Assert.assertEquals(0.1486337229729589, bag2.tfIdf(textHello(), "joe"), 0.000001);
+    Assert.assertEquals(0.0, bag2.tfIdf(textGoodbye(), "hello"), 0.000001);
+    Assert.assertEquals(0.1486337229729589, bag2.tfIdf(textGoodbye(), "joe"), 0.000001);
   }
 
   @Test
   public void testTfIdf2() {
 
-    IBagOfTexts bag = frozenBagOfTexts();
+    IBagOfTexts bag1 = bagOfTexts();
+    IBagOfTexts bag2 = frozenBagOfTexts();
 
-    Assert.assertEquals(0.5, bag.tfIdf(textHello(), "hello", "joe"), 0.000001);
-    Assert.assertEquals(0.5, bag.tfIdf(textHello(), "hello", "joe"), 0.000001);
-    Assert.assertEquals(0.5, bag.tfIdf(textGoodbye(), "goodbye", "joe"), 0.000001);
-    Assert.assertEquals(0.5, bag.tfIdf(textGoodbye(), "goodbye", "joe"), 0.000001);
+    Assert.assertEquals(0.5, bag1.tfIdf(textHello(), "hello", "joe"), 0.000001);
+    Assert.assertEquals(0.5, bag1.tfIdf(textHello(), "hello", "joe"), 0.000001);
+    Assert.assertEquals(0.5, bag1.tfIdf(textGoodbye(), "goodbye", "joe"), 0.000001);
+    Assert.assertEquals(0.5, bag1.tfIdf(textGoodbye(), "goodbye", "joe"), 0.000001);
+
+    Assert.assertEquals(0.5, bag2.tfIdf(textHello(), "hello", "joe"), 0.000001);
+    Assert.assertEquals(0.5, bag2.tfIdf(textHello(), "hello", "joe"), 0.000001);
+    Assert.assertEquals(0.5, bag2.tfIdf(textGoodbye(), "goodbye", "joe"), 0.000001);
+    Assert.assertEquals(0.5, bag2.tfIdf(textGoodbye(), "goodbye", "joe"), 0.000001);
   }
 
   @Test
   public void testFindNoWord() {
 
-    IBagOfTexts bag = frozenBagOfTexts();
-    List<Text> set = bag.find(Sets.newHashSet(), 3);
+    IBagOfTexts bag1 = bagOfTexts();
+    List<Text> set1 = bag1.find(Sets.newHashSet(), 3);
 
-    Assert.assertEquals(0, set.size());
+    IBagOfTexts bag2 = frozenBagOfTexts();
+    List<Text> set2 = bag2.find(Sets.newHashSet(), 3);
+
+    Assert.assertEquals(0, set1.size());
+    Assert.assertEquals(0, set2.size());
   }
 
   @Test
   public void testFindOneWord() {
 
-    IBagOfTexts bag = frozenBagOfTexts();
-    List<Text> set = bag.find(Sets.newHashSet("joe"), 3);
+    IBagOfTexts bag1 = bagOfTexts();
+    List<Text> set1 = bag1.find(Sets.newHashSet("joe"), 3);
 
-    Assert.assertEquals(2, set.size());
-    Assert.assertTrue(set.contains(textHello()));
-    Assert.assertTrue(set.contains(textGoodbye()));
+    IBagOfTexts bag2 = frozenBagOfTexts();
+    List<Text> set2 = bag2.find(Sets.newHashSet("joe"), 3);
+
+    Assert.assertEquals(2, set1.size());
+    Assert.assertTrue(set1.contains(textHello()));
+    Assert.assertTrue(set1.contains(textGoodbye()));
+
+    Assert.assertEquals(2, set2.size());
+    Assert.assertTrue(set2.contains(textHello()));
+    Assert.assertTrue(set2.contains(textGoodbye()));
   }
 
   @Test
   public void testFindTwoWords() {
 
-    IBagOfTexts bag = frozenBagOfTexts();
-    List<Text> set = bag.find(Sets.newHashSet("john", "hello"), 3);
+    IBagOfTexts bag1 = bagOfTexts();
+    List<Text> set1 = bag1.find(Sets.newHashSet("john", "hello"), 3);
 
-    Assert.assertEquals(1, set.size());
-    Assert.assertTrue(set.contains(textHello()));
-    Assert.assertFalse(set.contains(textGoodbye()));
+    IBagOfTexts bag2 = frozenBagOfTexts();
+    List<Text> set2 = bag2.find(Sets.newHashSet("john", "hello"), 3);
+
+    Assert.assertEquals(1, set1.size());
+    Assert.assertTrue(set1.contains(textHello()));
+    Assert.assertFalse(set1.contains(textGoodbye()));
+
+    Assert.assertEquals(1, set2.size());
+    Assert.assertTrue(set2.contains(textHello()));
+    Assert.assertFalse(set2.contains(textGoodbye()));
   }
 
   private IBagOfTexts frozenBagOfTexts() {
