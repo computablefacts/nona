@@ -3,6 +3,8 @@ package com.computablefacts.nona.helpers;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.Collection;
@@ -20,6 +22,7 @@ import com.computablefacts.nona.types.SpanSequence;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.common.base.Strings;
+import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Lists;
 
 public class CodecsTest {
@@ -196,6 +199,27 @@ public class CodecsTest {
         "[{\"key\":\"key1\",\"value\":\"value1\"},{\"key\":\"key2\",\"value\":2},{\"key\":\"key3\",\"value\":false}]");
 
     Assert.assertEquals(collection1, collection2);
+  }
+
+  @Test
+  public void testSerializeDeserializeDate() throws ParseException {
+
+    Map<String, Object> map1 =
+        ImmutableMap.of("date", new SimpleDateFormat("yyyy-MM-dd").parse("2004-04-01"));
+
+    Map<String, Object> map2 = ImmutableMap.of("date", "2004-03-31T22:00:00Z");
+
+    String json1 = Codecs.asString(map1);
+    String json2 = Codecs.asString(map2);
+
+    Assert.assertEquals("{\"date\":\"2004-03-31T22:00:00Z\"}", json1);
+    Assert.assertEquals("{\"date\":\"2004-03-31T22:00:00Z\"}", json2);
+
+    Assert.assertNotEquals(map1, Codecs.asObject(json1));
+    Assert.assertNotEquals(map1, Codecs.asObject(json2));
+
+    Assert.assertEquals(map2, Codecs.asObject(json1));
+    Assert.assertEquals(map2, Codecs.asObject(json2));
   }
 
   @Test

@@ -25,9 +25,13 @@ import org.slf4j.LoggerFactory;
 import com.computablefacts.nona.logs.LogFormatterManager;
 import com.computablefacts.nona.types.Span;
 import com.computablefacts.nona.types.SpanSequence;
+import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializerProvider;
+import com.fasterxml.jackson.databind.module.SimpleModule;
+import com.fasterxml.jackson.databind.ser.std.StdSerializer;
 import com.fasterxml.jackson.databind.type.TypeFactory;
 import com.google.common.base.Function;
 import com.google.common.base.Preconditions;
@@ -131,6 +135,12 @@ final public class Codecs {
     }
     return spanSequence;
   };
+
+  static {
+    SimpleModule dateSerializerModule = new SimpleModule();
+    dateSerializerModule.addSerializer(Date.class, new CustomDateSerializer());
+    mapper_.registerModule(dateSerializerModule);
+  }
 
   /**
    * Check if a string is probably encoded in Base64.
@@ -313,6 +323,23 @@ final public class Codecs {
       logger_.error(LogFormatterManager.logFormatter().message(e).formatError());
     }
     return new Map[0];
+  }
+
+  private static class CustomDateSerializer extends StdSerializer<Date> {
+
+    public CustomDateSerializer() {
+      this(null);
+    }
+
+    public CustomDateSerializer(Class<Date> t) {
+      super(t);
+    }
+
+    @Override
+    public void serialize(Date value, JsonGenerator jgen, SerializerProvider provider)
+        throws IOException {
+      jgen.writeString(DateTimeFormatter.ISO_INSTANT.format(value.toInstant()));
+    }
   }
 }
 
