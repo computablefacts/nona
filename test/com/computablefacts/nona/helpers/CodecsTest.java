@@ -3,8 +3,9 @@ package com.computablefacts.nona.helpers;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+import java.sql.Date;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.Collection;
@@ -205,15 +206,15 @@ public class CodecsTest {
   public void testSerializeDeserializeDate() throws ParseException {
 
     Map<String, Object> map1 =
-        ImmutableMap.of("date", new SimpleDateFormat("yyyy-MM-dd").parse("2004-04-01"));
+        ImmutableMap.of("date", Date.from(Instant.parse("2004-04-01T00:00:00Z")));
 
-    Map<String, Object> map2 = ImmutableMap.of("date", "2004-03-31T22:00:00Z");
+    Map<String, Object> map2 = ImmutableMap.of("date", "2004-04-01T00:00:00Z");
 
     String json1 = Codecs.asString(map1);
     String json2 = Codecs.asString(map2);
 
-    Assert.assertEquals("{\"date\":\"2004-03-31T22:00:00Z\"}", json1);
-    Assert.assertEquals("{\"date\":\"2004-03-31T22:00:00Z\"}", json2);
+    Assert.assertEquals("{\"date\":\"2004-04-01T00:00:00Z\"}", json1);
+    Assert.assertEquals("{\"date\":\"2004-04-01T00:00:00Z\"}", json2);
 
     Assert.assertNotEquals(map1, Codecs.asObject(json1));
     Assert.assertNotEquals(map1, Codecs.asObject(json2));
