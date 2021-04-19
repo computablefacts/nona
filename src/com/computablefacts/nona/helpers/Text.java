@@ -23,7 +23,7 @@ import com.google.errorprone.annotations.CheckReturnValue;
 final public class Text implements IBagOfWords, IBagOfNGrams {
 
   private final static String UNKNOWN = "<UNK>";
-  private final static HashFunction GOOD_FAST_HASH_128 = Hashing.goodFastHash(128);
+  private final static HashFunction MURMUR3_128 = Hashing.murmur3_128();
 
   private final String text_;
   private final String hash_;
@@ -52,7 +52,7 @@ final public class Text implements IBagOfWords, IBagOfNGrams {
     text_ = text;
     sentenceSplitter_ = sentenceSplitter;
     wordSplitter_ = wordSplitter;
-    hash_ = GOOD_FAST_HASH_128.newHasher().putUnencodedChars(text).hash().toString();
+    hash_ = MURMUR3_128.newHasher().putUnencodedChars(text).hash().toString();
 
     List<String> sentences = sentenceSplitter.apply(text_);
 
