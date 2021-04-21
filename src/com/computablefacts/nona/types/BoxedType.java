@@ -2,9 +2,11 @@ package com.computablefacts.nona.types;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -199,6 +201,10 @@ final public class BoxedType<T> {
     return value_ instanceof Collection;
   }
 
+  public boolean isDate() {
+    return value_ instanceof Date;
+  }
+
   public Boolean asBool() {
     return isBoolean() ? (Boolean) value_ : null;
   }
@@ -236,11 +242,16 @@ final public class BoxedType<T> {
             : isBoolean() ? Boolean.toString(asBool())
                 : isBigInteger() ? asBigInteger().toString(10)
                     : isBigDecimal() ? asBigDecimal().stripTrailingZeros().toString()
-                        : value_.toString();
+                        : isDate() ? DateTimeFormatter.ISO_INSTANT.format(asDate().toInstant())
+                            : value_.toString();
   }
 
   public Collection<?> asCollection() {
-    return isEmpty() ? null : isCollection() ? (Collection<?>) value_ : Lists.newArrayList(value_);
+    return isCollection() ? (Collection<?>) value_ : Lists.newArrayList(value_);
+  }
+
+  public Date asDate() {
+    return isDate() ? (Date) value_ : null;
   }
 
   /**

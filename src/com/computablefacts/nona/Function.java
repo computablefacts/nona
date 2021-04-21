@@ -27,6 +27,12 @@ import com.computablefacts.nona.functions.controlflowoperators.Which;
 import com.computablefacts.nona.functions.csvoperators.CsvValue;
 import com.computablefacts.nona.functions.csvoperators.NbCsvRows;
 import com.computablefacts.nona.functions.csvoperators.ToCsv;
+import com.computablefacts.nona.functions.dateoperators.AddDays;
+import com.computablefacts.nona.functions.dateoperators.AddHours;
+import com.computablefacts.nona.functions.dateoperators.AddMinutes;
+import com.computablefacts.nona.functions.dateoperators.AddMonths;
+import com.computablefacts.nona.functions.dateoperators.AddSeconds;
+import com.computablefacts.nona.functions.dateoperators.AddYears;
 import com.computablefacts.nona.functions.jsonoperators.NbJsonObjects;
 import com.computablefacts.nona.functions.jsonoperators.ToJson;
 import com.computablefacts.nona.functions.mathematicaloperators.Max;
@@ -50,6 +56,7 @@ import com.computablefacts.nona.functions.stringoperators.Snippet;
 import com.computablefacts.nona.functions.stringoperators.StartWith;
 import com.computablefacts.nona.functions.stringoperators.StrLength;
 import com.computablefacts.nona.functions.stringoperators.Substring;
+import com.computablefacts.nona.functions.stringoperators.ToDate;
 import com.computablefacts.nona.functions.stringoperators.ToInteger;
 import com.computablefacts.nona.functions.stringoperators.ToLowerCase;
 import com.computablefacts.nona.functions.stringoperators.ToUpperCase;
@@ -115,6 +122,14 @@ public class Function {
     definitions.put("NB_CSV_ROWS", new NbCsvRows());
     definitions.put("TO_CSV", new ToCsv());
 
+    // Date operators
+    definitions.put("ADD_DAYS", new AddDays());
+    definitions.put("ADD_HOURS", new AddHours());
+    definitions.put("ADD_MINUTES", new AddMinutes());
+    definitions.put("ADD_MONTHS", new AddMonths());
+    definitions.put("ADD_SECONDS", new AddSeconds());
+    definitions.put("ADD_YEARS", new AddYears());
+
     // Json operators
     definitions.put("NB_JSON_OBJECTS", new NbJsonObjects());
     definitions.put("TO_JSON", new ToJson());
@@ -170,6 +185,7 @@ public class Function {
     definitions.put("START_WITH", new StartWith());
     definitions.put("STR_LENGTH", new StrLength());
     definitions.put("SUBSTRING", new Substring());
+    definitions.put("TO_DATE", new ToDate());
     definitions.put("TO_INTEGER", new ToInteger());
     definitions.put("TO_LOWERCASE", new ToLowerCase());
     definitions.put("TO_UPPERCASE", new ToUpperCase());

@@ -45,4 +45,16 @@ public class EqualTest {
     Function fn2 = new Function("EQUAL(1, 2)");
     Assert.assertEquals(BoxedType.create(false), fn2.evaluate(Function.definitions()));
   }
+
+  @Test
+  public void testEqualDate() {
+
+    Function fn = new Function(
+        "EQUAL(TO_DATE(2021-21-04 19:02, yyyy-dd-MM HH:mm), TO_DATE(2021/04/21 19:02, yyyy/MM/dd HH:mm))");
+    Assert.assertEquals(BoxedType.create(true), fn.evaluate(Function.definitions()));
+
+    Function fn2 = new Function(
+        "EQUAL(TO_DATE(2021-22-04 19:02, yyyy-dd-MM HH:mm), TO_DATE(2021/04/21 19:02, yyyy/MM/dd HH:mm))");
+    Assert.assertEquals(BoxedType.create(false), fn2.evaluate(Function.definitions()));
+  }
 }
