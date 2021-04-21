@@ -19,20 +19,20 @@ public class Switch extends Function {
   }
 
   @Override
-  public BoxedType evaluate(List<BoxedType> parameters) {
+  public BoxedType<?> evaluate(List<BoxedType<?>> parameters) {
 
     Preconditions.checkArgument(parameters.size() >= 3, "SWITCH takes at least three parameters.");
     Preconditions.checkArgument((parameters.size() - 1) % 2 == 0,
         "SWITCH contains an invalid number of statements.");
 
     @Var
-    BoxedType defaultOutput = null;
-    BoxedType defaultStatement = BoxedType.create("_");
-    BoxedType input = parameters.get(0);
+    BoxedType<?> defaultOutput = null;
+    BoxedType<?> defaultStatement = BoxedType.create("_");
+    BoxedType<?> input = parameters.get(0);
 
     for (int i = 1; i < parameters.size(); i += 2) {
 
-      BoxedType statement = parameters.get(i);
+      BoxedType<?> statement = parameters.get(i);
 
       if (statement.equals(input)) {
         return parameters.get(i + 1);
@@ -48,7 +48,7 @@ public class Switch extends Function {
 
     Preconditions.checkState(false, "Neither a valid nor a default statement has been found.");
 
-    return BoxedType.create(null);
+    return BoxedType.empty();
   }
 
   @Override

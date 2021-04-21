@@ -18,7 +18,7 @@ public class ToCsv extends Function {
   }
 
   @Override
-  public BoxedType evaluate(List<BoxedType> parameters) {
+  public BoxedType<?> evaluate(List<BoxedType<?>> parameters) {
 
     Preconditions.checkArgument(parameters.size() == 1, "TO_CSV takes exactly one parameter.");
     Preconditions.checkArgument(parameters.get(0).isString(), "%s should be a string",

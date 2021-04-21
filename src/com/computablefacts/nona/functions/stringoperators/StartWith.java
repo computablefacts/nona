@@ -17,7 +17,7 @@ public class StartWith extends Function {
   }
 
   @Override
-  public BoxedType evaluate(List<BoxedType> parameters) {
+  public BoxedType<?> evaluate(List<BoxedType<?>> parameters) {
 
     Preconditions.checkArgument(parameters.size() == 2, "START_WITH takes exactly two parameters.");
     Preconditions.checkArgument(parameters.get(0).isString(), "%s should be a string",

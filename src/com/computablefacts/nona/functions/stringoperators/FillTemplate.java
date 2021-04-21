@@ -27,7 +27,7 @@ public class FillTemplate extends Function {
   }
 
   @Override
-  public BoxedType evaluate(List<BoxedType> parameters) {
+  public BoxedType<?> evaluate(List<BoxedType<?>> parameters) {
 
     Preconditions.checkArgument(parameters.size() >= 3,
         "FILL_TEMPLATE takes at least three parameters.");

@@ -17,7 +17,7 @@ public class IsFalse extends Function {
   }
 
   @Override
-  public BoxedType evaluate(List<BoxedType> parameters) {
+  public BoxedType<?> evaluate(List<BoxedType<?>> parameters) {
 
     Preconditions.checkArgument(parameters.size() == 1, "IS_FALSE takes exactly one parameter.");
 

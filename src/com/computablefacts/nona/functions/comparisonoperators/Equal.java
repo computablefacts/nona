@@ -17,12 +17,12 @@ public class Equal extends Function {
   }
 
   @Override
-  public BoxedType evaluate(List<BoxedType> parameters) {
+  public BoxedType<?> evaluate(List<BoxedType<?>> parameters) {
 
     Preconditions.checkArgument(parameters.size() == 2, "EQUAL takes exactly two parameters.");
 
-    BoxedType left = parameters.get(0);
-    BoxedType right = parameters.get(1);
+    BoxedType<?> left = parameters.get(0);
+    BoxedType<?> right = parameters.get(1);
 
     return BoxedType.create(left.equals(right));
   }

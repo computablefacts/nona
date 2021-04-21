@@ -19,19 +19,19 @@ public class Which extends Function {
   }
 
   @Override
-  public BoxedType evaluate(List<BoxedType> parameters) {
+  public BoxedType<?> evaluate(List<BoxedType<?>> parameters) {
 
     Preconditions.checkArgument(parameters.size() >= 2, "WHICH takes at least two parameters.");
     Preconditions.checkArgument(parameters.size() % 2 == 0,
         "WHICH contains an invalid number of statements.");
 
     @Var
-    BoxedType defaultOutput = null;
-    BoxedType defaultStatement = BoxedType.create("_");
+    BoxedType<?> defaultOutput = null;
+    BoxedType<?> defaultStatement = BoxedType.create("_");
 
     for (int i = 0; i < parameters.size(); i += 2) {
 
-      BoxedType statement = parameters.get(i);
+      BoxedType<?> statement = parameters.get(i);
 
       if (statement.equals(defaultStatement)) {
         defaultOutput = parameters.get(i + 1);
@@ -51,7 +51,7 @@ public class Which extends Function {
 
     Preconditions.checkState(false, "Neither a valid nor a default statement has been found.");
 
-    return BoxedType.create(null);
+    return BoxedType.empty();
   }
 
   @Override

@@ -19,7 +19,7 @@ public class Snippet extends Function {
   }
 
   @Override
-  public BoxedType evaluate(List<BoxedType> parameters) {
+  public BoxedType<?> evaluate(List<BoxedType<?>> parameters) {
 
     Preconditions.checkArgument(parameters.size() >= 2, "SNIPPET takes at least two parameters.");
     Preconditions.checkArgument(parameters.get(0).isString(), "%s should be a string",

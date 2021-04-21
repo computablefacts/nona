@@ -38,12 +38,12 @@ public class Bic extends MatchPattern {
   }
 
   @Override
-  public BoxedType evaluate(List<BoxedType> parameters) {
+  public BoxedType<?> evaluate(List<BoxedType<?>> parameters) {
 
     Preconditions.checkArgument(parameters.size() == 1, "BIC takes exactly one parameter : %s",
         parameters);
 
-    BoxedType boxedType = super.evaluate(parameters);
+    BoxedType<?> boxedType = super.evaluate(parameters);
     SpanSequence sequence = (SpanSequence) boxedType.value();
     SpanSequence newSequence = new SpanSequence();
 

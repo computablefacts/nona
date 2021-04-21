@@ -271,12 +271,12 @@ public class Function {
     return evaluate(null, null);
   }
 
-  public BoxedType evaluate(Map<String, Function> definitions) {
+  public BoxedType<?> evaluate(Map<String, Function> definitions) {
     return evaluate(definitions, null);
   }
 
-  public BoxedType evaluate(Map<String, Function> definitions,
-      Map<String, BoxedType> substitutions) {
+  public BoxedType<?> evaluate(Map<String, Function> definitions,
+      Map<String, BoxedType<?>> substitutions) {
 
     if (!isValid()) {
       return null;
@@ -299,13 +299,13 @@ public class Function {
         "Mismatch between the head arity and the function definition: %s found vs %s expected",
         head_.arity(), function.arity());
 
-    List<BoxedType> parameters = new ArrayList<>(head_.arity());
+    List<BoxedType<?>> parameters = new ArrayList<>(head_.arity());
 
     for (Function fn : head_.parameters()) {
       parameters.add(fn.evaluate(definitions, substitutions));
     }
 
-    Map<String, BoxedType> substs = new HashMap<>();
+    Map<String, BoxedType<?>> substs = new HashMap<>();
 
     for (int i = 0; i < head_.arity(); i++) {
       substs.put(function.parameters().get(i).evaluate(definitions).asString(), parameters.get(i));
@@ -319,7 +319,7 @@ public class Function {
    * @param parameters the function parameters.
    * @return computed value.
    */
-  public BoxedType evaluate(List<BoxedType> parameters) {
+  public BoxedType<?> evaluate(List<BoxedType<?>> parameters) {
     throw new RuntimeException(
         "Function " + head_.name() + "/" + parameters.size() + " is not implemented.");
   }
@@ -416,12 +416,12 @@ public class Function {
     return functions;
   }
 
-  private BoxedType evaluate(Map<String, Function> definitions,
-      Map<String, BoxedType> substitutions, Atom atom) {
+  private BoxedType<?> evaluate(Map<String, Function> definitions,
+      Map<String, BoxedType<?>> substitutions, Atom atom) {
 
     Preconditions.checkNotNull(atom, "atom should not be null");
 
-    List<BoxedType> parameters = new ArrayList<>(atom.arity());
+    List<BoxedType<?>> parameters = new ArrayList<>(atom.arity());
 
     for (Function fn : atom.parameters()) {
       parameters.add(fn.evaluate(definitions, substitutions));

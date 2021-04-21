@@ -22,12 +22,12 @@ public class IpV4 extends MatchPattern {
   }
 
   @Override
-  public BoxedType evaluate(List<BoxedType> parameters) {
+  public BoxedType<?> evaluate(List<BoxedType<?>> parameters) {
 
     Preconditions.checkArgument(parameters.size() == 1, "IPV4 takes exactly one parameter : %s",
         parameters);
 
-    BoxedType boxedType = super.evaluate(parameters);
+    BoxedType<?> boxedType = super.evaluate(parameters);
     SpanSequence sequence = (SpanSequence) boxedType.value();
 
     for (Span span : sequence) {

@@ -21,7 +21,7 @@ public class MatchFuzzy extends Function {
   }
 
   @Override
-  public BoxedType evaluate(List<BoxedType> parameters) {
+  public BoxedType<?> evaluate(List<BoxedType<?>> parameters) {
 
     Preconditions.checkArgument(parameters.size() == 4,
         "MATCH_FUZZY takes exactly four parameters.");
@@ -34,10 +34,10 @@ public class MatchFuzzy extends Function {
     Preconditions.checkArgument(parameters.get(3).isString(), "%s should be a string",
         parameters.get(3));
 
-    BoxedType ratioType = parameters.get(0);
-    BoxedType minScore = parameters.get(1);
-    BoxedType string1 = parameters.get(2);
-    BoxedType string2 = parameters.get(3);
+    BoxedType<?> ratioType = parameters.get(0);
+    BoxedType<?> minScore = parameters.get(1);
+    BoxedType<?> string1 = parameters.get(2);
+    BoxedType<?> string2 = parameters.get(3);
 
     int score;
 

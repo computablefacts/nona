@@ -41,7 +41,7 @@ public class MatchRegex extends Function {
   }
 
   @Override
-  public BoxedType evaluate(List<BoxedType> parameters) {
+  public BoxedType<?> evaluate(List<BoxedType<?>> parameters) {
 
     Preconditions.checkArgument(parameters.size() == 2,
         "MATCH_REGEX takes exactly two parameters : %s", parameters);

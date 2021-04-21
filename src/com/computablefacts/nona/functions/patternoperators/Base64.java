@@ -17,7 +17,7 @@ public class Base64 extends MatchPattern {
   }
 
   @Override
-  public BoxedType evaluate(List<BoxedType> parameters) {
+  public BoxedType<?> evaluate(List<BoxedType<?>> parameters) {
 
     Preconditions.checkArgument(parameters.size() == 1, "BASE64 takes exactly one parameter : %s",
         parameters);

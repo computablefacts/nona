@@ -18,7 +18,7 @@ public class NbCsvRows extends Function {
   }
 
   @Override
-  public BoxedType evaluate(List<BoxedType> parameters) {
+  public BoxedType<?> evaluate(List<BoxedType<?>> parameters) {
 
     Preconditions.checkArgument(parameters.size() == 1, "NB_CSV_ROWS takes exactly one parameter.");
     Preconditions.checkArgument(parameters.get(0).value() instanceof Csv, "%s should be a csv",

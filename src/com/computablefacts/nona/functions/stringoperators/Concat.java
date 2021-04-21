@@ -17,12 +17,12 @@ public class Concat extends Function {
   }
 
   @Override
-  public BoxedType evaluate(List<BoxedType> parameters) {
+  public BoxedType<?> evaluate(List<BoxedType<?>> parameters) {
 
     Preconditions.checkArgument(parameters.size() >= 2, "CONCAT takes at least two parameters.");
 
     StringBuilder builder = new StringBuilder();
-    for (BoxedType parameter : parameters) {
+    for (BoxedType<?> parameter : parameters) {
       if (parameter.asString().startsWith("\"") && parameter.asString().endsWith("\"")) {
         builder.append(parameter.asString(), 1, parameter.asString().length() - 1);
       } else {

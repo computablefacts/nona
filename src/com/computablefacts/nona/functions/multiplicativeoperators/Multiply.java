@@ -18,14 +18,14 @@ public class Multiply extends Function {
   }
 
   @Override
-  public BoxedType evaluate(List<BoxedType> parameters) {
+  public BoxedType<?> evaluate(List<BoxedType<?>> parameters) {
 
     Preconditions.checkArgument(parameters.size() >= 2, "MUL takes at least two parameters.");
 
     @Var
     BigDecimal res = BigDecimal.ONE;
 
-    for (BoxedType param : parameters) {
+    for (BoxedType<?> param : parameters) {
 
       Preconditions.checkArgument(param.isNumber(), "%s should be a number", param);
 

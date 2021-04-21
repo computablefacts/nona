@@ -43,7 +43,7 @@ public class FunctionTest {
     functions.put("ZERO", new Function(eCategory.ASSIGNMENT_OPERATORS, "ZERO", "For tests only.") {
 
       @Override
-      public BoxedType evaluate(List<BoxedType> parameters) {
+      public BoxedType<?> evaluate(List<BoxedType<?>> parameters) {
         return BoxedType.create(parameters.isEmpty() ? 0 : 1);
       }
     });
@@ -62,7 +62,7 @@ public class FunctionTest {
     functions.put("ZERO", new Function(eCategory.ASSIGNMENT_OPERATORS, "ZERO", "For tests only.") {
 
       @Override
-      public BoxedType evaluate(List<BoxedType> parameters) {
+      public BoxedType<?> evaluate(List<BoxedType<?>> parameters) {
         return BoxedType.create(parameters.isEmpty() ? 0 : 1);
       }
     });
@@ -176,7 +176,7 @@ public class FunctionTest {
     functions.put("FN", new Function(eCategory.ASSIGNMENT_OPERATORS, "FN", "For tests only.") {
 
       @Override
-      public BoxedType evaluate(List<BoxedType> parameters) {
+      public BoxedType<?> evaluate(List<BoxedType<?>> parameters) {
         return parameters.get(0);
       }
     });
@@ -195,7 +195,7 @@ public class FunctionTest {
     functions.put("FN", new Function(eCategory.ASSIGNMENT_OPERATORS, "FN", "For tests only.") {
 
       @Override
-      public BoxedType evaluate(List<BoxedType> parameters) {
+      public BoxedType<?> evaluate(List<BoxedType<?>> parameters) {
         return parameters.get(0);
       }
     });
@@ -214,7 +214,7 @@ public class FunctionTest {
     functions.put("FN", new Function(eCategory.ASSIGNMENT_OPERATORS, "FN", "For tests only.") {
 
       @Override
-      public BoxedType evaluate(List<BoxedType> parameters) {
+      public BoxedType<?> evaluate(List<BoxedType<?>> parameters) {
         return parameters.get(0);
       }
     });
@@ -233,7 +233,7 @@ public class FunctionTest {
     functions.put("FN", new Function(eCategory.ASSIGNMENT_OPERATORS, "FN", "For tests only.") {
 
       @Override
-      public BoxedType evaluate(List<BoxedType> parameters) {
+      public BoxedType<?> evaluate(List<BoxedType<?>> parameters) {
         return parameters.get(0);
       }
     });
@@ -252,7 +252,7 @@ public class FunctionTest {
     functions.put("FN", new Function(eCategory.ASSIGNMENT_OPERATORS, "FN", "For tests only.") {
 
       @Override
-      public BoxedType evaluate(List<BoxedType> parameters) {
+      public BoxedType<?> evaluate(List<BoxedType<?>> parameters) {
         return parameters.get(0);
       }
     });
@@ -271,7 +271,7 @@ public class FunctionTest {
     functions.put("FN", new Function(eCategory.ASSIGNMENT_OPERATORS, "FN", "For tests only.") {
 
       @Override
-      public BoxedType evaluate(List<BoxedType> parameters) {
+      public BoxedType<?> evaluate(List<BoxedType<?>> parameters) {
         return parameters.get(0);
       }
     });
@@ -290,7 +290,7 @@ public class FunctionTest {
     functions.put("FN", new Function(eCategory.ASSIGNMENT_OPERATORS, "FN", "For tests only.") {
 
       @Override
-      public BoxedType evaluate(List<BoxedType> parameters) {
+      public BoxedType<?> evaluate(List<BoxedType<?>> parameters) {
         return parameters.get(0);
       }
     });
@@ -309,7 +309,7 @@ public class FunctionTest {
     functions.put("FN", new Function(eCategory.ASSIGNMENT_OPERATORS, "FN", "For tests only.") {
 
       @Override
-      public BoxedType evaluate(List<BoxedType> parameters) {
+      public BoxedType<?> evaluate(List<BoxedType<?>> parameters) {
         return parameters.get(0);
       }
     });
@@ -328,7 +328,7 @@ public class FunctionTest {
     functions.put("FN", new Function(eCategory.ASSIGNMENT_OPERATORS, "FN", "For tests only.") {
 
       @Override
-      public BoxedType evaluate(List<BoxedType> parameters) {
+      public BoxedType<?> evaluate(List<BoxedType<?>> parameters) {
         return parameters.get(0);
       }
     });
@@ -342,7 +342,7 @@ public class FunctionTest {
 
   @Test(expected = RuntimeException.class)
   public void testDirectCallToEvaluate() {
-    BoxedType bt = new Function(eCategory.ASSIGNMENT_OPERATORS, "FN", "For tests only.")
+    BoxedType<?> bt = new Function(eCategory.ASSIGNMENT_OPERATORS, "FN", "For tests only.")
         .evaluate(new ArrayList<>());
   }
 
@@ -421,7 +421,6 @@ public class FunctionTest {
 
   @Test
   public void testAtomEqualsAndHashcode() {
-
     EqualsVerifier.forClass(Function.Atom.class)
         .withPrefabValues(List.class, Lists.newArrayList("x"), Lists.newArrayList("x", "y"))
         .verify();

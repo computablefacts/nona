@@ -18,7 +18,7 @@ public class CsvValue extends Function {
   }
 
   @Override
-  public BoxedType evaluate(List<BoxedType> parameters) {
+  public BoxedType<?> evaluate(List<BoxedType<?>> parameters) {
 
     Preconditions.checkArgument(parameters.size() == 3,
         "CSV_VALUE takes exactly three parameters.");

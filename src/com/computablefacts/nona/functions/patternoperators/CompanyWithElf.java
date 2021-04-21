@@ -25,16 +25,16 @@ public class CompanyWithElf extends MatchRegex {
   }
 
   @Override
-  public BoxedType evaluate(List<BoxedType> parameters) {
+  public BoxedType<?> evaluate(List<BoxedType<?>> parameters) {
 
     Preconditions.checkArgument(parameters.size() == 1,
         "COMPANY_NAME takes exactly one parameter : %s", parameters);
 
-    List<BoxedType> newParameters = new ArrayList<>();
+    List<BoxedType<?>> newParameters = new ArrayList<>();
     newParameters.add(BoxedType.create(reverse(parameters.get(0).asString())));
     newParameters.add(BoxedType.create(PATTERN));
 
-    BoxedType boxedType = super.evaluate(newParameters);
+    BoxedType<?> boxedType = super.evaluate(newParameters);
     SpanSequence sequence = (SpanSequence) boxedType.value();
     SpanSequence newSequence = new SpanSequence();
 

@@ -63,7 +63,7 @@ public class MatchDictionary extends Function {
   }
 
   @Override
-  public BoxedType evaluate(List<BoxedType> parameters) {
+  public BoxedType<?> evaluate(List<BoxedType<?>> parameters) {
 
     Preconditions.checkArgument(parameters.size() == 2,
         "MATCH_DICTIONARY takes exactly two parameters.");

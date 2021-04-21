@@ -18,7 +18,7 @@ public class ToJson extends Function {
   }
 
   @Override
-  public BoxedType evaluate(List<BoxedType> parameters) {
+  public BoxedType<?> evaluate(List<BoxedType<?>> parameters) {
 
     Preconditions.checkArgument(parameters.size() == 1, "TO_JSON takes exactly one parameter.");
     Preconditions.checkArgument(parameters.get(0).isString(), "%s should be a string",

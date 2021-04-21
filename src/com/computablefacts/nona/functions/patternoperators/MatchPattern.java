@@ -68,16 +68,16 @@ public class MatchPattern extends MatchRegex {
   }
 
   @Override
-  public BoxedType evaluate(List<BoxedType> parameters) {
+  public BoxedType<?> evaluate(List<BoxedType<?>> parameters) {
 
     Preconditions.checkArgument(parameters.size() == 1, "%s takes exactly one parameter : %s",
         name_, parameters);
 
-    List<BoxedType> newParameters = new ArrayList<>();
+    List<BoxedType<?>> newParameters = new ArrayList<>();
     newParameters.add(parameters.get(0));
     newParameters.add(BoxedType.create(leftBoundary() + pattern_ + rightBoundary()));
 
-    BoxedType boxedType = super.evaluate(newParameters);
+    BoxedType<?> boxedType = super.evaluate(newParameters);
     SpanSequence sequence = (SpanSequence) boxedType.value();
     SpanSequence newSequence = new SpanSequence();
 

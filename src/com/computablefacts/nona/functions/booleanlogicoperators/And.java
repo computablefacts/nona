@@ -17,11 +17,11 @@ public class And extends Function {
   }
 
   @Override
-  public BoxedType evaluate(List<BoxedType> parameters) {
+  public BoxedType<?> evaluate(List<BoxedType<?>> parameters) {
 
     Preconditions.checkArgument(parameters.size() >= 2, "AND takes at least two parameters.");
 
-    for (BoxedType parameter : parameters) {
+    for (BoxedType<?> parameter : parameters) {
 
       Preconditions.checkArgument(parameter.isBoolean(), "%s should be a boolean", parameter);
 

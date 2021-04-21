@@ -17,7 +17,7 @@ public class Mod extends Function {
   }
 
   @Override
-  public BoxedType evaluate(List<BoxedType> parameters) {
+  public BoxedType<?> evaluate(List<BoxedType<?>> parameters) {
 
     Preconditions.checkArgument(parameters.size() == 2, "MOD takes exactly two parameters.");
     Preconditions.checkArgument(parameters.get(0).isBigInteger(), "%s should be an integer",

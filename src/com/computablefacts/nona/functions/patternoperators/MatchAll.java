@@ -45,7 +45,7 @@ public class MatchAll extends Function {
   }
 
   @Override
-  public BoxedType evaluate(List<BoxedType> parameters) {
+  public BoxedType<?> evaluate(List<BoxedType<?>> parameters) {
 
     Preconditions.checkArgument(parameters.size() >= 1,
         "EXTRACT_ALL takes at least one parameter : %s", parameters);
@@ -57,7 +57,7 @@ public class MatchAll extends Function {
 
     for (int i = 1; i < parameters.size(); i++) {
 
-      List<BoxedType> newParameters = new ArrayList<>();
+      List<BoxedType<?>> newParameters = new ArrayList<>();
       newParameters.add(parameters.get(i));
       newParameters.add(parameters.get(0));
 

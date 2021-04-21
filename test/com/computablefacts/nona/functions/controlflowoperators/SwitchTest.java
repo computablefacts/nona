@@ -31,6 +31,6 @@ public class SwitchTest {
 
     Function fn = new Function(
         "SUBSTRING(SWITCH(MOD(88, 3), 0, \"The remainder is 0.\", 2, \"The remainder is 2.\"), 1, 20)");
-    Assert.assertEquals(BoxedType.create(null), fn.evaluate(Function.definitions()));
+    Assert.assertEquals(BoxedType.empty(), fn.evaluate(Function.definitions()));
   }
 }
