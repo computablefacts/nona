@@ -23,7 +23,7 @@ import java.util.zip.GZIPOutputStream;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.computablefacts.nona.logs.LogFormatterManager;
+import com.computablefacts.logfmt.LogFormatter;
 import com.google.common.base.Charsets;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.AbstractIterator;
@@ -45,7 +45,7 @@ final public class Files {
     try {
       java.nio.file.Files.delete(file.toPath());
     } catch (IOException e) {
-      logger_.error(LogFormatterManager.logFormatter().message(e).formatError());
+      logger_.error(LogFormatter.create(true).message(e).formatError());
     }
   }
 
@@ -59,7 +59,7 @@ final public class Files {
       java.nio.file.Files.write(file.toPath(), text.getBytes(Charsets.UTF_8),
           StandardOpenOption.CREATE);
     } catch (IOException e) {
-      logger_.error(LogFormatterManager.logFormatter().message(e).formatError());
+      logger_.error(LogFormatter.create(true).message(e).formatError());
     }
   }
 
@@ -72,7 +72,7 @@ final public class Files {
     try {
       java.nio.file.Files.write(file.toPath(), rows, Charsets.UTF_8, StandardOpenOption.CREATE);
     } catch (IOException e) {
-      logger_.error(LogFormatterManager.logFormatter().message(e).formatError());
+      logger_.error(LogFormatter.create(true).message(e).formatError());
     }
   }
 
@@ -86,7 +86,7 @@ final public class Files {
       java.nio.file.Files.write(file.toPath(), text.getBytes(Charsets.UTF_8),
           StandardOpenOption.APPEND);
     } catch (IOException e) {
-      logger_.error(LogFormatterManager.logFormatter().message(e).formatError());
+      logger_.error(LogFormatter.create(true).message(e).formatError());
     }
   }
 
@@ -99,7 +99,7 @@ final public class Files {
     try {
       java.nio.file.Files.write(file.toPath(), rows, Charsets.UTF_8, StandardOpenOption.APPEND);
     } catch (IOException e) {
-      logger_.error(LogFormatterManager.logFormatter().message(e).formatError());
+      logger_.error(LogFormatter.create(true).message(e).formatError());
     }
   }
 
@@ -122,13 +122,13 @@ final public class Files {
             gzip.write(buffer, 0, len);
           }
         } catch (IOException e) {
-          logger_.error(LogFormatterManager.logFormatter().message(e).formatError());
+          logger_.error(LogFormatter.create(true).message(e).formatError());
         }
       } catch (IOException e) {
-        logger_.error(LogFormatterManager.logFormatter().message(e).formatError());
+        logger_.error(LogFormatter.create(true).message(e).formatError());
       }
     } catch (IOException e) {
-      logger_.error(LogFormatterManager.logFormatter().message(e).formatError());
+      logger_.error(LogFormatter.create(true).message(e).formatError());
     }
   }
 
@@ -151,13 +151,13 @@ final public class Files {
             fos.write(buffer, 0, len);
           }
         } catch (IOException e) {
-          logger_.error(LogFormatterManager.logFormatter().message(e).formatError());
+          logger_.error(LogFormatter.create(true).message(e).formatError());
         }
       } catch (IOException e) {
-        logger_.error(LogFormatterManager.logFormatter().message(e).formatError());
+        logger_.error(LogFormatter.create(true).message(e).formatError());
       }
     } catch (IOException e) {
-      logger_.error(LogFormatterManager.logFormatter().message(e).formatError());
+      logger_.error(LogFormatter.create(true).message(e).formatError());
     }
   }
 
@@ -188,7 +188,7 @@ final public class Files {
     try {
       return new LineNumberReader(java.nio.file.Files.newBufferedReader(file.toPath(), charset));
     } catch (IOException e) {
-      logger_.error(LogFormatterManager.logFormatter().message(e).formatError());
+      logger_.error(LogFormatter.create(true).message(e).formatError());
     }
     return null;
   }
@@ -203,7 +203,7 @@ final public class Files {
       return new LineNumberReader(
           new InputStreamReader(new GZIPInputStream(new FileInputStream(file)), charset));
     } catch (IOException e) {
-      logger_.error(LogFormatterManager.logFormatter().message(e).formatError());
+      logger_.error(LogFormatter.create(true).message(e).formatError());
     }
     return null;
   }
@@ -221,12 +221,12 @@ final public class Files {
                   return new AbstractMap.SimpleImmutableEntry<>(reader.getLineNumber(), line);
                 }
               } catch (IOException e) {
-                logger_.error(LogFormatterManager.logFormatter().message(e).formatError());
+                logger_.error(LogFormatter.create(true).message(e).formatError());
               }
               try {
                 reader.close();
               } catch (IOException e) {
-                logger_.error(LogFormatterManager.logFormatter().message(e).formatError());
+                logger_.error(LogFormatter.create(true).message(e).formatError());
               }
               return endOfData();
             }
@@ -237,7 +237,7 @@ final public class Files {
             try {
               reader.close();
             } catch (IOException e) {
-              logger_.error(LogFormatterManager.logFormatter().message(e).formatError());
+              logger_.error(LogFormatter.create(true).message(e).formatError());
             }
           });
     }
