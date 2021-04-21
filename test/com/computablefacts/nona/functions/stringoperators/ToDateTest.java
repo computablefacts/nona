@@ -14,8 +14,8 @@ public class ToDateTest {
   @Test
   public void testToDate() throws Exception {
 
-    Function fn = new Function("TO_DATE(2021/04/21 19:02, yyyy/MM/dd HH:mm)");
-    Assert.assertEquals(BoxedType.create(Date.from(Instant.parse("2021-04-21T17:02:00Z"))),
+    Function fn = new Function("TO_DATE(2021/04/21 19:02 UTC+00:00, yyyy/MM/dd HH:mm z)");
+    Assert.assertEquals(BoxedType.create(Date.from(Instant.parse("2021-04-21T19:02:00Z"))),
         fn.evaluate(Function.definitions()));
   }
 }
