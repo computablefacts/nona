@@ -37,6 +37,22 @@ public class FunctionTest {
   }
 
   @Test
+  public void testEncodeLineFeedAndCarriageReturn() {
+    Assert.assertEquals("\\u000d", Function.encode("\n"));
+    Assert.assertEquals("\\u000a", Function.encode("\r"));
+    Assert.assertEquals("\\u000d\\u000a", Function.encode("\n\r"));
+    Assert.assertEquals("\\u000a\\u000d", Function.encode("\r\n"));
+  }
+
+  @Test
+  public void testDecodeLineFeedAndCarriageReturn() {
+    Assert.assertEquals("\n", Function.decode("\\u000d"));
+    Assert.assertEquals("\r", Function.decode("\\u000a"));
+    Assert.assertEquals("\n\r", Function.decode("\\u000d\\u000a"));
+    Assert.assertEquals("\r\n", Function.decode("\\u000a\\u000d"));
+  }
+
+  @Test
   public void testEvaluateFunctionWithNoParameter1() {
 
     Map<String, Function> functions = new HashMap<>();

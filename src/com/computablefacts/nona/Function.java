@@ -208,26 +208,31 @@ public class Function {
   /**
    * Replace left and right parentheses by their unicode equivalent \u0028 and \u0029. Replace
    * quotation marks with their unicode equivalent \u0022. Replace comma by its unicode equivalent
-   * \u002c.
+   * \u002c. Replace carriage return by its unicode equivalent \u000d. Replace line feed by its
+   * unicode equivalent \u000a.
    *
    * @param text Text to encode.
    * @return Encoded text.
    */
   public static String encode(String text) {
     return Preconditions.checkNotNull(text, "text should not be null").replace("(", "\\u0028")
-        .replace(")", "\\u0029").replace("\"", "\\u0022").replace(",", "\\u002c");
+        .replace(")", "\\u0029").replace("\"", "\\u0022").replace(",", "\\u002c")
+        .replace("\n", "\\u000d").replace("\r", "\\u000a");
   }
 
   /**
    * Replace unicode values \u0028 and \u0029 by the left and right parentheses characters. Replace
    * unicode values \u0022 by quotation marks. Replace unicode value \u002c by the comma character.
+   * Replace unicode value \u000d by the carriage return character. Replace unicode value \u000a by
+   * the line feed character.
    *
    * @param text Text to decode.
    * @return Decoded text.
    */
   public static String decode(String text) {
     return Preconditions.checkNotNull(text, "text should not be null").replace("\\u0028", "(")
-        .replace("\\u0029", ")").replace("\\u0022", "\"").replace("\\u002c", ",");
+        .replace("\\u0029", ")").replace("\\u0022", "\"").replace("\\u002c", ",")
+        .replace("\\u000d", "\n").replace("\\u000a", "\r");
   }
 
   @Generated
