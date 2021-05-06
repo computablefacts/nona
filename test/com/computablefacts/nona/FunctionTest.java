@@ -436,6 +436,13 @@ public class FunctionTest {
   }
 
   @Test
+  public void testParseNotAFunctionAliasing() {
+    Function function =
+        new Function("CONCAT(\"LHS\", \"" + Function.encode(" := ") + "\", \"RHS\")");
+    Assert.assertNotNull(function);
+  }
+
+  @Test
   public void testAtomEqualsAndHashcode() {
     EqualsVerifier.forClass(Function.Atom.class)
         .withPrefabValues(List.class, Lists.newArrayList("x"), Lists.newArrayList("x", "y"))

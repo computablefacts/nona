@@ -13,14 +13,14 @@ public class StringsTest {
 
   @Test
   public void testEncode() {
-    Assert.assertEquals("Test legacy encode : [\\u002c\\u000d\\u000a]",
+    Assert.assertEquals("Test legacy encode \\u003a [\\u002c\\u000d\\u000a]",
         Strings.encode("Test legacy encode : [,\n\r]"));
   }
 
   @Test
   public void testDecode() {
     Assert.assertEquals("Test legacy encode : [,\n\r]",
-        Strings.decode("Test legacy encode : [\\u002c\\u000d\\u000a]"));
+        Strings.decode("Test legacy encode \\u003a [\\u002c\\u000d\\u000a]"));
   }
 
   @Test(expected = NullPointerException.class)

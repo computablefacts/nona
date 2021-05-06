@@ -60,6 +60,7 @@ import com.computablefacts.nona.functions.stringoperators.ToDate;
 import com.computablefacts.nona.functions.stringoperators.ToInteger;
 import com.computablefacts.nona.functions.stringoperators.ToLowerCase;
 import com.computablefacts.nona.functions.stringoperators.ToUpperCase;
+import com.computablefacts.nona.helpers.StringIterator;
 import com.computablefacts.nona.types.BoxedType;
 import com.google.common.base.Joiner;
 import com.google.common.base.MoreObjects;
@@ -209,30 +210,119 @@ public class Function {
    * Replace left and right parentheses by their unicode equivalent \u0028 and \u0029. Replace
    * quotation marks with their unicode equivalent \u0022. Replace comma by its unicode equivalent
    * \u002c. Replace carriage return by its unicode equivalent \u000d. Replace line feed by its
-   * unicode equivalent \u000a.
+   * unicode equivalent \u000a. Replace equal return by its unicode equivalent \u003d. Replace colon
+   * by its unicode equivalent \u003a.
    *
    * @param text Text to encode.
    * @return Encoded text.
    */
   public static String encode(String text) {
-    return Preconditions.checkNotNull(text, "text should not be null").replace("(", "\\u0028")
-        .replace(")", "\\u0029").replace("\"", "\\u0022").replace(",", "\\u002c")
-        .replace("\n", "\\u000d").replace("\r", "\\u000a");
+
+    Preconditions.checkNotNull(text, "text should not be null");
+
+    StringBuilder builder = new StringBuilder(text.length());
+    StringIterator iterator = new StringIterator(text);
+
+    while (iterator.hasNext()) {
+      char c = iterator.next();
+      switch (c) {
+        case '(':
+          builder.append("\\u0028");
+          break;
+        case ')':
+          builder.append("\\u0029");
+          break;
+        case '"':
+          builder.append("\\u0022");
+          break;
+        case ',':
+          builder.append("\\u002c");
+          break;
+        case ':':
+          builder.append("\\u003a");
+          break;
+        case '=':
+          builder.append("\\u003d");
+          break;
+        case '\n':
+          builder.append("\\u000d");
+          break;
+        case '\r':
+          builder.append("\\u000a");
+          break;
+        default:
+          builder.append(c);
+          break;
+      }
+    }
+    return builder.toString();
   }
 
   /**
    * Replace unicode values \u0028 and \u0029 by the left and right parentheses characters. Replace
    * unicode values \u0022 by quotation marks. Replace unicode value \u002c by the comma character.
    * Replace unicode value \u000d by the carriage return character. Replace unicode value \u000a by
-   * the line feed character.
+   * the line feed character. Replace unicode value \u003d by the equal character. Replace unicode
+   * value \u003a by the colon character.
    *
    * @param text Text to decode.
    * @return Decoded text.
    */
   public static String decode(String text) {
-    return Preconditions.checkNotNull(text, "text should not be null").replace("\\u0028", "(")
-        .replace("\\u0029", ")").replace("\\u0022", "\"").replace("\\u002c", ",")
-        .replace("\\u000d", "\n").replace("\\u000a", "\r");
+
+    Preconditions.checkNotNull(text, "text should not be null");
+
+    StringBuilder builder = new StringBuilder(text.length());
+    StringIterator iterator = new StringIterator(text);
+
+    while (iterator.hasNext()) {
+      char c0 = iterator.next();
+      if (c0 != '\\' || !iterator.hasNext()) {
+        builder.append(c0);
+      } else {
+        char c1 = iterator.next();
+        if (c1 != 'u' || !iterator.hasNext()) {
+          builder.append(c0).append(c1);
+        } else {
+          char c2 = iterator.next();
+          if (c2 != '0' || !iterator.hasNext()) {
+            builder.append(c0).append(c1).append(c2);
+          } else {
+            char c3 = iterator.next();
+            if (c3 != '0' || !iterator.hasNext()) {
+              builder.append(c0).append(c1).append(c2).append(c3);
+            } else {
+              char c4 = iterator.next();
+              if ((c4 != '0' && c4 != '2' && c4 != '3') || !iterator.hasNext()) {
+                builder.append(c0).append(c1).append(c2).append(c3).append(c4);
+              } else {
+                char c5 = iterator.next();
+                if (c4 == '0' && c5 == 'a') {
+                  builder.append('\r');
+                } else if (c4 == '0' && c5 == 'd') {
+                  builder.append('\n');
+                } else if (c4 == '2' && c5 == '2') {
+                  builder.append('"');
+                } else if (c4 == '2' && c5 == '8') {
+                  builder.append('(');
+                } else if (c4 == '2' && c5 == '9') {
+                  builder.append(')');
+                } else if (c4 == '2' && c5 == 'c') {
+                  builder.append(',');
+                } else if (c4 == '3' && c5 == 'a') {
+                  builder.append(':');
+                } else if (c4 == '3' && c5 == 'd') {
+                  builder.append('=');
+                } else {
+                  builder.append(c0).append(c1).append(c2).append(c3).append(c4).append(c5);
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+    return builder.toString();
   }
 
   @Generated
