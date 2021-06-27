@@ -15,6 +15,7 @@ import com.computablefacts.nona.functions.booleanlogicoperators.And;
 import com.computablefacts.nona.functions.booleanlogicoperators.IsEmpty;
 import com.computablefacts.nona.functions.booleanlogicoperators.IsFalse;
 import com.computablefacts.nona.functions.booleanlogicoperators.IsNull;
+import com.computablefacts.nona.functions.booleanlogicoperators.IsNullOrEmpty;
 import com.computablefacts.nona.functions.booleanlogicoperators.IsTrue;
 import com.computablefacts.nona.functions.booleanlogicoperators.Not;
 import com.computablefacts.nona.functions.booleanlogicoperators.Or;
@@ -107,6 +108,7 @@ public class Function {
     definitions.put("IS_EMPTY", new IsEmpty());
     definitions.put("IS_FALSE", new IsFalse());
     definitions.put("IS_NULL", new IsNull());
+    definitions.put("IS_NULL_OR_EMPTY", new IsNullOrEmpty());
     definitions.put("IS_TRUE", new IsTrue());
     definitions.put("NOT", new Not());
     definitions.put("OR", new Or());

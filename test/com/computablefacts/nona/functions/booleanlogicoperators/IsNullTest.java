@@ -10,35 +10,35 @@ import com.google.common.util.concurrent.UncheckedExecutionException;
 public class IsNullTest {
 
   @Test(expected = UncheckedExecutionException.class)
-  public void testIsNullEmpty() {
+  public void testIsNullNoParameters() {
 
     Function fn = new Function("IS_NULL()");
     BoxedType<?> bt = fn.evaluate(Function.definitions());
   }
 
   @Test
-  public void testIsNullString() {
+  public void testIsNullOfString() {
 
     Function fn = new Function("IS_NULL(test)");
     Assert.assertEquals(BoxedType.create(false), fn.evaluate(Function.definitions()));
   }
 
   @Test
-  public void testIsNullInteger() {
+  public void testIsNullOfInteger() {
 
     Function fn = new Function("IS_NULL(3)");
     Assert.assertEquals(BoxedType.create(false), fn.evaluate(Function.definitions()));
   }
 
   @Test
-  public void testIsNullDouble() {
+  public void testIsNullOfDouble() {
 
     Function fn = new Function("IS_NULL(3.14)");
     Assert.assertEquals(BoxedType.create(false), fn.evaluate(Function.definitions()));
   }
 
   @Test
-  public void testIsNullEmptyString() {
+  public void testIsNullOfEmptyString() {
 
     Function fn = new Function("IS_NULL(\"\")");
     Assert.assertEquals(BoxedType.create(false), fn.evaluate(Function.definitions()));

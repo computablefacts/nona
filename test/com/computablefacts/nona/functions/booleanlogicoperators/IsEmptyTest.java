@@ -10,35 +10,35 @@ import com.google.common.util.concurrent.UncheckedExecutionException;
 public class IsEmptyTest {
 
   @Test(expected = UncheckedExecutionException.class)
-  public void testIsEmptyEmpty() {
+  public void testIsEmptyNoParameters() {
 
     Function fn = new Function("IS_EMPTY()");
     BoxedType<?> bt = fn.evaluate(Function.definitions());
   }
 
   @Test
-  public void testIsEmptyString() {
+  public void testIsEmptyOfString() {
 
     Function fn = new Function("IS_EMPTY(test)");
     Assert.assertEquals(BoxedType.create(false), fn.evaluate(Function.definitions()));
   }
 
   @Test(expected = UncheckedExecutionException.class)
-  public void testIsEmptyInteger() {
+  public void testIsEmptyOfInteger() {
 
     Function fn = new Function("IS_EMPTY(3)");
     BoxedType<?> bt = fn.evaluate(Function.definitions());
   }
 
   @Test(expected = UncheckedExecutionException.class)
-  public void testIsEmptyDouble() {
+  public void testIsEmptyOfDouble() {
 
     Function fn = new Function("IS_EMPTY(3.14)");
     BoxedType<?> bt = fn.evaluate(Function.definitions());
   }
 
   @Test
-  public void testIsEmptyEmptyString() {
+  public void testIsEmptyOfEmptyString() {
 
     Function fn = new Function("IS_EMPTY(\"\")");
     Assert.assertEquals(BoxedType.create(true), fn.evaluate(Function.definitions()));
