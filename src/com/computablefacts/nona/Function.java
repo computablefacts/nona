@@ -1,12 +1,12 @@
 package com.computablefacts.nona;
 
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
-import java.util.stream.Collectors;
 
 import com.computablefacts.nona.functions.additiveoperators.Add;
 import com.computablefacts.nona.functions.additiveoperators.Substract;
@@ -68,13 +68,15 @@ import com.computablefacts.nona.functions.stringoperators.ToUpperCase;
 import com.computablefacts.nona.functions.stringoperators.Trim;
 import com.computablefacts.nona.helpers.StringIterator;
 import com.computablefacts.nona.types.BoxedType;
-import com.google.common.base.Joiner;
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Objects;
 import com.google.common.base.Preconditions;
 import com.google.common.base.Strings;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
+import com.google.common.hash.HashFunction;
+import com.google.common.hash.Hasher;
+import com.google.common.hash.Hashing;
 import com.google.errorprone.annotations.CheckReturnValue;
 import com.google.errorprone.annotations.Var;
 
@@ -83,6 +85,7 @@ public class Function {
 
   private static final Cache<String, BoxedType<?>> cache_ = CacheBuilder.newBuilder().recordStats()
       .maximumSize(1000).expireAfterWrite(1, TimeUnit.HOURS).build();
+  private static final HashFunction MURMUR3_128 = Hashing.murmur3_128();
   private Atom head_;
   private Atom body_;
 
@@ -557,8 +560,13 @@ public class Function {
     }
 
     try {
-      String key = atom.name() + "(" + Joiner.on(',')
-          .join(parameters.stream().map(BoxedType::asString).collect(Collectors.toList())) + ")";
+      Hasher hasher = MURMUR3_128.newHasher();
+      hasher.putString(atom.name(), StandardCharsets.UTF_8);
+      hasher.putInt(atom.arity());
+      hasher.putInt(parameters.size());
+      parameters.forEach(
+          bt -> hasher.putString(Strings.nullToEmpty(bt.asString()), StandardCharsets.UTF_8));
+      String key = hasher.hash().toString();
       return cache_.get(key, () -> function.evaluate(parameters));
     } catch (ExecutionException e) {
       // TODO
