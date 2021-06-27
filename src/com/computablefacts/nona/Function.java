@@ -12,6 +12,7 @@ import com.computablefacts.nona.functions.additiveoperators.Add;
 import com.computablefacts.nona.functions.additiveoperators.Substract;
 import com.computablefacts.nona.functions.assignmentoperators.Is;
 import com.computablefacts.nona.functions.booleanlogicoperators.And;
+import com.computablefacts.nona.functions.booleanlogicoperators.IsEmpty;
 import com.computablefacts.nona.functions.booleanlogicoperators.IsFalse;
 import com.computablefacts.nona.functions.booleanlogicoperators.IsNull;
 import com.computablefacts.nona.functions.booleanlogicoperators.IsTrue;
@@ -103,6 +104,7 @@ public class Function {
 
     // Boolean logic operators
     definitions.put("AND", new And());
+    definitions.put("IS_EMPTY", new IsEmpty());
     definitions.put("IS_FALSE", new IsFalse());
     definitions.put("IS_NULL", new IsNull());
     definitions.put("IS_TRUE", new IsTrue());
