@@ -3,7 +3,14 @@ package com.computablefacts.nona.types;
 import org.junit.Assert;
 import org.junit.Test;
 
+import nl.jqno.equalsverifier.EqualsVerifier;
+
 public class CsvTest {
+
+  @Test
+  public void testHashcodeAndEquals() {
+    EqualsVerifier.forClass(Csv.class).verify();
+  }
 
   @Test
   public void testEqualsWithNull() {

@@ -3,7 +3,14 @@ package com.computablefacts.nona.types;
 import org.junit.Assert;
 import org.junit.Test;
 
+import nl.jqno.equalsverifier.EqualsVerifier;
+
 public class SpanTest {
+
+  @Test
+  public void testHashcodeAndEquals() {
+    EqualsVerifier.forClass(Span.class).withIgnoredFields("groups_").verify();
+  }
 
   @Test(expected = NullPointerException.class)
   public void testConstructorWithEmptyString() {

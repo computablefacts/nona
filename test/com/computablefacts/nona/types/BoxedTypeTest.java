@@ -9,7 +9,14 @@ import org.junit.Test;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 
+import nl.jqno.equalsverifier.EqualsVerifier;
+
 public class BoxedTypeTest {
+
+  @Test
+  public void testHashcodeAndEquals() {
+    EqualsVerifier.forClass(BoxedType.class).verify();
+  }
 
   @Test
   public void testEqualsWithNull() {
