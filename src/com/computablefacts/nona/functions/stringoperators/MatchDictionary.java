@@ -67,14 +67,12 @@ public class MatchDictionary extends Function {
 
     Preconditions.checkArgument(parameters.size() == 2,
         "MATCH_DICTIONARY takes exactly two parameters.");
-    Preconditions.checkArgument(parameters.get(0).isString(), "%s should be a string",
-        parameters.get(0));
-    Preconditions.checkArgument(parameters.get(1).isString(), "%s should be a string",
-        parameters.get(1));
 
     String file = parameters.get(0).asString();
     String text = parameters.get(1).asString();
 
+    Preconditions.checkNotNull(file, "file should not be null");
+    Preconditions.checkNotNull(text, "text should not be null");
     Preconditions.checkArgument(new File(file).exists(), "%s does not exist", file);
 
     Trie trie = cache_.getUnchecked(file);

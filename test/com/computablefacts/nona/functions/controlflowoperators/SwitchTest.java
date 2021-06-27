@@ -12,7 +12,7 @@ public class SwitchTest {
   public void testSwitch() {
 
     Function fn = new Function(
-        "SUBSTRING(SWITCH(MOD(88, 3), 0, \"The remainder is 0.\", 1, \"The remainder is 1.\", 2, \"The remainder is 2.\"), 1, 20)");
+        "SWITCH(MOD(88, 3), 0, \"The remainder is 0.\", 1, \"The remainder is 1.\", 2, \"The remainder is 2.\")");
     Assert.assertEquals(BoxedType.create("The remainder is 1."),
         fn.evaluate(Function.definitions()));
   }
@@ -21,7 +21,7 @@ public class SwitchTest {
   public void testSwitchWithDefaultStatement() {
 
     Function fn = new Function(
-        "SUBSTRING(SWITCH(MOD(88, 3), 0, \"The remainder is 0.\", _, \"The remainder is 1.\", 2, \"The remainder is 2.\"), 1, 20)");
+        "SWITCH(MOD(88, 3), 0, \"The remainder is 0.\", _, \"The remainder is 1.\", 2, \"The remainder is 2.\")");
     Assert.assertEquals(BoxedType.create("The remainder is 1."),
         fn.evaluate(Function.definitions()));
   }

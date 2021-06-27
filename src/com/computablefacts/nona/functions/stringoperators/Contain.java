@@ -21,6 +21,12 @@ public class Contain extends Function {
 
     Preconditions.checkArgument(parameters.size() == 2, "CONTAIN takes exactly two parameters.");
 
-    return BoxedType.create(parameters.get(0).asString().contains(parameters.get(1).asString()));
+    String x = parameters.get(0).asString();
+    String y = parameters.get(1).asString();
+
+    Preconditions.checkNotNull(x, "x should not be null");
+    Preconditions.checkNotNull(y, "y should not be null");
+
+    return BoxedType.create(x.contains(y));
   }
 }

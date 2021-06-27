@@ -20,9 +20,13 @@ public class EndWith extends Function {
   public BoxedType<?> evaluate(List<BoxedType<?>> parameters) {
 
     Preconditions.checkArgument(parameters.size() == 2, "END_WITH takes exactly two parameters.");
-    Preconditions.checkArgument(parameters.get(0).isString(), "%s should be a string",
-        parameters.get(0));
 
-    return BoxedType.create(parameters.get(0).asString().endsWith(parameters.get(1).asString()));
+    String x = parameters.get(0).asString();
+    String y = parameters.get(1).asString();
+
+    Preconditions.checkNotNull(x, "x should not be null");
+    Preconditions.checkNotNull(y, "y should not be null");
+
+    return BoxedType.create(x.endsWith(y));
   }
 }

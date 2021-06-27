@@ -20,9 +20,9 @@ public class ToUpperCase extends Function {
 
     Preconditions.checkArgument(parameters.size() == 1,
         "TO_UPPERCASE takes exactly one parameter.");
-    Preconditions.checkArgument(parameters.get(0).isString(), "%s should be a string",
-        parameters.get(0));
 
-    return BoxedType.create(parameters.get(0).asString().toUpperCase());
+    String x = parameters.get(0).asString();
+    Preconditions.checkNotNull(x, "x should not be null");
+    return BoxedType.create(x.toUpperCase());
   }
 }

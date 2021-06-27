@@ -23,18 +23,18 @@ public class IsEmptyTest {
     Assert.assertEquals(BoxedType.create(false), fn.evaluate(Function.definitions()));
   }
 
-  @Test(expected = UncheckedExecutionException.class)
+  @Test
   public void testIsEmptyOfInteger() {
 
     Function fn = new Function("IS_EMPTY(3)");
-    BoxedType<?> bt = fn.evaluate(Function.definitions());
+    Assert.assertEquals(BoxedType.create(false), fn.evaluate(Function.definitions()));
   }
 
-  @Test(expected = UncheckedExecutionException.class)
+  @Test
   public void testIsEmptyOfDouble() {
 
     Function fn = new Function("IS_EMPTY(3.14)");
-    BoxedType<?> bt = fn.evaluate(Function.definitions());
+    Assert.assertEquals(BoxedType.create(false), fn.evaluate(Function.definitions()));
   }
 
   @Test
@@ -42,5 +42,12 @@ public class IsEmptyTest {
 
     Function fn = new Function("IS_EMPTY(\"\")");
     Assert.assertEquals(BoxedType.create(true), fn.evaluate(Function.definitions()));
+  }
+
+  @Test
+  public void testIsEmptyOfBlankString() {
+
+    Function fn = new Function("IS_EMPTY(\"   \")");
+    Assert.assertEquals(BoxedType.create(false), fn.evaluate(Function.definitions()));
   }
 }

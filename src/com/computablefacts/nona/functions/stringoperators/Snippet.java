@@ -1,6 +1,7 @@
 package com.computablefacts.nona.functions.stringoperators;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 import com.computablefacts.nona.Function;
@@ -22,12 +23,13 @@ public class Snippet extends Function {
   public BoxedType<?> evaluate(List<BoxedType<?>> parameters) {
 
     Preconditions.checkArgument(parameters.size() >= 2, "SNIPPET takes at least two parameters.");
-    Preconditions.checkArgument(parameters.get(0).isString(), "%s should be a string",
-        parameters.get(0));
 
     String text = parameters.get(0).asString();
+
+    Preconditions.checkNotNull(text, "text should not be null");
+
     List<String> words = parameters.subList(1, parameters.size()).stream().map(BoxedType::asString)
-        .collect(Collectors.toList());
+        .filter(Objects::nonNull).collect(Collectors.toList());
 
     return BoxedType.create(SnippetExtractor.extract(words, text));
   }

@@ -28,6 +28,16 @@ public class BoxedTypeTest {
   }
 
   @Test
+  public void testEqualsWithQuotedString() {
+
+    BoxedType<?> bt1 = BoxedType.create("\"string\"");
+    BoxedType<?> bt2 = BoxedType.create("string");
+
+    Assert.assertTrue(bt1.equals(bt2));
+    Assert.assertTrue(bt2.equals(bt1));
+  }
+
+  @Test
   public void testBooleanEquals() {
 
     BoxedType<?> btTrue = BoxedType.create(true);

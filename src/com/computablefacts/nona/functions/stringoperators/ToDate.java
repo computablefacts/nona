@@ -28,14 +28,16 @@ public class ToDate extends Function {
   public BoxedType<?> evaluate(List<BoxedType<?>> parameters) {
 
     Preconditions.checkArgument(parameters.size() == 2, "TO_DATE takes exactly one parameter.");
-    Preconditions.checkArgument(parameters.get(0).isString(), "%s should be a string",
-        parameters.get(0));
-    Preconditions.checkArgument(parameters.get(1).isString(), "%s should be a string",
-        parameters.get(1));
 
     String format = parameters.get(1).asString();
-    SimpleDateFormat sdf = new SimpleDateFormat(format);
     String date = parameters.get(0).asString();
+
+    Preconditions.checkNotNull(format, "format should not be null");
+    Preconditions.checkNotNull(date, "date should not be null");
+
+    SimpleDateFormat sdf = new SimpleDateFormat(format);
+
+    Preconditions.checkNotNull(sdf, "sdf should not be null");
 
     try {
       return BoxedType.create(sdf.parse(date));

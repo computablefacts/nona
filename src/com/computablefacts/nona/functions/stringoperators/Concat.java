@@ -22,12 +22,11 @@ public class Concat extends Function {
     Preconditions.checkArgument(parameters.size() >= 2, "CONCAT takes at least two parameters.");
 
     StringBuilder builder = new StringBuilder();
+
     for (BoxedType<?> parameter : parameters) {
-      if (parameter.asString().startsWith("\"") && parameter.asString().endsWith("\"")) {
-        builder.append(parameter.asString(), 1, parameter.asString().length() - 1);
-      } else {
-        builder.append(parameter);
-      }
+      String str = parameter.asString();
+      Preconditions.checkNotNull(str, "null parameters are forbidden");
+      builder.append(str);
     }
     return BoxedType.create(builder.toString().trim());
   }

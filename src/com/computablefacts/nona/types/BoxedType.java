@@ -32,10 +32,10 @@ final public class BoxedType<T> {
             @Override
             public BoxedType<?> load(String text) {
 
-              if ("true".equals(text.toLowerCase())) {
+              if ("true".equalsIgnoreCase(text)) {
                 return new BoxedType<>(true);
               }
-              if ("false".equals(text.toLowerCase())) {
+              if ("false".equalsIgnoreCase(text)) {
                 return new BoxedType<>(false);
               }
 
@@ -158,7 +158,7 @@ final public class BoxedType<T> {
       return asBigDecimal().compareTo(bt.asBigDecimal()) == 0;
     }
     if (isString() && bt.isString()) {
-      return value().equals(bt.value());
+      return asString().equals(bt.asString());
     }
     return Objects.equals(value(), bt.value());
   }
@@ -237,13 +237,20 @@ final public class BoxedType<T> {
   }
 
   public String asString() {
-    return isEmpty() ? null
+    String str = isEmpty() ? null
         : isString() ? (String) value_
             : isBoolean() ? Boolean.toString(asBool())
                 : isBigInteger() ? asBigInteger().toString(10)
                     : isBigDecimal() ? asBigDecimal().stripTrailingZeros().toString()
                         : isDate() ? DateTimeFormatter.ISO_INSTANT.format(asDate().toInstant())
                             : value_.toString();
+    if (str == null) {
+      return null;
+    }
+    if (str.startsWith("\"") && str.endsWith("\"")) {
+      return str.length() == 1 ? "" /* deal with '"' */ : str.substring(1, str.length() - 1);
+    }
+    return str;
   }
 
   public Collection<?> asCollection() {

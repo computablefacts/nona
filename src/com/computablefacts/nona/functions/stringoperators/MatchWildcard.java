@@ -23,13 +23,12 @@ public class MatchWildcard extends Function {
 
     Preconditions.checkArgument(parameters.size() == 2,
         "MATCH_WILDCARD takes exactly two parameters.");
-    Preconditions.checkArgument(parameters.get(0).isString(), "%s should be a string",
-        parameters.get(0));
-    Preconditions.checkArgument(parameters.get(1).isString(), "%s should be a string",
-        parameters.get(1));
 
     String string = parameters.get(0).asString();
     String pattern = parameters.get(1).asString();
+
+    Preconditions.checkNotNull(string, "string should not be null");
+    Preconditions.checkNotNull(pattern, "pattern should not be null");
 
     return BoxedType.create(WildcardMatcher.match(string, WildcardMatcher.compact(pattern)));
   }

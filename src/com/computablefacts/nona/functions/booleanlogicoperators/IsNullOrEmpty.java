@@ -13,7 +13,7 @@ public class IsNullOrEmpty extends Function {
 
   public IsNullOrEmpty() {
     super(eCategory.BOOLEAN_LOGIC_OPERATORS, "IS_NULL_OR_EMPTY",
-        "IS_NULL_OR_EMPTY(x) returns true if and only if x is null or x is equal to the empty string.");
+        "IS_NULL_OR_EMPTY(x) returns true if x is null or equals to the empty string.");
   }
 
   @Override
@@ -26,14 +26,7 @@ public class IsNullOrEmpty extends Function {
       return BoxedType.create(true);
     }
 
-    Preconditions.checkArgument(parameters.get(0).isString(), "%s should be a string",
-        parameters.get(0));
-
-    String str = parameters.get(0).asString();
-
-    if (str.startsWith("\"") && str.endsWith("\"")) {
-      return BoxedType.create(str.substring(1, str.length() - 1).isEmpty());
-    }
-    return BoxedType.create(str.isEmpty());
+    String string = parameters.get(0).asString();
+    return BoxedType.create(string == null || string.isEmpty());
   }
 }

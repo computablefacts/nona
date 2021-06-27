@@ -21,11 +21,10 @@ public class Substring extends Function {
 
     Preconditions.checkArgument(parameters.size() > 1 && parameters.size() < 4,
         "SUBSTRING takes at least two parameters and at most three.");
-    Preconditions.checkArgument(parameters.get(0).isString(), "%s should be a string",
-        parameters.get(0));
 
     String string = parameters.get(0).asString();
 
+    Preconditions.checkNotNull(string, "string should not be null");
     Preconditions.checkArgument(parameters.get(1).isNumber(),
         "%s should be an integer >= 0 and <= %s", parameters.get(1), string.length());
 

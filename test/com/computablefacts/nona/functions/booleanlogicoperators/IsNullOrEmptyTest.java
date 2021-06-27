@@ -16,18 +16,18 @@ public class IsNullOrEmptyTest {
     BoxedType<?> bt = fn.evaluate(Function.definitions());
   }
 
-  @Test(expected = UncheckedExecutionException.class)
+  @Test
   public void testIsNullOrEmptyOfInteger() {
 
     Function fn = new Function("IS_NULL_OR_EMPTY(3)");
-    BoxedType<?> bt = fn.evaluate(Function.definitions());
+    Assert.assertEquals(BoxedType.create(false), fn.evaluate(Function.definitions()));
   }
 
-  @Test(expected = UncheckedExecutionException.class)
+  @Test
   public void testIsNullOrEmptyOfDouble() {
 
     Function fn = new Function("IS_NULL_OR_EMPTY(3.14)");
-    BoxedType<?> bt = fn.evaluate(Function.definitions());
+    Assert.assertEquals(BoxedType.create(false), fn.evaluate(Function.definitions()));
   }
 
   @Test
@@ -42,5 +42,12 @@ public class IsNullOrEmptyTest {
 
     Function fn = new Function("IS_NULL_OR_EMPTY(\"\")");
     Assert.assertEquals(BoxedType.create(true), fn.evaluate(Function.definitions()));
+  }
+
+  @Test
+  public void testIsNullOrEmptyOfBlankString() {
+
+    Function fn = new Function("IS_NULL_OR_EMPTY(\"   \")");
+    Assert.assertEquals(BoxedType.create(false), fn.evaluate(Function.definitions()));
   }
 }

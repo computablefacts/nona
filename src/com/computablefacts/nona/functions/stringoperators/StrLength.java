@@ -20,9 +20,9 @@ public class StrLength extends Function {
   public BoxedType<?> evaluate(List<BoxedType<?>> parameters) {
 
     Preconditions.checkArgument(parameters.size() == 1, "STR_LENGTH takes exactly one parameter.");
-    Preconditions.checkArgument(parameters.get(0).isString(), "%s should be a string",
-        parameters.get(0));
 
-    return BoxedType.create(parameters.get(0).asString().length());
+    String x = parameters.get(0).asString();
+    Preconditions.checkNotNull(x, "x should not be null");
+    return BoxedType.create(x.length());
   }
 }
