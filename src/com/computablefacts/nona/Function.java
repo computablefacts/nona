@@ -61,6 +61,7 @@ import com.computablefacts.nona.functions.stringoperators.ToDate;
 import com.computablefacts.nona.functions.stringoperators.ToInteger;
 import com.computablefacts.nona.functions.stringoperators.ToLowerCase;
 import com.computablefacts.nona.functions.stringoperators.ToUpperCase;
+import com.computablefacts.nona.functions.stringoperators.Trim;
 import com.computablefacts.nona.helpers.StringIterator;
 import com.computablefacts.nona.types.BoxedType;
 import com.google.common.base.Joiner;
@@ -192,6 +193,7 @@ public class Function {
     definitions.put("TO_INTEGER", new ToInteger());
     definitions.put("TO_LOWERCASE", new ToLowerCase());
     definitions.put("TO_UPPERCASE", new ToUpperCase());
+    definitions.put("TRIM", new Trim());
 
     return definitions;
   }
