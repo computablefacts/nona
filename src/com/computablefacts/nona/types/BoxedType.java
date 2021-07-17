@@ -16,6 +16,7 @@ import java.util.stream.Collectors;
 import javax.validation.constraints.NotNull;
 
 import com.computablefacts.nona.Generated;
+import com.computablefacts.nona.helpers.StringIterator;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
@@ -40,7 +41,21 @@ final public class BoxedType<T> {
               }
 
               try {
-                return new BoxedType<>(new BigInteger(text));
+
+                BoxedType<?> bt = new BoxedType<>(new BigInteger(text));
+
+                // Here, text is an integer (otherwise a NumberFormatException has been thrown)
+                StringIterator iterator = new StringIterator(text);
+                iterator.movePast(new char[] {'0'});
+
+                // The condition below ensures "0" is interpreted as a number but "00" as a string
+                if (iterator.position() > 1
+                    || (iterator.position() > 0 && iterator.remaining() > 0)) {
+
+                  // text matching [0]+[0-9]+ should be interpreted as string
+                  return new BoxedType<>(text);
+                }
+                return bt;
               } catch (NumberFormatException ex) {
                 // FALL THROUGH
               }

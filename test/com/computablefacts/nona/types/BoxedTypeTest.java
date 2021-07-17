@@ -393,6 +393,34 @@ public class BoxedTypeTest {
   }
 
   @Test
+  public void testBoxStringOnlyMadeOfZeroes() {
+
+    BoxedType<?> bt1 = BoxedType.create(0);
+    BoxedType<?> bt2 = BoxedType.create("0");
+    BoxedType<?> bt3 = BoxedType.create("00");
+
+    Assert.assertEquals(bt1.hashCode(), bt2.hashCode());
+    Assert.assertNotEquals(bt1.hashCode(), bt3.hashCode());
+
+    Assert.assertTrue(bt1.equals(bt2));
+    Assert.assertFalse(bt1.equals(bt3));
+  }
+
+  @Test
+  public void testBoxNumbersPrefixedWithZeroes() {
+
+    BoxedType<?> bt1 = BoxedType.create(7);
+    BoxedType<?> bt2 = BoxedType.create("7");
+    BoxedType<?> bt3 = BoxedType.create("007");
+
+    Assert.assertEquals(bt1.hashCode(), bt2.hashCode());
+    Assert.assertNotEquals(bt1.hashCode(), bt3.hashCode());
+
+    Assert.assertTrue(bt1.equals(bt2));
+    Assert.assertFalse(bt1.equals(bt3));
+  }
+
+  @Test
   public void testAsCollection() {
     Assert.assertEquals(Lists.newArrayList("string"), BoxedType.create("string").asCollection());
     Assert.assertEquals(Lists.newArrayList(BigInteger.valueOf(1)),
