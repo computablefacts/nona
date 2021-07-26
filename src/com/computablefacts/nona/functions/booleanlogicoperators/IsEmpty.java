@@ -13,7 +13,7 @@ public class IsEmpty extends Function {
 
   public IsEmpty() {
     super(eCategory.BOOLEAN_LOGIC_OPERATORS, "IS_EMPTY",
-        "IS_EMPTY(x) returns true if x is null or equals to the empty string.");
+        "IS_EMPTY(x) returns true if x is equal to the empty string.");
   }
 
   @Override
@@ -22,6 +22,6 @@ public class IsEmpty extends Function {
     Preconditions.checkArgument(parameters.size() == 1, "IS_EMPTY takes exactly one parameter.");
 
     String string = parameters.get(0).asString();
-    return BoxedType.create(string == null || string.isEmpty());
+    return BoxedType.create(string != null && string.isEmpty());
   }
 }
