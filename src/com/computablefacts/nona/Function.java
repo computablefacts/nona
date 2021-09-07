@@ -38,6 +38,7 @@ import com.computablefacts.nona.functions.dateoperators.AddMinutes;
 import com.computablefacts.nona.functions.dateoperators.AddMonths;
 import com.computablefacts.nona.functions.dateoperators.AddSeconds;
 import com.computablefacts.nona.functions.dateoperators.AddYears;
+import com.computablefacts.nona.functions.dateoperators.ElapsedDays;
 import com.computablefacts.nona.functions.jsonoperators.NbJsonObjects;
 import com.computablefacts.nona.functions.jsonoperators.ToJson;
 import com.computablefacts.nona.functions.mathematicaloperators.Max;
@@ -144,6 +145,7 @@ public class Function {
     definitions.put("ADD_MONTHS", new AddMonths());
     definitions.put("ADD_SECONDS", new AddSeconds());
     definitions.put("ADD_YEARS", new AddYears());
+    definitions.put("ELAPSED_DAYS", new ElapsedDays());
 
     // Json operators
     definitions.put("NB_JSON_OBJECTS", new NbJsonObjects());
