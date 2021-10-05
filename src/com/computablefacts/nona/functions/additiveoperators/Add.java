@@ -31,6 +31,6 @@ public class Add extends Function {
 
       res = res.add(param.asBigDecimal());
     }
-    return BoxedType.create(res);
+    return box(res);
   }
 }

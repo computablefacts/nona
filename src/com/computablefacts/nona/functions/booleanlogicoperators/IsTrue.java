@@ -21,6 +21,6 @@ public class IsTrue extends Function {
 
     Preconditions.checkArgument(parameters.size() == 1, "IS_TRUE takes exactly one parameter.");
 
-    return BoxedType.create(parameters.get(0).asBool() != null && parameters.get(0).asBool());
+    return box(parameters.get(0).asBool() != null && parameters.get(0).asBool());
   }
 }

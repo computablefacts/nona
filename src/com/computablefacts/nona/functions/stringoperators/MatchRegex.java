@@ -81,7 +81,7 @@ public class MatchRegex extends Function {
         sequence.add(span);
       }
     }
-    return BoxedType.create(sequence);
+    return box(sequence);
   }
 
   /**

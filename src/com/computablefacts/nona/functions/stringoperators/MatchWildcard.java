@@ -30,6 +30,6 @@ public class MatchWildcard extends Function {
     Preconditions.checkNotNull(string, "string should not be null");
     Preconditions.checkNotNull(pattern, "pattern should not be null");
 
-    return BoxedType.create(WildcardMatcher.match(string, WildcardMatcher.compact(pattern)));
+    return box(WildcardMatcher.match(string, WildcardMatcher.compact(pattern)));
   }
 }

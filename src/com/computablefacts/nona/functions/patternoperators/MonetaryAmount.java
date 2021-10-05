@@ -62,6 +62,6 @@ public class MonetaryAmount extends MatchPattern {
         newSequence.add(span);
       }
     }
-    return BoxedType.create(newSequence);
+    return box(newSequence);
   }
 }

@@ -44,6 +44,6 @@ public class Hash extends Function {
       return BoxedType
           .create(Hashing.crc32().hashString(builder, StandardCharsets.UTF_8).toString());
     }
-    return BoxedType.create(Hashing.md5().hashString(builder, StandardCharsets.UTF_8).toString());
+    return box(Hashing.md5().hashString(builder, StandardCharsets.UTF_8).toString());
   }
 }

@@ -31,6 +31,6 @@ public class Snippet extends Function {
     List<String> words = parameters.subList(1, parameters.size()).stream().map(BoxedType::asString)
         .filter(Objects::nonNull).collect(Collectors.toList());
 
-    return BoxedType.create(SnippetExtractor.extract(words, text));
+    return box(SnippetExtractor.extract(words, text));
   }
 }

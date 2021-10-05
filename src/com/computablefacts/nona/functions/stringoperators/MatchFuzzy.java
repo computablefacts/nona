@@ -56,6 +56,6 @@ public class MatchFuzzy extends Function {
     } else { // simple
       score = FuzzySearch.ratio(string1.asString(), string2.asString());
     }
-    return BoxedType.create(score >= minScore.asInt());
+    return box(score >= minScore.asInt());
   }
 }

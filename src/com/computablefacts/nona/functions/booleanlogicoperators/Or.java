@@ -26,9 +26,9 @@ public class Or extends Function {
       Preconditions.checkArgument(parameter.isBoolean(), "%s should be a boolean", parameter);
 
       if (parameter.asBool()) {
-        return BoxedType.create(true);
+        return box(true);
       }
     }
-    return BoxedType.create(false);
+    return box(false);
   }
 }

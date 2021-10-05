@@ -27,7 +27,7 @@ public class Which extends Function {
 
     @Var
     BoxedType<?> defaultOutput = null;
-    BoxedType<?> defaultStatement = BoxedType.create("_");
+    BoxedType<?> defaultStatement = box("_");
 
     for (int i = 0; i < parameters.size(); i += 2) {
 

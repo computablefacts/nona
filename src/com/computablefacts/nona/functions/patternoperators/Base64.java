@@ -25,6 +25,6 @@ public class Base64 extends MatchPattern {
     if (parameters.get(0).asString().length() % 4 == 0) {
       return super.evaluate(parameters);
     }
-    return BoxedType.create(new SpanSequence());
+    return box(new SpanSequence());
   }
 }

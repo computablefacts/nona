@@ -33,8 +33,8 @@ public class Iban extends MatchRegex {
         parameters);
 
     List<BoxedType<?>> newParameters = new ArrayList<>();
-    newParameters.add(BoxedType.create(compact(parameters.get(0).asString())));
-    newParameters.add(BoxedType.create(iban()));
+    newParameters.add(box(compact(parameters.get(0).asString())));
+    newParameters.add(box(iban()));
 
     BoxedType<?> boxedType = super.evaluate(newParameters);
     SpanSequence sequence = (SpanSequence) boxedType.value();
@@ -90,6 +90,6 @@ public class Iban extends MatchRegex {
         newSequence.add(span);
       }
     }
-    return BoxedType.create(newSequence);
+    return box(newSequence);
   }
 }

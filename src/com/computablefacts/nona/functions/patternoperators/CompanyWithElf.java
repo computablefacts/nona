@@ -31,8 +31,8 @@ public class CompanyWithElf extends MatchRegex {
         "COMPANY_NAME takes exactly one parameter : %s", parameters);
 
     List<BoxedType<?>> newParameters = new ArrayList<>();
-    newParameters.add(BoxedType.create(reverse(parameters.get(0).asString())));
-    newParameters.add(BoxedType.create(PATTERN));
+    newParameters.add(box(reverse(parameters.get(0).asString())));
+    newParameters.add(box(PATTERN));
 
     BoxedType<?> boxedType = super.evaluate(newParameters);
     SpanSequence sequence = (SpanSequence) boxedType.value();
@@ -51,6 +51,6 @@ public class CompanyWithElf extends MatchRegex {
 
       newSequence.add(newSpan);
     }
-    return BoxedType.create(newSequence);
+    return box(newSequence);
   }
 }

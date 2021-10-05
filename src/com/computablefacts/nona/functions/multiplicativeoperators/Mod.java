@@ -28,6 +28,6 @@ public class Mod extends Function {
     BigInteger x = parameters.get(0).asBigInteger();
     BigInteger y = parameters.get(1).asBigInteger();
 
-    return BoxedType.create(x.mod(y));
+    return box(x.mod(y));
   }
 }

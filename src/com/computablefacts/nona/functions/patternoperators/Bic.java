@@ -92,6 +92,6 @@ public class Bic extends MatchPattern {
         }
       }
     }
-    return BoxedType.create(newSequence);
+    return box(newSequence);
   }
 }

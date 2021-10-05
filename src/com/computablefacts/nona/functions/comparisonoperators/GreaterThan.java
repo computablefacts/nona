@@ -33,13 +33,13 @@ public class GreaterThan extends Function {
     Optional<Integer> cmp = param1.compareTo(param2);
 
     if (cmp.isPresent()) {
-      return BoxedType.create(cmp.get() > 0);
+      return box(cmp.get() > 0);
     }
 
     logger_.error(LogFormatter.create(true).message("objects are not comparable")
         .add("first_object", param1.toString()).add("second_object", param2.toString())
         .formatError());
 
-    return BoxedType.create(false);
+    return box(false);
   }
 }

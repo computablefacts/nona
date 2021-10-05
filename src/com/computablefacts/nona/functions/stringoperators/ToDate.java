@@ -40,7 +40,7 @@ public class ToDate extends Function {
     Preconditions.checkNotNull(sdf, "sdf should not be null");
 
     try {
-      return BoxedType.create(sdf.parse(date));
+      return box(sdf.parse(date));
     } catch (ParseException e) {
       logger_.error(LogFormatter.create(true).message("parsing failed").add("date", date)
           .add("format", format).formatError());

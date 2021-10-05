@@ -28,6 +28,6 @@ public class Concat extends Function {
       Preconditions.checkNotNull(str, "null parameters are forbidden");
       builder.append(str);
     }
-    return BoxedType.create(builder.toString().trim());
+    return box(builder.toString().trim());
   }
 }

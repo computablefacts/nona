@@ -10,72 +10,20 @@ import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
-import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 import javax.validation.constraints.NotNull;
 
 import com.computablefacts.nona.Generated;
 import com.computablefacts.nona.helpers.StringIterator;
-import com.google.common.cache.CacheBuilder;
-import com.google.common.cache.CacheLoader;
-import com.google.common.cache.LoadingCache;
 import com.google.common.collect.Lists;
 import com.google.errorprone.annotations.CheckReturnValue;
 
 @CheckReturnValue
 final public class BoxedType<T> {
 
-  private static final LoadingCache<String, BoxedType<?>> cache_ =
-      CacheBuilder.newBuilder().recordStats().maximumSize(100).expireAfterWrite(1, TimeUnit.HOURS)
-          .build(new CacheLoader<String, BoxedType<?>>() {
-
-            @Override
-            public BoxedType<?> load(String text) {
-
-              if ("true".equalsIgnoreCase(text)) {
-                return new BoxedType<>(true);
-              }
-              if ("false".equalsIgnoreCase(text)) {
-                return new BoxedType<>(false);
-              }
-
-              try {
-
-                BoxedType<?> bt = new BoxedType<>(new BigInteger(text));
-
-                // Here, text is an integer (otherwise a NumberFormatException has been thrown)
-                StringIterator iterator = new StringIterator(text);
-                iterator.movePast(new char[] {'0'});
-
-                // The condition below ensures "0" is interpreted as a number but "00" as a string
-                if (iterator.position() > 1
-                    || (iterator.position() > 0 && iterator.remaining() > 0)) {
-
-                  // text matching [0]+[0-9]+ should be interpreted as string
-                  return new BoxedType<>(text);
-                }
-                return bt;
-              } catch (NumberFormatException ex) {
-                // FALL THROUGH
-              }
-
-              try {
-
-                BoxedType<?> bt = new BoxedType<>(new BigDecimal(text));
-
-                // text matching \d+[.] should be interpreted as string
-                // text matching [.]\d+ should be interpreted as string
-                if (!text.trim().endsWith(".") && !text.trim().startsWith(".")) {
-                  return bt;
-                }
-              } catch (NumberFormatException ex) {
-                // FALL THROUGH
-              }
-
-              return new BoxedType<>(text);
-            }
-          });
+  private static final BoxedType<?> TRUE = new BoxedType<>(true);
+  private static final BoxedType<?> FALSE = new BoxedType<>(false);
   private final T value_; // T in {Boolean, BigInteger, BigDecimal, String}
 
   private BoxedType(T value) {
@@ -119,6 +67,18 @@ final public class BoxedType<T> {
   }
 
   public static BoxedType<?> create(Object value) {
+    return create(value, true);
+  }
+
+  /**
+   * Coerce a given value.
+   *
+   * @param value the value to box/coerce.
+   * @param interpretStringInScientificNotation true iif "79E2863560" should be interpreted as
+   *        7.9E+2863561 and false otherwise.
+   * @return a boxed/coerced value.
+   */
+  public static BoxedType<?> create(Object value, boolean interpretStringInScientificNotation) {
     if (value instanceof Boolean || value instanceof BigInteger || value instanceof BigDecimal) {
       return new BoxedType<>(value);
     }
@@ -135,7 +95,52 @@ final public class BoxedType<T> {
       return new BoxedType<>(BigDecimal.valueOf((Double) value));
     }
     if (value instanceof String) {
-      return cache_.getUnchecked((String) value); // type coercion
+
+      // Attempt type coercion
+      String text = (String) value;
+
+      if ("true".equalsIgnoreCase(text)) {
+        return TRUE;
+      }
+      if ("false".equalsIgnoreCase(text)) {
+        return FALSE;
+      }
+
+      if (interpretStringInScientificNotation || (!text.contains("E") && !text.contains("e"))) {
+        try {
+
+          BoxedType<?> bt = new BoxedType<>(new BigInteger(text));
+
+          // Here, text is an integer (otherwise a NumberFormatException has been thrown)
+          StringIterator iterator = new StringIterator(text);
+          iterator.movePast(new char[] {'0'});
+
+          // The condition below ensures "0" is interpreted as a number but "00" as a string
+          if (iterator.position() > 1 || (iterator.position() > 0 && iterator.remaining() > 0)) {
+
+            // text matching [0]+[0-9]+ should be interpreted as string
+            return new BoxedType<>(text);
+          }
+          return bt;
+        } catch (NumberFormatException ex) {
+          // FALL THROUGH
+        }
+
+        try {
+
+          BoxedType<?> bt = new BoxedType<>(new BigDecimal(text));
+          String textTrimmed = text.trim();
+
+          // text matching \d+[.] should be interpreted as string
+          // text matching [.]\d+ should be interpreted as string
+          if (!textTrimmed.endsWith(".") && !textTrimmed.startsWith(".")) {
+            return bt;
+          }
+        } catch (NumberFormatException ex) {
+          // FALL THROUGH
+        }
+      }
+      return new BoxedType<>(text);
     }
     return new BoxedType<>(value);
   }

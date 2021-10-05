@@ -29,7 +29,7 @@ public class Substring extends Function {
         "%s should be an integer >= 0 and <= %s", parameters.get(1), string.length());
 
     if (parameters.size() == 2) {
-      return BoxedType.create(string.substring(parameters.get(1).asInt()));
+      return box(string.substring(parameters.get(1).asInt()));
     }
 
     int begin = parameters.get(1).asInt();
@@ -37,6 +37,6 @@ public class Substring extends Function {
     Preconditions.checkArgument(parameters.get(2).isNumber(),
         "%s should be an integer >= %s and <= %s", parameters.get(2), begin, string.length());
 
-    return BoxedType.create(string.substring(begin, parameters.get(2).asInt()));
+    return box(string.substring(begin, parameters.get(2).asInt()));
   }
 }

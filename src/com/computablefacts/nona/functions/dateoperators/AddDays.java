@@ -29,6 +29,6 @@ public class AddDays extends Function {
     calendar.setTime(parameters.get(0).asDate());
     calendar.add(Calendar.DATE, parameters.get(1).asInt());
 
-    return BoxedType.create(calendar.getTime());
+    return box(calendar.getTime());
   }
 }

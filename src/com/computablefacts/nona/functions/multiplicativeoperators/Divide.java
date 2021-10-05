@@ -26,6 +26,6 @@ public class Divide extends Function {
     BigDecimal dividend = parameters.get(0).asBigDecimal();
     BigDecimal divisor = parameters.get(1).asBigDecimal();
 
-    return BoxedType.create(dividend.divide(divisor));
+    return box(dividend.divide(divisor));
   }
 }

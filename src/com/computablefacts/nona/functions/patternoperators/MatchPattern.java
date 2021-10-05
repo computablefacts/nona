@@ -75,7 +75,7 @@ public class MatchPattern extends MatchRegex {
 
     List<BoxedType<?>> newParameters = new ArrayList<>();
     newParameters.add(parameters.get(0));
-    newParameters.add(BoxedType.create(leftBoundary() + pattern_ + rightBoundary()));
+    newParameters.add(box(leftBoundary() + pattern_ + rightBoundary()));
 
     BoxedType<?> boxedType = super.evaluate(newParameters);
     SpanSequence sequence = (SpanSequence) boxedType.value();
@@ -93,6 +93,6 @@ public class MatchPattern extends MatchRegex {
       newSpan.addTag(name_);
       newSequence.add(newSpan);
     }
-    return BoxedType.create(newSequence);
+    return box(newSequence);
   }
 }

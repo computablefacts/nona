@@ -32,9 +32,9 @@ public class Multiply extends Function {
       res = res.multiply(param.asBigDecimal());
 
       if (BigDecimal.ZERO.compareTo(res) == 0) {
-        return BoxedType.create(BigDecimal.ZERO);
+        return box(BigDecimal.ZERO);
       }
     }
-    return BoxedType.create(res);
+    return box(res);
   }
 }

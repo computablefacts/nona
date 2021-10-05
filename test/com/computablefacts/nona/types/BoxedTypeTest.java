@@ -128,6 +128,11 @@ public class BoxedTypeTest {
 
     Assert.assertEquals(BoxedType.create("79E286"), bt1);
     Assert.assertEquals(BoxedType.create(7.9E+287), bt1);
+
+    BoxedType<?> bt2 = BoxedType.create("79E286", false);
+
+    Assert.assertEquals(BoxedType.create("79E286", false), bt2);
+    Assert.assertNotEquals(BoxedType.create(7.9E+287), bt2);
   }
 
   @Test
@@ -218,6 +223,11 @@ public class BoxedTypeTest {
 
     Assert.assertEquals(BoxedType.create("79E286").hashCode(), bt1.hashCode());
     Assert.assertEquals(BoxedType.create(7.9E+287).hashCode(), bt1.hashCode());
+
+    BoxedType<?> bt2 = BoxedType.create("79E286", false);
+
+    Assert.assertEquals(BoxedType.create("79E286", false).hashCode(), bt2.hashCode());
+    Assert.assertNotEquals(BoxedType.create(7.9E+287).hashCode(), bt2.hashCode());
   }
 
   @Test
@@ -289,6 +299,11 @@ public class BoxedTypeTest {
 
     Assert.assertTrue(BoxedType.create("79E286").compareTo(bt1).get() == 0);
     Assert.assertTrue(BoxedType.create(7.9E+287).compareTo(bt1).get() == 0);
+
+    BoxedType<?> bt2 = BoxedType.create("79E286", false);
+
+    Assert.assertTrue(BoxedType.create("79E286", false).compareTo(bt2).get() == 0);
+    Assert.assertFalse(BoxedType.create(7.9E+287).compareTo(bt2).isPresent());
   }
 
   @Test

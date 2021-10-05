@@ -23,6 +23,6 @@ public class ToUpperCase extends Function {
 
     String x = parameters.get(0).asString();
     Preconditions.checkNotNull(x, "x should not be null");
-    return BoxedType.create(x.toUpperCase());
+    return box(x.toUpperCase());
   }
 }

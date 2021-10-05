@@ -27,6 +27,6 @@ public class StartWith extends Function {
     Preconditions.checkNotNull(x, "x should not be null");
     Preconditions.checkNotNull(y, "y should not be null");
 
-    return BoxedType.create(x.startsWith(y));
+    return box(x.startsWith(y));
   }
 }

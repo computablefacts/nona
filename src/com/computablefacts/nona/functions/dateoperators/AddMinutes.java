@@ -30,6 +30,6 @@ public class AddMinutes extends Function {
     calendar.setTime(parameters.get(0).asDate());
     calendar.add(Calendar.MINUTE, parameters.get(1).asInt());
 
-    return BoxedType.create(calendar.getTime());
+    return box(calendar.getTime());
   }
 }

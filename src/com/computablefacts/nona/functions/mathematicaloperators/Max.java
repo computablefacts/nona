@@ -32,6 +32,6 @@ public class Max extends Function {
 
       max = max.max(param.asBigDecimal());
     }
-    return BoxedType.create(max);
+    return box(max);
   }
 }

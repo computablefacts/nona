@@ -43,7 +43,7 @@ public class FillTemplate extends Function {
     for (int i = 1; i < parameters.size(); i += 2) {
       bindings.put(parameters.get(i).asString(), parameters.get(i + 1).value());
     }
-    return BoxedType.create(fill(file.getAbsolutePath(), bindings));
+    return box(fill(file.getAbsolutePath(), bindings));
   }
 
   /**

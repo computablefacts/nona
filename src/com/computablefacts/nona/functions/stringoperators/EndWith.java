@@ -27,6 +27,6 @@ public class EndWith extends Function {
     Preconditions.checkNotNull(x, "x should not be null");
     Preconditions.checkNotNull(y, "y should not be null");
 
-    return BoxedType.create(x.endsWith(y));
+    return box(x.endsWith(y));
   }
 }

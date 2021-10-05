@@ -22,6 +22,6 @@ public class ToInteger extends Function {
     Preconditions.checkArgument(parameters.get(0).isNumber(), "%s should be a number",
         parameters.get(0));
 
-    return BoxedType.create(parameters.get(0).asBigInteger());
+    return box(parameters.get(0).asBigInteger());
   }
 }

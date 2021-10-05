@@ -83,6 +83,6 @@ public class MatchDictionary extends Function {
       Span span = new Span(text, emit.getStart(), emit.getEnd() + 1);
       sequence.add(span);
     }
-    return BoxedType.create(sequence);
+    return box(sequence);
   }
 }

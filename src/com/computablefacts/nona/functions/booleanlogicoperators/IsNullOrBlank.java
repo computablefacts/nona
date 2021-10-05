@@ -23,10 +23,10 @@ public class IsNullOrBlank extends Function {
         "IS_NULL_OR_BLANK takes exactly one parameter.");
 
     if (parameters.get(0).isEmpty()) {
-      return BoxedType.create(true);
+      return box(true);
     }
 
     String string = parameters.get(0).asString();
-    return BoxedType.create(string == null || string.trim().isEmpty());
+    return box(string == null || string.trim().isEmpty());
   }
 }

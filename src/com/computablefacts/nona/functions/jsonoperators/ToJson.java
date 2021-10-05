@@ -24,6 +24,6 @@ public class ToJson extends Function {
     Preconditions.checkArgument(parameters.get(0).isString(), "%s should be a string",
         parameters.get(0));
 
-    return BoxedType.create(Json.create(parameters.get(0).asString()));
+    return box(Json.create(parameters.get(0).asString()));
   }
 }

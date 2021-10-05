@@ -34,6 +34,6 @@ public class ElapsedDays extends Function {
     Calendar calendar2 = Calendar.getInstance();
     calendar2.setTime(parameters.get(1).asDate());
 
-    return BoxedType.create(ChronoUnit.DAYS.between(calendar1.toInstant(), calendar2.toInstant()));
+    return box(ChronoUnit.DAYS.between(calendar1.toInstant(), calendar2.toInstant()));
   }
 }

@@ -25,6 +25,6 @@ public class NbJsonObjects extends Function {
     Preconditions.checkArgument(parameters.get(0).value() instanceof Json,
         "%s should be a json array", parameters.get(0));
 
-    return BoxedType.create(((Json) parameters.get(0).value()).nbObjects());
+    return box(((Json) parameters.get(0).value()).nbObjects());
   }
 }

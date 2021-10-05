@@ -21,6 +21,6 @@ public class IsNull extends Function {
 
     Preconditions.checkArgument(parameters.size() == 1, "IS_NULL takes exactly one parameter.");
 
-    return BoxedType.create(parameters.get(0).isEmpty());
+    return box(parameters.get(0).isEmpty());
   }
 }

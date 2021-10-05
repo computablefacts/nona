@@ -66,6 +66,6 @@ public class Email extends MatchPattern {
         }
       }
     }
-    return BoxedType.create(newSequence);
+    return box(newSequence);
   }
 }

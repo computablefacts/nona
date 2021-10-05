@@ -24,6 +24,6 @@ public class ToCsv extends Function {
     Preconditions.checkArgument(parameters.get(0).isString(), "%s should be a string",
         parameters.get(0));
 
-    return BoxedType.create(Csv.create(parameters.get(0).asString()));
+    return box(Csv.create(parameters.get(0).asString()));
   }
 }

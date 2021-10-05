@@ -414,7 +414,7 @@ public class Function {
       if (substitutions != null && substitutions.containsKey(head_.name())) {
         return substitutions.get(head_.name());
       }
-      return BoxedType.create(head_.name());
+      return box(head_.name());
     }
 
     Function function = definitions.get(head_.name());
@@ -461,6 +461,17 @@ public class Function {
    */
   protected boolean isCacheable() {
     return true;
+  }
+
+  /**
+   * Coerce object but ensure strings in scientific notation are not coerced to
+   * BigInteger/BigDecimal i.e. "79E2863560" should not be interpreted as 7.9E+2863561
+   *
+   * @param obj object to coerce.
+   * @return boxed type.
+   */
+  protected BoxedType<?> box(Object obj) {
+    return BoxedType.create(obj, false);
   }
 
   private void parseFunction(String expression) {

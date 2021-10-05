@@ -15,7 +15,7 @@ import com.google.re2j.Pattern;
 @CheckReturnValue
 public class IpV4 extends MatchPattern {
 
-  private static Pattern IP_LOCAL = Pattern.compile(iplocal(), Pattern.CASE_INSENSITIVE);
+  private static final Pattern IP_LOCAL = Pattern.compile(iplocal(), Pattern.CASE_INSENSITIVE);
 
   public IpV4() {
     super("IPV4", ipv4());
@@ -34,6 +34,6 @@ public class IpV4 extends MatchPattern {
       span.setFeature("IS_LOCAL", Boolean.toString(IP_LOCAL.matches(span.text())));
       span.removeGroups();
     }
-    return BoxedType.create(sequence);
+    return box(sequence);
   }
 }

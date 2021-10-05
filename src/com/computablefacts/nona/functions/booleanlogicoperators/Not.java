@@ -23,6 +23,6 @@ public class Not extends Function {
     Preconditions.checkArgument(parameters.get(0).isBoolean(), "%s should be a boolean",
         parameters.get(0));
 
-    return BoxedType.create(!parameters.get(0).asBool());
+    return box(!parameters.get(0).asBool());
   }
 }

@@ -24,6 +24,6 @@ public class Equal extends Function {
     BoxedType<?> left = parameters.get(0);
     BoxedType<?> right = parameters.get(1);
 
-    return BoxedType.create(left.equals(right));
+    return box(left.equals(right));
   }
 }

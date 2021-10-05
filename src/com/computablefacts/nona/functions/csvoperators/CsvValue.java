@@ -29,7 +29,7 @@ public class CsvValue extends Function {
     Preconditions.checkArgument(parameters.get(2).isString(), "%s should be a string (col name)",
         parameters.get(2));
 
-    return BoxedType.create(((Csv) parameters.get(0).value()).value(parameters.get(1).asInt(),
+    return box(((Csv) parameters.get(0).value()).value(parameters.get(1).asInt(),
         parameters.get(2).asString()));
   }
 }

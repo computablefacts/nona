@@ -22,6 +22,6 @@ public class IsEmpty extends Function {
     Preconditions.checkArgument(parameters.size() == 1, "IS_EMPTY takes exactly one parameter.");
 
     String string = parameters.get(0).asString();
-    return BoxedType.create(string != null && string.isEmpty());
+    return box(string != null && string.isEmpty());
   }
 }

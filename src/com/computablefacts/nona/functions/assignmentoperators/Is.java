@@ -20,6 +20,6 @@ public class Is extends Function {
 
     Preconditions.checkArgument(parameters.size() == 1, "IS takes exactly one parameter.");
 
-    return BoxedType.create(parameters.get(0).asString());
+    return box(parameters.get(0).asString());
   }
 }

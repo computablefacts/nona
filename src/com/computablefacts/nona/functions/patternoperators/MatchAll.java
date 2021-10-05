@@ -118,6 +118,6 @@ public class MatchAll extends Function {
       newSequence
           .add((SpanSequence) extractor.evaluate(Lists.newArrayList(parameters.get(0))).value());
     }
-    return BoxedType.create(newSequence);
+    return box(newSequence);
   }
 }

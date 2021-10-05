@@ -27,6 +27,6 @@ public class Contain extends Function {
     Preconditions.checkNotNull(x, "x should not be null");
     Preconditions.checkNotNull(y, "y should not be null");
 
-    return BoxedType.create(x.contains(y));
+    return box(x.contains(y));
   }
 }

@@ -29,6 +29,6 @@ public class AddMonths extends Function {
     calendar.setTime(parameters.get(0).asDate());
     calendar.add(Calendar.MONTH, parameters.get(1).asInt());
 
-    return BoxedType.create(calendar.getTime());
+    return box(calendar.getTime());
   }
 }

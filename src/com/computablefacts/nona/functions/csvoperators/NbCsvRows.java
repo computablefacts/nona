@@ -24,6 +24,6 @@ public class NbCsvRows extends Function {
     Preconditions.checkArgument(parameters.get(0).value() instanceof Csv, "%s should be a csv",
         parameters.get(0));
 
-    return BoxedType.create(((Csv) parameters.get(0).value()).nbRows());
+    return box(((Csv) parameters.get(0).value()).nbRows());
   }
 }

@@ -23,6 +23,6 @@ public class Trim extends Function {
 
     String x = parameters.get(0).asString();
     Preconditions.checkNotNull(x, "x should not be null");
-    return BoxedType.create(x.trim());
+    return box(x.trim());
   }
 }

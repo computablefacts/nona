@@ -32,6 +32,6 @@ public class Min extends Function {
 
       min = min == null ? param.asBigDecimal() : min.min(param.asBigDecimal());
     }
-    return BoxedType.create(min);
+    return box(min);
   }
 }

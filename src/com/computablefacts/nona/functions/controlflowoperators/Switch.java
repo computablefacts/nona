@@ -27,7 +27,7 @@ public class Switch extends Function {
 
     @Var
     BoxedType<?> defaultOutput = null;
-    BoxedType<?> defaultStatement = BoxedType.create("_");
+    BoxedType<?> defaultStatement = box("_");
     BoxedType<?> input = parameters.get(0);
 
     for (int i = 1; i < parameters.size(); i += 2) {

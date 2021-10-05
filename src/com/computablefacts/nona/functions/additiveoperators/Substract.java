@@ -35,6 +35,6 @@ public class Substract extends Function {
 
       res = res.subtract(bt.asBigDecimal());
     }
-    return BoxedType.create(res);
+    return box(res);
   }
 }
