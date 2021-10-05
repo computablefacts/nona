@@ -122,6 +122,15 @@ public class BoxedTypeTest {
   }
 
   @Test
+  public void testNumberStringAsScientificNotationEquals() {
+
+    BoxedType<?> bt1 = BoxedType.create("79E286");
+
+    Assert.assertEquals(BoxedType.create("79E286"), bt1);
+    Assert.assertEquals(BoxedType.create(7.9E+287), bt1);
+  }
+
+  @Test
   public void testBooleanHashcode() {
 
     BoxedType<?> btTrue = BoxedType.create(true);
@@ -203,6 +212,15 @@ public class BoxedTypeTest {
   }
 
   @Test
+  public void testNumberStringAsScientificNotationHashcode() {
+
+    BoxedType<?> bt1 = BoxedType.create("79E286");
+
+    Assert.assertEquals(BoxedType.create("79E286").hashCode(), bt1.hashCode());
+    Assert.assertEquals(BoxedType.create(7.9E+287).hashCode(), bt1.hashCode());
+  }
+
+  @Test
   public void testNullCompareTo() {
 
     BoxedType<?> bt1 = BoxedType.empty();
@@ -262,6 +280,15 @@ public class BoxedTypeTest {
     BoxedType<?> bt1 = BoxedType.create(".1");
 
     Assert.assertTrue(BoxedType.create(".1").compareTo(bt1).get() == 0);
+  }
+
+  @Test
+  public void testNumberStringAsScientificNotationCompareTo() {
+
+    BoxedType<?> bt1 = BoxedType.create("79E286");
+
+    Assert.assertTrue(BoxedType.create("79E286").compareTo(bt1).get() == 0);
+    Assert.assertTrue(BoxedType.create(7.9E+287).compareTo(bt1).get() == 0);
   }
 
   @Test
