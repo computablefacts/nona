@@ -13,6 +13,7 @@ import com.computablefacts.nona.eCategory;
 import com.computablefacts.nona.types.BoxedType;
 import com.google.common.base.Preconditions;
 import com.google.errorprone.annotations.CheckReturnValue;
+import com.google.errorprone.annotations.Var;
 
 @CheckReturnValue
 public class ToDate extends Function {
@@ -35,14 +36,24 @@ public class ToDate extends Function {
     Preconditions.checkNotNull(format, "format should not be null");
     Preconditions.checkNotNull(date, "date should not be null");
 
-    SimpleDateFormat sdf = new SimpleDateFormat(format);
+    @Var
+    SimpleDateFormat sdf = null;
 
-    Preconditions.checkNotNull(sdf, "sdf should not be null");
+    try {
+      sdf = new SimpleDateFormat(format);
+    } catch (Exception e) {
+      logger_.error(LogFormatter.create(true).message("parsing format failed").add("date", date)
+          .add("format", format).formatError());
+    }
+
+    if (sdf == null) {
+      return BoxedType.empty();
+    }
 
     try {
       return box(sdf.parse(date));
     } catch (ParseException e) {
-      logger_.error(LogFormatter.create(true).message("parsing failed").add("date", date)
+      logger_.error(LogFormatter.create(true).message("parsing date failed").add("date", date)
           .add("format", format).formatError());
     }
     return BoxedType.empty();
