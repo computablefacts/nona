@@ -41,6 +41,8 @@ import com.computablefacts.nona.functions.dateoperators.AddYears;
 import com.computablefacts.nona.functions.dateoperators.ElapsedDays;
 import com.computablefacts.nona.functions.jsonoperators.NbJsonObjects;
 import com.computablefacts.nona.functions.jsonoperators.ToJson;
+import com.computablefacts.nona.functions.mathematicaloperators.Ceil;
+import com.computablefacts.nona.functions.mathematicaloperators.Floor;
 import com.computablefacts.nona.functions.mathematicaloperators.Max;
 import com.computablefacts.nona.functions.mathematicaloperators.Min;
 import com.computablefacts.nona.functions.multiplicativeoperators.Divide;
@@ -134,6 +136,8 @@ public class Function {
     definitions.put("TO_JSON", new ToJson());
 
     // Mathematical operators
+    definitions.put("CEIL", new Ceil());
+    definitions.put("FLOOR", new Floor());
     definitions.put("MAX", new Max());
     definitions.put("MIN", new Min());
 
