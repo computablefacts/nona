@@ -238,10 +238,9 @@ public class Function {
     Preconditions.checkNotNull(text, "text should not be null");
 
     StringBuilder builder = new StringBuilder(text.length());
-    StringIterator iterator = new StringIterator(text);
 
-    while (iterator.hasNext()) {
-      char c = iterator.next();
+    for (int i = 0; i < text.length(); i++) {
+      char c = text.charAt(i);
       switch (c) {
         case '(':
           builder.append("\\u0028");
