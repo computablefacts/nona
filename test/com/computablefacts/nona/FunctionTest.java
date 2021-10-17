@@ -37,6 +37,42 @@ public class FunctionTest {
   }
 
   @Test
+  public void testDoNotDecode() {
+
+    Assert.assertEquals("\\u1000", Function.decode("\\u1000"));
+    Assert.assertEquals("\\u2000", Function.decode("\\u2000"));
+    Assert.assertEquals("\\u3000", Function.decode("\\u3000"));
+    Assert.assertEquals("\\u4000", Function.decode("\\u4000"));
+    Assert.assertEquals("\\u5000", Function.decode("\\u5000"));
+    Assert.assertEquals("\\u6000", Function.decode("\\u6000"));
+    Assert.assertEquals("\\u7000", Function.decode("\\u7000"));
+    Assert.assertEquals("\\u8000", Function.decode("\\u8000"));
+    Assert.assertEquals("\\u9000", Function.decode("\\u9000"));
+
+    Assert.assertEquals("\\u0100", Function.decode("\\u0100"));
+    Assert.assertEquals("\\u0200", Function.decode("\\u0200"));
+    Assert.assertEquals("\\u0300", Function.decode("\\u0300"));
+    Assert.assertEquals("\\u0400", Function.decode("\\u0400"));
+    Assert.assertEquals("\\u0500", Function.decode("\\u0500"));
+    Assert.assertEquals("\\u0600", Function.decode("\\u0600"));
+    Assert.assertEquals("\\u0700", Function.decode("\\u0700"));
+    Assert.assertEquals("\\u0800", Function.decode("\\u0800"));
+    Assert.assertEquals("\\u0900", Function.decode("\\u0900"));
+
+    Assert.assertEquals("\\u0010", Function.decode("\\u0010"));
+    Assert.assertEquals("\\u0040", Function.decode("\\u0040"));
+    Assert.assertEquals("\\u0050", Function.decode("\\u0050"));
+    Assert.assertEquals("\\u0060", Function.decode("\\u0060"));
+    Assert.assertEquals("\\u0070", Function.decode("\\u0070"));
+    Assert.assertEquals("\\u0080", Function.decode("\\u0080"));
+    Assert.assertEquals("\\u0090", Function.decode("\\u0090"));
+
+    Assert.assertEquals("\\u0000", Function.decode("\\u0000"));
+    Assert.assertEquals("\\u0020", Function.decode("\\u0020"));
+    Assert.assertEquals("\\u0030", Function.decode("\\u0030"));
+  }
+
+  @Test
   public void testEncodeLineFeedAndCarriageReturn() {
     Assert.assertEquals("\\u000d", Function.encode("\n"));
     Assert.assertEquals("\\u000a", Function.encode("\r"));
