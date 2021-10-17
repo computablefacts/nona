@@ -83,7 +83,10 @@ final public class BoxedType<T> {
     if (value == null) {
       return NULL;
     }
-    if (value instanceof Boolean || value instanceof BigInteger || value instanceof BigDecimal) {
+    if (value instanceof Boolean) {
+      return ((Boolean) value) ? TRUE : FALSE;
+    }
+    if (value instanceof BigInteger || value instanceof BigDecimal) {
       return new BoxedType<>(value);
     }
     if (value instanceof Integer) {
