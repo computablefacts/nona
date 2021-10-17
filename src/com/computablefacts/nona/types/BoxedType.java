@@ -22,6 +22,7 @@ import com.google.errorprone.annotations.CheckReturnValue;
 @CheckReturnValue
 final public class BoxedType<T> {
 
+  private static final BoxedType<?> NULL = new BoxedType<>(null);
   private static final BoxedType<?> TRUE = new BoxedType<>(true);
   private static final BoxedType<?> FALSE = new BoxedType<>(false);
   private final T value_; // T in {Boolean, BigInteger, BigDecimal, String}
@@ -31,7 +32,7 @@ final public class BoxedType<T> {
   }
 
   public static BoxedType<?> empty() {
-    return BoxedType.create((Object) null);
+    return NULL;
   }
 
   public static BoxedType<?> create(int[] values) {
@@ -79,6 +80,9 @@ final public class BoxedType<T> {
    * @return a boxed/coerced value.
    */
   public static BoxedType<?> create(Object value, boolean interpretStringInScientificNotation) {
+    if (value == null) {
+      return NULL;
+    }
     if (value instanceof Boolean || value instanceof BigInteger || value instanceof BigDecimal) {
       return new BoxedType<>(value);
     }
