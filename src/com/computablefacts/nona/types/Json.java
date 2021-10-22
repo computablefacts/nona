@@ -94,6 +94,7 @@ final public class Json implements Comparable<Json> {
   }
 
   public String asString() {
-    return jsons_.length == 0 ? "" : Codecs.asString(jsons_.length > 1 ? jsons_ : jsons_[0]);
+    return jsons_.length == 0 ? ""
+        : jsons_.length > 1 ? Codecs.asString(jsons_) : Codecs.asString(jsons_[0]);
   }
 }

@@ -41,7 +41,7 @@ public class ToTextTest {
   public void testJsonToText() {
 
     Function fn = new Function(
-        "TO_TEXT({\"birthdate\":\"2004-04-01T00:00:00Z\",\"last_name\":\"doe\",\"id\":1,\"first_name\":\"john\",\"age\":17})");
+        "TO_TEXT(\"{\"birthdate\":\"2004-04-01T00:00:00Z\",\"last_name\":\"doe\",\"id\":1,\"first_name\":\"john\",\"age\":17}\")");
     Assert.assertEquals(BoxedType.create(
         "{\"birthdate\":\"2004-04-01T00:00:00Z\",\"last_name\":\"doe\",\"id\":1,\"first_name\":\"john\",\"age\":17}"),
         fn.evaluate(Function.definitions()));
