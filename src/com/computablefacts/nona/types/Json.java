@@ -92,4 +92,8 @@ final public class Json implements Comparable<Json> {
   public int compareTo(@NotNull Json json) {
     return 0;
   }
+
+  public String asString() {
+    return jsons_.length == 0 ? "" : Codecs.asString(jsons_.length > 1 ? jsons_ : jsons_[0]);
+  }
 }

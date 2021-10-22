@@ -142,4 +142,20 @@ public class CsvTest {
     Assert.assertEquals("22", csv.value(1, "col_2"));
     Assert.assertNull(csv.value(1, "col_3"));
   }
+
+  @Test
+  public void testEmptyCsvToText() {
+
+    Csv csv = Csv.create("col_1,col_2,col_3\n");
+
+    Assert.assertEquals("", csv.asString());
+  }
+
+  @Test
+  public void testCsvToText() {
+
+    Csv csv = Csv.create("col_1,col_2,col_3\n11,12,13\n21,22,23");
+
+    Assert.assertEquals("col_1,col_2,col_3\n11,12,13\n21,22,23", csv.asString());
+  }
 }

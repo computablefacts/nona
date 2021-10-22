@@ -16,6 +16,7 @@ import com.google.common.base.MoreObjects;
 import com.google.common.base.Preconditions;
 import com.google.common.base.Strings;
 import com.google.errorprone.annotations.CheckReturnValue;
+import com.google.errorprone.annotations.Var;
 
 @CheckReturnValue
 final public class Csv implements Comparable<Csv> {
@@ -94,5 +95,23 @@ final public class Csv implements Comparable<Csv> {
   @Override
   public int compareTo(@NotNull Csv csv) {
     return 0;
+  }
+
+  public String asString() {
+    try {
+      @Var
+      CsvSchema schema = null;
+      CsvSchema.Builder schemaBuilder = CsvSchema.builder();
+      if (rows_ != null && !rows_.isEmpty()) {
+        for (String col : rows_.get(0).keySet()) {
+          schemaBuilder.addColumn(col);
+        }
+        schema = schemaBuilder.build().withLineSeparator("\n").withHeader();
+      }
+      return new CsvMapper().writer(schema).writeValueAsString(rows_).trim();
+    } catch (IOException e) {
+      // TODO
+    }
+    return "";
   }
 }
