@@ -192,6 +192,7 @@ public class Function {
     definitions.put("TO_DECIMAL", new ToDecimal());
     definitions.put("TO_INTEGER", new ToInteger());
     definitions.put("TO_LOWERCASE", new ToLowerCase());
+    definitions.put("TO_TEXT", new ToText());
     definitions.put("TO_UPPERCASE", new ToUpperCase());
     definitions.put("TRIM", new Trim());
 
