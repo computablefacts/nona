@@ -17,6 +17,7 @@ import com.google.errorprone.annotations.Var;
  * @see <a href="http://www.blackbeltcoder.com/Articles/strings/a-text-parsing-helper-class">Text
  *      Parsing Helper Class</a>
  */
+@Deprecated
 @CheckReturnValue
 final public class StringIterator implements Iterator<Character> {
 

@@ -5,6 +5,7 @@ import org.junit.Test;
 
 import nl.jqno.equalsverifier.EqualsVerifier;
 
+@Deprecated
 public class SpanSequenceTest {
 
   @Test

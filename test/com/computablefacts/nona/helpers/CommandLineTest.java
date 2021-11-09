@@ -9,6 +9,7 @@ import java.util.Map;
 import org.junit.Assert;
 import org.junit.Test;
 
+@Deprecated
 public class CommandLineTest {
 
   @Test(expected = RuntimeException.class)

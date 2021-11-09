@@ -5,6 +5,7 @@ import java.math.BigDecimal;
 import org.junit.Assert;
 import org.junit.Test;
 
+@Deprecated
 public class BigDecimalCodecTest {
 
   @Test

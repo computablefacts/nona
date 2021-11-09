@@ -18,6 +18,7 @@ import com.google.errorprone.annotations.CheckReturnValue;
 /**
  * Never ever rely on groups. Groups are for internal use only.
  */
+@Deprecated
 @CheckReturnValue
 final public class Span implements Comparable<Span> {
 

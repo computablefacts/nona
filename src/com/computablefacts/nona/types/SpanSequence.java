@@ -16,6 +16,7 @@ import com.google.common.collect.Lists;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.errorprone.annotations.CheckReturnValue;
 
+@Deprecated
 @CheckReturnValue
 final public class SpanSequence implements Iterable<Span>, Comparable<SpanSequence> {
 

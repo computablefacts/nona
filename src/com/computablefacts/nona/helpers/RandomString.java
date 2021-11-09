@@ -11,6 +11,7 @@ import com.google.errorprone.annotations.CheckReturnValue;
 /**
  * Extracted from https://stackoverflow.com/a/41156
  */
+@Deprecated
 @CheckReturnValue
 final public class RandomString {
 

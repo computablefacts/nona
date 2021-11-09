@@ -14,6 +14,7 @@ import com.google.errorprone.annotations.Var;
  * Based on @{link
  * https://itsallbinary.com/java-printing-to-console-in-table-format-simple-code-with-flexible-width-left-align-header-separator-line/}
  */
+@Deprecated
 @CheckReturnValue
 final public class AsciiTable {
 

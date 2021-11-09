@@ -15,6 +15,7 @@ import com.google.errorprone.annotations.Var;
  * @author ted stockwell
  * @author David Fuelling
  */
+@Deprecated
 @CheckReturnValue
 final public class BigDecimalCodec {
 
@@ -93,9 +94,9 @@ final public class BigDecimalCodec {
    */
   static public class Encoder {
 
-    private String _input;
+    private final String _input;
     private int _position = 0;
-    private int _end;
+    private final int _end;
     private String _output = "";
     private boolean _isNegative = false;
 
@@ -211,7 +212,7 @@ final public class BigDecimalCodec {
    */
   static public class Decoder {
 
-    private String _input;
+    private final String _input;
     private int _position = 0;
     private int _end;
     private String _output = "";

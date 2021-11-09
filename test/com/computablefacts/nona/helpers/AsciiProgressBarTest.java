@@ -8,6 +8,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+@Deprecated
 @net.jcip.annotations.NotThreadSafe
 public class AsciiProgressBarTest {
 

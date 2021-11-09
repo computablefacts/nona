@@ -1,10 +1,6 @@
 package com.computablefacts.nona.helpers;
 
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 import com.computablefacts.nona.types.Span;
 import com.google.common.base.Preconditions;
@@ -15,6 +11,7 @@ import com.google.errorprone.annotations.Var;
 /**
  * Based on @{link https://boyter.org/2013/04/building-a-search-result-extract-generator-in-php/}
  */
+@Deprecated
 @CheckReturnValue
 final public class SnippetExtractor {
 

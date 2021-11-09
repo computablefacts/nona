@@ -8,6 +8,7 @@ import org.junit.Test;
 import com.computablefacts.nona.types.Span;
 import com.google.common.collect.Lists;
 
+@Deprecated
 public class SnippetExtractorTest {
 
   @Test

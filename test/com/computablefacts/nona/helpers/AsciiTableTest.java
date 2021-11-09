@@ -3,6 +3,7 @@ package com.computablefacts.nona.helpers;
 import org.junit.Assert;
 import org.junit.Test;
 
+@Deprecated
 public class AsciiTableTest {
 
   @Test(expected = NullPointerException.class)

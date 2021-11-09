@@ -11,6 +11,7 @@ import com.google.common.base.Strings;
 import com.google.errorprone.annotations.CheckReturnValue;
 import com.google.errorprone.annotations.Var;
 
+@Deprecated
 @CheckReturnValue
 final public class WildcardMatcher {
 

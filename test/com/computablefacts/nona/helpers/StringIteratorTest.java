@@ -1,8 +1,6 @@
 package com.computablefacts.nona.helpers;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 import java.util.List;
 
@@ -10,13 +8,14 @@ import org.junit.Test;
 
 import com.google.common.collect.Lists;
 
+@Deprecated
 public class StringIteratorTest {
 
   @Test
   public void testNullStringConstructor() {
 
     try {
-      StringIterator iterator = new StringIterator((String) null);
+      StringIterator iterator = new StringIterator(null);
       assertTrue(false);
     } catch (NullPointerException e) {
       assertTrue(true);
@@ -169,7 +168,7 @@ public class StringIteratorTest {
     assertEquals('>', iterator.peek());
     assertEquals(42, end);
 
-    assertEquals("a href=\"https://www.google.com\"", iterator.extract(begin, end).toString());
+    assertEquals("a href=\"https://www.google.com\"", iterator.extract(begin, end));
   }
 
   @Test

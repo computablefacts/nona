@@ -6,6 +6,7 @@ import com.google.errorprone.annotations.Var;
 /**
  * Based on @{link https://masterex.github.io/archive/2011/10/23/java-cli-progress-bar.html}
  */
+@Deprecated
 @CheckReturnValue
 final public class AsciiProgressBar {
 

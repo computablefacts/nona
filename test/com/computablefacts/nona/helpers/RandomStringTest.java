@@ -5,6 +5,7 @@ import java.security.SecureRandom;
 import org.junit.Assert;
 import org.junit.Test;
 
+@Deprecated
 public class RandomStringTest {
 
   @Test

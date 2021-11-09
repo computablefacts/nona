@@ -10,6 +10,7 @@ import com.google.common.base.Strings;
 import com.google.errorprone.annotations.CheckReturnValue;
 import com.google.errorprone.annotations.Var;
 
+@Deprecated
 @CheckReturnValue
 public abstract class CommandLine {
 
