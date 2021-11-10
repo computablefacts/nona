@@ -13,6 +13,7 @@ import org.junit.Test;
 import com.google.common.base.Splitter;
 import com.google.common.collect.Lists;
 
+@Deprecated
 public class FilesTest {
 
   @Test
