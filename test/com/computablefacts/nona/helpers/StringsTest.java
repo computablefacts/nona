@@ -1,8 +1,6 @@
 package com.computablefacts.nona.helpers;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 import java.nio.charset.StandardCharsets;
 
@@ -112,6 +110,7 @@ public class StringsTest {
    * Mostly extracted from
    * https://github.com/apache/commons-lang/blob/master/src/test/java/org/apache/commons/lang3/math/NumberUtilsTest.java
    */
+  @Deprecated
   @Test
   public void testInvalidNumbers() {
     assertFalse(Strings.isNumber(null));
@@ -159,6 +158,7 @@ public class StringsTest {
    * Mostly extracted from
    * https://github.com/apache/commons-lang/blob/master/src/test/java/org/apache/commons/lang3/math/NumberUtilsTest.java
    */
+  @Deprecated
   @Test
   public void testValidNumbers() {
     assertTrue(Strings.isNumber("12345"));

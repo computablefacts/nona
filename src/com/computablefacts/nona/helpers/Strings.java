@@ -171,6 +171,7 @@ final public class Strings {
    * @see <a href=
    *      "https://commons.apache.org/proper/commons-math">https://commons.apache.org/proper/commons-math</a>
    */
+  @Deprecated
   public static boolean isNumber(String text) {
 
     if (com.google.common.base.Strings.isNullOrEmpty(text)) {
