@@ -10,6 +10,7 @@ import org.junit.Test;
 
 import com.computablefacts.asterix.Span;
 import com.computablefacts.asterix.SpanSequence;
+import com.computablefacts.asterix.StringIterator;
 
 public class SplittersTest {
 

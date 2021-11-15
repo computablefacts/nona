@@ -28,6 +28,7 @@ import java.util.function.Function;
 import org.junit.Assert;
 import org.junit.Test;
 
+import com.computablefacts.asterix.StringIterator;
 import com.google.common.base.CharMatcher;
 import com.google.common.base.Splitter;
 import com.google.common.collect.Lists;

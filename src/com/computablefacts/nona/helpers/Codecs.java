@@ -17,6 +17,7 @@ import org.slf4j.LoggerFactory;
 
 import com.computablefacts.asterix.Span;
 import com.computablefacts.asterix.SpanSequence;
+import com.computablefacts.asterix.StringIterator;
 import com.computablefacts.logfmt.LogFormatter;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.core.JsonProcessingException;
