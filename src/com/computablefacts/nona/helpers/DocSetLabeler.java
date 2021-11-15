@@ -1,17 +1,11 @@
 package com.computablefacts.nona.helpers;
 
-import java.util.AbstractMap;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import javax.validation.constraints.NotNull;
 
+import com.computablefacts.asterix.console.AsciiProgressBar;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Sets;
 import com.google.errorprone.annotations.CheckReturnValue;
