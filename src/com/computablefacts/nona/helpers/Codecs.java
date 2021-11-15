@@ -7,14 +7,7 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.nio.charset.StandardCharsets;
 import java.time.format.DateTimeFormatter;
-import java.util.Arrays;
-import java.util.Base64;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import javax.validation.constraints.NotNull;
@@ -187,6 +180,7 @@ final public class Codecs {
    * @param <T> the object type.
    * @return a JSON object.
    */
+  @Deprecated
   public static <T> @NotNull Map<String, Object> asMap(T obj) {
     try {
       return obj == null ? Collections.emptyMap()
@@ -204,6 +198,7 @@ final public class Codecs {
    * @param <T> the object type.
    * @return a {@link Collection} of JSON objects.
    */
+  @Deprecated
   public static <T> @NotNull Collection<Map<String, Object>> asCollectionOfMaps(Collection<T> obj) {
     if (obj == null) {
       return Collections.emptyList();
@@ -218,6 +213,7 @@ final public class Codecs {
    * @param <T> the object type.
    * @return a {@link Collection} of JSON objects.
    */
+  @Deprecated
   @SafeVarargs
   public static <T> @NotNull Collection<Map<String, Object>> asCollectionOfMaps(T... obj) {
     if (obj == null) {
@@ -234,6 +230,7 @@ final public class Codecs {
    * @param <T> the object type.
    * @return a JSON string.
    */
+  @Deprecated
   public static <T> @NotNull String asString(T obj) {
     try {
       return obj == null ? "{}" : mapper_.writeValueAsString(obj);
@@ -250,6 +247,7 @@ final public class Codecs {
    * @param <T> the object type.
    * @return a JSON string.
    */
+  @Deprecated
   public static <T> @NotNull String asString(Collection<T> obj) {
     try {
       return obj == null ? "[]" : mapper_.writeValueAsString(obj);
@@ -266,6 +264,7 @@ final public class Codecs {
    * @param <T> the object type.
    * @return a JSON string.
    */
+  @Deprecated
   @SafeVarargs
   public static <T> @NotNull String asString(T... obj) {
     try {
@@ -282,6 +281,7 @@ final public class Codecs {
    * @param json string.
    * @return a JSON object.
    */
+  @Deprecated
   public static @NotNull Map<String, Object> asObject(String json) {
     try {
       return json == null ? Collections.emptyMap()
@@ -298,6 +298,7 @@ final public class Codecs {
    * @param json string.
    * @return a {@link Collection} of JSON objects.
    */
+  @Deprecated
   public static @NotNull Collection<Map<String, Object>> asCollection(String json) {
     try {
       return json == null ? Collections.emptyList()
@@ -315,6 +316,7 @@ final public class Codecs {
    * @param json string.
    * @return an array of JSON objects.
    */
+  @Deprecated
   public static @NotNull Map<String, Object>[] asArray(String json) {
     try {
       return json == null ? new Map[0]
@@ -325,6 +327,7 @@ final public class Codecs {
     return new Map[0];
   }
 
+  @Deprecated
   private static class CustomDateSerializer extends StdSerializer<Date> {
 
     public CustomDateSerializer() {
