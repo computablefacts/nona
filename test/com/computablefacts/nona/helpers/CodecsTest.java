@@ -6,20 +6,13 @@ import static org.junit.Assert.assertTrue;
 import java.sql.Date;
 import java.text.ParseException;
 import java.time.Instant;
-import java.util.ArrayList;
-import java.util.Base64;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 
 import org.junit.Assert;
 import org.junit.Test;
 
-import com.computablefacts.nona.types.Span;
-import com.computablefacts.nona.types.SpanSequence;
+import com.computablefacts.asterix.Span;
+import com.computablefacts.asterix.SpanSequence;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.common.base.Strings;
@@ -98,17 +91,17 @@ public class CodecsTest {
 
   @Test
   public void testDeserializeNullObject() {
-    Assert.assertNotNull(Codecs.asObject((String) null));
+    Assert.assertNotNull(Codecs.asObject(null));
   }
 
   @Test
   public void testDeserializeNullCollection() {
-    Assert.assertNotNull(Codecs.asCollection((String) null));
+    Assert.assertNotNull(Codecs.asCollection(null));
   }
 
   @Test
   public void testDeserializeNullArray() {
-    Assert.assertNotNull(Codecs.asArray((String) null));
+    Assert.assertNotNull(Codecs.asArray(null));
   }
 
   @Test
@@ -153,7 +146,7 @@ public class CodecsTest {
 
   @Test
   public void testSerializeEmptyArray() {
-    Assert.assertEquals("[]", Codecs.asString(new Map[0]));
+    Assert.assertEquals("[]", Codecs.asString());
   }
 
   @Test
@@ -183,7 +176,7 @@ public class CodecsTest {
 
   @Test
   public void testCollectionOfMapsFromEmptyArray() {
-    Assert.assertEquals(Collections.emptyList(), Codecs.asCollectionOfMaps(new Map[0]));
+    Assert.assertEquals(Collections.emptyList(), Codecs.asCollectionOfMaps());
   }
 
   @Test

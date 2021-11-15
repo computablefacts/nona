@@ -10,8 +10,8 @@ import java.util.Map;
 import org.junit.Assert;
 import org.junit.Test;
 
+import com.computablefacts.asterix.SpanSequence;
 import com.computablefacts.nona.Function;
-import com.computablefacts.nona.types.SpanSequence;
 import com.google.common.collect.Lists;
 
 public class MatchAllTest {

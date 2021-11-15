@@ -6,11 +6,10 @@ import java.util.List;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-import org.junit.Assert;
 import org.junit.Test;
 
-import com.computablefacts.nona.types.Span;
-import com.computablefacts.nona.types.SpanSequence;
+import com.computablefacts.asterix.Span;
+import com.computablefacts.asterix.SpanSequence;
 
 public class SplittersTest {
 
@@ -20,8 +19,8 @@ public class SplittersTest {
     Function<SpanSequence, List<SpanSequence>> splitter = Splitters.overlappingGroupBy(5, 2);
     List<SpanSequence> spans = splitter.apply(tokenize(veryShortText()));
 
-    Assert.assertEquals(1, spans.size());
-    Assert.assertEquals("Dummy text.", join(spans.get(0)));
+    assertEquals(1, spans.size());
+    assertEquals("Dummy text.", join(spans.get(0)));
   }
 
   @Test
@@ -30,8 +29,8 @@ public class SplittersTest {
     Function<SpanSequence, List<SpanSequence>> splitter = Splitters.nonOverlappingGroupBy(5);
     List<SpanSequence> spans = splitter.apply(tokenize(veryShortText()));
 
-    Assert.assertEquals(1, spans.size());
-    Assert.assertEquals("Dummy text.", join(spans.get(0)));
+    assertEquals(1, spans.size());
+    assertEquals("Dummy text.", join(spans.get(0)));
   }
 
   @Test
@@ -40,9 +39,9 @@ public class SplittersTest {
     Function<SpanSequence, List<SpanSequence>> splitter = Splitters.overlappingGroupBy(5, 2);
     List<SpanSequence> spans = splitter.apply(tokenize(shortText()));
 
-    Assert.assertEquals(2, spans.size());
-    Assert.assertEquals("Lorem Ipsum is dummy text.", join(spans.get(0)));
-    Assert.assertEquals("dummy text.", join(spans.get(1)));
+    assertEquals(2, spans.size());
+    assertEquals("Lorem Ipsum is dummy text.", join(spans.get(0)));
+    assertEquals("dummy text.", join(spans.get(1)));
   }
 
   @Test
@@ -51,8 +50,8 @@ public class SplittersTest {
     Function<SpanSequence, List<SpanSequence>> splitter = Splitters.nonOverlappingGroupBy(5);
     List<SpanSequence> spans = splitter.apply(tokenize(shortText()));
 
-    Assert.assertEquals(1, spans.size());
-    Assert.assertEquals("Lorem Ipsum is dummy text.", join(spans.get(0)));
+    assertEquals(1, spans.size());
+    assertEquals("Lorem Ipsum is dummy text.", join(spans.get(0)));
   }
 
   @Test
@@ -61,11 +60,11 @@ public class SplittersTest {
     Function<SpanSequence, List<SpanSequence>> splitter = Splitters.overlappingGroupBy(5, 2);
     List<SpanSequence> spans = splitter.apply(tokenize(longText()));
 
-    Assert.assertEquals(4, spans.size());
-    Assert.assertEquals("Lorem Ipsum is simply dummy", join(spans.get(0)));
-    Assert.assertEquals("simply dummy text of the", join(spans.get(1)));
-    Assert.assertEquals("of the printing and typesetting", join(spans.get(2)));
-    Assert.assertEquals("and typesetting industry.", join(spans.get(3)));
+    assertEquals(4, spans.size());
+    assertEquals("Lorem Ipsum is simply dummy", join(spans.get(0)));
+    assertEquals("simply dummy text of the", join(spans.get(1)));
+    assertEquals("of the printing and typesetting", join(spans.get(2)));
+    assertEquals("and typesetting industry.", join(spans.get(3)));
   }
 
   @Test
@@ -74,10 +73,10 @@ public class SplittersTest {
     Function<SpanSequence, List<SpanSequence>> splitter = Splitters.nonOverlappingGroupBy(5);
     List<SpanSequence> spans = splitter.apply(tokenize(longText()));
 
-    Assert.assertEquals(3, spans.size());
-    Assert.assertEquals("Lorem Ipsum is simply dummy", join(spans.get(0)));
-    Assert.assertEquals("text of the printing and", join(spans.get(1)));
-    Assert.assertEquals("typesetting industry.", join(spans.get(2)));
+    assertEquals(3, spans.size());
+    assertEquals("Lorem Ipsum is simply dummy", join(spans.get(0)));
+    assertEquals("text of the printing and", join(spans.get(1)));
+    assertEquals("typesetting industry.", join(spans.get(2)));
   }
 
   @Test

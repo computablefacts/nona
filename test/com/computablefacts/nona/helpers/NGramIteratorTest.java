@@ -1,8 +1,6 @@
 package com.computablefacts.nona.helpers;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNull;
+import static org.junit.Assert.*;
 
 import java.util.Iterator;
 import java.util.List;
@@ -10,7 +8,7 @@ import java.util.NoSuchElementException;
 
 import org.junit.Test;
 
-import com.computablefacts.nona.types.Span;
+import com.computablefacts.asterix.Span;
 import com.google.common.collect.Lists;
 
 public class NGramIteratorTest {

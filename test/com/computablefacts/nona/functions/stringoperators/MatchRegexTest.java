@@ -3,10 +3,10 @@ package com.computablefacts.nona.functions.stringoperators;
 import org.junit.Assert;
 import org.junit.Test;
 
+import com.computablefacts.asterix.Span;
+import com.computablefacts.asterix.SpanSequence;
 import com.computablefacts.nona.Function;
 import com.computablefacts.nona.types.BoxedType;
-import com.computablefacts.nona.types.Span;
-import com.computablefacts.nona.types.SpanSequence;
 
 public class MatchRegexTest {
 

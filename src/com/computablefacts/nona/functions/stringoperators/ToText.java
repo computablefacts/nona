@@ -3,13 +3,13 @@ package com.computablefacts.nona.functions.stringoperators;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import com.computablefacts.asterix.Span;
+import com.computablefacts.asterix.SpanSequence;
 import com.computablefacts.nona.Function;
 import com.computablefacts.nona.eCategory;
 import com.computablefacts.nona.types.BoxedType;
 import com.computablefacts.nona.types.Csv;
 import com.computablefacts.nona.types.Json;
-import com.computablefacts.nona.types.Span;
-import com.computablefacts.nona.types.SpanSequence;
 import com.google.common.base.Preconditions;
 import com.google.errorprone.annotations.CheckReturnValue;
 

@@ -39,14 +39,13 @@
     </developers>
 
     <properties>
+        <asterix.version>0.1</asterix.version>
         <logfmt.version>0.12</logfmt.version>
         <carrot.version>2.4.5</carrot.version>
         <error-prone.version>2.3.1</error-prone.version>
         <junit.version>4.13.1</junit.version>
         <jcip.version>1.0-1</jcip.version>
-        <re2j.version>1.2</re2j.version>
         <fuzzywuzzy.version>1.2.0</fuzzywuzzy.version>
-        <jackson-dataformat-csv.version>2.12.0</jackson-dataformat-csv.version>
         <javax-validation.version>2.0.1.Final</javax-validation.version>
         <ahocorasick.version>0.4.0</ahocorasick.version>
         <language-detector.version>0.6</language-detector.version>
@@ -69,6 +68,11 @@
             <version>${logfmt.version}</version>
         </dependency>
         <dependency>
+            <groupId>com.computablefacts</groupId>
+            <artifactId>asterix</artifactId>
+            <version>${asterix.version}</version>
+        </dependency>
+        <dependency>
             <groupId>au.com.codeka</groupId>
             <artifactId>carrot</artifactId>
             <version>${carrot.version}</version>
@@ -77,11 +81,6 @@
             <groupId>me.xdrop</groupId>
             <artifactId>fuzzywuzzy</artifactId>
             <version>${fuzzywuzzy.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.google.re2j</groupId>
-            <artifactId>re2j</artifactId>
-            <version>${re2j.version}</version>
         </dependency>
         <dependency>
             <groupId>com.google.errorprone</groupId>
@@ -104,11 +103,6 @@
             <artifactId>jcip-annotations</artifactId>
             <version>${jcip.version}</version>
             <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.fasterxml.jackson.dataformat</groupId>
-            <artifactId>jackson-dataformat-csv</artifactId>
-            <version>${jackson-dataformat-csv.version}</version>
         </dependency>
         <dependency>
             <groupId>org.ahocorasick</groupId>

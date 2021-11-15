@@ -4,8 +4,8 @@ import static com.computablefacts.nona.functions.patternoperators.PatternsForwar
 
 import java.util.List;
 
+import com.computablefacts.asterix.SpanSequence;
 import com.computablefacts.nona.types.BoxedType;
-import com.computablefacts.nona.types.SpanSequence;
 import com.google.common.base.Preconditions;
 import com.google.errorprone.annotations.CheckReturnValue;
 

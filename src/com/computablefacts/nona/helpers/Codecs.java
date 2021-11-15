@@ -15,9 +15,9 @@ import javax.validation.constraints.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.computablefacts.asterix.Span;
+import com.computablefacts.asterix.SpanSequence;
 import com.computablefacts.logfmt.LogFormatter;
-import com.computablefacts.nona.types.Span;
-import com.computablefacts.nona.types.SpanSequence;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;

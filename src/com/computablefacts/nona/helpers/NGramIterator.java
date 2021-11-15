@@ -1,6 +1,6 @@
 package com.computablefacts.nona.helpers;
 
-import com.computablefacts.nona.types.Span;
+import com.computablefacts.asterix.Span;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.AbstractIterator;
 import com.google.errorprone.annotations.CheckReturnValue;

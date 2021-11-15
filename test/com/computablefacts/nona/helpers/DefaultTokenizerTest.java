@@ -5,8 +5,8 @@ import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 
-import com.computablefacts.nona.types.Span;
-import com.computablefacts.nona.types.SpanSequence;
+import com.computablefacts.asterix.Span;
+import com.computablefacts.asterix.SpanSequence;
 
 public class DefaultTokenizerTest {
 
