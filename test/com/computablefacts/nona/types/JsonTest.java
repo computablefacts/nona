@@ -7,7 +7,7 @@ import java.util.Map;
 import org.junit.Assert;
 import org.junit.Test;
 
-import com.computablefacts.nona.helpers.Codecs;
+import com.computablefacts.asterix.codecs.JsonCodec;
 import com.google.common.collect.Lists;
 
 import nl.jqno.equalsverifier.EqualsVerifier;
@@ -22,7 +22,7 @@ public class JsonTest {
   @Test
   public void testParseArray() {
 
-    Json json = Json.create(Codecs.asString(array()));
+    Json json = Json.create(JsonCodec.asString(array()));
 
     Assert.assertEquals(2, json.nbObjects());
 
@@ -44,7 +44,7 @@ public class JsonTest {
   @Test
   public void testParseObject() {
 
-    Json json = Json.create(Codecs.asString(json1()));
+    Json json = Json.create(JsonCodec.asString(json1()));
 
     Assert.assertEquals(1, json.nbObjects());
     Assert.assertEquals(json1(), json.object(0));
@@ -58,7 +58,7 @@ public class JsonTest {
   @Test
   public void testParseEmptyJson() {
 
-    Json json = Json.create(Codecs.asString(new HashMap<>()));
+    Json json = Json.create(JsonCodec.asString(new HashMap<>()));
 
     Assert.assertEquals(0, json.nbObjects());
   }
@@ -66,9 +66,9 @@ public class JsonTest {
   @Test
   public void testJsonToText() {
 
-    Json json = Json.create(Codecs.asString(json1()));
+    Json json = Json.create(JsonCodec.asString(json1()));
 
-    Assert.assertEquals(Codecs.asString(json1()), json.asString());
+    Assert.assertEquals(JsonCodec.asString(json1()), json.asString());
   }
 
   private List<Map<String, Object>> array() {

@@ -4,6 +4,7 @@ import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.computablefacts.asterix.codecs.JsonCodec;
 import com.computablefacts.nona.Generated;
 import com.google.common.base.Objects;
 import com.google.common.base.Preconditions;
@@ -67,7 +68,7 @@ final public class Document {
   @Generated
   @Override
   public String toString() {
-    return Codecs.asString(json());
+    return JsonCodec.asString(json());
   }
 
   @Override

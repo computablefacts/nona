@@ -5,8 +5,8 @@ import java.util.Map;
 
 import javax.validation.constraints.NotNull;
 
+import com.computablefacts.asterix.codecs.JsonCodec;
 import com.computablefacts.nona.Generated;
-import com.computablefacts.nona.helpers.Codecs;
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Preconditions;
 import com.google.common.base.Strings;
@@ -26,13 +26,13 @@ final public class Json implements Comparable<Json> {
 
   public static Json create(String json) {
 
-    Map<String, Object>[] array = Codecs.asArray(json);
+    Map<String, Object>[] array = JsonCodec.asArray(json);
 
     if (array != null && array.length > 0) {
       return new Json(array);
     }
 
-    Map<String, Object> object = Codecs.asObject(json);
+    Map<String, Object> object = JsonCodec.asObject(json);
 
     if (object != null && !object.isEmpty()) {
       return new Json(new Map[] {object});
@@ -95,6 +95,6 @@ final public class Json implements Comparable<Json> {
 
   public String asString() {
     return jsons_.length == 0 ? ""
-        : jsons_.length > 1 ? Codecs.asString(jsons_) : Codecs.asString(jsons_[0]);
+        : jsons_.length > 1 ? JsonCodec.asString(jsons_) : JsonCodec.asString(jsons_[0]);
   }
 }
