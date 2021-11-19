@@ -8,7 +8,7 @@ import java.util.stream.Collectors;
 
 import javax.validation.constraints.NotNull;
 
-import com.computablefacts.asterix.StringIterator;
+import com.computablefacts.asterix.codecs.StringCodec;
 import com.computablefacts.nona.Generated;
 import com.google.common.collect.Lists;
 import com.google.errorprone.annotations.CheckReturnValue;
@@ -65,85 +65,11 @@ final public class BoxedType<T> {
     return create(value, true);
   }
 
-  /**
-   * Coerce a given value.
-   *
-   * @param value the value to box/coerce.
-   * @param interpretStringInScientificNotation true iif "79E2863560" should be interpreted as
-   *        7.9E+2863561 and false otherwise.
-   * @return a boxed/coerced value.
-   */
   public static BoxedType<?> create(Object value, boolean interpretStringInScientificNotation) {
-    if (value == null) {
-      return NULL;
-    }
-    if (value instanceof Boolean) {
-      return ((Boolean) value) ? TRUE : FALSE;
-    }
-    if (value instanceof BigInteger || value instanceof BigDecimal) {
-      return new BoxedType<>(value);
-    }
-    if (value instanceof Integer) {
-      return new BoxedType<>(BigInteger.valueOf((Integer) value));
-    }
-    if (value instanceof Long) {
-      return new BoxedType<>(BigInteger.valueOf((Long) value));
-    }
-    if (value instanceof Float) {
-      return new BoxedType<>(BigDecimal.valueOf((Float) value));
-    }
-    if (value instanceof Double) {
-      return new BoxedType<>(BigDecimal.valueOf((Double) value));
-    }
-    if (value instanceof String) {
-
-      // Attempt type coercion
-      String text = (String) value;
-
-      if ("true".equalsIgnoreCase(text)) {
-        return TRUE;
-      }
-      if ("false".equalsIgnoreCase(text)) {
-        return FALSE;
-      }
-
-      if (interpretStringInScientificNotation || (!text.contains("E") && !text.contains("e"))) {
-        try {
-
-          BoxedType<?> bt = new BoxedType<>(new BigInteger(text));
-
-          // Here, text is an integer (otherwise a NumberFormatException has been thrown)
-          StringIterator iterator = new StringIterator(text);
-          iterator.movePast(new char[] {'0'});
-
-          // The condition below ensures "0" is interpreted as a number but "00" as a string
-          if (iterator.position() > 1 || (iterator.position() > 0 && iterator.remaining() > 0)) {
-
-            // text matching [0]+[0-9]+ should be interpreted as string
-            return new BoxedType<>(text);
-          }
-          return bt;
-        } catch (NumberFormatException ex) {
-          // FALL THROUGH
-        }
-
-        try {
-
-          BoxedType<?> bt = new BoxedType<>(new BigDecimal(text));
-          String textTrimmed = text.trim();
-
-          // text matching \d+[.] should be interpreted as string
-          // text matching [.]\d+ should be interpreted as string
-          if (!textTrimmed.endsWith(".") && !textTrimmed.startsWith(".")) {
-            return bt;
-          }
-        } catch (NumberFormatException ex) {
-          // FALL THROUGH
-        }
-      }
-      return new BoxedType<>(text);
-    }
-    return new BoxedType<>(value);
+    return value == null ? NULL
+        : value instanceof Boolean ? (Boolean) value ? TRUE : FALSE
+            : new BoxedType<>(
+                StringCodec.defaultCoercer(value, interpretStringInScientificNotation));
   }
 
   @Override

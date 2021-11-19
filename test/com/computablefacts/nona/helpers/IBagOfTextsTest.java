@@ -7,7 +7,7 @@ import java.util.function.Function;
 import org.junit.Assert;
 import org.junit.Test;
 
-import com.computablefacts.asterix.StringIterator;
+import com.computablefacts.asterix.codecs.StringCodec;
 import com.google.common.base.CharMatcher;
 import com.google.common.base.Splitter;
 import com.google.common.collect.HashMultiset;
@@ -350,6 +350,6 @@ public class IBagOfTextsTest {
   private Function<String, List<String>> wordSplitter() {
     return text -> Splitter.on(CharMatcher.whitespace().or(CharMatcher.breakingWhitespace()))
         .trimResults().omitEmptyStrings().splitToList(
-            StringIterator.removeDiacriticalMarks(text).replaceAll("\\p{P}", " ").toLowerCase());
+            StringCodec.removeDiacriticalMarks(text).replaceAll("\\p{P}", " ").toLowerCase());
   }
 }
