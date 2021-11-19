@@ -1,6 +1,6 @@
 package com.computablefacts.nona.helpers;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 import java.nio.charset.StandardCharsets;
 
@@ -104,85 +104,5 @@ public class StringsTest {
     String string = "74657374";
 
     assertEquals("test", new String(Strings.unhex(string), StandardCharsets.UTF_8));
-  }
-
-  /**
-   * Mostly extracted from
-   * https://github.com/apache/commons-lang/blob/master/src/test/java/org/apache/commons/lang3/math/NumberUtilsTest.java
-   */
-  @Deprecated
-  @Test
-  public void testInvalidNumbers() {
-    assertFalse(Strings.isNumber(null));
-    assertFalse(Strings.isNumber(""));
-    assertFalse(Strings.isNumber(" "));
-    assertFalse(Strings.isNumber("\r\n\t"));
-    assertFalse(Strings.isNumber("--2.3"));
-    assertFalse(Strings.isNumber(".12.3"));
-    assertFalse(Strings.isNumber("-123E"));
-    assertFalse(Strings.isNumber("-123E+-212"));
-    assertFalse(Strings.isNumber("-123E2.12"));
-    assertFalse(Strings.isNumber("0xGF"));
-    assertFalse(Strings.isNumber("0xFAE-1"));
-    assertFalse(Strings.isNumber("."));
-    assertFalse(Strings.isNumber("-0ABC123"));
-    assertFalse(Strings.isNumber("123.4E-D"));
-    assertFalse(Strings.isNumber("123.4ED"));
-    assertFalse(Strings.isNumber("+000E.12345"));
-    assertFalse(Strings.isNumber("-000E.12345"));
-    assertFalse(Strings.isNumber("1234E5l"));
-    assertFalse(Strings.isNumber("11a"));
-    assertFalse(Strings.isNumber("1a"));
-    assertFalse(Strings.isNumber("a"));
-    assertFalse(Strings.isNumber("11g"));
-    assertFalse(Strings.isNumber("11z"));
-    assertFalse(Strings.isNumber("11def"));
-    assertFalse(Strings.isNumber("11d11"));
-    assertFalse(Strings.isNumber("11 11"));
-    assertFalse(Strings.isNumber(" 1111"));
-    assertFalse(Strings.isNumber("1111 "));
-    assertFalse(Strings.isNumber("1.1L"));
-
-    // Added
-    assertFalse(Strings.isNumber("+00.12345"));
-    assertFalse(Strings.isNumber("+0002.12345"));
-    assertFalse(Strings.isNumber("0x"));
-    assertFalse(Strings.isNumber("EE"));
-    assertFalse(Strings.isNumber("."));
-    assertFalse(Strings.isNumber("1E-"));
-    assertFalse(Strings.isNumber("123.4E."));
-    assertFalse(Strings.isNumber("123.4E15E10"));
-  }
-
-  /**
-   * Mostly extracted from
-   * https://github.com/apache/commons-lang/blob/master/src/test/java/org/apache/commons/lang3/math/NumberUtilsTest.java
-   */
-  @Deprecated
-  @Test
-  public void testValidNumbers() {
-    assertTrue(Strings.isNumber("12345"));
-    assertTrue(Strings.isNumber("1234.5"));
-    assertTrue(Strings.isNumber(".12345"));
-    assertTrue(Strings.isNumber("1234E5"));
-    assertTrue(Strings.isNumber("1234E+5"));
-    assertTrue(Strings.isNumber("1234E-5"));
-    assertTrue(Strings.isNumber("123.4E5"));
-    assertTrue(Strings.isNumber("-1234"));
-    assertTrue(Strings.isNumber("-1234.5"));
-    assertTrue(Strings.isNumber("-.12345"));
-    assertTrue(Strings.isNumber("-0001.12345"));
-    assertTrue(Strings.isNumber("-000.12345"));
-    assertTrue(Strings.isNumber("-1234E5"));
-    assertTrue(Strings.isNumber("0"));
-    assertTrue(Strings.isNumber("-0"));
-    assertTrue(Strings.isNumber("01234"));
-    assertTrue(Strings.isNumber("-01234"));
-    assertTrue(Strings.isNumber("-0xABC123"));
-    assertTrue(Strings.isNumber("-0x0"));
-    assertTrue(Strings.isNumber("123.4E21D"));
-    assertTrue(Strings.isNumber("-221.23F"));
-    assertTrue(Strings.isNumber("22338L"));
-    assertTrue(Strings.isNumber("2."));
   }
 }
