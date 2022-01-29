@@ -23,6 +23,7 @@ import com.computablefacts.nona.functions.csvoperators.ToCsv;
 import com.computablefacts.nona.functions.dateoperators.*;
 import com.computablefacts.nona.functions.jsonoperators.NbJsonObjects;
 import com.computablefacts.nona.functions.jsonoperators.ToJson;
+import com.computablefacts.nona.functions.listoperators.*;
 import com.computablefacts.nona.functions.mathematicaloperators.Ceil;
 import com.computablefacts.nona.functions.mathematicaloperators.Floor;
 import com.computablefacts.nona.functions.mathematicaloperators.Max;
@@ -102,6 +103,15 @@ public class Function {
     definitions.put("CSV_VALUE", new CsvValue());
     definitions.put("NB_CSV_ROWS", new NbCsvRows());
     definitions.put("TO_CSV", new ToCsv());
+
+    // List operators
+    definitions.put("CONCAT_LISTS", new ConcatLists());
+    definitions.put("GET", new Get());
+    definitions.put("HEAD", new Head());
+    definitions.put("IS_EMPTY_LIST", new IsEmptyList());
+    definitions.put("SIZE", new Size());
+    definitions.put("TAIL", new Tail());
+    definitions.put("TO_LIST", new ToList());
 
     // Date operators
     definitions.put("ADD_DAYS", new AddDays());
