@@ -139,7 +139,6 @@ public class Function {
 
     // Pattern operators
     definitions.put("MATCH_BASE64", new Base64());
-    definitions.put("MATCH_COMPANY_NAME", new CompanyWithElf());
     definitions.put("MATCH_CSS_PROPERTIES", new CssProperties());
     definitions.put("MATCH_DATE", new Date());
     definitions.put("MATCH_DATE_TIME", new DateTime());
