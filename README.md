@@ -78,10 +78,8 @@ Nona contains a few helpers to perform text mining/NLP related tasks :
     - [Text](#text)
     - [IBagOfWords](#ibagofwords)
     - [IBagOfNGrams](#ibagofngrams) 
-    - [IBagOfTexts](#ibagoftexts)  
-    - [ConfusionMatrix](#confusionmatrix)      
+    - [IBagOfTexts](#ibagoftexts)
 - Algorithms
-    - [DocSetLabeler](#docsetlabeler)
     - [Languages](#languages)
 
 ### Text
@@ -213,50 +211,6 @@ double idfJoe = bot.inverseDocumentFrequency("Joe"); // 1 + log(2 / (1 + 2))
 List<Text> textsJoe = bot.find(Sets.newHashSet("Joe"), 10, IBagOfTexts::bm25); // textsJoe = ["Hello Kevin! Hello Joe!", "Goodbye Bill. Goodbye Joe."]
 List<Text> textsKevinAndJoe = bot.find(Sets.newHashSet("Kevin", "Joe"), 10, IBagOfTexts::bm25); // textsKevinAndJoe = ["Hello Kevin! Hello Joe!"]
 ```
-
-### ConfusionMatrix
-
-A [ConfusionMatrix](src/com/computablefacts/nona/helpers/ConfusionMatrix.java) is 
-a tool to evaluate the accuracy of a classification. The following metrics are 
-available :
-
-- Matthews Correlation Coefficient
-- Accuracy
-- Positive Predictive Value (aka. Precision)
-- Negative Predictive Value
-- Sensitivity (aka. Recall)
-- Specificity
-- F1 Score
-- False Positive Rate
-- False Discovery Rate
-- False Negative Rate
-
-Furthermore, two functions have been added to compute the following metrics :  
-
-- Micro-Average
-- Macro-Average
-
-```java
-ConfusionMatrix matrix = new ConfusionMatrix("");
-matrix.addTruePositives(620);
-matrix.addTrueNegatives(8820);
-matrix.addFalsePositives(180);
-matrix.addFalseNegatives(380);
-
-double mcc = matrix.matthewsCorrelationCoefficient(); // 0.0001
-double accuracy = matrix.accuracy(); // 0.000001
-double sensitivity = matrix.sensitivity(); // 0.000001
-...
-```
-
-### DocSetLabeler
-
-A highly customizable implementation of the [DocSetLabeler](src/com/computablefacts/nona/helpers/DocSetLabeler.java) 
-[algorithm](https://arxiv.org/abs/1409.7591) :
-
-> An algorithm capable of generating expressive thematic labels for any subset of
-> documents in a corpus can greatly facilitate both characterization and navigation
-> of document collections.
 
 ### Languages
 
