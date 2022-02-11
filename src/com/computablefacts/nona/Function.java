@@ -147,7 +147,6 @@ public class Function {
     definitions.put("MATCH_EMAIL", new Email());
     definitions.put("MATCH_FINANCIAL_NUMBER", new FinancialNumber());
     definitions.put("MATCH_HTML_WINDOW_OBJECT_PROPERTIES", new HtmlWindowObjectProperties());
-    definitions.put("MATCH_IBAN", new Iban());
     definitions.put("MATCH_IPV4", new IpV4());
     definitions.put("MATCH_IPV6", new IpV6());
     definitions.put("MATCH_JS_OBJECTS_PROPERTIES_AND_METHODS", new JsObjectsPropertiesAndMethods());
