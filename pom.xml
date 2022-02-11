@@ -39,7 +39,7 @@
     </developers>
 
     <properties>
-        <asterix.version>0.6</asterix.version>
+        <asterix.version>0.7</asterix.version>
         <logfmt.version>0.14</logfmt.version>
         <carrot.version>2.4.5</carrot.version>
         <error-prone.version>2.3.1</error-prone.version>
