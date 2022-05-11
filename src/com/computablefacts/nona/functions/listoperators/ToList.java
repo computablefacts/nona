@@ -24,11 +24,11 @@ public class ToList extends Function {
   public BoxedType<?> evaluate(List<BoxedType<?>> parameters) {
 
     Preconditions.checkArgument(parameters.size() == 1, "TO_LIST takes exactly one parameter.");
-    Preconditions.checkArgument(
-        parameters.get(0).isString() || parameters.get(0).value() instanceof Json,
-        "%s should be a string or a JSON array/object", parameters.get(0));
 
     if (parameters.get(0).isString()) {
+
+      Preconditions.checkArgument(parameters.get(0).isString(), "%s should be a string",
+          parameters.get(0));
 
       String list = parameters.get(0).asString().trim();
 
@@ -41,6 +41,9 @@ public class ToList extends Function {
           .map(e -> e.endsWith("\"") ? e.substring(0, e.length() - 1) : e)
           .collect(Collectors.toList()));
     }
+
+    Preconditions.checkArgument(parameters.get(0).value() instanceof Json,
+        "%s should be a JSON object", parameters.get(0));
 
     List<Json> list = new ArrayList<>();
     Json json = (Json) parameters.get(0).value();
