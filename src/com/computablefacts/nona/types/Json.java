@@ -17,6 +17,17 @@ final public class Json implements Comparable<Json> {
 
   private final Map<String, Object>[] jsons_;
 
+  public Json() {
+    jsons_ = new Map[] {};
+  }
+
+  public Json(Map<String, Object> json) {
+
+    Preconditions.checkNotNull(json, "json should not be null");
+
+    jsons_ = new Map[] {json};
+  }
+
   public Json(Map<String, Object>[] jsons) {
 
     Preconditions.checkNotNull(jsons, "jsons should not be null");
@@ -35,9 +46,9 @@ final public class Json implements Comparable<Json> {
     Map<String, Object> object = JsonCodec.asObject(json);
 
     if (object != null && !object.isEmpty()) {
-      return new Json(new Map[] {object});
+      return new Json(object);
     }
-    return new Json(new Map[] {});
+    return new Json();
   }
 
   public int nbObjects() {
