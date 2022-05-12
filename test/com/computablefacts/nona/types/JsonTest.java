@@ -1,5 +1,6 @@
 package com.computablefacts.nona.types;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -22,10 +23,11 @@ public class JsonTest {
   @Test
   public void testParseArray() {
 
-    Json json = Json.create(JsonCodec.asString(array()));
+    Json json = new Json(JsonCodec.asString(array()));
 
     Assert.assertEquals(2, json.nbObjects());
 
+    Assert.assertEquals(json1(), json.object());
     Assert.assertEquals(json1(), json.object(0));
     Assert.assertEquals(1, json.value(0, "id"));
     Assert.assertEquals("john", json.value(0, "first_name"));
@@ -44,9 +46,10 @@ public class JsonTest {
   @Test
   public void testParseObject() {
 
-    Json json = Json.create(JsonCodec.asString(json1()));
+    Json json = new Json(JsonCodec.asString(json1()));
 
     Assert.assertEquals(1, json.nbObjects());
+    Assert.assertEquals(json1(), json.object());
     Assert.assertEquals(json1(), json.object(0));
     Assert.assertEquals(1, json.value(0, "id"));
     Assert.assertEquals("john", json.value(0, "first_name"));
@@ -56,17 +59,27 @@ public class JsonTest {
   }
 
   @Test
-  public void testParseEmptyJson() {
+  public void testParseEmptyObject() {
 
-    Json json = Json.create(JsonCodec.asString(new HashMap<>()));
+    Json json = new Json(JsonCodec.asString(new HashMap<>()));
 
     Assert.assertEquals(0, json.nbObjects());
+    Assert.assertEquals("{}", json.asString());
+  }
+
+  @Test
+  public void testParseEmptyArray() {
+
+    Json json = new Json(JsonCodec.asString(new ArrayList<>()));
+
+    Assert.assertEquals(0, json.nbObjects());
+    Assert.assertEquals("[]", json.asString());
   }
 
   @Test
   public void testJsonToText() {
 
-    Json json = Json.create(JsonCodec.asString(json1()));
+    Json json = new Json(JsonCodec.asString(json1()));
 
     Assert.assertEquals(JsonCodec.asString(json1()), json.asString());
   }

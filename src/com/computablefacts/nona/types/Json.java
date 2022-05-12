@@ -2,6 +2,7 @@ package com.computablefacts.nona.types;
 
 import java.util.Arrays;
 import java.util.Map;
+import java.util.Objects;
 
 import javax.validation.constraints.NotNull;
 
@@ -16,9 +17,34 @@ import com.google.errorprone.annotations.CheckReturnValue;
 final public class Json implements Comparable<Json> {
 
   private final Map<String, Object>[] jsons_;
+  private final boolean isArray_;
 
   public Json() {
     jsons_ = new Map[] {};
+    isArray_ = false;
+  }
+
+  public Json(String json) {
+
+    Preconditions.checkNotNull(json, "json should not be null");
+
+    Map<String, Object>[] array = JsonCodec.asArray(json);
+
+    if (array != null && array.length > 0) {
+      jsons_ = array;
+      isArray_ = true;
+    } else {
+
+      Map<String, Object> object = JsonCodec.asObject(json);
+
+      if (object != null && !object.isEmpty()) {
+        jsons_ = new Map[] {object};
+        isArray_ = false;
+      } else {
+        jsons_ = new Map[] {};
+        isArray_ = json.trim().indexOf("[") == 0;
+      }
+    }
   }
 
   public Json(Map<String, Object> json) {
@@ -26,6 +52,7 @@ final public class Json implements Comparable<Json> {
     Preconditions.checkNotNull(json, "json should not be null");
 
     jsons_ = new Map[] {json};
+    isArray_ = false;
   }
 
   public Json(Map<String, Object>[] jsons) {
@@ -33,26 +60,15 @@ final public class Json implements Comparable<Json> {
     Preconditions.checkNotNull(jsons, "jsons should not be null");
 
     jsons_ = jsons;
-  }
-
-  public static Json create(String json) {
-
-    Map<String, Object>[] array = JsonCodec.asArray(json);
-
-    if (array != null && array.length > 0) {
-      return new Json(array);
-    }
-
-    Map<String, Object> object = JsonCodec.asObject(json);
-
-    if (object != null && !object.isEmpty()) {
-      return new Json(object);
-    }
-    return new Json();
+    isArray_ = true;
   }
 
   public int nbObjects() {
     return jsons_.length;
+  }
+
+  public Map<String, Object> object() {
+    return object(0);
   }
 
   public Map<String, Object> object(int index) {
@@ -80,18 +96,19 @@ final public class Json implements Comparable<Json> {
       return false;
     }
     Json other = (Json) obj;
-    return Arrays.equals(jsons_, other.jsons_);
+    return Arrays.equals(jsons_, other.jsons_) && isArray_ == other.isArray_;
   }
 
   @Override
   public int hashCode() {
-    return Arrays.hashCode(jsons_);
+    return Objects.hash(Arrays.hashCode(jsons_), isArray_);
   }
 
   @Generated
   @Override
   public String toString() {
-    return MoreObjects.toStringHelper(this).add("json", jsons_).omitNullValues().toString();
+    return MoreObjects.toStringHelper(this).add("json", jsons_).add("is_array", isArray_)
+        .omitNullValues().toString();
   }
 
   /**
@@ -105,7 +122,8 @@ final public class Json implements Comparable<Json> {
   }
 
   public String asString() {
-    return jsons_.length == 0 ? ""
-        : jsons_.length > 1 ? JsonCodec.asString(jsons_) : JsonCodec.asString(jsons_[0]);
+    return jsons_.length == 0 ? isArray_ ? "[]" : "{}"
+        : jsons_.length > 1 || isArray_ ? JsonCodec.asString(jsons_)
+            : JsonCodec.asString(jsons_[0]);
   }
 }

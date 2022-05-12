@@ -22,9 +22,9 @@ public class NbJsonObjects extends Function {
 
     Preconditions.checkArgument(parameters.size() == 1,
         "NB_JSON_OBJECTS takes exactly one parameter.");
-    Preconditions.checkArgument(parameters.get(0).value() instanceof Json,
-        "%s should be a json array", parameters.get(0));
 
-    return box(((Json) parameters.get(0).value()).nbObjects());
+    return parameters.get(0).value() instanceof Json
+        ? box(((Json) parameters.get(0).value()).nbObjects())
+        : box(0);
   }
 }

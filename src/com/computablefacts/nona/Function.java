@@ -22,7 +22,6 @@ import com.computablefacts.nona.functions.csvoperators.NbCsvRows;
 import com.computablefacts.nona.functions.csvoperators.ToCsv;
 import com.computablefacts.nona.functions.dateoperators.*;
 import com.computablefacts.nona.functions.jsonoperators.NbJsonObjects;
-import com.computablefacts.nona.functions.jsonoperators.ToFlattenedJson;
 import com.computablefacts.nona.functions.jsonoperators.ToJson;
 import com.computablefacts.nona.functions.listoperators.*;
 import com.computablefacts.nona.functions.mathematicaloperators.Ceil;
@@ -36,6 +35,7 @@ import com.computablefacts.nona.functions.patternoperators.*;
 import com.computablefacts.nona.functions.patternoperators.Number;
 import com.computablefacts.nona.functions.stringoperators.*;
 import com.computablefacts.nona.types.BoxedType;
+import com.computablefacts.nona.types.Json;
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Objects;
 import com.google.common.base.Preconditions;
@@ -125,7 +125,6 @@ public class Function {
 
     // Json operators
     definitions.put("NB_JSON_OBJECTS", new NbJsonObjects());
-    definitions.put("TO_FLATTENED_JSON", new ToFlattenedJson());
     definitions.put("TO_JSON", new ToJson());
 
     // Mathematical operators
@@ -319,6 +318,20 @@ public class Function {
     return builder.toString();
   }
 
+  /**
+   * Coerce object but ensure strings in scientific notation are not coerced to
+   * BigInteger/BigDecimal i.e. "79E2863560" should not be interpreted as 7.9E+2863561
+   *
+   * @param obj object to coerce.
+   * @return boxed type.
+   */
+  public static BoxedType<?> box(Object obj) {
+    if (obj instanceof Json) {
+      return ((Json) obj).nbObjects() == 0 ? BoxedType.empty() : BoxedType.create(obj, false);
+    }
+    return BoxedType.create(obj, false);
+  }
+
   @Generated
   public String name() {
     return head_.name();
@@ -438,17 +451,6 @@ public class Function {
    */
   protected boolean isCacheable() {
     return true;
-  }
-
-  /**
-   * Coerce object but ensure strings in scientific notation are not coerced to
-   * BigInteger/BigDecimal i.e. "79E2863560" should not be interpreted as 7.9E+2863561
-   *
-   * @param obj object to coerce.
-   * @return boxed type.
-   */
-  protected BoxedType<?> box(Object obj) {
-    return BoxedType.create(obj, false);
   }
 
   private void parseFunction(String expression) {
