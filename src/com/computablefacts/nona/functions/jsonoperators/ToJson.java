@@ -19,7 +19,7 @@ public class ToJson extends Function {
 
   public ToJson() {
     super(eCategory.JSON_OPERATORS, "TO_JSON",
-        "TO_JSON(x, m) returns the JSON object or array associated to string x using optional flatten mode x in {keep_primitive_arrays, keep_arrays}.");
+        "TO_JSON(x, m) returns the JSON object or array associated to string x using optional flatten mode x in {flatten, keep_primitive_arrays, keep_arrays}.");
   }
 
   @Override
@@ -30,8 +30,11 @@ public class ToJson extends Function {
 
     String json = parameters.get(0).asString();
 
+    if (Strings.isNullOrEmpty(json)) {
+      return BoxedType.empty();
+    }
     if (parameters.size() == 1) {
-      return Strings.isNullOrEmpty(json) ? BoxedType.empty() : box(new Json(json));
+      return box(new Json(json));
     }
 
     Preconditions.checkArgument(parameters.size() == 2, "TO_JSON takes exactly two parameters.");
@@ -74,6 +77,20 @@ public class ToJson extends Function {
       }
       return box(new Json(map));
     }
-    return Strings.isNullOrEmpty(json) ? BoxedType.empty() : box(new Json(json));
+
+    Map<String, Object> map = (new JsonFlattener(json)).withSeparator('.').flattenAsMap();
+
+    if (map == null || map.isEmpty()) {
+      return BoxedType.empty();
+    }
+
+    // The empty array is flattened to "{\"root\":[]}"
+    if (map.size() == 1 && map.containsKey("root")) {
+      if (map.get("root") == null) {
+        return BoxedType.empty();
+      }
+      return box(new Json(JsonCodec.asString(map.get("root"))));
+    }
+    return box(new Json(map));
   }
 }

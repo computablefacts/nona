@@ -37,7 +37,7 @@ public class GetTest {
 
     String json = "[{\"id\": 1} , {\"id\": 2}, {\"id\": 3}]";
 
-    Function fn = new Function("GET(TO_JSON(" + Function.wrap(json) + "), [1].id)");
+    Function fn = new Function("GET(TO_JSON(" + Function.wrap(json) + ", flatten), [1].id)");
 
     Assert.assertEquals(BoxedType.create(2), fn.evaluate(Function.definitions()));
   }
@@ -47,7 +47,7 @@ public class GetTest {
 
     String json = "{\"ids\":[{\"id\": 1} , {\"id\": 2}, {\"id\": 3}]}";
 
-    Function fn = new Function("GET(TO_JSON(" + Function.wrap(json) + "), ids[2].id)");
+    Function fn = new Function("GET(TO_JSON(" + Function.wrap(json) + ", flatten), ids[2].id)");
 
     Assert.assertEquals(BoxedType.create(3), fn.evaluate(Function.definitions()));
   }

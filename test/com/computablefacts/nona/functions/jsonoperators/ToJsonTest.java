@@ -123,7 +123,9 @@ public class ToJsonTest {
         "[{\"col_1\": 11, \"col_2\": 12, \"col_3\": 13} , {\"col_1\": 21, \"col_2\": 22, \"col_3\": 23}]";
     Function fn = new Function("TO_JSON(" + Function.wrap(json) + ", invalid_mode)");
 
-    Assert.assertEquals(box(new Json(json)), fn.evaluate(Function.definitions()));
+    Assert.assertEquals(box(new Json(JsonCodec.asObject(
+        "{\"[0].col_1\":11,\"[0].col_2\":12,\"[0].col_3\":13,\"[1].col_1\":21,\"[1].col_2\":22,\"[1].col_3\":23}"))),
+        fn.evaluate(Function.definitions()));
   }
 
   @Test

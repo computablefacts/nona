@@ -4,7 +4,6 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
-import com.computablefacts.asterix.codecs.JsonCodec;
 import com.computablefacts.nona.Function;
 import com.computablefacts.nona.eCategory;
 import com.computablefacts.nona.types.BoxedType;
@@ -50,7 +49,7 @@ public class Get extends Function {
 
     Json json = (Json) parameters.get(0).value();
     String path = parameters.get(1).asString();
-    Map<String, Object> map = JsonCodec.flatten(json.asString(), '.');
-    return map.get(path) == null ? BoxedType.empty() : box(map.get(path));
+    Map<String, Object> map = json.object();
+    return map == null || map.get(path) == null ? BoxedType.empty() : box(map.get(path));
   }
 }
