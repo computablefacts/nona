@@ -22,6 +22,7 @@ import com.computablefacts.nona.functions.csvoperators.NbCsvRows;
 import com.computablefacts.nona.functions.csvoperators.ToCsv;
 import com.computablefacts.nona.functions.dateoperators.*;
 import com.computablefacts.nona.functions.jsonoperators.NbJsonObjects;
+import com.computablefacts.nona.functions.jsonoperators.ToFlattenedJson;
 import com.computablefacts.nona.functions.jsonoperators.ToJson;
 import com.computablefacts.nona.functions.listoperators.*;
 import com.computablefacts.nona.functions.mathematicaloperators.Ceil;
@@ -124,6 +125,7 @@ public class Function {
 
     // Json operators
     definitions.put("NB_JSON_OBJECTS", new NbJsonObjects());
+    definitions.put("TO_FLATTENED_JSON", new ToFlattenedJson());
     definitions.put("TO_JSON", new ToJson());
 
     // Mathematical operators
