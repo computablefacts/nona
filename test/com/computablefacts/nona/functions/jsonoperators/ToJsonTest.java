@@ -10,11 +10,20 @@ import com.computablefacts.nona.types.Json;
 public class ToJsonTest {
 
   @Test
+  public void testEmptyStringToJson() {
+
+    String json = "";
+    Function fn = new Function("TO_JSON(" + Function.wrap(json) + ")");
+
+    Assert.assertEquals(BoxedType.empty(), fn.evaluate(Function.definitions()));
+  }
+
+  @Test
   public void testEmptyArrayToJson() {
 
     String json = "[]";
-
     Function fn = new Function("TO_JSON(" + Function.wrap(json) + ")");
+
     Assert.assertEquals(BoxedType.create(Json.create(json)), fn.evaluate(Function.definitions()));
   }
 
@@ -23,8 +32,8 @@ public class ToJsonTest {
 
     String json =
         "[{\"col_1\": 11, \"col_2\": 12, \"col_3\": 13} , {\"col_1\": 21, \"col_2\": 22, \"col_3\": 23}]";
-
     Function fn = new Function("TO_JSON(" + Function.wrap(json) + ")");
+
     Assert.assertEquals(BoxedType.create(Json.create(json)), fn.evaluate(Function.definitions()));
   }
 
@@ -32,8 +41,8 @@ public class ToJsonTest {
   public void testEmptyObjectToJson() {
 
     String json = "{}";
-
     Function fn = new Function("TO_JSON(" + Function.wrap(json) + ")");
+
     Assert.assertEquals(BoxedType.create(Json.create(json)), fn.evaluate(Function.definitions()));
   }
 
@@ -41,8 +50,8 @@ public class ToJsonTest {
   public void testObjectToJson() {
 
     String json = "{\"col_1\": 11, \"col_2\": 12, \"col_3\": 13}";
-
     Function fn = new Function("TO_JSON(" + Function.wrap(json) + ")");
+
     Assert.assertEquals(BoxedType.create(Json.create(json)), fn.evaluate(Function.definitions()));
   }
 
