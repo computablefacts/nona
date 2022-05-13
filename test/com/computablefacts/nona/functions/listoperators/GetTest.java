@@ -88,4 +88,25 @@ public class GetTest {
 
     Assert.assertEquals(BoxedType.empty(), fn.evaluate(Function.definitions()));
   }
+
+  @Test
+  public void testGetObjectInArrayOfObjects() {
+
+    String json = "{\"ids\":[{\"id\": 1} , {\"id\": 2}, {\"id\": 3}]}";
+
+    Function fn = new Function("GET(GET(TO_JSON(" + Function.wrap(json) + "), ids), 1)");
+
+    Assert.assertEquals(BoxedType.create(JsonCodec.asObject("{\"id\":2}")),
+        fn.evaluate(Function.definitions()));
+  }
+
+  @Test
+  public void testGetKeyValueOfObjectInArrayOfObjects() {
+
+    String json = "{\"ids\":[{\"id\": 1} , {\"id\": 2}, {\"id\": 3}]}";
+
+    Function fn = new Function("GET(GET(GET(TO_JSON(" + Function.wrap(json) + "), ids), 1), id)");
+
+    Assert.assertEquals(BoxedType.create(2), fn.evaluate(Function.definitions()));
+  }
 }
