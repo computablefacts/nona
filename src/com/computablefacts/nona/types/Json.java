@@ -6,8 +6,8 @@ import java.util.Objects;
 
 import javax.validation.constraints.NotNull;
 
+import com.computablefacts.asterix.Generated;
 import com.computablefacts.asterix.codecs.JsonCodec;
-import com.computablefacts.nona.Generated;
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Preconditions;
 import com.google.common.base.Strings;
@@ -119,6 +119,11 @@ final public class Json implements Comparable<Json> {
   @Override
   public int compareTo(@NotNull Json json) {
     return 0;
+  }
+
+  @Generated
+  public boolean isArray() {
+    return isArray_;
   }
 
   public String asString() {

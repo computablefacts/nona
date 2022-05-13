@@ -34,7 +34,8 @@ public class ToJson extends Function {
       return BoxedType.empty();
     }
     if (parameters.size() == 1) {
-      return box(new Json(json));
+      Json newJson = new Json(json);
+      return newJson.nbObjects() == 0 && !newJson.isArray() ? BoxedType.empty() : box(newJson);
     }
 
     Preconditions.checkArgument(parameters.size() == 2, "TO_JSON takes exactly two parameters.");

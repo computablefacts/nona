@@ -8,6 +8,7 @@ import java.util.Map;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 
+import com.computablefacts.asterix.Generated;
 import com.computablefacts.asterix.codecs.Base64Codec;
 import com.computablefacts.nona.functions.additiveoperators.Add;
 import com.computablefacts.nona.functions.additiveoperators.Substract;
@@ -35,7 +36,6 @@ import com.computablefacts.nona.functions.patternoperators.*;
 import com.computablefacts.nona.functions.patternoperators.Number;
 import com.computablefacts.nona.functions.stringoperators.*;
 import com.computablefacts.nona.types.BoxedType;
-import com.computablefacts.nona.types.Json;
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Objects;
 import com.google.common.base.Preconditions;
@@ -227,9 +227,6 @@ public class Function {
    * @return boxed type.
    */
   public static BoxedType<?> box(Object obj) {
-    if (obj instanceof Json) {
-      return ((Json) obj).nbObjects() == 0 ? BoxedType.empty() : BoxedType.create(obj, false);
-    }
     return BoxedType.create(obj, false);
   }
 

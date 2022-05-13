@@ -8,7 +8,7 @@ import java.util.Objects;
 
 import javax.validation.constraints.NotNull;
 
-import com.computablefacts.nona.Generated;
+import com.computablefacts.asterix.Generated;
 import com.fasterxml.jackson.databind.MappingIterator;
 import com.fasterxml.jackson.dataformat.csv.CsvMapper;
 import com.fasterxml.jackson.dataformat.csv.CsvSchema;

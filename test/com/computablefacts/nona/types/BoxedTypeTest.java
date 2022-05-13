@@ -2,10 +2,13 @@ package com.computablefacts.nona.types;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.junit.Assert;
 import org.junit.Test;
 
+import com.computablefacts.asterix.codecs.JsonCodec;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 
@@ -435,6 +438,22 @@ public class BoxedTypeTest {
   }
 
   @Test
+  public void testBoxMap() {
+
+    BoxedType<?> bt1 = BoxedType.create(JsonCodec.asObject("{\"id\":1}"));
+    BoxedType<?> bt2 = BoxedType.create(JsonCodec.asObject("{\"id\":1,\"id\":2}"));
+    BoxedType<?> bt3 = BoxedType.create(JsonCodec.asObject("{\"id\":1,\"id\":2,\"id\":3}"));
+
+    Assert.assertTrue(bt1.isMap());
+
+    Assert.assertNotEquals(bt1.hashCode(), bt2.hashCode());
+    Assert.assertNotEquals(bt1.hashCode(), bt3.hashCode());
+
+    Assert.assertFalse(bt1.equals(bt2));
+    Assert.assertFalse(bt1.equals(bt3));
+  }
+
+  @Test
   public void testBoxStringOnlyMadeOfZeroes() {
 
     BoxedType<?> bt1 = BoxedType.create(0);
@@ -473,5 +492,30 @@ public class BoxedTypeTest {
         BoxedType.create(1.0f).asCollection());
     Assert.assertEquals(Lists.newArrayList(BigDecimal.valueOf(1.0d)),
         BoxedType.create(1.0d).asCollection());
+  }
+
+  @Test
+  public void testAsMap() {
+
+    Map<Object, Object> map = new HashMap<>();
+    map.put("root", "string");
+
+    Assert.assertEquals(map, BoxedType.create("string").asMap());
+
+    map.put("root", BigInteger.valueOf(1));
+
+    Assert.assertEquals(map, BoxedType.create(1).asMap());
+
+    map.put("root", BigInteger.valueOf(1L));
+
+    Assert.assertEquals(map, BoxedType.create(1L).asMap());
+
+    map.put("root", BigDecimal.valueOf(1.0f));
+
+    Assert.assertEquals(map, BoxedType.create(1.0f).asMap());
+
+    map.put("root", BigDecimal.valueOf(1.0d));
+
+    Assert.assertEquals(map, BoxedType.create(1.0d).asMap());
   }
 }

@@ -134,7 +134,7 @@ public class ToJsonTest {
     String json = "{}";
     Function fn = new Function("TO_JSON(" + Function.wrap(json) + ")");
 
-    Assert.assertEquals(box(new Json(json)), fn.evaluate(Function.definitions()));
+    Assert.assertEquals(BoxedType.empty(), fn.evaluate(Function.definitions()));
   }
 
   @Test
@@ -143,7 +143,7 @@ public class ToJsonTest {
     String json = "{}";
     Function fn = new Function("TO_JSON(" + Function.wrap(json) + ", keep_arrays)");
 
-    Assert.assertEquals(box(new Json(json)), fn.evaluate(Function.definitions()));
+    Assert.assertEquals(BoxedType.empty(), fn.evaluate(Function.definitions()));
   }
 
   @Test
@@ -152,7 +152,7 @@ public class ToJsonTest {
     String json = "{}";
     Function fn = new Function("TO_JSON(" + Function.wrap(json) + ", keep_primitive_arrays)");
 
-    Assert.assertEquals(box(new Json(json)), fn.evaluate(Function.definitions()));
+    Assert.assertEquals(BoxedType.empty(), fn.evaluate(Function.definitions()));
   }
 
   @Test
@@ -161,7 +161,7 @@ public class ToJsonTest {
     String json = "{}";
     Function fn = new Function("TO_JSON(" + Function.wrap(json) + ", invalid_mode)");
 
-    Assert.assertEquals(box(new Json(json)), fn.evaluate(Function.definitions()));
+    Assert.assertEquals(BoxedType.empty(), fn.evaluate(Function.definitions()));
   }
 
   @Test

@@ -5,7 +5,7 @@ import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.computablefacts.nona.Generated;
+import com.computablefacts.asterix.Generated;
 import com.computablefacts.nona.dictionaries.deserializers.WhiteSpaceRemovalDeserializer;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.MappingIterator;

@@ -8,8 +8,9 @@ import java.util.stream.Collectors;
 
 import javax.validation.constraints.NotNull;
 
+import com.computablefacts.asterix.Generated;
+import com.computablefacts.asterix.codecs.JsonCodec;
 import com.computablefacts.asterix.codecs.StringCodec;
-import com.computablefacts.nona.Generated;
 import com.google.common.collect.Lists;
 import com.google.errorprone.annotations.CheckReturnValue;
 
@@ -19,7 +20,7 @@ final public class BoxedType<T> {
   private static final BoxedType<?> NULL = new BoxedType<>(null);
   private static final BoxedType<?> TRUE = new BoxedType<>(true);
   private static final BoxedType<?> FALSE = new BoxedType<>(false);
-  private final T value_; // T in {Boolean, BigInteger, BigDecimal, String}
+  private final T value_; // T in {Boolean, BigInteger, BigDecimal, String, Collection, Map}
 
   private BoxedType(T value) {
     value_ = value;
@@ -148,6 +149,10 @@ final public class BoxedType<T> {
     return value_ instanceof Collection;
   }
 
+  public boolean isMap() {
+    return value_ instanceof Map;
+  }
+
   public boolean isDate() {
     return value_ instanceof Date;
   }
@@ -190,7 +195,8 @@ final public class BoxedType<T> {
                 : isBigInteger() ? asBigInteger().toString(10)
                     : isBigDecimal() ? asBigDecimal().stripTrailingZeros().toString()
                         : isDate() ? DateTimeFormatter.ISO_INSTANT.format(asDate().toInstant())
-                            : value_.toString();
+                            : isCollection() ? JsonCodec.asString(asCollection())
+                                : isMap() ? JsonCodec.asString(asMap()) : value_.toString();
     if (str == null) {
       return null;
     }
@@ -202,6 +208,15 @@ final public class BoxedType<T> {
 
   public Collection<?> asCollection() {
     return isCollection() ? (Collection<?>) value_ : Lists.newArrayList(value_);
+  }
+
+  public Map<?, ?> asMap() {
+    if (isMap()) {
+      return (Map<?, ?>) value_;
+    }
+    Map<String, T> map = new HashMap<>();
+    map.put("root", value_);
+    return map;
   }
 
   public Date asDate() {

@@ -2,13 +2,9 @@ package com.computablefacts.nona.dictionaries;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
-import com.computablefacts.nona.Generated;
+import com.computablefacts.asterix.Generated;
 import com.computablefacts.nona.dictionaries.deserializers.WhiteSpaceRemovalDeserializer;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.MappingIterator;
