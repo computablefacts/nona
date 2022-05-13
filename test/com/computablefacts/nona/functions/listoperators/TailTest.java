@@ -6,7 +6,6 @@ import org.junit.Test;
 import com.computablefacts.nona.Function;
 import com.computablefacts.nona.types.BoxedType;
 import com.google.common.collect.Lists;
-import com.google.errorprone.annotations.Var;
 
 public class TailTest {
 
@@ -18,8 +17,10 @@ public class TailTest {
 
   @Test
   public void testTail() {
-    @Var
-    Function fn = new Function("TAIL(TO_LIST(_([1, 2, 3])))");
+
+    String array = Function.wrap("[1, 2, 3]");
+    Function fn = new Function(String.format("TAIL(TO_LIST(%s))", array));
+
     Assert.assertEquals(BoxedType.create(Lists.newArrayList("2", "3")),
         fn.evaluate(Function.definitions()));
   }

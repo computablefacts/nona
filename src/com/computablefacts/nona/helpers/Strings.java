@@ -9,18 +9,6 @@ final public class Strings {
 
   private Strings() {}
 
-  @Deprecated
-  public static String encode(String text) {
-    return com.computablefacts.nona.Function.encode(text).replace("\n", "\\u000d").replace("\r",
-        "\\u000a");
-  }
-
-  @Deprecated
-  public static String decode(String text) {
-    return com.computablefacts.nona.Function
-        .decode(text.replace("\\u000d", "\n").replace("\\u000a", "\r"));
-  }
-
   /**
    * Anagram hashing function.
    *

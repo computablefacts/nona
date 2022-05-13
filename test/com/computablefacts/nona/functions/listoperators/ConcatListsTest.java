@@ -19,21 +19,33 @@ public class ConcatListsTest {
 
   @Test
   public void testConcatFirstIsAnEmptyList() {
-    Function fn = new Function("CONCAT_LISTS(TO_LIST([]), TO_LIST(_([1, 2, 3])))");
+
+    String function = String.format("CONCAT_LISTS(TO_LIST(%s), TO_LIST(%s))", Function.wrap("[]"),
+        Function.wrap("[1, 2, 3]"));
+    Function fn = new Function(function);
+
     Assert.assertEquals(BoxedType.create(Lists.newArrayList("1", "2", "3")),
         fn.evaluate(Function.definitions()));
   }
 
   @Test
   public void testConcatSecondIsAnEmptyList() {
-    Function fn = new Function("CONCAT_LISTS(TO_LIST(_([1, 2, 3])), TO_LIST([]))");
+
+    String function = String.format("CONCAT_LISTS(TO_LIST(%s), TO_LIST(%s))",
+        Function.wrap("[1, 2, 3]"), Function.wrap("[]"));
+    Function fn = new Function(function);
+
     Assert.assertEquals(BoxedType.create(Lists.newArrayList("1", "2", "3")),
         fn.evaluate(Function.definitions()));
   }
 
   @Test
   public void testConcatLists() {
-    Function fn = new Function("CONCAT_LISTS(TO_LIST(_([1, 2, 3])), TO_LIST(_([a, b, c])))");
+
+    String function = String.format("CONCAT_LISTS(TO_LIST(%s), TO_LIST(%s))",
+        Function.wrap("[1, 2, 3]"), Function.wrap("[a, b, c]"));
+    Function fn = new Function(function);
+
     Assert.assertEquals(BoxedType.create(Lists.newArrayList("1", "2", "3", "a", "b", "c")),
         fn.evaluate(Function.definitions()));
   }

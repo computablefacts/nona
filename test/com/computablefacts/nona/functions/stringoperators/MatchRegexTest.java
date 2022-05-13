@@ -21,7 +21,11 @@ public class MatchRegexTest {
     SpanSequence sequence = new SpanSequence();
     sequence.add(span);
 
-    Function fn = new Function("MATCH_REGEX(" + text + ", _((?is:([1-9][0-9]?)\\s+days\\s+ago)))");
+    String textWrapped = Function.wrap(text);
+    String regexWrapped = Function.wrap("(?is:([1-9][0-9]?)\\s+days\\s+ago)");
+    String function = String.format("MATCH_REGEX(%s, %s)", textWrapped, regexWrapped);
+
+    Function fn = new Function(function);
     Assert.assertEquals(BoxedType.create(sequence), fn.evaluate(Function.definitions()));
   }
 
@@ -37,8 +41,12 @@ public class MatchRegexTest {
     SpanSequence sequence = new SpanSequence();
     sequence.add(span);
 
-    Function fn = new Function("MATCH_REGEX(_(" + text
-        + "), _((?is:([0-9]{1,2})\\s+(JAN|FEB|MAR|APR|MAY|JUN|JUL|AUG|SEP|OCT|NOV|DEC)\\s+([0-9]{2}))))");
+    String textWrapped = Function.wrap(text);
+    String regexWrapped = Function.wrap(
+        "(?is:([0-9]{1,2})\\s+(JAN|FEB|MAR|APR|MAY|JUN|JUL|AUG|SEP|OCT|NOV|DEC)\\s+([0-9]{2}))");
+    String function = String.format("MATCH_REGEX(%s, %s)", textWrapped, regexWrapped);
+
+    Function fn = new Function(function);
     Assert.assertEquals(BoxedType.create(sequence), fn.evaluate(Function.definitions()));
   }
 }

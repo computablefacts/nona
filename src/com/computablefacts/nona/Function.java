@@ -8,7 +8,7 @@ import java.util.Map;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 
-import com.computablefacts.asterix.StringIterator;
+import com.computablefacts.asterix.codecs.Base64Codec;
 import com.computablefacts.nona.functions.additiveoperators.Add;
 import com.computablefacts.nona.functions.additiveoperators.Substract;
 import com.computablefacts.nona.functions.assignmentoperators.Is;
@@ -51,9 +51,12 @@ import com.google.errorprone.annotations.Var;
 @CheckReturnValue
 public class Function {
 
+  private static final java.util.Base64.Decoder b64Decoder_ = java.util.Base64.getDecoder();
+  private static final java.util.Base64.Encoder b64Encoder_ = java.util.Base64.getEncoder();
   private static final Cache<String, BoxedType<?>> cache_ = CacheBuilder.newBuilder().recordStats()
       .maximumSize(1000).expireAfterWrite(1, TimeUnit.HOURS).build();
   private static final HashFunction MURMUR3_128 = Hashing.murmur3_128();
+
   private Atom head_;
   private Atom body_;
 
@@ -163,6 +166,8 @@ public class Function {
         new WordWithoutApostrophesOrDashes());
 
     // String operators
+    definitions.put("BASE64_DECODE", new Base64Decode());
+    definitions.put("BASE64_ENCODE", new Base64Encode());
     definitions.put("CONCAT", new Concat());
     definitions.put("CONTAIN", new Contain());
     definitions.put("END_WITH", new EndWith());
@@ -189,133 +194,29 @@ public class Function {
   }
 
   /**
-   * Wrap a text inside the special function _(&lt;text&gt;). This function ensures that whatever
-   * characters the text contain, it will be interpreted as a {@link String}. Useful to escape
-   * {@link String} with parentheses and quotation marks.
+   * Wrap a text inside the special function _(&lt;base64(text)&gt;). This function ensures that
+   * whatever characters the text contain, it will be interpreted as a {@link String}. Useful to
+   * escape {@link String} with parentheses and quotation marks.
    * 
    * @param text Text to wrap.
    * @return Wrapped text.
    */
   public static String wrap(String text) {
-    return "_(" + encode(text) + ")";
+    return "_(" + Base64Codec.encodeB64(b64Encoder_, text) + ")";
   }
 
   /**
-   * Replace left and right parentheses by their unicode equivalent \u0028 and \u0029. Replace
-   * quotation marks with their unicode equivalent \u0022. Replace comma by its unicode equivalent
-   * \u002c. Replace carriage return by its unicode equivalent \u000d. Replace line feed by its
-   * unicode equivalent \u000a. Replace equal return by its unicode equivalent \u003d. Replace colon
-   * by its unicode equivalent \u003a.
+   * Unwrap a text previously wrapped using the {@link #wrap(String)} function.
    *
-   * @param text Text to encode.
-   * @return Encoded text.
+   * @param text Text to unwrap.
+   * @return Unwrapped text.
    */
-  public static String encode(String text) {
-
-    Preconditions.checkNotNull(text, "text should not be null");
-
-    StringBuilder builder = new StringBuilder(text.length());
-
-    for (int i = 0; i < text.length(); i++) {
-      char c = text.charAt(i);
-      switch (c) {
-        case '(':
-          builder.append("\\u0028");
-          break;
-        case ')':
-          builder.append("\\u0029");
-          break;
-        case '"':
-          builder.append("\\u0022");
-          break;
-        case ',':
-          builder.append("\\u002c");
-          break;
-        case ':':
-          builder.append("\\u003a");
-          break;
-        case '=':
-          builder.append("\\u003d");
-          break;
-        case '\n':
-          builder.append("\\u000d");
-          break;
-        case '\r':
-          builder.append("\\u000a");
-          break;
-        default:
-          builder.append(c);
-          break;
-      }
+  public static String unwrap(String text) {
+    if (text.startsWith("_(") && text.endsWith(")")) {
+      return Base64Codec.decodeB64(b64Decoder_,
+          text.substring(text.indexOf('(') + 1, text.lastIndexOf(')')));
     }
-    return builder.toString();
-  }
-
-  /**
-   * Replace unicode values \u0028 and \u0029 by the left and right parentheses characters. Replace
-   * unicode values \u0022 by quotation marks. Replace unicode value \u002c by the comma character.
-   * Replace unicode value \u000d by the carriage return character. Replace unicode value \u000a by
-   * the line feed character. Replace unicode value \u003d by the equal character. Replace unicode
-   * value \u003a by the colon character.
-   *
-   * @param text Text to decode.
-   * @return Decoded text.
-   */
-  public static String decode(String text) {
-
-    Preconditions.checkNotNull(text, "text should not be null");
-
-    StringBuilder builder = new StringBuilder(text.length());
-    StringIterator iterator = new StringIterator(text);
-
-    while (iterator.hasNext()) {
-      char c0 = iterator.next();
-      if (c0 != '\\' || !iterator.hasNext()) {
-        builder.append(c0);
-      } else {
-        char c1 = iterator.next();
-        if (c1 != 'u' || !iterator.hasNext()) {
-          builder.append(c0).append(c1);
-        } else {
-          char c2 = iterator.next();
-          if (c2 != '0' || !iterator.hasNext()) {
-            builder.append(c0).append(c1).append(c2);
-          } else {
-            char c3 = iterator.next();
-            if (c3 != '0' || !iterator.hasNext()) {
-              builder.append(c0).append(c1).append(c2).append(c3);
-            } else {
-              char c4 = iterator.next();
-              if ((c4 != '0' && c4 != '2' && c4 != '3') || !iterator.hasNext()) {
-                builder.append(c0).append(c1).append(c2).append(c3).append(c4);
-              } else {
-                char c5 = iterator.next();
-                if (c4 == '0' && c5 == 'a') {
-                  builder.append('\r');
-                } else if (c4 == '0' && c5 == 'd') {
-                  builder.append('\n');
-                } else if (c4 == '2' && c5 == '2') {
-                  builder.append('"');
-                } else if (c4 == '2' && c5 == '8') {
-                  builder.append('(');
-                } else if (c4 == '2' && c5 == '9') {
-                  builder.append(')');
-                } else if (c4 == '2' && c5 == 'c') {
-                  builder.append(',');
-                } else if (c4 == '3' && c5 == 'a') {
-                  builder.append(':');
-                } else if (c4 == '3' && c5 == 'd') {
-                  builder.append('=');
-                } else {
-                  builder.append(c0).append(c1).append(c2).append(c3).append(c4).append(c5);
-                }
-              }
-            }
-          }
-        }
-      }
-    }
-    return builder.toString();
+    return Base64Codec.decodeB64(b64Decoder_, text);
   }
 
   /**
@@ -482,7 +383,7 @@ public class Function {
     String name = expression.substring(0, indexArgsBegin).trim().toUpperCase();
 
     if ("_".equals(name)) {
-      return new Atom(decode(expression.substring(indexArgsBegin + 1, indexArgsEnd)));
+      return new Atom(unwrap(expression.substring(indexArgsBegin + 1, indexArgsEnd)));
     }
 
     List<Function> parameters = new ArrayList<>();

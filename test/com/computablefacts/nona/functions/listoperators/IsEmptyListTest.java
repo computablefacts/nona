@@ -5,7 +5,6 @@ import org.junit.Test;
 
 import com.computablefacts.nona.Function;
 import com.computablefacts.nona.types.BoxedType;
-import com.google.errorprone.annotations.Var;
 
 public class IsEmptyListTest {
 
@@ -17,8 +16,10 @@ public class IsEmptyListTest {
 
   @Test
   public void testIsEmpty() {
-    @Var
-    Function fn = new Function("IS_EMPTY_LIST(TO_LIST(_([1, 2, 3])))");
+
+    String array = Function.wrap("[1, 2, 3]");
+    Function fn = new Function(String.format("IS_EMPTY_LIST(TO_LIST(%s))", array));
+
     Assert.assertEquals(BoxedType.create(false), fn.evaluate(Function.definitions()));
   }
 }

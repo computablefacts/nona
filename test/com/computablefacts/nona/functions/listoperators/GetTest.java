@@ -21,14 +21,16 @@ public class GetTest {
   @Test
   public void testGetArrayElement() {
 
+    String array = Function.wrap("[1, 2, 3]");
+
     @Var
-    Function fn = new Function("GET(TO_LIST(_([1, 2, 3])), 0)");
+    Function fn = new Function(String.format("GET(TO_LIST(%s), 0)", array));
     Assert.assertEquals(BoxedType.create("1"), fn.evaluate(Function.definitions()));
 
-    fn = new Function("GET(TO_LIST(_([1, 2, 3])), 1)");
+    fn = new Function(String.format("GET(TO_LIST(%s), 1)", array));
     Assert.assertEquals(BoxedType.create("2"), fn.evaluate(Function.definitions()));
 
-    fn = new Function("GET(TO_LIST(_([1, 2, 3])), 2)");
+    fn = new Function(String.format("GET(TO_LIST(%s), 2)", array));
     Assert.assertEquals(BoxedType.create("3"), fn.evaluate(Function.definitions()));
   }
 

@@ -23,7 +23,10 @@ public class ToListTest {
 
   @Test
   public void testArrayToList() {
-    Function fn = new Function("TO_LIST(_([1, 2, 3]))");
+
+    String array = Function.wrap("[1, 2, 3]");
+    Function fn = new Function(String.format("TO_LIST(%s)", array));
+
     Assert.assertEquals(BoxedType.create(Lists.newArrayList("1", "2", "3")),
         fn.evaluate(Function.definitions()));
   }
@@ -32,8 +35,7 @@ public class ToListTest {
   public void testJsonToList() {
 
     String json = "[{\"id\": 1} , {\"id\": 2}, {\"id\": 3}]";
-
-    Function fn = new Function("TO_LIST(TO_JSON(" + Function.wrap(json) + "))");
+    Function fn = new Function(String.format("TO_LIST(TO_JSON(%s))", Function.wrap(json)));
 
     Collection<?> actual = fn.evaluate(Function.definitions()).asCollection();
     Collection<?> expected =
