@@ -2,7 +2,6 @@ package com.computablefacts.nona.functions.listoperators;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.stream.Collectors;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -10,7 +9,6 @@ import org.junit.Test;
 import com.computablefacts.asterix.codecs.JsonCodec;
 import com.computablefacts.nona.Function;
 import com.computablefacts.nona.types.BoxedType;
-import com.computablefacts.nona.types.Json;
 import com.google.common.collect.Lists;
 
 public class ToListTest {
@@ -27,7 +25,7 @@ public class ToListTest {
     String array = Function.wrap("[1, 2, 3]");
     Function fn = new Function(String.format("TO_LIST(%s)", array));
 
-    Assert.assertEquals(BoxedType.create(Lists.newArrayList("1", "2", "3")),
+    Assert.assertEquals(BoxedType.create(Lists.newArrayList(1, 2, 3)),
         fn.evaluate(Function.definitions()));
   }
 
@@ -38,8 +36,7 @@ public class ToListTest {
     Function fn = new Function(String.format("TO_LIST(TO_JSON(%s))", Function.wrap(json)));
 
     Collection<?> actual = fn.evaluate(Function.definitions()).asCollection();
-    Collection<?> expected =
-        JsonCodec.asCollection(json).stream().map(Json::new).collect(Collectors.toList());
+    Collection<?> expected = JsonCodec.asCollection(json);
 
     Assert.assertEquals(expected, actual);
   }

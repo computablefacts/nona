@@ -6,6 +6,7 @@ import org.junit.Test;
 import com.computablefacts.nona.Function;
 import com.computablefacts.nona.types.BoxedType;
 
+@Deprecated
 public class NbJsonObjectsTest {
 
   @Test

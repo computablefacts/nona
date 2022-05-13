@@ -21,7 +21,7 @@ public class TailTest {
     String array = Function.wrap("[1, 2, 3]");
     Function fn = new Function(String.format("TAIL(TO_LIST(%s))", array));
 
-    Assert.assertEquals(BoxedType.create(Lists.newArrayList("2", "3")),
+    Assert.assertEquals(BoxedType.create(Lists.newArrayList(2, 3)),
         fn.evaluate(Function.definitions()));
   }
 }

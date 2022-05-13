@@ -5,10 +5,10 @@ import java.util.List;
 import com.computablefacts.nona.Function;
 import com.computablefacts.nona.eCategory;
 import com.computablefacts.nona.types.BoxedType;
-import com.computablefacts.nona.types.Json;
 import com.google.common.base.Preconditions;
 import com.google.errorprone.annotations.CheckReturnValue;
 
+@Deprecated
 @CheckReturnValue
 public class NbJsonObjects extends Function {
 
@@ -22,9 +22,19 @@ public class NbJsonObjects extends Function {
 
     Preconditions.checkArgument(parameters.size() == 1,
         "NB_JSON_OBJECTS takes exactly one parameter.");
+    Preconditions.checkArgument(
+        parameters.get(0).isEmpty() || parameters.get(0).isCollection()
+            || parameters.get(0).isMap(),
+        "%s must be either a Collection or a Map", parameters.get(0));
 
-    return parameters.get(0).value() instanceof Json
-        ? box(((Json) parameters.get(0).value()).nbObjects())
-        : box(0);
+    BoxedType<?> bt = parameters.get(0);
+
+    if (bt.isCollection()) {
+      return box(bt.asCollection().size());
+    }
+    if (bt.isMap()) {
+      return box(1);
+    }
+    return box(0);
   }
 }

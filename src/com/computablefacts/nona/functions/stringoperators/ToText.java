@@ -1,15 +1,17 @@
 package com.computablefacts.nona.functions.stringoperators;
 
+import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import com.computablefacts.asterix.Span;
 import com.computablefacts.asterix.SpanSequence;
+import com.computablefacts.asterix.codecs.JsonCodec;
 import com.computablefacts.nona.Function;
 import com.computablefacts.nona.eCategory;
 import com.computablefacts.nona.types.BoxedType;
 import com.computablefacts.nona.types.Csv;
-import com.computablefacts.nona.types.Json;
 import com.google.common.base.Preconditions;
 import com.google.errorprone.annotations.CheckReturnValue;
 
@@ -34,10 +36,11 @@ public class ToText extends Function {
       return box(((Span) x).text());
     }
     if (x instanceof SpanSequence) {
-      return box(((SpanSequence) x).stream().map(Span::text).collect(Collectors.joining(", ")));
+      return box(JsonCodec
+          .asString(((SpanSequence) x).stream().map(Span::text).collect(Collectors.toList())));
     }
-    if (x instanceof Json) {
-      return box(((Json) x).asString());
+    if (x instanceof Collection || x instanceof Map) {
+      return box(parameters.get(0).asString());
     }
     if (x instanceof Csv) {
       return box(((Csv) x).asString());

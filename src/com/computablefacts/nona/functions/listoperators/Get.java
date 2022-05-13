@@ -7,7 +7,6 @@ import java.util.Map;
 import com.computablefacts.nona.Function;
 import com.computablefacts.nona.eCategory;
 import com.computablefacts.nona.types.BoxedType;
-import com.computablefacts.nona.types.Json;
 import com.google.common.base.Preconditions;
 import com.google.common.base.Strings;
 import com.google.common.collect.Iterables;
@@ -18,7 +17,7 @@ public class Get extends Function {
 
   public Get() {
     super(eCategory.LIST_OPERATORS, "GET",
-        "GET(x, y) returns the element of list x at position y or returns the path's y value of JSON x.");
+        "GET(x, y) returns the element of list x at position y or returns the value of MAP x at key y.");
   }
 
   @Override
@@ -28,8 +27,6 @@ public class Get extends Function {
 
     if (parameters.get(0).isCollection()) {
 
-      Preconditions.checkArgument(parameters.get(0).isCollection(), "%s should be a collection",
-          parameters.get(0));
       Preconditions.checkArgument(parameters.get(1).isNumber(), "%s should be a number",
           parameters.get(1));
       Preconditions.checkArgument(parameters.get(1).asInt() >= 0, "%s should be >= 0",
@@ -39,17 +36,17 @@ public class Get extends Function {
       int index = parameters.get(1).asInt();
       return index > list.size() ? BoxedType.empty() : box(Iterables.get(list, index));
     }
+    if (parameters.get(0).isMap()) {
 
-    Preconditions.checkArgument(parameters.get(0).value() instanceof Json,
-        "%s should be a JSON object", parameters.get(0));
-    Preconditions.checkArgument(parameters.get(1).isString(), "%s should be a JSON path",
-        parameters.get(1));
-    Preconditions.checkArgument(!Strings.isNullOrEmpty(parameters.get(1).asString()),
-        "a JSON path should neither be null nor empty", parameters.get(1));
+      Preconditions.checkArgument(parameters.get(1).isString(), "%s should be a MAP key",
+          parameters.get(1));
+      Preconditions.checkArgument(!Strings.isNullOrEmpty(parameters.get(1).asString()),
+          "a MAP key should neither be null nor empty", parameters.get(1));
 
-    Json json = (Json) parameters.get(0).value();
-    String path = parameters.get(1).asString();
-    Map<String, Object> map = json.object();
-    return map == null || map.get(path) == null ? BoxedType.empty() : box(map.get(path));
+      Map<?, ?> map = parameters.get(0).asMap();
+      String key = parameters.get(1).asString();
+      return map == null || map.get(key) == null ? BoxedType.empty() : box(map.get(key));
+    }
+    return BoxedType.empty();
   }
 }

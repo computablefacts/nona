@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import org.junit.Assert;
 import org.junit.Test;
 
+import com.computablefacts.asterix.codecs.JsonCodec;
 import com.computablefacts.nona.Function;
 import com.computablefacts.nona.types.BoxedType;
 import com.google.common.util.concurrent.UncheckedExecutionException;
@@ -61,6 +62,29 @@ public class GetTest {
 
     // index 3 is out of bound
     Function fn = new Function("GET(TO_JSON(" + Function.wrap(json) + "), ids[3].id)");
+
+    Assert.assertEquals(BoxedType.empty(), fn.evaluate(Function.definitions()));
+  }
+
+  @Test
+  public void testGetPathValueOfMap() {
+
+    String json = "{\"ids\":[{\"id\": 1} , {\"id\": 2}, {\"id\": 3}]}";
+
+    Function fn = new Function("GET(TO_JSON(" + Function.wrap(json) + "), ids)");
+
+    Assert.assertEquals(
+        BoxedType.create(JsonCodec.asCollection("[{\"id\":1},{\"id\":2},{\"id\":3}]")),
+        fn.evaluate(Function.definitions()));
+  }
+
+  @Test
+  public void testGetInvalidMapPathValue() {
+
+    String json = "{\"ids\":[{\"id\": 1} , {\"id\": 2}, {\"id\": 3}]}";
+
+    // index 3 is out of bound
+    Function fn = new Function("GET(TO_JSON(" + Function.wrap(json) + "), idz)");
 
     Assert.assertEquals(BoxedType.empty(), fn.evaluate(Function.definitions()));
   }

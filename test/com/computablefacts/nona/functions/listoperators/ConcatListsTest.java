@@ -24,7 +24,7 @@ public class ConcatListsTest {
         Function.wrap("[1, 2, 3]"));
     Function fn = new Function(function);
 
-    Assert.assertEquals(BoxedType.create(Lists.newArrayList("1", "2", "3")),
+    Assert.assertEquals(BoxedType.create(Lists.newArrayList(1, 2, 3)),
         fn.evaluate(Function.definitions()));
   }
 
@@ -35,7 +35,7 @@ public class ConcatListsTest {
         Function.wrap("[1, 2, 3]"), Function.wrap("[]"));
     Function fn = new Function(function);
 
-    Assert.assertEquals(BoxedType.create(Lists.newArrayList("1", "2", "3")),
+    Assert.assertEquals(BoxedType.create(Lists.newArrayList(1, 2, 3)),
         fn.evaluate(Function.definitions()));
   }
 
@@ -43,10 +43,10 @@ public class ConcatListsTest {
   public void testConcatLists() {
 
     String function = String.format("CONCAT_LISTS(TO_LIST(%s), TO_LIST(%s))",
-        Function.wrap("[1, 2, 3]"), Function.wrap("[a, b, c]"));
+        Function.wrap("[1, 2, 3]"), Function.wrap("[\"a\", \"b\", \"c\"]"));
     Function fn = new Function(function);
 
-    Assert.assertEquals(BoxedType.create(Lists.newArrayList("1", "2", "3", "a", "b", "c")),
+    Assert.assertEquals(BoxedType.create(Lists.newArrayList(1, 2, 3, "a", "b", "c")),
         fn.evaluate(Function.definitions()));
   }
 }

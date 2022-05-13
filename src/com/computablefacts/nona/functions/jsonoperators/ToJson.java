@@ -1,17 +1,19 @@
 package com.computablefacts.nona.functions.jsonoperators;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import com.computablefacts.asterix.codecs.JsonCodec;
 import com.computablefacts.nona.Function;
 import com.computablefacts.nona.eCategory;
 import com.computablefacts.nona.types.BoxedType;
-import com.computablefacts.nona.types.Json;
 import com.github.wnameless.json.flattener.FlattenMode;
 import com.github.wnameless.json.flattener.JsonFlattener;
 import com.google.common.base.Preconditions;
 import com.google.common.base.Strings;
+import com.google.common.collect.Lists;
 import com.google.errorprone.annotations.CheckReturnValue;
 
 @CheckReturnValue
@@ -36,8 +38,19 @@ public class ToJson extends Function {
       return BoxedType.empty();
     }
     if (parameters.size() == 1) {
-      Json newJson = new Json(json);
-      return newJson.nbObjects() == 0 && !newJson.isArray() ? BoxedType.empty() : box(newJson);
+
+      Optional<Object> newJson = json(json);
+
+      if (!newJson.isPresent()) {
+        return BoxedType.empty();
+      }
+
+      Object obj = newJson.get();
+
+      if (obj instanceof Map && ((Map<?, ?>) obj).isEmpty()) {
+        return BoxedType.empty();
+      }
+      return box(obj);
     }
 
     Preconditions.checkArgument(parameters.size() == 2, "TO_JSON takes exactly two parameters.");
@@ -58,9 +71,9 @@ public class ToJson extends Function {
         if (map.get("root") == null) {
           return BoxedType.empty();
         }
-        return box(new Json(JsonCodec.asString(map.get("root"))));
+        return box(map.get("root"));
       }
-      return box(new Json(map));
+      return box(map);
     }
     if ("keep_arrays".equals(mode)) {
 
@@ -76,9 +89,9 @@ public class ToJson extends Function {
         if (map.get("root") == null) {
           return BoxedType.empty();
         }
-        return box(new Json(JsonCodec.asString(map.get("root"))));
+        return box(map.get("root"));
       }
-      return box(new Json(map));
+      return box(map);
     }
 
     Map<String, Object> map = (new JsonFlattener(json)).withSeparator('.').flattenAsMap();
@@ -92,8 +105,27 @@ public class ToJson extends Function {
       if (map.get("root") == null) {
         return BoxedType.empty();
       }
-      return box(new Json(JsonCodec.asString(map.get("root"))));
+      return box(map.get("root"));
     }
-    return box(new Json(map));
+    return box(map);
+  }
+
+  private Optional<Object> json(String json) {
+
+    Preconditions.checkNotNull(json, "json should not be null");
+
+    Map<String, Object>[] array = JsonCodec.asArray(json);
+
+    if (array != null && array.length > 0) {
+      return Optional.of(Lists.newArrayList(array));
+    }
+
+    Map<String, Object> object = JsonCodec.asObject(json);
+
+    if (object != null && !object.isEmpty()) {
+      return Optional.of(object);
+    }
+    return json.trim().indexOf("[") == 0 ? Optional.of(Lists.newArrayList())
+        : Optional.of(new HashMap<>());
   }
 }
