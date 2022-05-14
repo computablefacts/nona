@@ -4,6 +4,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
+import com.computablefacts.asterix.codecs.JsonCodec;
 import com.computablefacts.nona.Function;
 import com.computablefacts.nona.eCategory;
 import com.computablefacts.nona.types.BoxedType;
@@ -46,6 +47,33 @@ public class Get extends Function {
       Map<?, ?> map = parameters.get(0).asMap();
       String key = parameters.get(1).asString();
       return map == null || map.get(key) == null ? BoxedType.empty() : box(map.get(key));
+    }
+    if (parameters.get(0).isString()) {
+
+      String str = parameters.get(0).asString();
+
+      if (str.startsWith("[") && str.endsWith("]")) {
+
+        Preconditions.checkArgument(parameters.get(1).isNumber(), "%s should be a number",
+            parameters.get(1));
+        Preconditions.checkArgument(parameters.get(1).asInt() >= 0, "%s should be >= 0",
+            parameters.get(1));
+
+        Collection<?> list = JsonCodec.asCollection(parameters.get(0).asString());
+        int index = parameters.get(1).asInt();
+        return index > list.size() ? BoxedType.empty() : box(Iterables.get(list, index));
+      }
+      if (str.startsWith("{") && str.endsWith("}")) {
+
+        Preconditions.checkArgument(parameters.get(1).isString(), "%s should be a MAP key",
+            parameters.get(1));
+        Preconditions.checkArgument(!Strings.isNullOrEmpty(parameters.get(1).asString()),
+            "a MAP key should neither be null nor empty", parameters.get(1));
+
+        Map<?, ?> map = JsonCodec.asObject(parameters.get(0).asString());
+        String key = parameters.get(1).asString();
+        return map == null || map.get(key) == null ? BoxedType.empty() : box(map.get(key));
+      }
     }
     return BoxedType.empty();
   }
