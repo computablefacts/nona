@@ -36,6 +36,56 @@ public class GetTest {
   }
 
   @Test
+  public void testGetArrayElementFromString() {
+
+    String json = "[{\"id\": 1} , {\"id\": 2}, {\"id\": 3}]";
+
+    Function fn = new Function("GET(" + Function.wrap(json) + ", 2)");
+
+    Assert.assertEquals("{\"id\":3}", fn.evaluate(Function.definitions()).asString());
+  }
+
+  @Test
+  public void testGetAttributeValueFromString() {
+
+    String json = "{\"id\": 1}";
+
+    Function fn = new Function("GET(" + Function.wrap(json) + ", id)");
+
+    Assert.assertEquals(BoxedType.create(1), fn.evaluate(Function.definitions()));
+  }
+
+  @Test(expected = UncheckedExecutionException.class)
+  public void testGetArrayElementFromInvalidString1() {
+
+    String json = "{\"id\": 1} , {\"id\": 2}, {\"id\": 3}";
+
+    Function fn = new Function("GET(" + Function.wrap(json) + ", 2)");
+
+    Assert.assertEquals(BoxedType.empty(), fn.evaluate(Function.definitions()));
+  }
+
+  @Test
+  public void testGetArrayElementFromInvalidString2() {
+
+    String json = "[{\"id\": 1} , {\"id\": 2}, {\"id\": 3}";
+
+    Function fn = new Function("GET(" + Function.wrap(json) + ", 2)");
+
+    Assert.assertEquals(BoxedType.empty(), fn.evaluate(Function.definitions()));
+  }
+
+  @Test
+  public void testGetAttributeValueFromInvalidString() {
+
+    String json = "{id: 1}";
+
+    Function fn = new Function("GET(" + Function.wrap(json) + ", id)");
+
+    Assert.assertEquals(BoxedType.empty(), fn.evaluate(Function.definitions()));
+  }
+
+  @Test
   public void testGetPathValueOfJsonArray() {
 
     String json = "[{\"id\": 1} , {\"id\": 2}, {\"id\": 3}]";
