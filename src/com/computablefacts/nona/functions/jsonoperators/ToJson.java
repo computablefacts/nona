@@ -9,12 +9,12 @@ import com.computablefacts.asterix.codecs.JsonCodec;
 import com.computablefacts.nona.Function;
 import com.computablefacts.nona.eCategory;
 import com.computablefacts.nona.types.BoxedType;
-import com.github.wnameless.json.flattener.FlattenMode;
 import com.github.wnameless.json.flattener.JsonFlattener;
 import com.google.common.base.Preconditions;
 import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
 import com.google.errorprone.annotations.CheckReturnValue;
+import com.google.errorprone.annotations.Var;
 
 @CheckReturnValue
 public class ToJson extends Function {
@@ -32,6 +32,7 @@ public class ToJson extends Function {
     Preconditions.checkArgument(parameters.get(0).isString(), "%s should be a string",
         parameters.get(0));
 
+    @Var
     String json = parameters.get(0).asString();
 
     if (Strings.isNullOrEmpty(json)) {
@@ -59,8 +60,7 @@ public class ToJson extends Function {
 
     if ("keep_primitive_arrays".equals(mode)) {
 
-      Map<String, Object> map = (new JsonFlattener(json))
-          .withFlattenMode(FlattenMode.KEEP_PRIMITIVE_ARRAYS).withSeparator('.').flattenAsMap();
+      Map<String, Object> map = JsonCodec.flattenKeepPrimitiveArrays(json, '.');
 
       if (map == null || map.isEmpty()) {
         return BoxedType.empty();
@@ -77,8 +77,7 @@ public class ToJson extends Function {
     }
     if ("keep_arrays".equals(mode)) {
 
-      Map<String, Object> map = (new JsonFlattener(json)).withFlattenMode(FlattenMode.KEEP_ARRAYS)
-          .withSeparator('.').flattenAsMap();
+      Map<String, Object> map = JsonCodec.flattenKeepArrays(json, '.');
 
       if (map == null || map.isEmpty()) {
         return BoxedType.empty();
@@ -114,18 +113,26 @@ public class ToJson extends Function {
 
     Preconditions.checkNotNull(json, "json should not be null");
 
-    Map<String, Object>[] array = JsonCodec.asArray(json);
+    String newJson = json.trim();
 
-    if (array != null && array.length > 0) {
-      return Optional.of(Lists.newArrayList(array));
+    if (newJson.startsWith("[") && newJson.endsWith("]")) {
+
+      Map<String, Object>[] array = JsonCodec.asArray(json);
+
+      if (array != null && array.length > 0) {
+        return Optional.of(Lists.newArrayList(array));
+      }
+      return Optional.of(Lists.newArrayList());
     }
+    if (newJson.startsWith("{") && newJson.endsWith("}")) {
 
-    Map<String, Object> object = JsonCodec.asObject(json);
+      Map<String, Object> object = JsonCodec.asObject(json);
 
-    if (object != null && !object.isEmpty()) {
-      return Optional.of(object);
+      if (object != null && !object.isEmpty()) {
+        return Optional.of(object);
+      }
+      return Optional.of(new HashMap<>());
     }
-    return json.trim().indexOf("[") == 0 ? Optional.of(Lists.newArrayList())
-        : Optional.of(new HashMap<>());
+    return Optional.empty();
   }
 }

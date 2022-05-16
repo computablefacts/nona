@@ -46,7 +46,7 @@ public class Get extends Function {
 
       Map<?, ?> map = parameters.get(0).asMap();
       String key = parameters.get(1).asString();
-      return map == null || map.get(key) == null ? BoxedType.empty() : box(map.get(key));
+      return map == null ? BoxedType.empty() : box(map.get(key) == null ? "" : map.get(key));
     }
     if (parameters.get(0).isString()) {
 
@@ -72,7 +72,7 @@ public class Get extends Function {
 
         Map<?, ?> map = JsonCodec.asObject(parameters.get(0).asString());
         String key = parameters.get(1).asString();
-        return map == null || map.get(key) == null ? BoxedType.empty() : box(map.get(key));
+        return map == null ? BoxedType.empty() : box(map.get(key) == null ? "" : map.get(key));
       }
     }
     return BoxedType.empty();
