@@ -20,7 +20,7 @@ final public class BoxedType<T> {
   private static final BoxedType<?> NULL = new BoxedType<>(null);
   private static final BoxedType<?> TRUE = new BoxedType<>(true);
   private static final BoxedType<?> FALSE = new BoxedType<>(false);
-  private final T value_; // T in {Boolean, BigInteger, BigDecimal, String, Collection, Map}
+  private final T value_; // T in {Boolean, BigInteger, BigDecimal, String, Date, Collection, Map}
 
   private BoxedType(T value) {
     value_ = value;
