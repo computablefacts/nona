@@ -68,9 +68,10 @@ final public class BoxedType<T> {
 
   public static BoxedType<?> create(Object value, boolean interpretStringInScientificNotation) {
     return value == null ? NULL
-        : value instanceof Boolean ? (Boolean) value ? TRUE : FALSE
-            : new BoxedType<>(
-                StringCodec.defaultCoercer(value, interpretStringInScientificNotation));
+        : value instanceof BoxedType ? (BoxedType<?>) value
+            : value instanceof Boolean ? (Boolean) value ? TRUE : FALSE
+                : new BoxedType<>(
+                    StringCodec.defaultCoercer(value, interpretStringInScientificNotation));
   }
 
   @Override
