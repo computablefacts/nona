@@ -7,7 +7,7 @@
 
     <groupId>com.computablefacts</groupId>
     <artifactId>nona</artifactId>
-    <version>3.9-SNAPSHOT</version>
+    <version>3.10-SNAPSHOT</version>
     <packaging>jar</packaging>
 
     <name>nona</name>
