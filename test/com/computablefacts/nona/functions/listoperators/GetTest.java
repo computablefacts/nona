@@ -82,7 +82,7 @@ public class GetTest {
 
     Function fn = new Function("GET(" + Function.wrap(json) + ", id)");
 
-    Assert.assertEquals(BoxedType.empty(), fn.evaluate(Function.definitions()));
+    Assert.assertEquals(BoxedType.create(""), fn.evaluate(Function.definitions()));
   }
 
   @Test
@@ -113,7 +113,7 @@ public class GetTest {
     // index 3 is out of bound
     Function fn = new Function("GET(TO_JSON(" + Function.wrap(json) + "), ids[3].id)");
 
-    Assert.assertEquals(BoxedType.empty(), fn.evaluate(Function.definitions()));
+    Assert.assertEquals(BoxedType.create(""), fn.evaluate(Function.definitions()));
   }
 
   @Test
@@ -136,7 +136,7 @@ public class GetTest {
     // index 3 is out of bound
     Function fn = new Function("GET(TO_JSON(" + Function.wrap(json) + "), idz)");
 
-    Assert.assertEquals(BoxedType.empty(), fn.evaluate(Function.definitions()));
+    Assert.assertEquals(BoxedType.create(""), fn.evaluate(Function.definitions()));
   }
 
   @Test
