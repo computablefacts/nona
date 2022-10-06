@@ -123,15 +123,6 @@
             <resource>
                 <directory>${basedir}/src/resources</directory>
                 <excludes>
-                    <exclude>**/data/stopwords/stopwords_bg.txt</exclude>
-                    <exclude>**/data/stopwords/stopwords_cz.txt</exclude>
-                    <exclude>**/data/stopwords/stopwords_et.txt</exclude>
-                    <exclude>**/data/stopwords/stopwords_fa.txt</exclude>
-                    <exclude>**/data/stopwords/stopwords_gl.txt</exclude>
-                    <exclude>**/data/stopwords/stopwords_hy.txt</exclude>
-                    <exclude>**/data/stopwords/stopwords_ja.txt</exclude>
-                    <exclude>**/data/stopwords/stopwords_lv.txt</exclude>
-                    <exclude>**/data/stopwords/stopwords_th.txt</exclude>
                     <exclude>**/data/rdrpostagger/MORPH/**</exclude>
                     <exclude>**/data/rdrpostagger/POS/Thai.DICT</exclude>
                     <exclude>**/data/rdrpostagger/POS/Thai.RDR</exclude>
