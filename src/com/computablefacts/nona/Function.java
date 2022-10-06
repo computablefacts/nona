@@ -32,8 +32,6 @@ import com.computablefacts.nona.functions.mathematicaloperators.Min;
 import com.computablefacts.nona.functions.multiplicativeoperators.Divide;
 import com.computablefacts.nona.functions.multiplicativeoperators.Mod;
 import com.computablefacts.nona.functions.multiplicativeoperators.Multiply;
-import com.computablefacts.nona.functions.patternoperators.*;
-import com.computablefacts.nona.functions.patternoperators.Number;
 import com.computablefacts.nona.functions.stringoperators.*;
 import com.computablefacts.asterix.BoxedType;
 import com.google.common.base.MoreObjects;
@@ -141,30 +139,6 @@ public class Function {
     definitions.put("MOD", new Mod());
     definitions.put("MUL", new Multiply());
 
-    // Pattern operators
-    definitions.put("MATCH_BASE64", new Base64());
-    definitions.put("MATCH_CSS_PROPERTIES", new CssProperties());
-    definitions.put("MATCH_DATE", new Date());
-    definitions.put("MATCH_DATE_TIME", new DateTime());
-    definitions.put("MATCH_ECMASCRIPT6_KEYWORDS", new EcmaScript6Keywords());
-    definitions.put("MATCH_EMAIL", new Email());
-    definitions.put("MATCH_FINANCIAL_NUMBER", new FinancialNumber());
-    definitions.put("MATCH_HTML_WINDOW_OBJECT_PROPERTIES", new HtmlWindowObjectProperties());
-    definitions.put("MATCH_IPV4", new IpV4());
-    definitions.put("MATCH_IPV6", new IpV6());
-    definitions.put("MATCH_JS_OBJECTS_PROPERTIES_AND_METHODS", new JsObjectsPropertiesAndMethods());
-    definitions.put("MATCH_MONETARY_AMOUNT", new MonetaryAmount());
-    definitions.put("MATCH_NUMBER", new Number());
-    definitions.put("MATCH_ONION", new Onion());
-    definitions.put("MATCH_PERCENT", new Percent());
-    definitions.put("MATCH_TIME", new Time());
-    definitions.put("MATCH_UNIX_PATH", new UnixPath());
-    definitions.put("MATCH_URL", new Url());
-    definitions.put("MATCH_WIN_PATH", new WinPath());
-    definitions.put("MATCH_WORD_WITH_APOSTROPHES_OR_DASHES", new WordWithApostrophesOrDashes());
-    definitions.put("MATCH_WORD_WITHOUT_APOSTROPHES_OR_DASHES",
-        new WordWithoutApostrophesOrDashes());
-
     // String operators
     definitions.put("BASE64_DECODE", new Base64Decode());
     definitions.put("BASE64_ENCODE", new Base64Encode());
@@ -197,7 +171,7 @@ public class Function {
    * Wrap a text inside the special function _(&lt;base64(text)&gt;). This function ensures that
    * whatever characters the text contain, it will be interpreted as a {@link String}. Useful to
    * escape {@link String} with parentheses and quotation marks.
-   * 
+   *
    * @param text Text to wrap.
    * @return Wrapped text.
    */
