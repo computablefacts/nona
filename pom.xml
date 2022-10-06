@@ -47,7 +47,6 @@
         <fuzzywuzzy.version>1.2.0</fuzzywuzzy.version>
         <javax-validation.version>2.0.1.Final</javax-validation.version>
         <ahocorasick.version>0.4.0</ahocorasick.version>
-        <language-detector.version>0.6</language-detector.version>
         <equalsverifier.version>3.4.2</equalsverifier.version>
         <maven-shade-plugin.version>3.1.1</maven-shade-plugin.version>
         <maven-gpg-plugin.version>1.6</maven-gpg-plugin.version>
@@ -102,11 +101,6 @@
             <groupId>org.ahocorasick</groupId>
             <artifactId>ahocorasick</artifactId>
             <version>${ahocorasick.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.optimaize.languagedetector</groupId>
-            <artifactId>language-detector</artifactId>
-            <version>${language-detector.version}</version>
         </dependency>
         <dependency>
             <groupId>nl.jqno.equalsverifier</groupId>
