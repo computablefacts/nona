@@ -16,7 +16,7 @@ To add a dependency on Nona using Maven, use the following:
 <dependency>
   <groupId>com.computablefacts</groupId>
   <artifactId>nona</artifactId>
-  <version>3.x</version>
+  <version>4.x</version>
 </dependency>
 ```
 
