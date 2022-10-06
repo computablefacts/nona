@@ -4,7 +4,7 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import com.computablefacts.nona.Function;
-import com.computablefacts.nona.types.BoxedType;
+import com.computablefacts.asterix.BoxedType;
 
 public class ToLowerCaseTest {
 
@@ -12,6 +12,6 @@ public class ToLowerCaseTest {
   public void testToLowerCase() {
 
     Function fn = new Function("TO_LOWERCASE(CYRILLE)");
-    Assert.assertEquals(BoxedType.create("cyrille"), fn.evaluate(Function.definitions()));
+    Assert.assertEquals(BoxedType.of("cyrille"), fn.evaluate(Function.definitions()));
   }
 }

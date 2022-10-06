@@ -8,7 +8,7 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import com.computablefacts.nona.Function;
-import com.computablefacts.nona.types.BoxedType;
+import com.computablefacts.asterix.BoxedType;
 import com.google.common.collect.Lists;
 
 public class FillTemplateTest {
@@ -22,7 +22,7 @@ public class FillTemplateTest {
     Function fn = new Function(
         "FILL_TEMPLATE(" + input.toString() + ",value1,myValue1,value2,myValue2,value3,myValue3)");
 
-    Assert.assertEquals(BoxedType.create("key1=myValue1\nkey3=myValue3\nkey3=myValue3"),
+    Assert.assertEquals(BoxedType.of("key1=myValue1\nkey3=myValue3\nkey3=myValue3"),
         fn.evaluate(Function.definitions()));
   }
 }

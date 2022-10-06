@@ -9,7 +9,7 @@ import org.slf4j.LoggerFactory;
 import com.computablefacts.logfmt.LogFormatter;
 import com.computablefacts.nona.Function;
 import com.computablefacts.nona.eCategory;
-import com.computablefacts.nona.types.BoxedType;
+import com.computablefacts.asterix.BoxedType;
 import com.google.common.base.Preconditions;
 import com.google.errorprone.annotations.CheckReturnValue;
 

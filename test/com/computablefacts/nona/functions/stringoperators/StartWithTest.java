@@ -4,7 +4,7 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import com.computablefacts.nona.Function;
-import com.computablefacts.nona.types.BoxedType;
+import com.computablefacts.asterix.BoxedType;
 
 public class StartWithTest {
 
@@ -13,7 +13,7 @@ public class StartWithTest {
 
     Function fn = new Function(
         "START_WITH(cve¤references¤reference_data¤A1A¤url, cve¤references¤reference_data¤A1A)");
-    Assert.assertEquals(BoxedType.create(true), fn.evaluate(Function.definitions()));
+    Assert.assertEquals(BoxedType.of(true), fn.evaluate(Function.definitions()));
   }
 
   @Test
@@ -21,6 +21,6 @@ public class StartWithTest {
 
     Function fn = new Function(
         "START_WITH(cve¤references¤reference_data¤a1a¤url, CVE¤REFERENCES¤REFERENCE_DATA¤A1A)");
-    Assert.assertEquals(BoxedType.create(false), fn.evaluate(Function.definitions()));
+    Assert.assertEquals(BoxedType.of(false), fn.evaluate(Function.definitions()));
   }
 }

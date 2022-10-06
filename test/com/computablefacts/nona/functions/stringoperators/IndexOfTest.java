@@ -4,7 +4,7 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import com.computablefacts.nona.Function;
-import com.computablefacts.nona.types.BoxedType;
+import com.computablefacts.asterix.BoxedType;
 
 public class IndexOfTest {
 
@@ -12,13 +12,13 @@ public class IndexOfTest {
   public void testIndexOfWithOneMatch() {
 
     Function fn = new Function("INDEX_OF(john doe, john)");
-    Assert.assertEquals(BoxedType.create(0), fn.evaluate(Function.definitions()));
+    Assert.assertEquals(BoxedType.of(0), fn.evaluate(Function.definitions()));
   }
 
   @Test
   public void testIndexOfWithNoMatch() {
 
     Function fn = new Function("INDEX_OF(john, john doe)");
-    Assert.assertEquals(BoxedType.create(-1), fn.evaluate(Function.definitions()));
+    Assert.assertEquals(BoxedType.of(-1), fn.evaluate(Function.definitions()));
   }
 }

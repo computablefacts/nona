@@ -4,7 +4,7 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import com.computablefacts.nona.Function;
-import com.computablefacts.nona.types.BoxedType;
+import com.computablefacts.asterix.BoxedType;
 
 public class ConcatTest {
 
@@ -12,13 +12,13 @@ public class ConcatTest {
   public void testConcatSpace() {
 
     Function fn = new Function("CONCAT(arg1, \" \", arg2, \" \", arg3)");
-    Assert.assertEquals(BoxedType.create("arg1 arg2 arg3"), fn.evaluate(Function.definitions()));
+    Assert.assertEquals(BoxedType.of("arg1 arg2 arg3"), fn.evaluate(Function.definitions()));
   }
 
   @Test
   public void testConcatComma() {
 
     Function fn = new Function("CONCAT(arg1, \", \", arg2, \", \", arg3)");
-    Assert.assertEquals(BoxedType.create("arg1, arg2, arg3"), fn.evaluate(Function.definitions()));
+    Assert.assertEquals(BoxedType.of("arg1, arg2, arg3"), fn.evaluate(Function.definitions()));
   }
 }

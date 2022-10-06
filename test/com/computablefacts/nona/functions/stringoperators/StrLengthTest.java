@@ -4,7 +4,7 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import com.computablefacts.nona.Function;
-import com.computablefacts.nona.types.BoxedType;
+import com.computablefacts.asterix.BoxedType;
 
 public class StrLengthTest {
 
@@ -12,6 +12,6 @@ public class StrLengthTest {
   public void testStrLength() {
 
     Function fn = new Function("STR_LENGTH(cyrille)");
-    Assert.assertEquals(BoxedType.create(7), fn.evaluate(Function.definitions()));
+    Assert.assertEquals(BoxedType.of(7), fn.evaluate(Function.definitions()));
   }
 }

@@ -10,7 +10,7 @@ import com.computablefacts.asterix.SpanSequence;
 import com.computablefacts.asterix.codecs.JsonCodec;
 import com.computablefacts.nona.Function;
 import com.computablefacts.nona.eCategory;
-import com.computablefacts.nona.types.BoxedType;
+import com.computablefacts.asterix.BoxedType;
 import com.computablefacts.nona.types.Csv;
 import com.google.common.base.Preconditions;
 import com.google.errorprone.annotations.CheckReturnValue;

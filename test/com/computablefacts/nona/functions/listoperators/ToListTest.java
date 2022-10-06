@@ -8,7 +8,7 @@ import org.junit.Test;
 
 import com.computablefacts.asterix.codecs.JsonCodec;
 import com.computablefacts.nona.Function;
-import com.computablefacts.nona.types.BoxedType;
+import com.computablefacts.asterix.BoxedType;
 import com.google.common.collect.Lists;
 
 public class ToListTest {
@@ -16,7 +16,7 @@ public class ToListTest {
   @Test
   public void testToListOnEmptyList() {
     Function fn = new Function("TO_LIST([])");
-    Assert.assertEquals(BoxedType.create(new ArrayList<>()), fn.evaluate(Function.definitions()));
+    Assert.assertEquals(BoxedType.of(new ArrayList<>()), fn.evaluate(Function.definitions()));
   }
 
   @Test
@@ -25,7 +25,7 @@ public class ToListTest {
     String array = Function.wrap("[1, 2, 3]");
     Function fn = new Function(String.format("TO_LIST(%s)", array));
 
-    Assert.assertEquals(BoxedType.create(Lists.newArrayList(1, 2, 3)),
+    Assert.assertEquals(BoxedType.of(Lists.newArrayList(1, 2, 3)),
         fn.evaluate(Function.definitions()));
   }
 

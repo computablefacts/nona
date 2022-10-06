@@ -4,7 +4,7 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import com.computablefacts.nona.Function;
-import com.computablefacts.nona.types.BoxedType;
+import com.computablefacts.asterix.BoxedType;
 
 public class ToUpperCaseTest {
 
@@ -12,6 +12,6 @@ public class ToUpperCaseTest {
   public void testToUpperCase() {
 
     Function fn = new Function("TO_UPPERCASE(cyrille)");
-    Assert.assertEquals(BoxedType.create("CYRILLE"), fn.evaluate(Function.definitions()));
+    Assert.assertEquals(BoxedType.of("CYRILLE"), fn.evaluate(Function.definitions()));
   }
 }

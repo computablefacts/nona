@@ -4,7 +4,7 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import com.computablefacts.nona.Function;
-import com.computablefacts.nona.types.BoxedType;
+import com.computablefacts.asterix.BoxedType;
 
 public class ToDecimalTest {
 
@@ -12,13 +12,13 @@ public class ToDecimalTest {
   public void testDecimalToDecimal() {
 
     Function fn = new Function("TO_DECIMAL(2018.123)");
-    Assert.assertEquals(BoxedType.create(2018.123), fn.evaluate(Function.definitions()));
+    Assert.assertEquals(BoxedType.of(2018.123), fn.evaluate(Function.definitions()));
   }
 
   @Test
   public void testIntegerToDecimal() {
 
     Function fn = new Function("TO_DECIMAL(2018)");
-    Assert.assertEquals(BoxedType.create(2018), fn.evaluate(Function.definitions()));
+    Assert.assertEquals(BoxedType.of(2018), fn.evaluate(Function.definitions()));
   }
 }

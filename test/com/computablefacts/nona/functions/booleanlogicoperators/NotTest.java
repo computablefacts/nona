@@ -4,7 +4,7 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import com.computablefacts.nona.Function;
-import com.computablefacts.nona.types.BoxedType;
+import com.computablefacts.asterix.BoxedType;
 
 public class NotTest {
 
@@ -12,13 +12,13 @@ public class NotTest {
   public void testNotTrue() {
 
     Function fn = new Function("NOT(true)");
-    Assert.assertEquals(BoxedType.create(false), fn.evaluate(Function.definitions()));
+    Assert.assertEquals(BoxedType.of(false), fn.evaluate(Function.definitions()));
   }
 
   @Test
   public void testNotFalse() {
 
     Function fn = new Function("NOT(false)");
-    Assert.assertEquals(BoxedType.create(true), fn.evaluate(Function.definitions()));
+    Assert.assertEquals(BoxedType.of(true), fn.evaluate(Function.definitions()));
   }
 }

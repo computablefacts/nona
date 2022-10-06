@@ -4,7 +4,7 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import com.computablefacts.nona.Function;
-import com.computablefacts.nona.types.BoxedType;
+import com.computablefacts.asterix.BoxedType;
 import com.google.common.util.concurrent.UncheckedExecutionException;
 
 public class IsNullTest {
@@ -20,27 +20,27 @@ public class IsNullTest {
   public void testIsNullOfString() {
 
     Function fn = new Function("IS_NULL(test)");
-    Assert.assertEquals(BoxedType.create(false), fn.evaluate(Function.definitions()));
+    Assert.assertEquals(BoxedType.of(false), fn.evaluate(Function.definitions()));
   }
 
   @Test
   public void testIsNullOfInteger() {
 
     Function fn = new Function("IS_NULL(3)");
-    Assert.assertEquals(BoxedType.create(false), fn.evaluate(Function.definitions()));
+    Assert.assertEquals(BoxedType.of(false), fn.evaluate(Function.definitions()));
   }
 
   @Test
   public void testIsNullOfDouble() {
 
     Function fn = new Function("IS_NULL(3.14)");
-    Assert.assertEquals(BoxedType.create(false), fn.evaluate(Function.definitions()));
+    Assert.assertEquals(BoxedType.of(false), fn.evaluate(Function.definitions()));
   }
 
   @Test
   public void testIsNullOfEmptyString() {
 
     Function fn = new Function("IS_NULL(\"\")");
-    Assert.assertEquals(BoxedType.create(false), fn.evaluate(Function.definitions()));
+    Assert.assertEquals(BoxedType.of(false), fn.evaluate(Function.definitions()));
   }
 }

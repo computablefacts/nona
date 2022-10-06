@@ -4,7 +4,7 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import com.computablefacts.nona.Function;
-import com.computablefacts.nona.types.BoxedType;
+import com.computablefacts.asterix.BoxedType;
 import com.google.common.util.concurrent.UncheckedExecutionException;
 
 public class CeilTest {
@@ -20,13 +20,13 @@ public class CeilTest {
   public void testCeilWithInteger() {
 
     Function fn = new Function("CEIL(1)");
-    Assert.assertEquals(BoxedType.create(1), fn.evaluate(Function.definitions()));
+    Assert.assertEquals(BoxedType.of(1), fn.evaluate(Function.definitions()));
   }
 
   @Test
   public void testCeilWithDecimal() {
 
     Function fn = new Function("CEIL(1.1)");
-    Assert.assertEquals(BoxedType.create(2), fn.evaluate(Function.definitions()));
+    Assert.assertEquals(BoxedType.of(2), fn.evaluate(Function.definitions()));
   }
 }

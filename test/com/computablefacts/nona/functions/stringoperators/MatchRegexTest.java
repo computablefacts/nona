@@ -6,7 +6,7 @@ import org.junit.Test;
 import com.computablefacts.asterix.Span;
 import com.computablefacts.asterix.SpanSequence;
 import com.computablefacts.nona.Function;
-import com.computablefacts.nona.types.BoxedType;
+import com.computablefacts.asterix.BoxedType;
 
 public class MatchRegexTest {
 
@@ -26,7 +26,7 @@ public class MatchRegexTest {
     String function = String.format("MATCH_REGEX(%s, %s)", textWrapped, regexWrapped);
 
     Function fn = new Function(function);
-    Assert.assertEquals(BoxedType.create(sequence), fn.evaluate(Function.definitions()));
+    Assert.assertEquals(BoxedType.of(sequence), fn.evaluate(Function.definitions()));
   }
 
   @Test
@@ -47,6 +47,6 @@ public class MatchRegexTest {
     String function = String.format("MATCH_REGEX(%s, %s)", textWrapped, regexWrapped);
 
     Function fn = new Function(function);
-    Assert.assertEquals(BoxedType.create(sequence), fn.evaluate(Function.definitions()));
+    Assert.assertEquals(BoxedType.of(sequence), fn.evaluate(Function.definitions()));
   }
 }

@@ -7,7 +7,7 @@ import org.junit.Test;
 
 import com.computablefacts.asterix.codecs.JsonCodec;
 import com.computablefacts.nona.Function;
-import com.computablefacts.nona.types.BoxedType;
+import com.computablefacts.asterix.BoxedType;
 import com.google.common.util.concurrent.UncheckedExecutionException;
 import com.google.errorprone.annotations.Var;
 
@@ -16,7 +16,7 @@ public class GetTest {
   @Test(expected = UncheckedExecutionException.class)
   public void testGetOnEmptyList() {
     Function fn = new Function("GET(TO_LIST([]), 0)");
-    Assert.assertEquals(BoxedType.create(new ArrayList<>()), fn.evaluate(Function.definitions()));
+    Assert.assertEquals(BoxedType.of(new ArrayList<>()), fn.evaluate(Function.definitions()));
   }
 
   @Test
@@ -26,13 +26,13 @@ public class GetTest {
 
     @Var
     Function fn = new Function(String.format("GET(TO_LIST(%s), 0)", array));
-    Assert.assertEquals(BoxedType.create("1"), fn.evaluate(Function.definitions()));
+    Assert.assertEquals(BoxedType.of("1"), fn.evaluate(Function.definitions()));
 
     fn = new Function(String.format("GET(TO_LIST(%s), 1)", array));
-    Assert.assertEquals(BoxedType.create("2"), fn.evaluate(Function.definitions()));
+    Assert.assertEquals(BoxedType.of("2"), fn.evaluate(Function.definitions()));
 
     fn = new Function(String.format("GET(TO_LIST(%s), 2)", array));
-    Assert.assertEquals(BoxedType.create("3"), fn.evaluate(Function.definitions()));
+    Assert.assertEquals(BoxedType.of("3"), fn.evaluate(Function.definitions()));
   }
 
   @Test
@@ -52,7 +52,7 @@ public class GetTest {
 
     Function fn = new Function("GET(" + Function.wrap(json) + ", id)");
 
-    Assert.assertEquals(BoxedType.create(1), fn.evaluate(Function.definitions()));
+    Assert.assertEquals(BoxedType.of(1), fn.evaluate(Function.definitions()));
   }
 
   @Test(expected = UncheckedExecutionException.class)
@@ -82,7 +82,7 @@ public class GetTest {
 
     Function fn = new Function("GET(" + Function.wrap(json) + ", id)");
 
-    Assert.assertEquals(BoxedType.create(""), fn.evaluate(Function.definitions()));
+    Assert.assertEquals(BoxedType.of(""), fn.evaluate(Function.definitions()));
   }
 
   @Test
@@ -92,7 +92,7 @@ public class GetTest {
 
     Function fn = new Function("GET(TO_JSON(" + Function.wrap(json) + ", flatten), [1].id)");
 
-    Assert.assertEquals(BoxedType.create(2), fn.evaluate(Function.definitions()));
+    Assert.assertEquals(BoxedType.of(2), fn.evaluate(Function.definitions()));
   }
 
   @Test
@@ -102,7 +102,7 @@ public class GetTest {
 
     Function fn = new Function("GET(TO_JSON(" + Function.wrap(json) + ", flatten), ids[2].id)");
 
-    Assert.assertEquals(BoxedType.create(3), fn.evaluate(Function.definitions()));
+    Assert.assertEquals(BoxedType.of(3), fn.evaluate(Function.definitions()));
   }
 
   @Test
@@ -113,7 +113,7 @@ public class GetTest {
     // index 3 is out of bound
     Function fn = new Function("GET(TO_JSON(" + Function.wrap(json) + "), ids[3].id)");
 
-    Assert.assertEquals(BoxedType.create(""), fn.evaluate(Function.definitions()));
+    Assert.assertEquals(BoxedType.of(""), fn.evaluate(Function.definitions()));
   }
 
   @Test
@@ -124,7 +124,7 @@ public class GetTest {
     Function fn = new Function("GET(TO_JSON(" + Function.wrap(json) + "), ids)");
 
     Assert.assertEquals(
-        BoxedType.create(JsonCodec.asCollection("[{\"id\":1},{\"id\":2},{\"id\":3}]")),
+        BoxedType.of(JsonCodec.asCollection("[{\"id\":1},{\"id\":2},{\"id\":3}]")),
         fn.evaluate(Function.definitions()));
   }
 
@@ -136,7 +136,7 @@ public class GetTest {
     // index 3 is out of bound
     Function fn = new Function("GET(TO_JSON(" + Function.wrap(json) + "), idz)");
 
-    Assert.assertEquals(BoxedType.create(""), fn.evaluate(Function.definitions()));
+    Assert.assertEquals(BoxedType.of(""), fn.evaluate(Function.definitions()));
   }
 
   @Test
@@ -146,7 +146,7 @@ public class GetTest {
 
     Function fn = new Function("GET(GET(TO_JSON(" + Function.wrap(json) + "), ids), 1)");
 
-    Assert.assertEquals(BoxedType.create(JsonCodec.asObject("{\"id\":2}")),
+    Assert.assertEquals(BoxedType.of(JsonCodec.asObject("{\"id\":2}")),
         fn.evaluate(Function.definitions()));
   }
 
@@ -157,6 +157,6 @@ public class GetTest {
 
     Function fn = new Function("GET(GET(GET(TO_JSON(" + Function.wrap(json) + "), ids), 1), id)");
 
-    Assert.assertEquals(BoxedType.create(2), fn.evaluate(Function.definitions()));
+    Assert.assertEquals(BoxedType.of(2), fn.evaluate(Function.definitions()));
   }
 }

@@ -4,7 +4,7 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import com.computablefacts.nona.Function;
-import com.computablefacts.nona.types.BoxedType;
+import com.computablefacts.asterix.BoxedType;
 
 public class AddYearsTest {
 
@@ -13,7 +13,7 @@ public class AddYearsTest {
 
     Function fn = new Function(
         "EQUAL(TO_DATE(2020-21-04 19:02, yyyy-dd-MM HH:mm), ADD_YEARS(TO_DATE(2021/04/21 19:02, yyyy/MM/dd HH:mm), -1))");
-    Assert.assertEquals(BoxedType.create(true), fn.evaluate(Function.definitions()));
+    Assert.assertEquals(BoxedType.of(true), fn.evaluate(Function.definitions()));
   }
 
   @Test
@@ -21,6 +21,6 @@ public class AddYearsTest {
 
     Function fn = new Function(
         "EQUAL(TO_DATE(2022-21-04 19:02, yyyy-dd-MM HH:mm), ADD_YEARS(TO_DATE(2021/04/21 19:02, yyyy/MM/dd HH:mm), 1))");
-    Assert.assertEquals(BoxedType.create(true), fn.evaluate(Function.definitions()));
+    Assert.assertEquals(BoxedType.of(true), fn.evaluate(Function.definitions()));
   }
 }

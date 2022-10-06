@@ -4,7 +4,7 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import com.computablefacts.nona.Function;
-import com.computablefacts.nona.types.BoxedType;
+import com.computablefacts.asterix.BoxedType;
 import com.google.common.collect.Lists;
 
 public class TailTest {
@@ -21,7 +21,7 @@ public class TailTest {
     String array = Function.wrap("[1, 2, 3]");
     Function fn = new Function(String.format("TAIL(TO_LIST(%s))", array));
 
-    Assert.assertEquals(BoxedType.create(Lists.newArrayList(2, 3)),
+    Assert.assertEquals(BoxedType.of(Lists.newArrayList(2, 3)),
         fn.evaluate(Function.definitions()));
   }
 }

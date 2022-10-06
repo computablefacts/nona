@@ -4,7 +4,7 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import com.computablefacts.nona.Function;
-import com.computablefacts.nona.types.BoxedType;
+import com.computablefacts.asterix.BoxedType;
 
 public class HeadTest {
 
@@ -20,6 +20,6 @@ public class HeadTest {
     String array = Function.wrap("[1, 2, 3]");
     Function fn = new Function(String.format("HEAD(TO_LIST(%s))", array));
 
-    Assert.assertEquals(BoxedType.create("1"), fn.evaluate(Function.definitions()));
+    Assert.assertEquals(BoxedType.of("1"), fn.evaluate(Function.definitions()));
   }
 }

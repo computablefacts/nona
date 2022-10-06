@@ -4,7 +4,7 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import com.computablefacts.nona.Function;
-import com.computablefacts.nona.types.BoxedType;
+import com.computablefacts.asterix.BoxedType;
 
 public class Base64EncodeTest {
 
@@ -12,21 +12,21 @@ public class Base64EncodeTest {
   public void testEncodeSpace() {
 
     Function fn = new Function("BASE64_ENCODE(\" \")");
-    Assert.assertEquals(BoxedType.create("IA=="), fn.evaluate(Function.definitions()));
+    Assert.assertEquals(BoxedType.of("IA=="), fn.evaluate(Function.definitions()));
   }
 
   @Test
   public void testEncodeEmptyString() {
 
     Function fn = new Function("BASE64_ENCODE(\"\")");
-    Assert.assertEquals(BoxedType.create(""), fn.evaluate(Function.definitions()));
+    Assert.assertEquals(BoxedType.of(""), fn.evaluate(Function.definitions()));
   }
 
   @Test
   public void testEncodeString() {
 
     Function fn = new Function("BASE64_ENCODE(\"random string\")");
-    Assert.assertEquals(BoxedType.create("cmFuZG9tIHN0cmluZw=="),
+    Assert.assertEquals(BoxedType.of("cmFuZG9tIHN0cmluZw=="),
         fn.evaluate(Function.definitions()));
   }
 }

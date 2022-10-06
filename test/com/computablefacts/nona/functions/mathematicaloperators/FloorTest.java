@@ -4,7 +4,7 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import com.computablefacts.nona.Function;
-import com.computablefacts.nona.types.BoxedType;
+import com.computablefacts.asterix.BoxedType;
 import com.google.common.util.concurrent.UncheckedExecutionException;
 
 public class FloorTest {
@@ -20,13 +20,13 @@ public class FloorTest {
   public void testFloorWithInteger() {
 
     Function fn = new Function("FLOOR(1)");
-    Assert.assertEquals(BoxedType.create(1), fn.evaluate(Function.definitions()));
+    Assert.assertEquals(BoxedType.of(1), fn.evaluate(Function.definitions()));
   }
 
   @Test
   public void testFloorWithDecimal() {
 
     Function fn = new Function("FLOOR(1.1)");
-    Assert.assertEquals(BoxedType.create(1), fn.evaluate(Function.definitions()));
+    Assert.assertEquals(BoxedType.of(1), fn.evaluate(Function.definitions()));
   }
 }

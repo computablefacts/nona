@@ -4,14 +4,14 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import com.computablefacts.nona.Function;
-import com.computablefacts.nona.types.BoxedType;
+import com.computablefacts.asterix.BoxedType;
 
 public class SizeTest {
 
   @Test
   public void testSizeOnEmptyList() {
     Function fn = new Function("SIZE(TO_LIST([]))");
-    Assert.assertEquals(BoxedType.create(0), fn.evaluate(Function.definitions()));
+    Assert.assertEquals(BoxedType.of(0), fn.evaluate(Function.definitions()));
   }
 
   @Test
@@ -20,6 +20,6 @@ public class SizeTest {
     String array = Function.wrap("[1, 2, 3]");
     Function fn = new Function(String.format("SIZE(TO_LIST(%s))", array));
 
-    Assert.assertEquals(BoxedType.create(3), fn.evaluate(Function.definitions()));
+    Assert.assertEquals(BoxedType.of(3), fn.evaluate(Function.definitions()));
   }
 }

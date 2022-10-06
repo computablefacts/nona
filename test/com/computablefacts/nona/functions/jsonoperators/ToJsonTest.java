@@ -7,7 +7,7 @@ import org.junit.Test;
 
 import com.computablefacts.asterix.codecs.JsonCodec;
 import com.computablefacts.nona.Function;
-import com.computablefacts.nona.types.BoxedType;
+import com.computablefacts.asterix.BoxedType;
 
 public class ToJsonTest {
 

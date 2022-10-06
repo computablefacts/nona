@@ -4,7 +4,7 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import com.computablefacts.nona.Function;
-import com.computablefacts.nona.types.BoxedType;
+import com.computablefacts.asterix.BoxedType;
 
 public class ToIntegerTest {
 
@@ -12,7 +12,7 @@ public class ToIntegerTest {
   public void testIntegerToInteger() {
 
     Function fn = new Function("TO_INTEGER(2018.0)");
-    Assert.assertEquals(BoxedType.create(2018), fn.evaluate(Function.definitions()));
+    Assert.assertEquals(BoxedType.of(2018), fn.evaluate(Function.definitions()));
   }
 
   @Test

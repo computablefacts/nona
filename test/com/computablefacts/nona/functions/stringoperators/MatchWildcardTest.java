@@ -4,7 +4,7 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import com.computablefacts.nona.Function;
-import com.computablefacts.nona.types.BoxedType;
+import com.computablefacts.asterix.BoxedType;
 
 public class MatchWildcardTest {
 
@@ -13,7 +13,7 @@ public class MatchWildcardTest {
 
     Function fn = new Function(
         "MATCH_WILDCARD(cve¤references¤reference_data¤A1A¤url, cve¤references¤reference_data¤A?A¤url)");
-    Assert.assertEquals(BoxedType.create(true), fn.evaluate(Function.definitions()));
+    Assert.assertEquals(BoxedType.of(true), fn.evaluate(Function.definitions()));
   }
 
   @Test
@@ -21,7 +21,7 @@ public class MatchWildcardTest {
 
     Function fn = new Function(
         "MATCH_WILDCARD(cve¤references¤reference_data¤A1A¤url, CVE¤REFERENCES¤REFERENCE_DATA¤A?A¤URL)");
-    Assert.assertEquals(BoxedType.create(true), fn.evaluate(Function.definitions()));
+    Assert.assertEquals(BoxedType.of(true), fn.evaluate(Function.definitions()));
   }
 
   @Test
@@ -29,7 +29,7 @@ public class MatchWildcardTest {
 
     Function fn = new Function(
         "MATCH_WILDCARD(cve¤references¤reference_data¤A1A¤url, cve¤references¤reference_data¤*)");
-    Assert.assertEquals(BoxedType.create(true), fn.evaluate(Function.definitions()));
+    Assert.assertEquals(BoxedType.of(true), fn.evaluate(Function.definitions()));
   }
 
   @Test
@@ -37,6 +37,6 @@ public class MatchWildcardTest {
 
     Function fn = new Function(
         "MATCH_WILDCARD(cve¤references¤reference_data¤A1A¤url, CVE¤REFERENCES¤REFERENCE_DATA¤*)");
-    Assert.assertEquals(BoxedType.create(true), fn.evaluate(Function.definitions()));
+    Assert.assertEquals(BoxedType.of(true), fn.evaluate(Function.definitions()));
   }
 }

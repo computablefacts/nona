@@ -35,7 +35,7 @@ import com.computablefacts.nona.functions.multiplicativeoperators.Multiply;
 import com.computablefacts.nona.functions.patternoperators.*;
 import com.computablefacts.nona.functions.patternoperators.Number;
 import com.computablefacts.nona.functions.stringoperators.*;
-import com.computablefacts.nona.types.BoxedType;
+import com.computablefacts.asterix.BoxedType;
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Objects;
 import com.google.common.base.Preconditions;
@@ -227,7 +227,7 @@ public class Function {
    * @return boxed type.
    */
   public static BoxedType<?> box(Object obj) {
-    return BoxedType.create(obj, false);
+    return BoxedType.of(obj, false);
   }
 
   @Generated

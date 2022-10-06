@@ -6,7 +6,7 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import com.computablefacts.nona.Function;
-import com.computablefacts.nona.types.BoxedType;
+import com.computablefacts.asterix.BoxedType;
 
 public class WhichTest {
 
@@ -19,7 +19,7 @@ public class WhichTest {
 
     Function fn = new Function("WHICH_X(5)");
 
-    Assert.assertEquals(BoxedType.create("positive"), fn.evaluate(definitions));
+    Assert.assertEquals(BoxedType.of("positive"), fn.evaluate(definitions));
   }
 
   @Test
@@ -31,7 +31,7 @@ public class WhichTest {
 
     Function fn = new Function("WHICH_X(0)");
 
-    Assert.assertEquals(BoxedType.create("zero"), fn.evaluate(definitions));
+    Assert.assertEquals(BoxedType.of("zero"), fn.evaluate(definitions));
   }
 
   @Test(expected = IllegalStateException.class)

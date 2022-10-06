@@ -10,7 +10,7 @@ import org.junit.Test;
 
 import com.computablefacts.nona.functions.additiveoperators.Add;
 import com.computablefacts.nona.functions.multiplicativeoperators.Divide;
-import com.computablefacts.nona.types.BoxedType;
+import com.computablefacts.asterix.BoxedType;
 import com.google.common.collect.Lists;
 
 import nl.jqno.equalsverifier.EqualsVerifier;
@@ -39,7 +39,7 @@ public class FunctionTest {
 
       @Override
       public BoxedType<?> evaluate(List<BoxedType<?>> parameters) {
-        return BoxedType.create(parameters.isEmpty() ? 0 : 1);
+        return BoxedType.of(parameters.isEmpty() ? 0 : 1);
       }
     });
 
@@ -47,7 +47,7 @@ public class FunctionTest {
 
     Assert.assertEquals("ZERO", fn.name());
     Assert.assertEquals(0, fn.arity());
-    Assert.assertEquals(BoxedType.create(0), fn.evaluate(functions));
+    Assert.assertEquals(BoxedType.of(0), fn.evaluate(functions));
   }
 
   @Test
@@ -58,7 +58,7 @@ public class FunctionTest {
 
       @Override
       public BoxedType<?> evaluate(List<BoxedType<?>> parameters) {
-        return BoxedType.create(parameters.isEmpty() ? 0 : 1);
+        return BoxedType.of(parameters.isEmpty() ? 0 : 1);
       }
     });
 
@@ -66,13 +66,13 @@ public class FunctionTest {
 
     Assert.assertEquals("ZERO", fn.name());
     Assert.assertEquals(0, fn.arity());
-    Assert.assertEquals(BoxedType.create(0), fn.evaluate(functions));
+    Assert.assertEquals(BoxedType.of(0), fn.evaluate(functions));
   }
 
   @Test
   public void testEvaluateFunctionWithoutDefinition() {
     Function fn = new Function("FN");
-    Assert.assertEquals(BoxedType.create("FN"), fn.evaluate());
+    Assert.assertEquals(BoxedType.of("FN"), fn.evaluate());
   }
 
   @Test
@@ -180,7 +180,7 @@ public class FunctionTest {
 
     Assert.assertEquals("FN", fn.name());
     Assert.assertEquals(1, fn.arity());
-    Assert.assertEquals(BoxedType.create(666), fn.evaluate(functions));
+    Assert.assertEquals(BoxedType.of(666), fn.evaluate(functions));
   }
 
   @Test
@@ -199,7 +199,7 @@ public class FunctionTest {
 
     Assert.assertEquals("FN", fn.name());
     Assert.assertEquals(1, fn.arity());
-    Assert.assertEquals(BoxedType.create(6.66), fn.evaluate(functions));
+    Assert.assertEquals(BoxedType.of(6.66), fn.evaluate(functions));
   }
 
   @Test
@@ -218,7 +218,7 @@ public class FunctionTest {
 
     Assert.assertEquals("FN", fn.name());
     Assert.assertEquals(1, fn.arity());
-    Assert.assertEquals(BoxedType.create("string"), fn.evaluate(functions));
+    Assert.assertEquals(BoxedType.of("string"), fn.evaluate(functions));
   }
 
   @Test
@@ -237,7 +237,7 @@ public class FunctionTest {
 
     Assert.assertEquals("FN", fn.name());
     Assert.assertEquals(1, fn.arity());
-    Assert.assertEquals(BoxedType.create("\"string\""), fn.evaluate(functions));
+    Assert.assertEquals(BoxedType.of("\"string\""), fn.evaluate(functions));
   }
 
   @Test
@@ -256,7 +256,7 @@ public class FunctionTest {
 
     Assert.assertEquals("FN", fn.name());
     Assert.assertEquals(1, fn.arity());
-    Assert.assertEquals(BoxedType.create("str()ing"), fn.evaluate(functions));
+    Assert.assertEquals(BoxedType.of("str()ing"), fn.evaluate(functions));
   }
 
   @Test
@@ -275,7 +275,7 @@ public class FunctionTest {
 
     Assert.assertEquals("FN", fn.name());
     Assert.assertEquals(1, fn.arity());
-    Assert.assertEquals(BoxedType.create("str,ing"), fn.evaluate(functions));
+    Assert.assertEquals(BoxedType.of("str,ing"), fn.evaluate(functions));
   }
 
   @Test
@@ -294,7 +294,7 @@ public class FunctionTest {
 
     Assert.assertEquals("FN", fn.name());
     Assert.assertEquals(1, fn.arity());
-    Assert.assertEquals(BoxedType.create("str\"ing"), fn.evaluate(functions));
+    Assert.assertEquals(BoxedType.of("str\"ing"), fn.evaluate(functions));
   }
 
   @Test
@@ -313,7 +313,7 @@ public class FunctionTest {
 
     Assert.assertEquals("FN", fn.name());
     Assert.assertEquals(1, fn.arity());
-    Assert.assertEquals(BoxedType.create("str(ing"), fn.evaluate(functions));
+    Assert.assertEquals(BoxedType.of("str(ing"), fn.evaluate(functions));
   }
 
   @Test
@@ -332,7 +332,7 @@ public class FunctionTest {
 
     Assert.assertEquals("FN", fn.name());
     Assert.assertEquals(1, fn.arity());
-    Assert.assertEquals(BoxedType.create("str)ing"), fn.evaluate(functions));
+    Assert.assertEquals(BoxedType.of("str)ing"), fn.evaluate(functions));
   }
 
   @Test(expected = RuntimeException.class)
@@ -373,7 +373,7 @@ public class FunctionTest {
 
     Function fn = new Function("DIV(SUM(1, 2, 3, 4), 4)");
 
-    Assert.assertEquals(BoxedType.create(2.5), fn.evaluate(functions));
+    Assert.assertEquals(BoxedType.of(2.5), fn.evaluate(functions));
   }
 
   @Test
@@ -397,7 +397,7 @@ public class FunctionTest {
 
     Function fn = new Function("DIV(SUM(1, 2, 3, 4), 4)");
 
-    Assert.assertEquals(BoxedType.create(2.5), fn.evaluate(functions));
+    Assert.assertEquals(BoxedType.of(2.5), fn.evaluate(functions));
   }
 
   @Test
