@@ -1,5 +1,0 @@
-eb8b11d2d75b8c39665dc5500b10e06e5a73a1e9
-
-with commit from pull-request #17 cherry-picked
-
-ae331893bf720a5ce7d679aac1f736ab34b9e8e9
