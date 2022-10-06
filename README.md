@@ -29,7 +29,7 @@ using the following dependency:
 <dependency>
   <groupId>com.computablefacts</groupId>
   <artifactId>nona</artifactId>
-  <version>3.x-SNAPSHOT</version>
+  <version>4.x-SNAPSHOT</version>
 </dependency>
 ```
 
