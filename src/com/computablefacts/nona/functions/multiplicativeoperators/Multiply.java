@@ -1,14 +1,13 @@
 package com.computablefacts.nona.functions.multiplicativeoperators;
 
-import java.math.BigDecimal;
-import java.util.List;
-
+import com.computablefacts.asterix.BoxedType;
 import com.computablefacts.nona.Function;
 import com.computablefacts.nona.eCategory;
-import com.computablefacts.asterix.BoxedType;
 import com.google.common.base.Preconditions;
 import com.google.errorprone.annotations.CheckReturnValue;
 import com.google.errorprone.annotations.Var;
+import java.math.BigDecimal;
+import java.util.List;
 
 @CheckReturnValue
 public class Multiply extends Function {
@@ -22,8 +21,7 @@ public class Multiply extends Function {
 
     Preconditions.checkArgument(parameters.size() >= 2, "MUL takes at least two parameters.");
 
-    @Var
-    BigDecimal res = BigDecimal.ONE;
+    @Var BigDecimal res = BigDecimal.ONE;
 
     for (BoxedType<?> param : parameters) {
 

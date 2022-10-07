@@ -1,21 +1,19 @@
 package com.computablefacts.nona.functions.mathematicaloperators;
 
-import java.math.BigDecimal;
-import java.util.List;
-
+import com.computablefacts.asterix.BoxedType;
 import com.computablefacts.nona.Function;
 import com.computablefacts.nona.eCategory;
-import com.computablefacts.asterix.BoxedType;
 import com.google.common.base.Preconditions;
 import com.google.errorprone.annotations.CheckReturnValue;
 import com.google.errorprone.annotations.Var;
+import java.math.BigDecimal;
+import java.util.List;
 
 @CheckReturnValue
 public class Max extends Function {
 
   public Max() {
-    super(eCategory.MATHEMATICAL_OPERATORS, "MAX",
-        "MAX(x, ..., z) returns the largest number between {x, ..., z}.");
+    super(eCategory.MATHEMATICAL_OPERATORS, "MAX", "MAX(x, ..., z) returns the largest number between {x, ..., z}.");
   }
 
   @Override
@@ -23,8 +21,7 @@ public class Max extends Function {
 
     Preconditions.checkArgument(parameters.size() >= 2, "MAX takes at least two parameters.");
 
-    @Var
-    BigDecimal max = BigDecimal.ZERO;
+    @Var BigDecimal max = BigDecimal.ZERO;
 
     for (BoxedType<?> param : parameters) {
 

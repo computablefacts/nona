@@ -1,13 +1,5 @@
 package com.computablefacts.nona.types;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-
-import javax.validation.constraints.NotNull;
-
 import com.computablefacts.asterix.Generated;
 import com.fasterxml.jackson.databind.MappingIterator;
 import com.fasterxml.jackson.dataformat.csv.CsvMapper;
@@ -17,6 +9,12 @@ import com.google.common.base.Preconditions;
 import com.google.common.base.Strings;
 import com.google.errorprone.annotations.CheckReturnValue;
 import com.google.errorprone.annotations.Var;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import javax.validation.constraints.NotNull;
 
 @Deprecated
 @CheckReturnValue
@@ -36,8 +34,8 @@ final public class Csv implements Comparable<Csv> {
 
       CsvMapper csvMapper = new CsvMapper();
       CsvSchema csvSchema = CsvSchema.emptySchema().withHeader();
-      MappingIterator<Map<String, String>> mappingIterator =
-          csvMapper.reader().forType(Map.class).with(csvSchema).readValues(csv);
+      MappingIterator<Map<String, String>> mappingIterator = csvMapper.reader().forType(Map.class).with(csvSchema)
+          .readValues(csv);
 
       return new Csv(mappingIterator.readAll());
     } catch (IOException e) {
@@ -59,8 +57,7 @@ final public class Csv implements Comparable<Csv> {
 
   public String value(int row, String colName) {
 
-    Preconditions.checkArgument(!Strings.isNullOrEmpty(colName),
-        "colName should neither be null nor empty");
+    Preconditions.checkArgument(!Strings.isNullOrEmpty(colName), "colName should neither be null nor empty");
 
     return row(row).get(colName);
   }
@@ -90,7 +87,7 @@ final public class Csv implements Comparable<Csv> {
 
   /**
    * WARNING : DO NOT USE.
-   *
+   * <p>
    * This method exists to ensure the {@link Csv} datatype can be boxed using {@link BoxedType}.
    */
   @Override
@@ -100,8 +97,7 @@ final public class Csv implements Comparable<Csv> {
 
   public String asString() {
     try {
-      @Var
-      CsvSchema schema = null;
+      @Var CsvSchema schema = null;
       CsvSchema.Builder schemaBuilder = CsvSchema.builder();
       if (rows_ != null && !rows_.isEmpty()) {
         for (String col : rows_.get(0).keySet()) {

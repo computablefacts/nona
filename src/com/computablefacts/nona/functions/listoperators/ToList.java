@@ -1,22 +1,20 @@
 package com.computablefacts.nona.functions.listoperators;
 
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
-
+import com.computablefacts.asterix.BoxedType;
 import com.computablefacts.asterix.codecs.JsonCodec;
 import com.computablefacts.nona.Function;
 import com.computablefacts.nona.eCategory;
-import com.computablefacts.asterix.BoxedType;
 import com.google.common.base.Preconditions;
 import com.google.errorprone.annotations.CheckReturnValue;
+import java.util.Collection;
+import java.util.List;
+import java.util.Map;
 
 @CheckReturnValue
 public class ToList extends Function {
 
   public ToList() {
-    super(eCategory.LIST_OPERATORS, "TO_LIST",
-        "TO_LIST(x) returns the LIST associated with string or JSON x.");
+    super(eCategory.LIST_OPERATORS, "TO_LIST", "TO_LIST(x) returns the LIST associated with string or JSON x.");
   }
 
   @Override
@@ -26,8 +24,7 @@ public class ToList extends Function {
 
     if (parameters.get(0).isString()) {
 
-      Preconditions.checkArgument(parameters.get(0).isString(), "%s should be a string",
-          parameters.get(0));
+      Preconditions.checkArgument(parameters.get(0).isString(), "%s should be a string", parameters.get(0));
 
       String list = parameters.get(0).asString().trim();
 
@@ -38,8 +35,8 @@ public class ToList extends Function {
       return json == null || json.get("root") == null ? BoxedType.empty() : box(json.get("root"));
     }
 
-    Preconditions.checkArgument(parameters.get(0).isCollection(),
-        "%s should be a Collection of objects", parameters.get(0));
+    Preconditions.checkArgument(parameters.get(0).isCollection(), "%s should be a Collection of objects",
+        parameters.get(0));
 
     Collection<?> collection = parameters.get(0).asCollection();
     return collection.isEmpty() ? BoxedType.empty() : box(collection);

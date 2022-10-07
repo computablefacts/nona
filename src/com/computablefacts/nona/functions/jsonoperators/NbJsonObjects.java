@@ -1,12 +1,11 @@
 package com.computablefacts.nona.functions.jsonoperators;
 
-import java.util.List;
-
+import com.computablefacts.asterix.BoxedType;
 import com.computablefacts.nona.Function;
 import com.computablefacts.nona.eCategory;
-import com.computablefacts.asterix.BoxedType;
 import com.google.common.base.Preconditions;
 import com.google.errorprone.annotations.CheckReturnValue;
+import java.util.List;
 
 @Deprecated
 @CheckReturnValue
@@ -20,11 +19,9 @@ public class NbJsonObjects extends Function {
   @Override
   public BoxedType<?> evaluate(List<BoxedType<?>> parameters) {
 
-    Preconditions.checkArgument(parameters.size() == 1,
-        "NB_JSON_OBJECTS takes exactly one parameter.");
+    Preconditions.checkArgument(parameters.size() == 1, "NB_JSON_OBJECTS takes exactly one parameter.");
     Preconditions.checkArgument(
-        parameters.get(0).isEmpty() || parameters.get(0).isCollection()
-            || parameters.get(0).isMap(),
+        parameters.get(0).isEmpty() || parameters.get(0).isCollection() || parameters.get(0).isMap(),
         "%s must be either a Collection or a Map", parameters.get(0));
 
     BoxedType<?> bt = parameters.get(0);

@@ -1,20 +1,19 @@
 package com.computablefacts.nona.functions.jsonoperators;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-
+import com.computablefacts.asterix.BoxedType;
 import com.computablefacts.asterix.codecs.JsonCodec;
 import com.computablefacts.nona.Function;
 import com.computablefacts.nona.eCategory;
-import com.computablefacts.asterix.BoxedType;
 import com.github.wnameless.json.flattener.JsonFlattener;
 import com.google.common.base.Preconditions;
 import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
 import com.google.errorprone.annotations.CheckReturnValue;
 import com.google.errorprone.annotations.Var;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 
 @CheckReturnValue
 public class ToJson extends Function {
@@ -29,11 +28,9 @@ public class ToJson extends Function {
 
     Preconditions.checkArgument(parameters.size() == 1 || parameters.size() == 2,
         "TO_JSON takes at least one parameter and at most 2.");
-    Preconditions.checkArgument(parameters.get(0).isString(), "%s should be a string",
-        parameters.get(0));
+    Preconditions.checkArgument(parameters.get(0).isString(), "%s should be a string", parameters.get(0));
 
-    @Var
-    String json = parameters.get(0).asString();
+    @Var String json = parameters.get(0).asString();
 
     if (Strings.isNullOrEmpty(json)) {
       return BoxedType.empty();

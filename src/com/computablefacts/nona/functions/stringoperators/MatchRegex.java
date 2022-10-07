@@ -1,13 +1,10 @@
 package com.computablefacts.nona.functions.stringoperators;
 
-import java.util.List;
-import java.util.concurrent.TimeUnit;
-
+import com.computablefacts.asterix.BoxedType;
 import com.computablefacts.asterix.Span;
 import com.computablefacts.asterix.SpanSequence;
 import com.computablefacts.nona.Function;
 import com.computablefacts.nona.eCategory;
-import com.computablefacts.asterix.BoxedType;
 import com.google.common.base.Preconditions;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
@@ -16,19 +13,20 @@ import com.google.errorprone.annotations.CheckReturnValue;
 import com.google.errorprone.annotations.Var;
 import com.google.re2j.Matcher;
 import com.google.re2j.Pattern;
+import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 @CheckReturnValue
 public class MatchRegex extends Function {
 
-  private static final LoadingCache<String, Pattern> cache_ =
-      CacheBuilder.newBuilder().recordStats().maximumSize(100).expireAfterWrite(1, TimeUnit.HOURS)
-          .build(new CacheLoader<String, Pattern>() {
+  private static final LoadingCache<String, Pattern> cache_ = CacheBuilder.newBuilder().recordStats().maximumSize(100)
+      .expireAfterWrite(1, TimeUnit.HOURS).build(new CacheLoader<String, Pattern>() {
 
-            @Override
-            public Pattern load(String key) {
-              return Pattern.compile(key);
-            }
-          });
+        @Override
+        public Pattern load(String key) {
+          return Pattern.compile(key);
+        }
+      });
 
   public MatchRegex() {
     super(eCategory.STRING_OPERATORS, "MATCH_REGEX",
@@ -36,15 +34,14 @@ public class MatchRegex extends Function {
   }
 
   protected MatchRegex(String expression) {
-    super(eCategory.STRING_OPERATORS, expression, expression.trim().toUpperCase()
-        + "(x, y) returns all substrings of x matching a given regular expression y.");
+    super(eCategory.STRING_OPERATORS, expression,
+        expression.trim().toUpperCase() + "(x, y) returns all substrings of x matching a given regular expression y.");
   }
 
   @Override
   public BoxedType<?> evaluate(List<BoxedType<?>> parameters) {
 
-    Preconditions.checkArgument(parameters.size() == 2,
-        "MATCH_REGEX takes exactly two parameters : %s", parameters);
+    Preconditions.checkArgument(parameters.size() == 2, "MATCH_REGEX takes exactly two parameters : %s", parameters);
 
     SpanSequence sequence = new SpanSequence();
     String text = parameters.get(0).asString();
@@ -57,14 +54,12 @@ public class MatchRegex extends Function {
       int end = matcher.end();
       String str = text.substring(start, end);
 
-      @Var
-      int i = 0;
+      @Var int i = 0;
       while (i < str.length() && isWhitespace(str.charAt(i))) { // Trim left
         i++;
       }
 
-      @Var
-      int j = str.length() - 1;
+      @Var int j = str.length() - 1;
       while (j >= 0 && isWhitespace(str.charAt(j))) { // Trim right
         j--;
       }

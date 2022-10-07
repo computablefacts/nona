@@ -1,13 +1,12 @@
 package com.computablefacts.nona.functions.mathematicaloperators;
 
-import java.math.RoundingMode;
-import java.util.List;
-
+import com.computablefacts.asterix.BoxedType;
 import com.computablefacts.nona.Function;
 import com.computablefacts.nona.eCategory;
-import com.computablefacts.asterix.BoxedType;
 import com.google.common.base.Preconditions;
 import com.google.errorprone.annotations.CheckReturnValue;
+import java.math.RoundingMode;
+import java.util.List;
 
 @CheckReturnValue
 public class Ceil extends Function {
@@ -21,8 +20,7 @@ public class Ceil extends Function {
   public BoxedType<?> evaluate(List<BoxedType<?>> parameters) {
 
     Preconditions.checkArgument(parameters.size() == 1, "CEIL takes exactly one parameter.");
-    Preconditions.checkArgument(parameters.get(0).isNumber(), "%s should be a number",
-        parameters.get(0));
+    Preconditions.checkArgument(parameters.get(0).isNumber(), "%s should be a number", parameters.get(0));
 
     return box(parameters.get(0).asBigDecimal().setScale(0, RoundingMode.CEILING));
   }

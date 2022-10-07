@@ -1,12 +1,11 @@
 package com.computablefacts.nona.functions.stringoperators;
 
-import java.util.List;
-
+import com.computablefacts.asterix.BoxedType;
 import com.computablefacts.nona.Function;
 import com.computablefacts.nona.eCategory;
-import com.computablefacts.asterix.BoxedType;
 import com.google.common.base.Preconditions;
 import com.google.errorprone.annotations.CheckReturnValue;
+import java.util.List;
 
 @CheckReturnValue
 public class Substring extends Function {
@@ -25,8 +24,8 @@ public class Substring extends Function {
     String string = parameters.get(0).asString();
 
     Preconditions.checkNotNull(string, "string should not be null");
-    Preconditions.checkArgument(parameters.get(1).isNumber(),
-        "%s should be an integer >= 0 and <= %s", parameters.get(1), string.length());
+    Preconditions.checkArgument(parameters.get(1).isNumber(), "%s should be an integer >= 0 and <= %s",
+        parameters.get(1), string.length());
 
     if (parameters.size() == 2) {
       return box(string.substring(parameters.get(1).asInt()));
@@ -34,8 +33,8 @@ public class Substring extends Function {
 
     int begin = parameters.get(1).asInt();
 
-    Preconditions.checkArgument(parameters.get(2).isNumber(),
-        "%s should be an integer >= %s and <= %s", parameters.get(2), begin, string.length());
+    Preconditions.checkArgument(parameters.get(2).isNumber(), "%s should be an integer >= %s and <= %s",
+        parameters.get(2), begin, string.length());
 
     return box(string.substring(begin, parameters.get(2).asInt()));
   }

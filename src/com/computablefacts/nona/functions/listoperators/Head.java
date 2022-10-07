@@ -1,13 +1,12 @@
 package com.computablefacts.nona.functions.listoperators;
 
-import java.util.List;
-
+import com.computablefacts.asterix.BoxedType;
 import com.computablefacts.nona.Function;
 import com.computablefacts.nona.eCategory;
-import com.computablefacts.asterix.BoxedType;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Iterables;
 import com.google.errorprone.annotations.CheckReturnValue;
+import java.util.List;
 
 @CheckReturnValue
 public class Head extends Function {
@@ -20,8 +19,7 @@ public class Head extends Function {
   public BoxedType<?> evaluate(List<BoxedType<?>> parameters) {
 
     Preconditions.checkArgument(parameters.size() == 1, "HEAD takes exactly one parameter.");
-    Preconditions.checkArgument(parameters.get(0).isCollection(), "%s should be a collection",
-        parameters.get(0));
+    Preconditions.checkArgument(parameters.get(0).isCollection(), "%s should be a collection", parameters.get(0));
 
     Object first = Iterables.getFirst(parameters.get(0).asCollection(), null);
     return first == null ? BoxedType.empty() : box(first);

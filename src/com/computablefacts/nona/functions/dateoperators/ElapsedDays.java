@@ -1,14 +1,13 @@
 package com.computablefacts.nona.functions.dateoperators;
 
+import com.computablefacts.asterix.BoxedType;
+import com.computablefacts.nona.Function;
+import com.computablefacts.nona.eCategory;
+import com.google.common.base.Preconditions;
+import com.google.errorprone.annotations.CheckReturnValue;
 import java.time.temporal.ChronoUnit;
 import java.util.Calendar;
 import java.util.List;
-
-import com.computablefacts.nona.Function;
-import com.computablefacts.nona.eCategory;
-import com.computablefacts.asterix.BoxedType;
-import com.google.common.base.Preconditions;
-import com.google.errorprone.annotations.CheckReturnValue;
 
 @CheckReturnValue
 public class ElapsedDays extends Function {
@@ -21,12 +20,9 @@ public class ElapsedDays extends Function {
   @Override
   public BoxedType<?> evaluate(List<BoxedType<?>> parameters) {
 
-    Preconditions.checkArgument(parameters.size() == 2,
-        "ELAPSED_DAYS takes exactly two parameters.");
-    Preconditions.checkArgument(parameters.get(0).isDate(), "%s should be a date",
-        parameters.get(0));
-    Preconditions.checkArgument(parameters.get(1).isDate(), "%s should be a date",
-        parameters.get(1));
+    Preconditions.checkArgument(parameters.size() == 2, "ELAPSED_DAYS takes exactly two parameters.");
+    Preconditions.checkArgument(parameters.get(0).isDate(), "%s should be a date", parameters.get(0));
+    Preconditions.checkArgument(parameters.get(1).isDate(), "%s should be a date", parameters.get(1));
 
     Calendar calendar1 = Calendar.getInstance();
     calendar1.setTime(parameters.get(0).asDate());

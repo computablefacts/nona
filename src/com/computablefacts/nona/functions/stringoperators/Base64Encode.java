@@ -1,14 +1,13 @@
 package com.computablefacts.nona.functions.stringoperators;
 
-import java.util.Base64;
-import java.util.List;
-
+import com.computablefacts.asterix.BoxedType;
 import com.computablefacts.asterix.codecs.Base64Codec;
 import com.computablefacts.nona.Function;
 import com.computablefacts.nona.eCategory;
-import com.computablefacts.asterix.BoxedType;
 import com.google.common.base.Preconditions;
 import com.google.errorprone.annotations.CheckReturnValue;
+import java.util.Base64;
+import java.util.List;
 
 @CheckReturnValue
 public class Base64Encode extends Function {
@@ -23,8 +22,7 @@ public class Base64Encode extends Function {
   @Override
   public BoxedType<?> evaluate(List<BoxedType<?>> parameters) {
 
-    Preconditions.checkArgument(parameters.size() == 1,
-        "BASE64_ENCODE takes exactly one parameter.");
+    Preconditions.checkArgument(parameters.size() == 1, "BASE64_ENCODE takes exactly one parameter.");
 
     String x = parameters.get(0).asString();
     return box(Base64Codec.encodeB64(b64Encoder_, x));

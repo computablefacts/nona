@@ -1,13 +1,11 @@
 package com.computablefacts.nona.functions.stringoperators;
 
-import java.util.List;
-
+import com.computablefacts.asterix.BoxedType;
 import com.computablefacts.nona.Function;
 import com.computablefacts.nona.eCategory;
-import com.computablefacts.asterix.BoxedType;
 import com.google.common.base.Preconditions;
 import com.google.errorprone.annotations.CheckReturnValue;
-
+import java.util.List;
 import me.xdrop.fuzzywuzzy.FuzzySearch;
 
 @CheckReturnValue
@@ -23,16 +21,11 @@ public class MatchFuzzy extends Function {
   @Override
   public BoxedType<?> evaluate(List<BoxedType<?>> parameters) {
 
-    Preconditions.checkArgument(parameters.size() == 4,
-        "MATCH_FUZZY takes exactly four parameters.");
-    Preconditions.checkArgument(parameters.get(0).isString(), "%s should be a string",
-        parameters.get(0));
-    Preconditions.checkArgument(parameters.get(1).isNumber(), "%s should be a number",
-        parameters.get(1));
-    Preconditions.checkArgument(parameters.get(2).isString(), "%s should be a string",
-        parameters.get(2));
-    Preconditions.checkArgument(parameters.get(3).isString(), "%s should be a string",
-        parameters.get(3));
+    Preconditions.checkArgument(parameters.size() == 4, "MATCH_FUZZY takes exactly four parameters.");
+    Preconditions.checkArgument(parameters.get(0).isString(), "%s should be a string", parameters.get(0));
+    Preconditions.checkArgument(parameters.get(1).isNumber(), "%s should be a number", parameters.get(1));
+    Preconditions.checkArgument(parameters.get(2).isString(), "%s should be a string", parameters.get(2));
+    Preconditions.checkArgument(parameters.get(3).isString(), "%s should be a string", parameters.get(3));
 
     BoxedType<?> ratioType = parameters.get(0);
     BoxedType<?> minScore = parameters.get(1);

@@ -1,17 +1,15 @@
 package com.computablefacts.nona.functions.comparisonoperators;
 
-import java.util.List;
-import java.util.Optional;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
+import com.computablefacts.asterix.BoxedType;
 import com.computablefacts.logfmt.LogFormatter;
 import com.computablefacts.nona.Function;
 import com.computablefacts.nona.eCategory;
-import com.computablefacts.asterix.BoxedType;
 import com.google.common.base.Preconditions;
 import com.google.errorprone.annotations.CheckReturnValue;
+import java.util.List;
+import java.util.Optional;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @CheckReturnValue
 public class GreaterThan extends Function {
@@ -36,9 +34,8 @@ public class GreaterThan extends Function {
       return box(cmp.get() > 0);
     }
 
-    logger_.error(LogFormatter.create(true).message("objects are not comparable")
-        .add("first_object", param1.toString()).add("second_object", param2.toString())
-        .formatError());
+    logger_.error(LogFormatter.create(true).message("objects are not comparable").add("first_object", param1.toString())
+        .add("second_object", param2.toString()).formatError());
 
     return box(false);
   }

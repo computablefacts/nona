@@ -1,19 +1,17 @@
 package com.computablefacts.nona.functions.booleanlogicoperators;
 
-import java.util.List;
-
+import com.computablefacts.asterix.BoxedType;
 import com.computablefacts.nona.Function;
 import com.computablefacts.nona.eCategory;
-import com.computablefacts.asterix.BoxedType;
 import com.google.common.base.Preconditions;
 import com.google.errorprone.annotations.CheckReturnValue;
+import java.util.List;
 
 @CheckReturnValue
 public class IsNull extends Function {
 
   public IsNull() {
-    super(eCategory.BOOLEAN_LOGIC_OPERATORS, "IS_NULL",
-        "IS_NULL(x) returns true if and only if x is null.");
+    super(eCategory.BOOLEAN_LOGIC_OPERATORS, "IS_NULL", "IS_NULL(x) returns true if and only if x is null.");
   }
 
   @Override

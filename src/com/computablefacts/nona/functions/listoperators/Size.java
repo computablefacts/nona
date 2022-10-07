@@ -1,19 +1,17 @@
 package com.computablefacts.nona.functions.listoperators;
 
-import java.util.List;
-
+import com.computablefacts.asterix.BoxedType;
 import com.computablefacts.nona.Function;
 import com.computablefacts.nona.eCategory;
-import com.computablefacts.asterix.BoxedType;
 import com.google.common.base.Preconditions;
 import com.google.errorprone.annotations.CheckReturnValue;
+import java.util.List;
 
 @CheckReturnValue
 public class Size extends Function {
 
   public Size() {
-    super(eCategory.LIST_OPERATORS, "SIZE",
-        "SIZE(x) returns the size of list x or the number of keys of map x.");
+    super(eCategory.LIST_OPERATORS, "SIZE", "SIZE(x) returns the size of list x or the number of keys of map x.");
   }
 
   @Override

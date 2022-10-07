@@ -1,13 +1,12 @@
 package com.computablefacts.nona.functions.controlflowoperators;
 
-import java.util.List;
-
+import com.computablefacts.asterix.BoxedType;
 import com.computablefacts.nona.Function;
 import com.computablefacts.nona.eCategory;
-import com.computablefacts.asterix.BoxedType;
 import com.google.common.base.Preconditions;
 import com.google.errorprone.annotations.CheckReturnValue;
 import com.google.errorprone.annotations.Var;
+import java.util.List;
 
 @CheckReturnValue
 public class Switch extends Function {
@@ -22,11 +21,9 @@ public class Switch extends Function {
   public BoxedType<?> evaluate(List<BoxedType<?>> parameters) {
 
     Preconditions.checkArgument(parameters.size() >= 3, "SWITCH takes at least three parameters.");
-    Preconditions.checkArgument((parameters.size() - 1) % 2 == 0,
-        "SWITCH contains an invalid number of statements.");
+    Preconditions.checkArgument((parameters.size() - 1) % 2 == 0, "SWITCH contains an invalid number of statements.");
 
-    @Var
-    BoxedType<?> defaultOutput = null;
+    @Var BoxedType<?> defaultOutput = null;
     BoxedType<?> defaultStatement = box("_");
     BoxedType<?> input = parameters.get(0);
 
