@@ -1,11 +1,10 @@
 package com.computablefacts.nona.functions.csvoperators;
 
+import com.computablefacts.asterix.BoxedType;
+import com.computablefacts.nona.Function;
+import com.computablefacts.nona.types.Csv;
 import org.junit.Assert;
 import org.junit.Test;
-
-import com.computablefacts.nona.Function;
-import com.computablefacts.asterix.BoxedType;
-import com.computablefacts.nona.types.Csv;
 
 public class ToCsvTest {
 

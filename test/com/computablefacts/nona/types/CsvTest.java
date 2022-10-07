@@ -1,9 +1,8 @@
 package com.computablefacts.nona.types;
 
+import nl.jqno.equalsverifier.EqualsVerifier;
 import org.junit.Assert;
 import org.junit.Test;
-
-import nl.jqno.equalsverifier.EqualsVerifier;
 
 public class CsvTest {
 

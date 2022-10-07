@@ -1,19 +1,16 @@
 package com.computablefacts.nona;
 
+import com.computablefacts.asterix.BoxedType;
+import com.computablefacts.nona.functions.additiveoperators.Add;
+import com.computablefacts.nona.functions.multiplicativeoperators.Divide;
+import com.google.common.collect.Lists;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
+import nl.jqno.equalsverifier.EqualsVerifier;
 import org.junit.Assert;
 import org.junit.Test;
-
-import com.computablefacts.nona.functions.additiveoperators.Add;
-import com.computablefacts.nona.functions.multiplicativeoperators.Divide;
-import com.computablefacts.asterix.BoxedType;
-import com.google.common.collect.Lists;
-
-import nl.jqno.equalsverifier.EqualsVerifier;
 
 public class FunctionTest {
 
@@ -337,8 +334,7 @@ public class FunctionTest {
 
   @Test(expected = RuntimeException.class)
   public void testDirectCallToEvaluate() {
-    BoxedType<?> bt = new Function(eCategory.ASSIGNMENT_OPERATORS, "FN", "For tests only.")
-        .evaluate(new ArrayList<>());
+    BoxedType<?> bt = new Function(eCategory.ASSIGNMENT_OPERATORS, "FN", "For tests only.").evaluate(new ArrayList<>());
   }
 
   @Test
@@ -423,7 +419,6 @@ public class FunctionTest {
   @Test
   public void testAtomEqualsAndHashcode() {
     EqualsVerifier.forClass(Function.Atom.class)
-        .withPrefabValues(List.class, Lists.newArrayList("x"), Lists.newArrayList("x", "y"))
-        .verify();
+        .withPrefabValues(List.class, Lists.newArrayList("x"), Lists.newArrayList("x", "y")).verify();
   }
 }

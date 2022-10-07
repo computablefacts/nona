@@ -1,15 +1,13 @@
 package com.computablefacts.nona.functions.listoperators;
 
-import java.util.ArrayList;
-import java.util.Collection;
-
-import org.junit.Assert;
-import org.junit.Test;
-
+import com.computablefacts.asterix.BoxedType;
 import com.computablefacts.asterix.codecs.JsonCodec;
 import com.computablefacts.nona.Function;
-import com.computablefacts.asterix.BoxedType;
 import com.google.common.collect.Lists;
+import java.util.ArrayList;
+import java.util.Collection;
+import org.junit.Assert;
+import org.junit.Test;
 
 public class ToListTest {
 
@@ -25,8 +23,7 @@ public class ToListTest {
     String array = Function.wrap("[1, 2, 3]");
     Function fn = new Function(String.format("TO_LIST(%s)", array));
 
-    Assert.assertEquals(BoxedType.of(Lists.newArrayList(1, 2, 3)),
-        fn.evaluate(Function.definitions()));
+    Assert.assertEquals(BoxedType.of(Lists.newArrayList(1, 2, 3)), fn.evaluate(Function.definitions()));
   }
 
   @Test

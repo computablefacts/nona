@@ -1,10 +1,9 @@
 package com.computablefacts.nona.functions.comparisonoperators;
 
+import com.computablefacts.asterix.BoxedType;
+import com.computablefacts.nona.Function;
 import org.junit.Assert;
 import org.junit.Test;
-
-import com.computablefacts.nona.Function;
-import com.computablefacts.asterix.BoxedType;
 
 public class LessThanTest {
 

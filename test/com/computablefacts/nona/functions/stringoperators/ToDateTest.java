@@ -1,13 +1,11 @@
 package com.computablefacts.nona.functions.stringoperators;
 
+import com.computablefacts.asterix.BoxedType;
+import com.computablefacts.nona.Function;
 import java.time.Instant;
 import java.util.Date;
-
 import org.junit.Assert;
 import org.junit.Test;
-
-import com.computablefacts.nona.Function;
-import com.computablefacts.asterix.BoxedType;
 
 public class ToDateTest {
 

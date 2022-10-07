@@ -1,10 +1,9 @@
 package com.computablefacts.nona.functions.stringoperators;
 
+import com.computablefacts.asterix.BoxedType;
+import com.computablefacts.nona.Function;
 import org.junit.Assert;
 import org.junit.Test;
-
-import com.computablefacts.nona.Function;
-import com.computablefacts.asterix.BoxedType;
 
 public class SnippetTest {
 
@@ -13,7 +12,7 @@ public class SnippetTest {
 
     Function fn = new Function("SNIPPET(" + Function.wrap(text()) + ", Welcome)");
     Assert.assertEquals(BoxedType.of(
-        "Welcome to Yahoo!, the world’s most visited home page. Quickly find what you’re searching for, get in touch with friends and stay in-the-know with the latest news and information. CloudSponge provides an interface to easily enable your users to import contacts from a variety of the most popular webmail..."),
+            "Welcome to Yahoo!, the world’s most visited home page. Quickly find what you’re searching for, get in touch with friends and stay in-the-know with the latest news and information. CloudSponge provides an interface to easily enable your users to import contacts from a variety of the most popular webmail..."),
         fn.evaluate(Function.definitions()));
   }
 
@@ -22,7 +21,7 @@ public class SnippetTest {
 
     Function fn = new Function("SNIPPET(" + Function.wrap(text()) + ", Yahoo, Outlook)");
     Assert.assertEquals(BoxedType.of(
-        "...in-the-know with the latest news and information. CloudSponge provides an interface to easily enable your users to import contacts from a variety of the most popular webmail services including Yahoo, Gmail and Hotmail/MSN as well as popular desktop address books such as Mac Address Book and Outlook."),
+            "...in-the-know with the latest news and information. CloudSponge provides an interface to easily enable your users to import contacts from a variety of the most popular webmail services including Yahoo, Gmail and Hotmail/MSN as well as popular desktop address books such as Mac Address Book and Outlook."),
         fn.evaluate(Function.definitions()));
   }
 
@@ -31,7 +30,7 @@ public class SnippetTest {
 
     Function fn = new Function("SNIPPET(" + Function.wrap(text()) + ", john doe)");
     Assert.assertEquals(BoxedType.of(
-        "Welcome to Yahoo!, the world’s most visited home page. Quickly find what you’re searching for, get in touch with friends and stay in-the-know with the latest news and information. CloudSponge provides an interface to easily enable your users to import contacts from a variety of the most popular webmail..."),
+            "Welcome to Yahoo!, the world’s most visited home page. Quickly find what you’re searching for, get in touch with friends and stay in-the-know with the latest news and information. CloudSponge provides an interface to easily enable your users to import contacts from a variety of the most popular webmail..."),
         fn.evaluate(Function.definitions()));
   }
 

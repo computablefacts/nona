@@ -1,11 +1,10 @@
 package com.computablefacts.nona.functions.listoperators;
 
+import com.computablefacts.asterix.BoxedType;
+import com.computablefacts.nona.Function;
+import com.google.common.collect.Lists;
 import org.junit.Assert;
 import org.junit.Test;
-
-import com.computablefacts.nona.Function;
-import com.computablefacts.asterix.BoxedType;
-import com.google.common.collect.Lists;
 
 public class TailTest {
 
@@ -21,7 +20,6 @@ public class TailTest {
     String array = Function.wrap("[1, 2, 3]");
     Function fn = new Function(String.format("TAIL(TO_LIST(%s))", array));
 
-    Assert.assertEquals(BoxedType.of(Lists.newArrayList(2, 3)),
-        fn.evaluate(Function.definitions()));
+    Assert.assertEquals(BoxedType.of(Lists.newArrayList(2, 3)), fn.evaluate(Function.definitions()));
   }
 }

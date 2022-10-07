@@ -1,10 +1,9 @@
 package com.computablefacts.nona.functions.stringoperators;
 
+import com.computablefacts.asterix.BoxedType;
+import com.computablefacts.nona.Function;
 import org.junit.Assert;
 import org.junit.Test;
-
-import com.computablefacts.nona.Function;
-import com.computablefacts.asterix.BoxedType;
 
 public class Base64EncodeTest {
 
@@ -26,7 +25,6 @@ public class Base64EncodeTest {
   public void testEncodeString() {
 
     Function fn = new Function("BASE64_ENCODE(\"random string\")");
-    Assert.assertEquals(BoxedType.of("cmFuZG9tIHN0cmluZw=="),
-        fn.evaluate(Function.definitions()));
+    Assert.assertEquals(BoxedType.of("cmFuZG9tIHN0cmluZw=="), fn.evaluate(Function.definitions()));
   }
 }

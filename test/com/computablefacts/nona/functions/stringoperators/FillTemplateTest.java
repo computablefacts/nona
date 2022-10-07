@@ -1,15 +1,13 @@
 package com.computablefacts.nona.functions.stringoperators;
 
+import com.computablefacts.asterix.BoxedType;
+import com.computablefacts.nona.Function;
+import com.google.common.collect.Lists;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-
 import org.junit.Assert;
 import org.junit.Test;
-
-import com.computablefacts.nona.Function;
-import com.computablefacts.asterix.BoxedType;
-import com.google.common.collect.Lists;
 
 public class FillTemplateTest {
 

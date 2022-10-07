@@ -1,15 +1,13 @@
 package com.computablefacts.nona.functions.listoperators;
 
-import java.util.ArrayList;
-
-import org.junit.Assert;
-import org.junit.Test;
-
+import com.computablefacts.asterix.BoxedType;
 import com.computablefacts.asterix.codecs.JsonCodec;
 import com.computablefacts.nona.Function;
-import com.computablefacts.asterix.BoxedType;
 import com.google.common.util.concurrent.UncheckedExecutionException;
 import com.google.errorprone.annotations.Var;
+import java.util.ArrayList;
+import org.junit.Assert;
+import org.junit.Test;
 
 public class GetTest {
 
@@ -24,8 +22,7 @@ public class GetTest {
 
     String array = Function.wrap("[1, 2, 3]");
 
-    @Var
-    Function fn = new Function(String.format("GET(TO_LIST(%s), 0)", array));
+    @Var Function fn = new Function(String.format("GET(TO_LIST(%s), 0)", array));
     Assert.assertEquals(BoxedType.of("1"), fn.evaluate(Function.definitions()));
 
     fn = new Function(String.format("GET(TO_LIST(%s), 1)", array));
@@ -123,8 +120,7 @@ public class GetTest {
 
     Function fn = new Function("GET(TO_JSON(" + Function.wrap(json) + "), ids)");
 
-    Assert.assertEquals(
-        BoxedType.of(JsonCodec.asCollection("[{\"id\":1},{\"id\":2},{\"id\":3}]")),
+    Assert.assertEquals(BoxedType.of(JsonCodec.asCollection("[{\"id\":1},{\"id\":2},{\"id\":3}]")),
         fn.evaluate(Function.definitions()));
   }
 
@@ -146,8 +142,7 @@ public class GetTest {
 
     Function fn = new Function("GET(GET(TO_JSON(" + Function.wrap(json) + "), ids), 1)");
 
-    Assert.assertEquals(BoxedType.of(JsonCodec.asObject("{\"id\":2}")),
-        fn.evaluate(Function.definitions()));
+    Assert.assertEquals(BoxedType.of(JsonCodec.asObject("{\"id\":2}")), fn.evaluate(Function.definitions()));
   }
 
   @Test

@@ -1,12 +1,10 @@
 package com.computablefacts.nona.functions.controlflowoperators;
 
+import com.computablefacts.asterix.BoxedType;
+import com.computablefacts.nona.Function;
 import java.util.Map;
-
 import org.junit.Assert;
 import org.junit.Test;
-
-import com.computablefacts.nona.Function;
-import com.computablefacts.asterix.BoxedType;
 
 public class WhichTest {
 
@@ -14,8 +12,8 @@ public class WhichTest {
   public void testWhich() {
 
     Map<String, Function> definitions = Function.definitions();
-    definitions.put("WHICH_X", new Function(
-        "WHICH_X(x) := WHICH(LT(x, 0), negative, GT(x, 0), positive, EQUAL(x, 0), zero)"));
+    definitions.put("WHICH_X",
+        new Function("WHICH_X(x) := WHICH(LT(x, 0), negative, GT(x, 0), positive, EQUAL(x, 0), zero)"));
 
     Function fn = new Function("WHICH_X(5)");
 
@@ -26,8 +24,7 @@ public class WhichTest {
   public void testWhichWithDefaultStatement() {
 
     Map<String, Function> definitions = Function.definitions();
-    definitions.put("WHICH_X",
-        new Function("WHICH_X(x) := WHICH(LT(x, 0), negative, GT(x, 0), positive, _, zero)"));
+    definitions.put("WHICH_X", new Function("WHICH_X(x) := WHICH(LT(x, 0), negative, GT(x, 0), positive, _, zero)"));
 
     Function fn = new Function("WHICH_X(0)");
 
@@ -38,8 +35,7 @@ public class WhichTest {
   public void testWhichWithMissingStatement() {
 
     Map<String, Function> definitions = Function.definitions();
-    definitions.put("WHICH_X",
-        new Function("WHICH_X(x) := WHICH(LT(x, 0), negative, GT(x, 0), positive)"));
+    definitions.put("WHICH_X", new Function("WHICH_X(x) := WHICH(LT(x, 0), negative, GT(x, 0), positive)"));
 
     Function fn = new Function("WHICH_X(0)");
     BoxedType result = fn.evaluate(definitions);

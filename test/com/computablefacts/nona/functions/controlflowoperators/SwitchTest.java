@@ -1,10 +1,9 @@
 package com.computablefacts.nona.functions.controlflowoperators;
 
+import com.computablefacts.asterix.BoxedType;
+import com.computablefacts.nona.Function;
 import org.junit.Assert;
 import org.junit.Test;
-
-import com.computablefacts.nona.Function;
-import com.computablefacts.asterix.BoxedType;
 
 public class SwitchTest {
 
@@ -13,8 +12,7 @@ public class SwitchTest {
 
     Function fn = new Function(
         "SWITCH(MOD(88, 3), 0, \"The remainder is 0.\", 1, \"The remainder is 1.\", 2, \"The remainder is 2.\")");
-    Assert.assertEquals(BoxedType.of("The remainder is 1."),
-        fn.evaluate(Function.definitions()));
+    Assert.assertEquals(BoxedType.of("The remainder is 1."), fn.evaluate(Function.definitions()));
   }
 
   @Test
@@ -22,8 +20,7 @@ public class SwitchTest {
 
     Function fn = new Function(
         "SWITCH(MOD(88, 3), 0, \"The remainder is 0.\", _, \"The remainder is 1.\", 2, \"The remainder is 2.\")");
-    Assert.assertEquals(BoxedType.of("The remainder is 1."),
-        fn.evaluate(Function.definitions()));
+    Assert.assertEquals(BoxedType.of("The remainder is 1."), fn.evaluate(Function.definitions()));
   }
 
   @Test(expected = IllegalStateException.class)

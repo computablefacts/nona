@@ -1,11 +1,10 @@
 package com.computablefacts.nona.functions.booleanlogicoperators;
 
+import com.computablefacts.asterix.BoxedType;
+import com.computablefacts.nona.Function;
+import com.google.common.util.concurrent.UncheckedExecutionException;
 import org.junit.Assert;
 import org.junit.Test;
-
-import com.computablefacts.nona.Function;
-import com.computablefacts.asterix.BoxedType;
-import com.google.common.util.concurrent.UncheckedExecutionException;
 
 public class IsEmptyTest {
 

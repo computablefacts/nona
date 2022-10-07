@@ -1,10 +1,9 @@
 package com.computablefacts.nona.functions.stringoperators;
 
+import com.computablefacts.asterix.BoxedType;
+import com.computablefacts.nona.Function;
 import org.junit.Assert;
 import org.junit.Test;
-
-import com.computablefacts.nona.Function;
-import com.computablefacts.asterix.BoxedType;
 
 public class ToTextTest {
 
@@ -33,8 +32,7 @@ public class ToTextTest {
   public void testCsvToText() {
 
     Function fn = new Function("TO_TEXT(\"col_1,col_2,col_3\\n11,12,13\\n21,22\")");
-    Assert.assertEquals(BoxedType.of("\"col_1,col_2,col_3\\n11,12,13\\n21,22\""),
-        fn.evaluate(Function.definitions()));
+    Assert.assertEquals(BoxedType.of("\"col_1,col_2,col_3\\n11,12,13\\n21,22\""), fn.evaluate(Function.definitions()));
   }
 
   @Test
@@ -43,7 +41,7 @@ public class ToTextTest {
     Function fn = new Function(
         "TO_TEXT(\"{\"birthdate\":\"2004-04-01T00:00:00Z\",\"last_name\":\"doe\",\"id\":1,\"first_name\":\"john\",\"age\":17}\")");
     Assert.assertEquals(BoxedType.of(
-        "{\"birthdate\":\"2004-04-01T00:00:00Z\",\"last_name\":\"doe\",\"id\":1,\"first_name\":\"john\",\"age\":17}"),
+            "{\"birthdate\":\"2004-04-01T00:00:00Z\",\"last_name\":\"doe\",\"id\":1,\"first_name\":\"john\",\"age\":17}"),
         fn.evaluate(Function.definitions()));
   }
 }
