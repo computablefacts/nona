@@ -9,6 +9,9 @@
 
 set -e
 
+# Fix TravisCI "gpg: signing failed: Inappropriate ioctl for device"
+export GPG_TTY=$(tty)
+
 echo "Checking environment variables..."
 
 if [ -z "$OSSRH_USERNAME" ]; then
